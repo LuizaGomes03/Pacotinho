@@ -1,0 +1,415 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Detalhes do animal - Pacotinho de amor Adoção</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-primary": "#ffffff",
+                "on-primary-container": "#d5a4e4",
+                "tertiary": "#333300",
+                "tertiary-container": "#4a4a00",
+                "secondary-container": "#ffcdfe",
+                "secondary": "#78517a",
+                "surface-dim": "#ded8e0",
+                "outline": "#7e747e",
+                "background": "#fef7ff",
+                "secondary-fixed": "#ffd6fc",
+                "on-error-container": "#93000a",
+                "surface-variant": "#e7e0e8",
+                "tertiary-fixed-dim": "#cccc4b",
+                "on-surface-variant": "#4c444d",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#2f073f",
+                "on-tertiary-container": "#bbbb3b",
+                "secondary-fixed-dim": "#e7b7e6",
+                "surface-tint": "#784e87",
+                "on-surface": "#1d1a20",
+                "surface-container-highest": "#e7e0e8",
+                "surface-container-low": "#f8f1f9",
+                "primary-container": "#5f376e",
+                "error-container": "#ffdad6",
+                "on-background": "#1d1a20",
+                "on-primary-fixed-variant": "#5f376e",
+                "inverse-on-surface": "#f6eef6",
+                "inverse-surface": "#322f35",
+                "on-secondary-fixed-variant": "#5f3961",
+                "surface": "#fef7ff",
+                "tertiary-fixed": "#e9e964",
+                "on-tertiary": "#ffffff",
+                "primary": "#472056",
+                "primary-fixed": "#f9d8ff",
+                "inverse-primary": "#e7b5f6",
+                "on-secondary-fixed": "#2f0d33",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary-container": "#7b537c",
+                "on-tertiary-fixed-variant": "#494900",
+                "surface-container": "#f3ecf4",
+                "on-error": "#ffffff",
+                "primary-fixed-dim": "#e7b5f6",
+                "outline-variant": "#cfc3ce",
+                "surface-container-high": "#ede6ee",
+                "surface-bright": "#fef7ff",
+                "on-secondary": "#ffffff",
+                "on-tertiary-fixed": "#1d1d00"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "xl": "80px",
+                "xs": "4px",
+                "md": "24px",
+                "sm": "12px",
+                "lg": "48px",
+                "base": "8px",
+                "gutter": "24px",
+                "margin-desktop": "64px",
+                "margin-mobile": "16px",
+                "container-max": "1200px"
+        },
+        "fontFamily": {
+                "headline-lg": [
+                        "Montserrat"
+                ],
+                "headline-md": [
+                        "Montserrat"
+                ],
+                "body-lg": [
+                        "Montserrat"
+                ],
+                "body-md": [
+                        "Montserrat"
+                ],
+                "label-md": [
+                        "Montserrat"
+                ],
+                "headline-lg-mobile": [
+                        "Montserrat"
+                ],
+                "display-lg-mobile": ["Montserrat"],
+                "label-sm": ["Inter"],
+                "display-lg": ["Montserrat"]
+        },
+        "fontSize": {
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.5px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "26px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "display-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+        }
+},
+    },
+  }
+</script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-[#F1EAF2] text-on-background antialiased font-body-md pb-24 md:pb-0">
+<!-- Top Navigation (Web Only) -->
+<header class="hidden md:flex justify-between items-center w-full px-sm py-xs bg-[#F1EAF2] dark:bg-on-background docked full-width top-0 sticky z-50">
+<div class="flex items-center gap-sm">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors active:scale-95 duration-150 text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<img alt="Pacotinho de amor Logo" class="h-8 w-8 rounded-full object-cover" src="assets/logo-footer.png">
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim">Pacotinho de amor</h1>
+</div>
+<div class="flex items-center gap-sm">
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-container-max mx-auto px-gutter py-md">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-md mb-xl">
+<!-- Hero Image Gallery -->
+<div class="relative h-[400px] md:h-[600px] w-full rounded-t-xl md:rounded-xl overflow-hidden shadow-md">
+<img id="animal-image" class="w-full h-full object-cover rounded-tl-[40px] rounded-br-[40px]" data-alt="Foto do animal para adoção" src="" alt="Foto do animal">
+<!-- Floating Action -->
+<button class="absolute top-sm right-sm bg-surface-container-lowest text-primary p-2 rounded-full shadow-lg hover:bg-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite_border">favorite_border</span>
+</button>
+</div>
+<!-- Essential Info Card -->
+<div class="flex flex-col justify-center bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] border border-surface-variant relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container opacity-10 rounded-bl-full pointer-events-none"></div>
+<h1 id="animal-name" class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-2">Animal</h1>
+<div class="flex flex-wrap gap-xs mb-lg">
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_month">calendar_month</span> <span id="animal-age">-</span>
+                    </span>
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span id="animal-gender-icon" class="material-symbols-outlined text-[16px]" data-icon="female">female</span> <span id="animal-gender">-</span>
+                    </span>
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="straighten">straighten</span> <span id="animal-size">-</span>
+                    </span>
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> <span id="animal-location">-</span>
+                    </span>
+</div>
+<div class="space-y-sm">
+<button class="w-full bg-[#5F376E] text-white py-3 px-6 rounded-full font-label-sm text-label-sm hover:bg-surface-tint active:scale-95 transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" data-icon="pets">pets</span> Quero adotar
+                    </button>
+<button class="w-full border-2 border-[#5F376E] text-[#5F376E] py-3 px-6 rounded-full font-label-sm text-label-sm hover:bg-surface-container-low active:scale-95 transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span> Conhecer por videochamada
+                    </button>
+<div>
+<button class="w-full bg-[#FAFA73] text-[#333300] py-3 px-6 rounded-full font-label-sm text-label-sm hover:opacity-90 active:scale-95 transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span> Quero ajudar este animal
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Story Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-xl mb-xl">
+<div class="md:col-span-8 space-y-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="auto_stories">auto_stories</span>
+                        Sobre <span id="about-name">o animal</span>
+                    </h2>
+<p id="animal-story" class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                        Conheça este animal e descubra mais sobre sua história, personalidade e necessidades.
+                    </p>
+</div>
+<div>
+<h3 id="why-title" class="font-headline-md text-headline-md text-primary mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="home_heart">hevc</span>
+                        Por que este animal precisa de um lar?
+                    </h3>
+<p id="animal-why" class="font-body-md text-body-md text-on-surface-variant leading-relaxed bg-surface-container p-md rounded-xl border-l-4 border-primary">
+                        Este animal está esperando por uma família que possa oferecer carinho, segurança e um lar cheio de amor.
+                    </p>
+</div>
+</div>
+<!-- Sidebar Needs -->
+<div class="md:col-span-4">
+<div class="bg-surface-container-low p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] border border-surface-variant sticky top-24">
+<h4 class="font-headline-md text-headline-md text-primary mb-md">Personalidade &amp; Necessidades</h4>
+<ul id="animal-needs" class="space-y-sm"></ul>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<!-- Suppressed active state logic based on rules: Details page is a transaction/task focus, but since prompt explicitly requests Bottom Nav Bar, I will render it with Search as the most logical active state if browsing pets. However, strict rule says "suppress if Task-Focused... Details". Since user explicitly requested it, I must include it. I will highlight 'Search' as it's the exploration flow. -->
+<nav class="md:hidden bg-surface-container-lowest dark:bg-inverse-surface docked full-width bottom-0 rounded-t-xl shadow-lg dark:shadow-none fixed left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">Início</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-label-sm text-label-sm mt-1">Buscar</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-label-sm text-label-sm mt-1">Favoritos</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm mt-1">Perfil</span>
+</button>
+</nav>
+
+<script>
+/*
+ * Esta página é genérica.
+ * O animal é definido pelo parâmetro da URL:
+ * detalhes-animal.html?id=luna
+ *
+ * Exemplo para outro animal:
+ * detalhes-animal.html?id=thor
+ *
+ * A página também aceita dados enviados em localStorage na chave
+ * "animalSelecionado". Assim, a página de busca pode salvar o animal
+ * selecionado e abrir esta tela sem precisar criar uma página para cada animal.
+ */
+(function () {
+  const animais = {
+    luna: {
+      nome: "Luna",
+      idade: "2 anos",
+      sexo: "Fêmea",
+      tamanho: "Pequeno",
+      localizacao: "São Paulo",
+      imagem: "assets/animais/luna.jpg",
+      historia: "Luna é uma gatinha gentil e carinhosa que adora ficar em lugares tranquilos e receber atenção. Ela espera por uma família que possa oferecer segurança, carinho e um lar cheio de amor.",
+      motivo: "Luna se sente melhor em um ambiente tranquilo e precisa de uma família paciente, responsável e carinhosa.",
+      necessidades: [
+        ["sentiment_satisfied", "Carinhosa", "Adora carinho e atenção."],
+        ["volume_off", "Ambiente tranquilo", "Prefere lugares sem muito barulho."],
+        ["cruelty_free", "Socialização", "Convive bem com outros animais quando apresentada com calma."]
+      ]
+    }
+  };
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, function (char) {
+      return ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char];
+    });
+  }
+
+  function getAnimal() {
+    const params = new URLSearchParams(window.location.search);
+    const id = (params.get("id") || params.get("animal") || "").toLowerCase().trim();
+
+    // Se a tela anterior salvou o animal selecionado, usa esses dados.
+    let saved = null;
+    try {
+      saved = JSON.parse(localStorage.getItem("animalSelecionado") || "null");
+    } catch (e) {}
+
+    if (saved && typeof saved === "object" && (saved.id || saved.nome || saved.name)) {
+      return saved;
+    }
+
+    // Mantém o exemplo Luna disponível para teste, mas a página continua genérica.
+    if (id && animais[id]) return animais[id];
+
+    return {
+      nome: "Animal",
+      idade: "Idade não informada",
+      sexo: "Não informado",
+      tamanho: "Não informado",
+      localizacao: "Não informada",
+      imagem: "assets/logo-footer.png",
+      historia: "As informações deste animal serão exibidas aqui quando ele for selecionado.",
+      motivo: "Selecione um animal na página de adoção para visualizar seus detalhes.",
+      necessidades: []
+    };
+  }
+
+  function normalize(animal) {
+    return {
+      nome: animal.nome || animal.name || "Animal",
+      idade: animal.idade || animal.age || "Não informado",
+      sexo: animal.sexo || animal.gender || animal.genero || "Não informado",
+      tamanho: animal.tamanho || animal.size || "Não informado",
+      localizacao: animal.localizacao || animal.location || animal.cidade || "Não informada",
+      imagem: animal.imagem || animal.image || animal.foto || animal.photo || "assets/logo-footer.png",
+      historia: animal.historia || animal.history || animal.descricao || animal.description || "Este animal está esperando por uma família.",
+      motivo: animal.motivo || animal.why || animal.motivoAdocao || "Este animal precisa de um lar responsável, seguro e cheio de carinho.",
+      necessidades: Array.isArray(animal.necessidades) ? animal.necessidades : []
+    };
+  }
+
+  const animal = normalize(getAnimal());
+
+  document.title = animal.nome + " - Pacotinho de amor Adoção";
+
+  document.getElementById("animal-name").textContent = animal.nome;
+  document.getElementById("about-name").textContent = animal.nome;
+  document.getElementById("animal-age").textContent = animal.idade;
+  document.getElementById("animal-gender").textContent = animal.sexo;
+  document.getElementById("animal-size").textContent = animal.tamanho;
+  document.getElementById("animal-location").textContent = animal.localizacao;
+  document.getElementById("animal-story").textContent = animal.historia;
+  document.getElementById("animal-why").textContent = animal.motivo;
+
+  const image = document.getElementById("animal-image");
+  image.src = animal.imagem;
+  image.alt = "Foto de " + animal.nome;
+
+  const genderIcon = document.getElementById("animal-gender-icon");
+  const sexo = animal.sexo.toLowerCase();
+  genderIcon.textContent = sexo.includes("fêmea") || sexo.includes("femea") ? "female"
+    : sexo.includes("macho") ? "male"
+    : "pets";
+
+  const needs = document.getElementById("animal-needs");
+  needs.innerHTML = animal.necessidades.map(function (item) {
+    const icon = escapeHTML(item[0] || "pets");
+    const title = escapeHTML(item[1] || "");
+    const text = escapeHTML(item[2] || "");
+    return `
+      <li class="flex items-start gap-sm">
+        <span class="material-symbols-outlined text-primary-container p-2 bg-surface-container-highest rounded-full">${icon}</span>
+        <div>
+          <strong class="block text-on-surface font-label-sm text-label-sm">${title}</strong>
+          <span class="text-on-surface-variant font-body-md text-body-md text-sm">${text}</span>
+        </div>
+      </li>`;
+  }).join("");
+
+  // Exemplo de botão "voltar".
+  const backButton = document.createElement("button");
+  backButton.type = "button";
+  backButton.className = "fixed bottom-24 left-4 md:bottom-6 md:left-6 z-40 bg-white text-[#5F376E] border-2 border-[#5F376E] px-4 py-2 rounded-full shadow-md hover:bg-[#F1EAF2] transition";
+  backButton.innerHTML = '<span class="material-symbols-outlined align-middle mr-1 text-[18px]">arrow_back</span> Voltar';
+  backButton.addEventListener("click", function () {
+    if (history.length > 1) history.back();
+    else window.location.href = "buscar.html";
+  });
+  document.body.appendChild(backButton);
+})();
+</script>
+
+<script src="shared.js"></script>
+</body></html>

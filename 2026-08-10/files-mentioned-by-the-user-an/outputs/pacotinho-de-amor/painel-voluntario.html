@@ -1,0 +1,1463 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Pacotinho de amor - Painel do voluntário</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-primary": "#ffffff",
+                "on-primary-container": "#d5a4e4",
+                "tertiary": "#333300",
+                "tertiary-container": "#4a4a00",
+                "secondary-container": "#ffcdfe",
+                "secondary": "#78517a",
+                "surface-dim": "#ded8e0",
+                "outline": "#7e747e",
+                "background": "#fef7ff",
+                "secondary-fixed": "#ffd6fc",
+                "on-error-container": "#93000a",
+                "surface-variant": "#e7e0e8",
+                "tertiary-fixed-dim": "#cccc4b",
+                "on-surface-variant": "#4c444d",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#2f073f",
+                "on-tertiary-container": "#bbbb3b",
+                "secondary-fixed-dim": "#e7b7e6",
+                "surface-tint": "#784e87",
+                "on-surface": "#1d1a20",
+                "surface-container-highest": "#e7e0e8",
+                "surface-container-low": "#f8f1f9",
+                "primary-container": "#5f376e",
+                "error-container": "#ffdad6",
+                "on-background": "#1d1a20",
+                "on-primary-fixed-variant": "#5f376e",
+                "inverse-on-surface": "#f6eef6",
+                "inverse-surface": "#322f35",
+                "on-secondary-fixed-variant": "#5f3961",
+                "surface": "#fef7ff",
+                "tertiary-fixed": "#e9e964",
+                "on-tertiary": "#ffffff",
+                "primary": "#472056",
+                "primary-fixed": "#f9d8ff",
+                "inverse-primary": "#e7b5f6",
+                "on-secondary-fixed": "#2f0d33",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary-container": "#7b537c",
+                "on-tertiary-fixed-variant": "#494900",
+                "surface-container": "#f3ecf4",
+                "on-error": "#ffffff",
+                "primary-fixed-dim": "#e7b5f6",
+                "outline-variant": "#cfc3ce",
+                "surface-container-high": "#ede6ee",
+                "surface-bright": "#fef7ff",
+                "on-secondary": "#ffffff",
+                "on-tertiary-fixed": "#1d1d00"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "xl": "80px",
+                "xs": "4px",
+                "md": "24px",
+                "sm": "12px",
+                "lg": "48px",
+                "base": "8px",
+                "gutter": "24px",
+                "margin-desktop": "64px",
+                "margin-mobile": "16px"
+        },
+        "fontFamily": {
+                "headline-lg": [
+                        "Montserrat"
+                ],
+                "headline-md": [
+                        "Montserrat"
+                ],
+                "body-lg": [
+                        "Montserrat"
+                ],
+                "body-md": [
+                        "Montserrat"
+                ],
+                "label-md": [
+                        "Montserrat"
+                ],
+                "headline-lg-mobile": [
+                        "Montserrat"
+                ]
+        },
+        "fontSize": {
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.5px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "26px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ]
+        }
+      }
+    }
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-[#F1EAF2] text-on-background font-body-md min-h-screen flex">
+<!-- Navigation Drawer (Sidebar) -->
+<aside class="bg-[#5F376E] text-white docked left-0 h-full w-80 shadow-xl flex flex-col h-full py-md hidden md:flex sticky top-0 z-40" data-panel-sidebar>
+<div class="px-gutter mb-lg">
+<h1 class="font-headline-lg text-headline-md text-white flex items-center gap-sm">
+<img alt="Logo Pacotinho de amor" class="w-10 h-10 rounded-full object-cover" src="assets/logo-footer.png">
+    Pacotinho de amor
+</h1>
+</div>
+<div class="px-gutter mb-md flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full overflow-hidden shrink-0">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional woman with a warm, caring smile, wearing a dark green volunteer t-shirt. The background is a brightly lit, clean, and modern animal shelter office setting. The lighting is soft and natural, emphasizing a trustworthy and compassionate mood consistent with a modern pet adoption platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdUaKTh_llYkpD3yPXA0S6_JFMS2mCpV0T0-wGOR2GV-JqrkySZ_O_L5GyjKP75mScLS99RMSYsIb5Bf3BBOXKk1a8pZPnMKYAIyB49b7f8wLGaMwbE-mfWQg0ILdjkPOcdCGCLmRxcIt7DteRECJmkVfz3NidCtSTAhjCsjoBKggjNZPhdzI604wPoC1HKsM-SX6NJPlmk3NTaBK6rVKEy8LjuskMl0apkmbCpw7QeCfy1hmLvqYb">
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-white">Welcome back</p>
+<p class="font-label-md text-label-md text-[#B98CB9]">Voluntário • Animais atribuídos</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs pr-sm">
+
+  <button type="button" data-menu="inicio" onclick="mostrarPagina('inicio')"
+    class="flex items-center gap-sm px-gutter py-sm bg-white/20 text-white font-bold rounded-r-full transition-all duration-300 text-left">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span class="font-label-md text-label-md">Visão geral</span>
+  </button>
+
+  <button type="button" data-menu="animais" onclick="mostrarPagina('animais')"
+    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
+    <span class="material-symbols-outlined">pets</span>
+    <span class="font-label-md text-label-md">Meus animais</span>
+  </button>
+
+  <button type="button" data-menu="agenda" onclick="mostrarPagina('agenda')"
+    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
+    <span class="material-symbols-outlined">calendar_month</span>
+    <span class="font-label-md text-label-md">Agenda</span>
+  </button>
+
+  <button type="button" data-menu="adocao" onclick="mostrarPagina('adocao')"
+    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
+    <span class="material-symbols-outlined">family_restroom</span>
+    <span class="font-label-md text-label-md">Processos de adoção</span>
+  </button>
+
+  <button type="button" data-menu="doacoes" onclick="mostrarPagina('doacoes')"
+    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
+    <span class="material-symbols-outlined">volunteer_activism</span>
+    <span class="font-label-md text-label-md">Doações recebidas</span>
+  </button>
+
+  <button type="button" data-menu="eventos" onclick="mostrarPagina('eventos')"
+    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
+    <span class="material-symbols-outlined">storefront</span>
+    <span class="font-label-md text-label-md">Próximos eventos</span>
+  </button>
+
+  <button type="button" data-menu="historico" onclick="mostrarPagina('historico')"
+    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
+    <span class="material-symbols-outlined">history</span>
+    <span class="font-label-md text-label-md">Histórico</span>
+  </button>
+
+</nav>
+<div class="mt-auto pr-sm pt-md border-t border-white/20">
+<button type="button" data-menu="config" onclick="mostrarPagina('config')"
+class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full text-left w-full">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Configurações</span>
+</button>
+<a class="flex items-center gap-sm px-gutter py-sm text-[#ffdad6] hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full" href="login-voluntario.html">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sair</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+
+<main class="flex-1 flex flex-col min-w-0 pb-20 md:pb-0">
+
+  <!-- TopAppBar (Mobile Only) -->
+  <header class="bg-surface docked full-width top-0 flex justify-between items-center w-full px-sm py-xs md:hidden sticky z-30">
+    <button class="text-primary active:scale-95 transition-transform duration-150 p-2 hover:bg-surface-container-high rounded-full"
+            data-panel-menu-toggle type="button">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+
+    <h1 class="font-headline-lg-mobile text-headline-md text-primary font-bold flex items-center gap-2">
+      <img alt="Logo" class="w-8 h-8 rounded-full" src="assets/logo-footer.png">
+      Pacotinho de amor
+    </h1>
+
+    <button type="button" onclick="mostrarPagina('config')"
+       class="text-primary font-label-md text-label-md hover:bg-surface-container-high px-4 py-2 rounded-full">
+      Configurar
+    </button>
+  </header>
+
+  
+  <div id="conteudo-painel" class="p-gutter md:p-lg flex-1 overflow-y-auto w-full max-w-[1280px] mx-auto"></div>
+</main>
+
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="bg-surface-container-lowest shadow-lg docked full-width bottom-0 rounded-t-xl fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-4 pt-2 md:hidden">
+  <button type="button" onclick="mostrarPagina('inicio')" class="flex flex-col items-center justify-center text-on-surface-variant">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span class="font-label-md text-label-md text-xs">Início</span>
+  </button>
+  <button type="button" onclick="mostrarPagina('animais')" class="flex flex-col items-center justify-center text-on-surface-variant">
+    <span class="material-symbols-outlined">pets</span>
+    <span class="font-label-md text-label-md text-xs">Animais</span>
+  </button>
+  <button type="button" onclick="mostrarPagina('agenda')" class="flex flex-col items-center justify-center text-on-surface-variant">
+    <span class="material-symbols-outlined">calendar_month</span>
+    <span class="font-label-md text-label-md text-xs">Agenda</span>
+  </button>
+  <button type="button" onclick="mostrarPagina('adocao')" class="flex flex-col items-center justify-center text-on-surface-variant">
+    <span class="material-symbols-outlined">family_restroom</span>
+    <span class="font-label-md text-label-md text-xs">Adoção</span>
+  </button>
+  <button type="button" onclick="mostrarPagina('eventos')" class="flex flex-col items-center justify-center text-on-surface-variant">
+    <span class="material-symbols-outlined">event</span>
+    <span class="font-label-md text-label-md text-xs">Eventos</span>
+  </button>
+</nav>
+
+<script>
+const paginas = {
+  inicio: `
+    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
+      <div>
+        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Lar temporário</p>
+        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Painel do voluntário</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-xs">
+          Acompanhe os animais atribuídos a você, sua agenda e os processos de adoção.
+        </p>
+      </div>
+    </header>
+
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-sm md:gap-md mb-xl">
+      <button onclick="mostrarPagina('animais')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
+        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">MEUS ANIMAIS</span><span class="material-symbols-outlined text-primary">pets</span></div>
+        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">4</p>
+        <p class="text-sm text-on-surface-variant">cadastrados</p>
+      </button>
+      <button onclick="mostrarPagina('adocao')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
+        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">ADOÇÃO</span><span class="material-symbols-outlined text-primary">favorite</span></div>
+        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">2</p>
+        <p class="text-sm text-on-surface-variant">interessados</p>
+      </button>
+      <button onclick="mostrarPagina('agenda')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
+        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">AGENDA</span><span class="material-symbols-outlined text-primary">calendar_month</span></div>
+        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">5</p>
+        <p class="text-sm text-on-surface-variant">compromissos</p>
+      </button>
+      <button type="button" onclick="mostrarPagina('animais')" class="text-left bg-[#5F376E] text-white rounded-xl p-md shadow-md hover:shadow-lg transition-shadow">
+         <div class="flex justify-between items-start"><span class="font-label-md text-label-md">MEUS ANIMAIS</span><span class="material-symbols-outlined">pets</span></div>
+         <p class="font-headline-lg text-headline-md font-bold mt-md">2</p>
+         <p class="text-sm opacity-90">atribuídos a você</p>
+       </button>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+      <section class="bg-surface-container-lowest rounded-xl shadow-md p-md md:p-lg border border-surface-variant/50">
+        <div class="mb-md pb-sm border-b border-surface-variant">
+          <h3 class="font-headline-md text-headline-md text-on-surface">Precisa da sua atenção</h3>
+          <p class="text-sm text-on-surface-variant mt-1">Acesse cada área pelo menu lateral.</p>
+        </div>
+        <div class="space-y-sm">
+          <button onclick="mostrarPagina('adocao')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">family_restroom</span><div class="flex-1"><p class="font-bold">Processo de adoção</p><p class="text-sm text-on-surface-variant">1 adoção está em andamento.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
+          <button onclick="mostrarPagina('eventos')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">storefront</span><div class="flex-1"><p class="font-bold">Próximos eventos</p><p class="text-sm text-on-surface-variant">Veja local, data e horário.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
+          <button type="button" onclick="mostrarPagina('agenda')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">videocam</span><div class="flex-1"><p class="font-bold">FaceTime pendente</p><p class="text-sm text-on-surface-variant">1 interessado aguarda confirmação de horário.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
+          <button onclick="mostrarPagina('historico')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">history</span><div class="flex-1"><p class="font-bold">Histórico</p><p class="text-sm text-on-surface-variant">FaceTime, encontros e eventos.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
+        </div>
+      </section>
+
+      <section class="bg-surface-container-lowest rounded-xl shadow-md p-md md:p-lg border border-surface-variant/50">
+        <div class="flex justify-between items-center mb-md pb-sm border-b border-surface-variant">
+          <div><h3 class="font-headline-md text-headline-md text-on-surface">Próximos compromissos</h3><p class="text-sm text-on-surface-variant mt-1">O que está marcado na sua agenda.</p></div>
+          <button onclick="mostrarPagina('agenda')" class="text-primary font-semibold text-sm">Ver agenda</button>
+        </div>
+        <div class="space-y-sm">
+          <button onclick="mostrarPagina('agenda')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container text-left">
+            <div class="w-12 h-12 rounded-lg bg-primary text-white flex flex-col items-center justify-center shrink-0"><span class="text-xs">14 AGO</span><span class="font-bold">14h</span></div>
+            <div class="flex-1"><p class="font-bold">FaceTime com Maria</p><p class="text-sm text-on-surface-variant">Luna • interessado em adoção</p></div>
+            <span class="material-symbols-outlined text-primary">videocam</span>
+          </button>
+          <button onclick="mostrarPagina('agenda')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container text-left">
+            <div class="w-12 h-12 rounded-lg bg-secondary text-white flex flex-col items-center justify-center shrink-0"><span class="text-xs">16 AGO</span><span class="font-bold">10h</span></div>
+            <div class="flex-1"><p class="font-bold">Encontro presencial</p><p class="text-sm text-on-surface-variant">Thor • João Silva</p></div>
+            <span class="material-symbols-outlined text-primary">handshake</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  `,
+
+  animais: `
+    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
+      <div>
+        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Animais atribuídos</p>
+        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Meus animais</h2>
+        <p class="text-on-surface-variant mt-1">Animais cadastrados pela responsável pelo projeto e atribuídos a você.</p>
+      </div>
+    </header>
+
+    <div class="mb-lg p-md md:p-lg rounded-xl bg-secondary-container text-on-secondary-container border border-outline-variant/40">
+      <div class="flex items-start gap-sm">
+        <span class="material-symbols-outlined text-primary">info</span>
+        <div>
+          <p class="font-bold">Como funciona</p>
+          <p class="text-sm mt-1">
+            A responsável pelo projeto cadastra os animais e define qual voluntário ficará responsável por cada um.
+            Você cuida do acompanhamento, da agenda, dos FaceTimes e dos encontros presenciais.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+      <article class="bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 flex gap-md">
+        <div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container shrink-0">
+          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80" alt="Luna">
+        </div>
+        <div class="flex-1">
+          <div class="flex items-start justify-between gap-sm">
+            <div>
+              <h3 class="font-headline-md text-headline-md text-primary">Luna</h3>
+              <p class="text-sm text-on-surface-variant">Cachorra • 2 anos</p>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold">Em adoção</span>
+          </div>
+          <p class="mt-2 text-sm text-on-surface-variant">2 pessoas interessadas</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button type="button" onclick="mostrarPagina('agenda')" class="px-3 py-2 rounded-full bg-[#5F376E] text-white text-xs font-semibold">Ver agenda</button>
+            <button type="button" onclick="mostrarPagina('adocao')" class="px-3 py-2 rounded-full border border-primary text-primary text-xs font-semibold">Processos de adoção</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 flex gap-md">
+        <div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container shrink-0">
+          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=300&q=80" alt="Thor">
+        </div>
+        <div class="flex-1">
+          <div class="flex items-start justify-between gap-sm">
+            <div>
+              <h3 class="font-headline-md text-headline-md text-primary">Thor</h3>
+              <p class="text-sm text-on-surface-variant">Cachorro • 4 anos</p>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">Publicado</span>
+          </div>
+          <p class="mt-2 text-sm text-on-surface-variant">1 pessoa interessada</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button type="button" onclick="mostrarPagina('agenda')" class="px-3 py-2 rounded-full bg-[#5F376E] text-white text-xs font-semibold">Ver agenda</button>
+            <button type="button" onclick="mostrarPagina('adocao')" class="px-3 py-2 rounded-full border border-primary text-primary text-xs font-semibold">Processos de adoção</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  `,
+
+
+  agenda: `
+    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
+      <div><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Lar temporário</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Minha agenda</h2><p class="text-on-surface-variant mt-1">Gerencie seus compromissos e horários disponíveis.</p></div>
+      <button onclick="mostrarPagina('config')" class="inline-flex items-center gap-sm bg-[#5F376E] text-white px-5 py-3 rounded-full font-semibold"><span class="material-symbols-outlined">edit_calendar</span>Configurar disponibilidade</button>
+    </header>
+    <div class="flex gap-2 mb-lg overflow-x-auto">
+      <button class="px-5 py-2 rounded-full bg-[#5F376E] text-white font-semibold">Visão geral</button>
+      <button class="px-5 py-2 rounded-full bg-surface-container-lowest border border-surface-variant text-on-surface-variant">FaceTime</button>
+      <button class="px-5 py-2 rounded-full bg-surface-container-lowest border border-surface-variant text-on-surface-variant">Encontros presenciais</button>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+      <section class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
+        <div class="flex justify-between items-center mb-md"><h3 class="font-headline-md text-headline-md text-on-surface">Agosto 2026</h3><div class="flex gap-2"><button class="p-2 rounded-full hover:bg-surface-container"><span class="material-symbols-outlined">chevron_left</span></button><button class="p-2 rounded-full hover:bg-surface-container"><span class="material-symbols-outlined">chevron_right</span></button></div></div>
+        <div class="grid grid-cols-7 gap-2 text-center text-xs text-on-surface-variant mb-2"><div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div></div>
+        <div class="grid grid-cols-7 gap-2">
+          <div class="p-4 text-center text-outline-variant">9</div><div class="p-4 text-center">10</div><div class="p-4 text-center">11</div><div class="p-4 text-center">12</div><div class="p-4 text-center bg-[#5F376E] text-white rounded-lg">13</div><div class="p-4 text-center">14</div><div class="p-4 text-center">15</div>
+        </div>
+        <div class="mt-md pt-md border-t border-surface-variant flex flex-wrap gap-md text-xs text-on-surface-variant"><span>● FaceTime</span><span>● Encontro presencial</span></div>
+      </section>
+      <section class="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
+        <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Compromissos do dia</h3>
+        <div class="space-y-sm">
+          <div class="p-md rounded-xl bg-surface-container-low border-l-4 border-secondary"><p class="font-bold">14:00 — FaceTime</p><p class="text-sm text-on-surface-variant">Maria & Luna</p></div>
+          <div class="p-md rounded-xl bg-surface-container-low border-l-4 border-primary"><p class="font-bold">16:00 — Encontro presencial</p><p class="text-sm text-on-surface-variant">João & Thor</p></div>
+        </div>
+      </section>
+    </div>
+  `,
+
+  adocao: `
+    <header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Acompanhamento</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Processos de adoção</h2><p class="text-on-surface-variant mt-1">Veja quem está interessado e em qual etapa está cada processo.</p></header>
+    <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 overflow-hidden">
+      <div class="p-md border-b border-surface-variant"><h3 class="font-headline-md text-headline-md text-on-surface">Interessados</h3></div>
+      <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-surface-container-low"><tr><th class="p-md">Pessoa</th><th class="p-md">Animal</th><th class="p-md">Etapa</th><th class="p-md">Ação</th></tr></thead><tbody>
+        <tr class="border-t border-surface-variant"><td class="p-md font-semibold">Maria Costa</td><td class="p-md">Luna</td><td class="p-md"><span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs">Entrevista</span></td><td class="p-md"><button class="text-primary font-semibold">Detalhes</button></td></tr>
+        <tr class="border-t border-surface-variant"><td class="p-md font-semibold">João Silva</td><td class="p-md">Thor</td><td class="p-md"><span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs">Encontro realizado</span></td><td class="p-md"><button class="text-primary font-semibold">Detalhes</button></td></tr>
+      </tbody></table></div>
+    </section>
+  `,
+
+  eventos: `
+    <header class="mb-lg">
+      <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Eventos do projeto</p>
+      <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Próximos eventos</h2>
+      <p class="text-on-surface-variant mt-1">
+        Veja os eventos criados pela Bárbara e solicite uma vaga para um dos seus animais.
+      </p>
+    </header>
+
+    <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md md:p-lg">
+      <div class="flex items-center justify-between gap-md mb-lg">
+        <div>
+          <h3 class="font-headline-md text-headline-md text-on-surface">Eventos disponíveis</h3>
+          <p class="text-sm text-on-surface-variant mt-1">
+            A inscrição precisa ser aprovada pela responsável pelo projeto.
+          </p>
+        </div>
+
+        <span class="inline-flex items-center gap-xs px-3 py-2 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold">
+          <span class="material-symbols-outlined text-base">visibility</span>
+          Para voluntários
+        </span>
+      </div>
+
+      <div id="listaEventosVoluntario" class="grid grid-cols-1 md:grid-cols-2 gap-md">
+        <div class="md:col-span-2 p-lg rounded-xl bg-surface-container-low text-center">
+          <span class="material-symbols-outlined text-4xl text-primary animate-pulse">sync</span>
+          <p class="font-bold mt-2">Carregando eventos...</p>
+        </div>
+      </div>
+    </section>
+  `,
+  historico: `
+    <header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Atividades</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Histórico</h2><p class="text-on-surface-variant mt-1">FaceTime, encontros presenciais e participação em eventos.</p></header>
+    <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md">
+      <div class="space-y-sm">
+        <div class="flex items-center gap-md p-md rounded-xl bg-surface-container-low"><span class="material-symbols-outlined text-primary">videocam</span><div><p class="font-bold">FaceTime — Luna</p><p class="text-sm text-on-surface-variant">08/08/2026 • Maria</p></div></div>
+        <div class="flex items-center gap-md p-md rounded-xl bg-surface-container-low"><span class="material-symbols-outlined text-primary">handshake</span><div><p class="font-bold">Encontro presencial — Thor</p><p class="text-sm text-on-surface-variant">03/08/2026 • João</p></div></div>
+        <div class="flex items-center gap-md p-md rounded-xl bg-surface-container-low"><span class="material-symbols-outlined text-primary">storefront</span><div><p class="font-bold">Evento — Luna e Thor</p><p class="text-sm text-on-surface-variant">27/07/2026</p></div></div>
+      </div>
+    </section>
+  `
+};
+
+
+function salvarDisponibilidade() {
+  const feedback = document.getElementById("feedbackDisponibilidade");
+  if (!feedback) return;
+  feedback.classList.remove("hidden");
+  setTimeout(() => feedback.classList.add("hidden"), 3000);
+}
+
+function configurarEventosDisponibilidade() {
+  document.querySelectorAll(".day-toggle").forEach(toggle => {
+    toggle.addEventListener("change", function () {
+      const row = this.closest(".availability-row");
+      if (!row) return;
+
+      row.querySelectorAll(".time-input").forEach(input => {
+        input.disabled = !this.checked;
+        input.classList.toggle("opacity-50", !this.checked);
+      });
+    });
+  });
+}
+
+function mostrarPagina(pagina) {
+  const conteudo = document.getElementById("conteudo-painel");
+  if (!conteudo) return;
+
+  const paginaValida = Object.prototype.hasOwnProperty.call(paginas, pagina)
+    ? pagina
+    : "inicio";
+
+  conteudo.innerHTML = paginas[paginaValida];
+
+  if (paginaValida === "eventos") {
+    carregarEventosVoluntario();
+  }
+
+  document.querySelectorAll("[data-menu]").forEach(item => {
+    item.classList.remove("bg-white/20", "text-white", "font-bold");
+    item.classList.add("text-white/70");
+    if (item.dataset.menu === pagina) {
+      item.classList.remove("text-white/70");
+      item.classList.add("bg-white/20", "text-white", "font-bold");
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarPagina("inicio");
+  configurarEventosDisponibilidade();
+});
+</script>
+<script>
+document.addEventListener('click', function (event) {
+  var trigger = event.target.closest('[data-panel-menu-toggle]');
+  if (!trigger) return;
+  var sidebar = document.querySelector('[data-panel-sidebar]');
+  if (sidebar) sidebar.classList.toggle('hidden');
+});
+</script>
+
+
+
+<script>
+/*
+ * EVENTOS - PAINEL DO VOLUNTÁRIO
+ *
+ * Eventos são criados somente pela conta Master/Bárbara.
+ * O voluntário apenas:
+ * 1. visualiza os eventos publicados;
+ * 2. escolhe um animal atribuído a ele;
+ * 3. envia uma solicitação;
+ * 4. aguarda a aprovação da Bárbara.
+ *
+ * API esperada:
+ * GET  /api/events
+ * GET  /api/event-requests?volunteerId=...
+ * POST /api/event-requests
+ */
+
+const API_URL = "/api";
+
+/*
+ * ID do voluntário atualmente conectado.
+ *
+ * Este é o ID que você mostrou para "Equipe Pacotinho":
+ * 6a7a808c4fce3aac7eb3a1fa
+ *
+ * Quando o login estiver ligado à sessão, substitua esta constante
+ * pela informação da sessão/token.
+ */
+const VOLUNTARIO_ID = "6a7a808c4fce3aac7eb3a1fa";
+
+let eventoSelecionadoParaSolicitacao = null;
+let eventosCarregados = [];
+let solicitacoesDoVoluntario = [];
+let animaisDoVoluntario = [
+  {
+    id: "luna-demo",
+    name: "Luna"
+  },
+  {
+    id: "thor-demo",
+    name: "Thor"
+  }
+];
+
+
+function escaparHTML(valor) {
+  if (valor === null || valor === undefined) return "";
+
+  return String(valor)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+function obterId(item) {
+  if (!item) return "";
+
+  return (
+    item._id?.$oid ||
+    item._id ||
+    item.id ||
+    ""
+  );
+}
+
+
+function formatarDataEvento(data) {
+  if (!data) return "Data não informada";
+
+  const partes = String(data).split("-");
+
+  if (partes.length !== 3) {
+    return data;
+  }
+
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+
+function formatarHorarioEvento(evento) {
+  if (evento.startTime && evento.endTime) {
+    return `${evento.startTime} às ${evento.endTime}`;
+  }
+
+  return evento.horario || "Horário não informado";
+}
+
+
+function statusSolicitacao(status) {
+  const mapa = {
+    pending: {
+      texto: "Aguardando aprovação",
+      classe: "bg-yellow-100 text-yellow-800"
+    },
+    approved: {
+      texto: "Aprovada",
+      classe: "bg-green-100 text-green-800"
+    },
+    rejected: {
+      texto: "Recusada",
+      classe: "bg-red-100 text-red-800"
+    }
+  };
+
+  return mapa[status] || mapa.pending;
+}
+
+
+async function obterEventos() {
+  const resposta = await fetch(`${API_URL}/events`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+
+  if (!resposta.ok) {
+    throw new Error("Não foi possível carregar os eventos.");
+  }
+
+  const dados = await resposta.json();
+
+  if (Array.isArray(dados)) return dados;
+
+  if (Array.isArray(dados.events)) {
+    return dados.events;
+  }
+
+  return [];
+}
+
+
+async function obterSolicitacoes() {
+  const resposta = await fetch(
+    `${API_URL}/event-requests?volunteerId=${encodeURIComponent(VOLUNTARIO_ID)}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
+
+  /*
+   * Se a rota ainda não existir, não impedimos a visualização
+   * dos eventos. O restante do sistema pode ser conectado depois.
+   */
+  if (!resposta.ok) {
+    return [];
+  }
+
+  const dados = await resposta.json();
+
+  if (Array.isArray(dados)) return dados;
+
+  if (Array.isArray(dados.requests)) {
+    return dados.requests;
+  }
+
+  return [];
+}
+
+
+function obterSolicitacaoDoEvento(eventoId) {
+  return solicitacoesDoVoluntario.find(
+    item => String(obterId(item.eventId || item.event)) === String(eventoId)
+  );
+}
+
+
+function renderizarEventosVoluntario() {
+  const container = document.getElementById("listaEventosVoluntario");
+
+  if (!container) return;
+
+  if (!eventosCarregados.length) {
+    container.innerHTML = `
+      <div class="md:col-span-2 p-lg rounded-xl bg-surface-container-low text-center">
+        <span class="material-symbols-outlined text-4xl text-primary">event</span>
+
+        <p class="font-bold mt-2">
+          Nenhum evento disponível
+        </p>
+
+        <p class="text-sm text-on-surface-variant mt-1">
+          Quando Bárbara publicar um evento, ele aparecerá aqui.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = eventosCarregados.map(evento => {
+
+    const id = obterId(evento);
+
+    const titulo =
+      evento.title ||
+      evento.nome ||
+      "Evento do projeto";
+
+    const descricao =
+      evento.description ||
+      evento.obs ||
+      "";
+
+    const data =
+      evento.date ||
+      evento.data ||
+      "";
+
+    const horario =
+      formatarHorarioEvento(evento);
+
+    const local =
+      evento.location ||
+      evento.local ||
+      "Local não informado";
+
+    const limiteAnimais =
+      evento.animalLimit ??
+      "-";
+
+    const limiteVoluntarios =
+      evento.volunteerLimit ??
+      "-";
+
+    const limiteEspaco =
+      evento.spaceLimit ??
+      "-";
+
+    const solicitacao =
+      obterSolicitacaoDoEvento(id);
+
+    let acao = "";
+
+    if (solicitacao) {
+
+      const status = statusSolicitacao(
+        solicitacao.status
+      );
+
+      acao = `
+        <div class="mt-md rounded-xl ${status.classe} px-4 py-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-base">
+              ${solicitacao.status === "approved"
+                ? "check_circle"
+                : solicitacao.status === "rejected"
+                  ? "cancel"
+                  : "schedule"}
+            </span>
+
+            <p class="font-semibold text-sm">
+              ${status.texto}
+            </p>
+          </div>
+        </div>
+      `;
+
+    } else {
+
+      acao = `
+        <button
+          type="button"
+          onclick="abrirSolicitacaoEvento('${escaparHTML(id)}')"
+          class="mt-md w-full bg-[#5F376E] text-white px-5 py-3 rounded-full font-semibold hover:bg-[#472056] transition-colors flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined">
+            pets
+          </span>
+
+          Solicitar vaga para meu animal
+        </button>
+      `;
+    }
+
+
+    return `
+      <article class="bg-surface-container-low rounded-xl shadow-md border border-surface-variant/50 p-md">
+
+        <div class="flex items-start justify-between gap-sm">
+
+          <div>
+
+            <span class="inline-flex px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold mb-2">
+              Evento publicado
+            </span>
+
+            <h3 class="font-headline-md text-headline-md text-primary">
+              ${escaparHTML(titulo)}
+            </h3>
+
+            <p class="text-sm text-on-surface-variant mt-1">
+              ${escaparHTML(formatarDataEvento(data))}
+              •
+              ${escaparHTML(horario)}
+            </p>
+
+          </div>
+
+          <span class="material-symbols-outlined text-primary">
+            event
+          </span>
+
+        </div>
+
+
+        <div class="mt-md p-md rounded-xl bg-surface-container-lowest">
+
+          <div class="flex items-start gap-2">
+
+            <span class="material-symbols-outlined text-primary">
+              location_on
+            </span>
+
+            <div>
+
+              <p class="font-semibold">
+                ${escaparHTML(local)}
+              </p>
+
+              ${
+                evento.spaceDescription
+                  ? `
+                    <p class="text-sm text-on-surface-variant mt-1">
+                      ${escaparHTML(evento.spaceDescription)}
+                    </p>
+                  `
+                  : ""
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        ${
+          descricao
+            ? `
+              <p class="mt-md text-sm text-on-surface-variant leading-6">
+                ${escaparHTML(descricao)}
+              </p>
+            `
+            : ""
+        }
+
+
+        <div class="grid grid-cols-3 gap-2 mt-md">
+
+          <div class="rounded-lg bg-white p-3 text-center">
+
+            <span class="material-symbols-outlined text-primary">
+              pets
+            </span>
+
+            <p class="text-xs text-on-surface-variant mt-1">
+              Animais
+            </p>
+
+            <p class="font-bold">
+              ${escaparHTML(limiteAnimais)}
+            </p>
+
+          </div>
+
+
+          <div class="rounded-lg bg-white p-3 text-center">
+
+            <span class="material-symbols-outlined text-primary">
+              groups
+            </span>
+
+            <p class="text-xs text-on-surface-variant mt-1">
+              Voluntários
+            </p>
+
+            <p class="font-bold">
+              ${escaparHTML(limiteVoluntarios)}
+            </p>
+
+          </div>
+
+
+          <div class="rounded-lg bg-white p-3 text-center">
+
+            <span class="material-symbols-outlined text-primary">
+              meeting_room
+            </span>
+
+            <p class="text-xs text-on-surface-variant mt-1">
+              Capacidade
+            </p>
+
+            <p class="font-bold">
+              ${escaparHTML(limiteEspaco)}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        ${acao}
+
+      </article>
+    `;
+
+  }).join("");
+}
+
+
+async function carregarEventosVoluntario() {
+
+  const container =
+    document.getElementById("listaEventosVoluntario");
+
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="md:col-span-2 p-lg rounded-xl bg-surface-container-low text-center">
+
+      <span class="material-symbols-outlined text-4xl text-primary animate-pulse">
+        sync
+      </span>
+
+      <p class="font-bold mt-2">
+        Carregando eventos...
+      </p>
+
+    </div>
+  `;
+
+
+  try {
+
+    eventosCarregados =
+      await obterEventos();
+
+
+    solicitacoesDoVoluntario =
+      await obterSolicitacoes();
+
+
+    /*
+     * Mostramos apenas eventos publicados.
+     */
+    eventosCarregados =
+      eventosCarregados.filter(
+        evento =>
+          !evento.status ||
+          evento.status === "published"
+      );
+
+
+    renderizarEventosVoluntario();
+
+
+  } catch (erro) {
+
+    console.error(
+      "Erro ao carregar eventos:",
+      erro
+    );
+
+
+    container.innerHTML = `
+      <div class="md:col-span-2 p-lg rounded-xl bg-red-50 border border-red-200">
+
+        <div class="flex items-start gap-3">
+
+          <span class="material-symbols-outlined text-red-600">
+            error
+          </span>
+
+          <div>
+
+            <p class="font-bold text-red-800">
+              Não foi possível carregar os eventos.
+            </p>
+
+            <p class="text-sm text-red-700 mt-1">
+              Verifique se o servidor está funcionando.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  }
+}
+
+
+function abrirSolicitacaoEvento(eventoId) {
+
+  eventoSelecionadoParaSolicitacao =
+    eventosCarregados.find(
+      evento =>
+        String(obterId(evento)) === String(eventoId)
+    );
+
+
+  if (!eventoSelecionadoParaSolicitacao) {
+    alert("Evento não encontrado.");
+    return;
+  }
+
+
+  const modal =
+    document.getElementById(
+      "modalSolicitacaoEvento"
+    );
+
+  const resumo =
+    document.getElementById(
+      "eventoSolicitacaoResumo"
+    );
+
+
+  const select =
+    document.getElementById(
+      "animalEventoSelect"
+    );
+
+
+  if (!modal || !resumo || !select) {
+    return;
+  }
+
+
+  const evento =
+    eventoSelecionadoParaSolicitacao;
+
+
+  resumo.innerHTML = `
+    <strong>
+      ${escaparHTML(
+        evento.title ||
+        evento.nome ||
+        "Evento"
+      )}
+    </strong>
+
+    <br>
+
+    ${escaparHTML(
+      formatarDataEvento(
+        evento.date ||
+        evento.data
+      )
+    )}
+
+    •
+
+    ${escaparHTML(
+      formatarHorarioEvento(evento)
+    )}
+
+    <br>
+
+    ${escaparHTML(
+      evento.location ||
+      evento.local ||
+      "Local não informado"
+    )}
+  `;
+
+
+  select.innerHTML = animaisDoVoluntario.map(
+    animal => `
+      <option value="${escaparHTML(
+        obterId(animal)
+      )}">
+        ${escaparHTML(
+          animal.name ||
+          animal.nome ||
+          "Animal"
+        )}
+      </option>
+    `
+  ).join("");
+
+
+  if (!animaisDoVoluntario.length) {
+
+    select.innerHTML = `
+      <option value="">
+        Nenhum animal atribuído
+      </option>
+    `;
+
+  }
+
+
+  document.getElementById(
+    "observacaoEvento"
+  ).value = "";
+
+
+  document.getElementById(
+    "erroSolicitacaoEvento"
+  ).classList.add("hidden");
+
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+
+function fecharModalSolicitacao() {
+
+  const modal =
+    document.getElementById(
+      "modalSolicitacaoEvento"
+    );
+
+  if (!modal) return;
+
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+
+  eventoSelecionadoParaSolicitacao = null;
+}
+
+
+function mostrarErroSolicitacao(mensagem) {
+
+  const erro =
+    document.getElementById(
+      "erroSolicitacaoEvento"
+    );
+
+  if (!erro) return;
+
+  erro.textContent = mensagem;
+  erro.classList.remove("hidden");
+}
+
+
+async function enviarSolicitacaoEvento() {
+
+  if (!eventoSelecionadoParaSolicitacao) {
+    return;
+  }
+
+
+  const animalId =
+    document.getElementById(
+      "animalEventoSelect"
+    ).value;
+
+
+  const observacao =
+    document.getElementById(
+      "observacaoEvento"
+    ).value.trim();
+
+
+  if (!animalId) {
+
+    mostrarErroSolicitacao(
+      "Selecione um animal antes de enviar a solicitação."
+    );
+
+    return;
+  }
+
+
+  const btn =
+    document.getElementById(
+      "btnEnviarSolicitacaoEvento"
+    );
+
+
+  btn.disabled = true;
+
+  btn.innerHTML = `
+    <span class="material-symbols-outlined animate-spin">
+      progress_activity
+    </span>
+    Enviando...
+  `;
+
+
+  const eventoId =
+    obterId(
+      eventoSelecionadoParaSolicitacao
+    );
+
+
+  const solicitacao = {
+
+    eventId: eventoId,
+
+    volunteerId: VOLUNTARIO_ID,
+
+    animalId: animalId,
+
+    status: "pending",
+
+    observation: observacao,
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  try {
+
+    const resposta =
+      await fetch(
+        `${API_URL}/event-requests`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body:
+            JSON.stringify(
+              solicitacao
+            )
+        }
+      );
+
+
+    const resultado =
+      await resposta
+        .json()
+        .catch(
+          () => ({})
+        );
+
+
+    if (!resposta.ok) {
+
+      throw new Error(
+        resultado.message ||
+        resultado.error ||
+        "Não foi possível enviar a solicitação."
+      );
+
+    }
+
+
+    fecharModalSolicitacao();
+
+
+    alert(
+      "Solicitação enviada! Agora aguarde a aprovação da Bárbara."
+    );
+
+
+    /*
+     * Atualiza as solicitações para que o botão
+     * passe a mostrar "Aguardando aprovação".
+     */
+    solicitacoesDoVoluntario =
+      await obterSolicitacoes();
+
+
+    renderizarEventosVoluntario();
+
+
+  } catch (erro) {
+
+    console.error(
+      "Erro ao solicitar participação:",
+      erro
+    );
+
+
+    mostrarErroSolicitacao(
+      erro.message ||
+      "Não foi possível enviar a solicitação."
+    );
+
+
+  } finally {
+
+    btn.disabled = false;
+
+    btn.innerHTML = `
+      <span class="material-symbols-outlined">
+        send
+      </span>
+      Solicitar vaga
+    `;
+  }
+}
+
+
+/*
+ * Quando o voluntário abre a página de eventos,
+ * buscamos os eventos publicados no banco.
+ */
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    carregarEventosVoluntario();
+
+  }
+);
+</script>
+
+
+<!-- MODAL SOLICITAR VAGA NO EVENTO -->
+<div
+  id="modalSolicitacaoEvento"
+  class="fixed inset-0 hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+  style="z-index:999999;"
+>
+  <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+    <button
+      type="button"
+      onclick="fecharModalSolicitacao()"
+      class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-2xl font-bold text-gray-600 hover:bg-gray-200"
+      aria-label="Fechar"
+    >×</button>
+
+    <div class="pr-10">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-secondary-container text-primary flex items-center justify-center">
+          <span class="material-symbols-outlined">pets</span>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-secondary uppercase">Participação em evento</p>
+          <h2 class="text-2xl font-bold text-gray-800">Solicitar uma vaga</h2>
+        </div>
+      </div>
+
+      <p id="eventoSolicitacaoResumo" class="mt-4 text-sm leading-6 text-gray-600"></p>
+    </div>
+
+    <label for="animalEventoSelect" class="block mt-5 text-sm font-semibold text-gray-700">
+      Qual animal você deseja levar? *
+    </label>
+
+    <select
+      id="animalEventoSelect"
+      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
+    ></select>
+
+    <label for="observacaoEvento" class="block mt-4 text-sm font-semibold text-gray-700">
+      Observação
+    </label>
+
+    <textarea
+      id="observacaoEvento"
+      rows="3"
+      maxlength="500"
+      placeholder="Alguma informação importante sobre o animal ou participação?"
+      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
+    ></textarea>
+
+    <div class="mt-4 rounded-xl bg-secondary-container/60 p-4">
+      <div class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-primary">info</span>
+        <p class="text-sm leading-5 text-gray-700">
+          Sua solicitação ficará <strong>pendente</strong> até Bárbara analisar
+          o espaço disponível e aprovar sua participação.
+        </p>
+      </div>
+    </div>
+
+    <div
+      id="erroSolicitacaoEvento"
+      class="hidden mt-4 rounded-xl bg-red-50 border border-red-200 text-red-700 p-4 text-sm"
+    ></div>
+
+    <button
+      type="button"
+      id="btnEnviarSolicitacaoEvento"
+      onclick="enviarSolicitacaoEvento()"
+      class="mt-5 w-full rounded-full bg-[#5F376E] py-3 font-semibold text-white hover:bg-[#472056] transition flex items-center justify-center gap-2"
+    >
+      <span class="material-symbols-outlined">send</span>
+      Solicitar vaga
+    </button>
+  </div>
+</div>
+
+</body></html>

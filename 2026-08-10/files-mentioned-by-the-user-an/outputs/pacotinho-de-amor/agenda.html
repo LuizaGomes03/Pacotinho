@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Minha Agenda - Kindred Paws</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-surface": "#322f35",
+                      "surface-container": "#f3ecf4",
+                      "on-primary-fixed-variant": "#5f376e",
+                      "secondary": "#78517a",
+                      "primary-container": "#5f376e",
+                      "primary-fixed-dim": "#e7b5f6",
+                      "primary": "#472056",
+                      "tertiary": "#333300",
+                      "inverse-on-surface": "#f6eef6",
+                      "on-primary-fixed": "#2f073f",
+                      "on-tertiary-fixed": "#1d1d00",
+                      "tertiary-container": "#4a4a00",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#1d1a20",
+                      "surface-container-highest": "#e7e0e8",
+                      "surface": "#fef7ff",
+                      "tertiary-fixed-dim": "#cccc4b",
+                      "surface-dim": "#ded8e0",
+                      "outline": "#7e747e",
+                      "secondary-fixed": "#ffd6fc",
+                      "on-secondary-container": "#7b537c",
+                      "secondary-fixed-dim": "#e7b7e6",
+                      "on-surface-variant": "#4c444d",
+                      "on-surface": "#1d1a20",
+                      "on-primary-container": "#d5a4e4",
+                      "surface-container-high": "#ede6ee",
+                      "tertiary-fixed": "#e9e964",
+                      "on-tertiary-fixed-variant": "#494900",
+                      "surface-container-low": "#f8f1f9",
+                      "surface-bright": "#fef7ff",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-container": "#bbbb3b",
+                      "on-secondary-fixed-variant": "#5f3961",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed": "#2f0d33",
+                      "background": "#fef7ff",
+                      "error": "#ba1a1a",
+                      "secondary-container": "#ffcdfe",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed": "#f9d8ff",
+                      "surface-tint": "#784e87",
+                      "outline-variant": "#cfc3ce",
+                      "inverse-primary": "#e7b5f6",
+                      "surface-variant": "#e7e0e8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "md": "24px",
+                      "xl": "80px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "lg": "48px",
+                      "margin-desktop": "64px",
+                      "xs": "4px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Montserrat"],
+                      "headline-lg-mobile": ["Montserrat"],
+                      "headline-md": ["Montserrat"],
+                      "body-lg": ["Montserrat"],
+                      "label-md": ["Montserrat"],
+                      "body-md": ["Montserrat"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["26px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-container-low text-on-surface h-screen w-full overflow-hidden flex font-body-md">
+<!-- Navigation Drawer (Desktop) -->
+<nav class="hidden md:flex flex-col h-full py-md bg-surface shadow-xl w-80 shrink-0 z-40">
+<div class="px-md mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a smiling volunteer in a well-lit modern office space, soft natural light illuminating their face, clean light-mode aesthetic with warm undertones, trustworthy and friendly expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg_hKyJR1x8HMCXF9feqxbY5_PzJc7_jv3aVNJkZRpG3ENAkn6FVDRx2FanGCbvupsXI8585AXXeEs9CSJRl1cB112UDORHPD7QR1pUZW1PzKPCTD4nepW6bAk4TYPA0e4oN6R_L4ujOM-FrrYJG7_GVK_i8kgQvZpJa4_ENORFYpKFZ6ThSVC8DmC400fOETFHyhiakm51Wq_v_paCjJ4vh1bBxCPQNuCenjYr7kN0pdbd5Tbujga">
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">Welcome back</p>
+<p class="font-label-sm text-xs text-on-surface-variant">Responsible Pet Matchmaking</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 pr-4">
+<a class="flex items-center gap-4 px-md py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-r-full" href="#">
+<span class="material-symbols-outlined">pets</span>
+<span class="font-label-md text-label-md">Browse Pets</span>
+</a>
+<a class="flex items-center gap-4 px-md py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-r-full" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Adoption Process</span>
+</a>
+<a class="flex items-center gap-4 px-md py-3 bg-secondary-container text-on-secondary-container font-bold rounded-r-full transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+<span class="font-label-md text-label-md">Volunteer</span>
+</a>
+<a class="flex items-center gap-4 px-md py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-r-full" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md text-label-md">Success Stories</span>
+</a>
+<a class="flex items-center gap-4 px-md py-3 text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-r-full" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-md text-label-md">Contact Us</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- TopAppBar (Mobile) -->
+<header class="md:hidden flex justify-between items-center w-full px-sm py-xs bg-surface shadow-sm z-30 docked full-width top-0">
+<button class="p-2 text-on-surface-variant active:scale-95 transition-transform duration-150 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-headline-md text-primary font-bold">Kindred Paws</h1>
+<button class="text-primary font-label-md text-label-md px-3 py-1 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 transition-transform duration-150">
+                Donate
+            </button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop pb-32 md:pb-margin-desktop">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Minha Agenda</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Gerencie seus compromissos e disponibilidade.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md shadow-md hover:shadow-lg transition-shadow flex items-center gap-2 w-fit">
+<span class="material-symbols-outlined">edit_calendar</span>
+                    Configurar Disponibilidade
+                </button>
+</div>
+<!-- Tabs -->
+<div class="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-6 py-2 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md whitespace-nowrap">Visão Geral</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container transition-colors">Videochamadas</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant font-label-md text-label-md whitespace-nowrap hover:bg-surface-container transition-colors">Visitas Presenciais</button>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Calendar Card -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Novembro 2024</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container text-on-surface-variant"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-2 rounded-full hover:bg-surface-container text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<!-- Grid (Simplified for visual representation) -->
+<div class="grid grid-cols-7 gap-2 text-center mb-2 font-label-md text-label-md text-on-surface-variant">
+<div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+</div>
+<div class="grid grid-cols-7 gap-2 flex-1">
+<!-- Dates -->
+<div class="aspect-square flex items-center justify-center text-outline-variant">29</div>
+<div class="aspect-square flex items-center justify-center text-outline-variant">30</div>
+<div class="aspect-square flex items-center justify-center text-outline-variant">31</div>
+<div class="aspect-square flex flex-col items-center justify-center rounded-lg hover:bg-surface-container cursor-pointer transition-colors relative">
+<span class="font-body-md text-body-md">1</span>
+</div>
+<div class="aspect-square flex flex-col items-center justify-center rounded-lg hover:bg-surface-container cursor-pointer transition-colors relative">
+<span class="font-body-md text-body-md">2</span>
+</div>
+<div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-surface-container-highest cursor-pointer transition-colors relative border border-outline-variant/50">
+<span class="font-body-md text-body-md font-bold text-primary">3</span>
+<div class="flex gap-1 mt-1">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="aspect-square flex flex-col items-center justify-center rounded-lg hover:bg-surface-container cursor-pointer transition-colors relative">
+<span class="font-body-md text-body-md">4</span>
+</div>
+</div>
+<!-- Legend -->
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex flex-wrap gap-4">
+<div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-secondary"></div><span class="font-label-md text-label-md text-on-surface-variant text-sm">Videochamada</span></div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-primary"></div><span class="font-label-md text-label-md text-on-surface-variant text-sm">Visita Presencial</span></div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-tertiary-fixed"></div><span class="font-label-md text-label-md text-on-surface-variant text-sm">Entrevista</span></div>
+</div>
+</div>
+<!-- Daily Agenda Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Compromissos do Dia</h2>
+<p class="font-label-md text-label-md text-on-surface-variant mb-4">Terça-feira, 3 de Novembro</p>
+<div class="flex flex-col gap-4">
+<!-- Event 1 -->
+<div class="flex gap-4 p-4 rounded-lg bg-inverse-on-surface border-l-4 border-secondary">
+<div class="flex flex-col text-on-surface">
+<span class="font-label-md text-label-md font-bold">10:00</span>
+<span class="text-xs text-on-surface-variant">45 min</span>
+</div>
+<div class="flex-1">
+<h3 class="font-label-md text-label-md text-on-surface">Videochamada</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Maria &amp; Luna</p>
+<span class="inline-block mt-2 px-2 py-1 rounded bg-secondary-container text-on-secondary-container text-xs font-semibold">Lilás</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="flex gap-4 p-4 rounded-lg bg-surface border-l-4 border-primary shadow-sm">
+<div class="flex flex-col text-on-surface">
+<span class="font-label-md text-label-md font-bold">14:00</span>
+<span class="text-xs text-on-surface-variant">1h 30m</span>
+</div>
+<div class="flex-1">
+<h3 class="font-label-md text-label-md text-on-surface">Visita Presencial</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">João &amp; Thor</p>
+<span class="inline-block mt-2 px-2 py-1 rounded bg-primary-container text-on-primary-container text-xs font-semibold">Roxo</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-lowest rounded-t-xl shadow-lg border-t-0">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-[10px] mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-[10px] mt-1">Search</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-[10px] mt-1">Favorites</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-[10px] mt-1">Profile</span>
+</button>
+</nav>
+</body></html>

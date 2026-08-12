@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Pacotinho de Amor - Quero adotar a Luna</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "tertiary": "#333300",
+                            "secondary-fixed": "#ffd6fc",
+                            "on-primary-fixed-variant": "#5f376e",
+                            "on-secondary-fixed": "#2f0d33",
+                            "outline": "#7e747e",
+                            "on-background": "#1d1a20",
+                            "on-primary-fixed": "#2f073f",
+                            "on-tertiary-container": "#bbbb3b",
+                            "tertiary-container": "#4a4a00",
+                            "background": "#fef7ff",
+                            "inverse-surface": "#322f35",
+                            "on-secondary-container": "#7b537c",
+                            "tertiary-fixed": "#e9e964",
+                            "surface-container-lowest": "#ffffff",
+                            "on-primary-container": "#d5a4e4",
+                            "tertiary-fixed-dim": "#cccc4b",
+                            "on-tertiary-fixed-variant": "#494900",
+                            "on-secondary": "#ffffff",
+                            "surface": "#fef7ff",
+                            "surface-tint": "#784e87",
+                            "surface-container": "#f3ecf4",
+                            "on-tertiary-fixed": "#1d1d00",
+                            "on-primary": "#ffffff",
+                            "on-error": "#ffffff",
+                            "inverse-on-surface": "#f6eef6",
+                            "outline-variant": "#cfc3ce",
+                            "surface-container-high": "#ede6ee",
+                            "surface-variant": "#e7e0e8",
+                            "surface-container-low": "#f8f1f9",
+                            "secondary-fixed-dim": "#e7b7e6",
+                            "primary-container": "#5f376e",
+                            "on-tertiary": "#ffffff",
+                            "error-container": "#ffdad6",
+                            "on-surface-variant": "#4c444d",
+                            "secondary-container": "#ffcdfe",
+                            "on-surface": "#1d1a20",
+                            "on-error-container": "#93000a",
+                            "primary-fixed": "#f9d8ff",
+                            "surface-dim": "#ded8e0",
+                            "secondary": "#78517a",
+                            "surface-container-highest": "#e7e0e8",
+                            "error": "#ba1a1a",
+                            "surface-bright": "#fef7ff",
+                            "on-secondary-fixed-variant": "#5f3961",
+                            "primary-fixed-dim": "#e7b5f6",
+                            "inverse-primary": "#e7b5f6",
+                            "primary": "#472056"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "xs": "4px",
+                            "sm": "12px",
+                            "lg": "48px",
+                            "md": "24px",
+                            "margin-mobile": "16px",
+                            "gutter": "24px",
+                            "base": "8px",
+                            "xl": "80px",
+                            "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                            "body-lg": ["Montserrat"],
+                            "headline-lg": ["Montserrat"],
+                            "headline-lg-mobile": ["Montserrat"],
+                            "label-md": ["Montserrat"],
+                            "body-md": ["Montserrat"],
+                            "headline-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                            "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                            "headline-lg-mobile": ["26px", {"lineHeight": "32px", "fontWeight": "700"}],
+                            "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-sans antialiased">
+<!-- TopAppBar (Transactional - Hidden Navigation shell, kept minimal header) -->
+<header class="bg-surface w-full top-0 sticky shadow-sm z-50 flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 w-full">
+<button aria-label="Voltar" class="text-on-surface-variant hover:bg-surface-container transition-colors active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary text-center flex-1">Pacotinho de Amor</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col items-center justify-start pt-md pb-xl px-margin-mobile md:px-margin-desktop">
+<div class="w-full max-w-2xl bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(95,55,110,0.06)] overflow-hidden flex flex-col">
+<!-- Hero Image Section -->
+<div class="relative w-full h-64 md:h-80 bg-surface-container overflow-hidden">
+<img alt="Foto da Luna" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeMFxNWXF5Gqx5rqDtfD-pHkhm-fwkLpte6rrdWQQFfacJxhXac53plVbLNINp3N8yVXD_PKpJxm3zRJCej0V7SFP0WRVoW5kVBpZebhlHsdm1nF6j4KDXC8NrxKCYawk4Mbc8wQfQR0yKke1Xj1jvzzgOE_XJQB8OjQaTgEGkYA07ntnvj4aj4DgFH20CJjs9uzyu970OUVPpQs7blUow46jO4TeJn0dozVSz6LUZ6reV-jyMkY-Q">
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end p-md">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background drop-shadow-sm">Quero adotar a Luna</h2>
+</div>
+</div>
+<!-- Content Section -->
+<div class="p-md md:p-lg flex flex-col gap-md">
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Que bom que você se interessou por esse pacotinho de amor. Antes de seguir, queremos conhecer um pouco melhor você e sua rotina. A adoção é feita mediante entrevista e análise da nossa equipe.
+                </p>
+<!-- Important Notice Box -->
+<div class="bg-tertiary-fixed rounded-lg p-sm md:p-md border-l-4 border-tertiary flex gap-sm items-start shadow-sm mt-sm">
+<span class="material-symbols-outlined filled text-tertiary mt-1" data-icon="info" data-weight="fill">info</span>
+<div>
+<h3 class="font-label-md text-label-md text-tertiary mb-xs">Importante</h3>
+<p class="font-body-md text-body-md text-tertiary">
+                            O preenchimento do formulário não garante a adoção. Todas as solicitações passam por uma análise e entrevista. Caso o perfil seja aprovado, nossa equipe entrará em contato para combinar os próximos passos. Para adotar, é necessário ter mais de 21 anos e estar preparado para assumir a responsabilidade pelo animal durante toda a sua vida.
+                        </p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-sm mt-md">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-sm px-md rounded-full shadow-md hover:shadow-lg hover:bg-on-primary-fixed-variant transition-all active:scale-95 flex items-center justify-center gap-xs">
+                        Continuar para a entrevista
+                        <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-full bg-transparent border-2 border-secondary-fixed text-primary font-label-md text-label-md py-sm px-md rounded-full hover:bg-secondary-fixed/20 transition-all active:scale-95 text-center">
+                        Voltar
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<script src="shared.js"></script>
+</body></html>

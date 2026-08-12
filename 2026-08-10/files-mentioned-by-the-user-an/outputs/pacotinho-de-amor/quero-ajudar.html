@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Seja voluntário(a) — Pacotinho de Amor</title>
+
+  <link rel="stylesheet" href="shared.css">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      font-family: Montserrat, sans-serif;
+      color: #1d1a20;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e7e0e8;
+      border-radius: 20px;
+      padding: 34px;
+      box-shadow: 0 8px 28px rgba(71, 32, 86, .08);
+    }
+
+    h1 {
+      color: #472056;
+      margin-top: 0;
+    }
+
+    h2 {
+      color: #472056;
+      font-size: 20px;
+      margin-top: 32px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #4c444d;
+    }
+
+    .intro {
+      margin-bottom: 28px;
+    }
+
+    /* MODALIDADES */
+
+    .modalidades {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .modalidade {
+      border: 1px solid #e7e0e8;
+      border-radius: 14px;
+      padding: 20px;
+      background: #faf7fb;
+      transition: .2s ease;
+    }
+
+    .modalidade:hover {
+      border-color: #d5a4e4;
+      box-shadow: 0 4px 12px rgba(71, 32, 86, .06);
+    }
+
+    .modalidade label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .modalidade input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: #472056;
+      flex-shrink: 0;
+    }
+
+    .modalidade h3 {
+      margin: 0 0 8px;
+      color: #472056;
+      font-size: 17px;
+    }
+
+    .modalidade p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .modalidade p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* CAMPOS */
+
+    .campo {
+      margin-top: 18px;
+    }
+
+    .campo label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 600;
+      color: #472056;
+    }
+
+    .campo input,
+    .campo textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #dcd3df;
+      border-radius: 10px;
+      font-family: Montserrat, sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .campo input:focus,
+    .campo textarea:focus {
+      border-color: #78517a;
+    }
+
+    .campo textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* TERMO */
+
+    .termo {
+      margin-top: 30px;
+      padding: 22px;
+      border-radius: 14px;
+      background: #f8f1f9;
+      border: 1px solid #e7e0e8;
+    }
+
+    .termo h3 {
+      margin-top: 0;
+      color: #472056;
+    }
+
+    .termo p {
+      font-size: 14px;
+    }
+
+    /* BOTÕES */
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .action-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: #472056;
+      color: #fff;
+      text-decoration: none;
+      font-family: Montserrat, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .action-button:hover {
+      background: #5d2a70;
+      transform: translateY(-1px);
+    }
+
+    /* UPLOAD */
+
+    .upload {
+      margin-top: 22px;
+    }
+
+    .upload label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #472056;
+    }
+
+    .upload input {
+      width: 100%;
+      font-family: Montserrat, sans-serif;
+      font-size: 14px;
+    }
+
+    .obrigatorio {
+      color: #8a526f;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    /* ACEITES */
+
+    .aceites {
+      margin-top: 28px;
+    }
+
+    .check {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4c444d;
+      cursor: pointer;
+    }
+
+    .check input {
+      margin-top: 4px;
+      accent-color: #472056;
+      flex-shrink: 0;
+      width: 17px;
+      height: 17px;
+    }
+
+    .check a {
+      color: #472056;
+      font-weight: 600;
+    }
+
+    /* LGPD */
+
+    .lgpd-info {
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #faf7fb;
+      border: 1px solid #e7e0e8;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .lgpd-info p {
+      font-size: 13px;
+    }
+
+    .lgpd-info strong {
+      color: #472056;
+    }
+
+
+    .required-star {
+      color: #b42318;
+      font-weight: 700;
+      margin-right: 3px;
+    }
+
+    /* CONTATO */
+
+    .contato {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: #faf7fb;
+      border: 1px solid #e7e0e8;
+    }
+
+    .contato p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    /* ENVIO */
+
+    .submit {
+      width: 100%;
+      margin-top: 28px;
+      padding: 15px;
+      border: none;
+      border-radius: 11px;
+      background: #472056;
+      color: #fff;
+      font-family: Montserrat, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .submit:hover {
+      background: #5d2a70;
+      transform: translateY(-1px);
+    }
+
+
+    .submit:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .submit:disabled:hover {
+      background: #472056;
+      transform: none;
+    }
+
+    /* SUCESSO */
+
+    .sucesso {
+      display: none;
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #f8f1f9;
+      border: 1px solid #d5a4e4;
+    }
+
+    .sucesso.active {
+      display: block;
+    }
+
+    .sucesso h3 {
+      margin: 0 0 8px;
+      color: #472056;
+    }
+
+    .sucesso p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 600px) {
+      main {
+        padding: 35px 14px;
+      }
+
+      .card {
+        padding: 24px 18px;
+      }
+
+      .action-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <div class="card">
+
+      <p style="font-weight:700;color:#78517a">
+        PROJETO INDEPENDENTE
+      </p>
+
+      <h1>Seja voluntário(a)</h1>
+
+      <div class="intro">
+
+        <p>
+          Ser voluntário(a) no Pacotinho de Amor é dedicar parte
+          do seu tempo para ajudar diretamente no bem-estar dos
+          animais e nas ações que aumentam suas chances de
+          encontrar uma família.
+        </p>
+
+        <p>
+          Você pode escolher uma ou mais formas de voluntariado.
+          Para participar, é necessário informar os dias e horários
+          em que possui disponibilidade.
+        </p>
+
+      </div>
+
+
+      <!-- MODALIDADES -->
+
+      <h2>Como você gostaria de ajudar?</h2>
+
+      <p>
+        Selecione uma ou mais opções:
+      </p>
+
+
+      <div class="modalidades">
+
+
+        <!-- FEIRINHA -->
+
+        <div class="modalidade">
+
+          <label>
+
+            <input
+              type="checkbox"
+              name="modalidades"
+              value="Feirinha de adoção"
+            >
+
+            <div>
+
+              <h3>Feirinha de adoção</h3>
+
+              <p>
+                Participe das feirinhas de adoção, ajudando na
+                organização, nos cuidados com os animais e no
+                atendimento às pessoas interessadas em adotar.
+              </p>
+
+              <p>
+                <strong>Por que é importante?</strong>
+                As feirinhas aproximam os animais de possíveis
+                famílias, aumentando suas chances de serem
+                conhecidos e adotados.
+              </p>
+
+            </div>
+
+          </label>
+
+        </div>
+
+
+        <!-- TAXI DOG -->
+
+        <div class="modalidade">
+
+          <label>
+
+            <input
+              type="checkbox"
+              name="modalidades"
+              value="Táxi Dog"
+            >
+
+            <div>
+
+              <h3>Táxi Dog</h3>
+
+              <p>
+                Ajude no transporte dos animais para consultas
+                veterinárias, feirinhas, visitas de possíveis
+                adotantes ou outros compromissos importantes.
+              </p>
+
+              <p>
+                <strong>Por que é importante?</strong>
+                O transporte permite que os animais cheguem
+                com segurança a consultas, eventos e encontros
+                com possíveis famílias.
+              </p>
+
+            </div>
+
+          </label>
+
+        </div>
+
+
+        <!-- PASSEADOR -->
+
+        <div class="modalidade">
+
+          <label>
+
+            <input
+              type="checkbox"
+              name="modalidades"
+              value="Passeador(a)"
+            >
+
+            <div>
+
+              <h3>Passeador(a)</h3>
+
+              <p>
+                Ajude os animais com passeios e momentos de lazer,
+                proporcionando uma rotina mais ativa e estimulante.
+              </p>
+
+              <p>
+                <strong>Por que é importante?</strong>
+                Os passeios contribuem para o bem-estar físico
+                e emocional, ajudam na socialização e diminuem
+                o estresse dos animais.
+              </p>
+
+            </div>
+
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- DISPONIBILIDADE -->
+
+      <h2>Disponibilidade</h2>
+
+      <p>
+        Informe os dias e horários em que você poderá ajudar.
+        Essas informações serão utilizadas pela equipe para
+        organizar as atividades.
+      </p>
+
+      <div class="campo">
+
+        <label for="disponibilidade">
+          Dias e horários disponíveis
+        </label>
+
+        <textarea
+          id="disponibilidade"
+          name="disponibilidade"
+          placeholder="Ex.: Terças e quintas das 14h às 18h. Sábados das 9h às 13h."
+          required
+        ></textarea>
+
+      </div>
+
+
+      <!-- DADOS -->
+
+      <h2>Seus dados</h2>
+
+      <div class="campo">
+
+        <label for="nome">
+          Nome completo
+        </label>
+
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          placeholder="Digite seu nome completo"
+          required
+        >
+
+      </div>
+
+
+      <div class="campo">
+
+        <label for="email">
+          E-mail
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Digite seu e-mail"
+          required
+        >
+
+      </div>
+
+
+      <div class="campo">
+
+        <label for="telefone">
+          Número de telefone
+        </label>
+
+        <input
+          type="tel"
+          id="telefone"
+          name="telefone"
+          placeholder="(11) 99999-9999"
+          required
+        >
+
+      </div>
+
+
+      <!-- CONTATO -->
+
+      <div class="contato">
+
+        <p>
+          <strong>Como funciona depois do cadastro?</strong>
+          Após o envio das informações e do termo assinado,
+          a equipe do Pacotinho de Amor analisará o cadastro
+          e entrará em contato pelo número de telefone informado
+          para confirmar sua participação e combinar os próximos passos.
+        </p>
+
+      </div>
+
+
+      <!-- TERMO -->
+
+      <div class="termo">
+
+        <h3>Termo de Adesão, Compromisso e Responsabilidade para Voluntariado</h3>
+
+        <p>
+          Para participar como voluntário(a), é necessário ler,
+          preencher e assinar o Termo de Adesão, Compromisso e
+          Responsabilidade para Voluntariado do Projeto Pacotinho de Amor.
+        </p>
+
+        <p>
+          O documento apresenta o objeto e as condições da atividade
+          voluntária, incluindo as responsabilidades do voluntário,
+          o cuidado com os animais, as regras de segurança,
+          a confidencialidade e a natureza não empregatícia do voluntariado.
+        </p>
+
+        <div class="action-buttons">
+
+          <a
+            class="action-button"
+            href="termo-voluntariado-pacotinho-de-amor.pdf"
+            download
+          >
+            Baixar termo de voluntariado
+          </a>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <div class="upload">
+
+          <label for="termo">
+            Envie o termo assinado
+          </label>
+
+          <input
+            type="file"
+            id="termo"
+            name="termo"
+            accept=".pdf,.jpg,.jpeg,.png"
+            required
+          >
+
+          <p class="obrigatorio">
+            Formatos aceitos: PDF, JPG ou PNG.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ACEITES -->
+
+      <div class="aceites">
+
+        <h2>Declarações e privacidade</h2>
+
+        <p class="obrigatorio">Os dois primeiros itens são obrigatórios para enviar o cadastro. A autorização de imagem é opcional.</p>
+
+        <label class="check">
+
+          <input
+            type="checkbox"
+            id="aceiteTermo"
+            name="aceiteTermo"
+          >
+
+          <span>
+            <span class="required-star" aria-hidden="true">*</span>
+            Declaro que li, compreendi e concordo com o
+            <a href="termo-voluntariado-pacotinho-de-amor.pdf" target="_blank" rel="noopener noreferrer">
+              <strong>Termo de Adesão, Compromisso e Responsabilidade para Voluntariado do Projeto Pacotinho de Amor</strong>
+            </a>.
+          </span>
+
+        </label>
+
+
+        <label class="check">
+
+          <input
+            type="checkbox"
+            id="aceiteLGPD"
+            name="aceiteLGPD"
+          >
+
+          <span>
+            <span class="required-star" aria-hidden="true">*</span>
+            Declaro estar ciente de que meus dados pessoais serão tratados
+            para finalidades relacionadas ao cadastro e participação no
+            voluntariado, conforme a
+            <a href="politica-privacidade.html" target="_blank" rel="noopener noreferrer">
+              Política de Privacidade
+            </a>
+            e a legislação aplicável, incluindo a LGPD.
+          </span>
+
+        </label>
+
+
+        <label class="check">
+
+          <input
+            type="checkbox"
+            id="aceiteImagem"
+            name="aceiteImagem"
+          >
+
+          <span>
+            Autorizo, de forma opcional, o uso da minha imagem em fotografias
+            e vídeos realizados durante atividades do Projeto Pacotinho de Amor,
+            exclusivamente para divulgação institucional e das ações do projeto.
+            Esta autorização não é obrigatória para participar como voluntário(a).
+          </span>
+
+        </label>
+
+
+        <div class="lgpd-info">
+
+          <strong>Sobre seus dados:</strong>
+
+          <p>
+            Seus dados serão utilizados para analisar seu cadastro,
+            organizar as atividades voluntárias e entrar em contato
+            com você.
+          </p>
+
+          <p>
+            Para saber mais sobre quais dados são coletados, como são
+            utilizados, armazenados e compartilhados, consulte nossa
+            <a href="politica-privacidade.html">
+              Política de Privacidade
+            </a>.
+          </p>
+
+          <p>
+            A utilização da plataforma também está sujeita aos
+            <a href="termos-uso.html">
+              Termos de Uso
+            </a>,
+            que estabelecem as regras gerais aplicáveis ao site.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- BOTÃO ENVIAR -->
+
+      <button
+        type="button"
+        class="submit"
+        id="submitCadastro"
+        onclick="enviarCadastro()"
+        disabled
+      >
+        Enviar cadastro
+      </button>
+
+
+      <!-- SUCESSO -->
+
+      <div
+        id="sucesso"
+        class="sucesso"
+      >
+
+        <h3>Cadastro recebido!</h3>
+
+        <p>
+          Obrigado por querer fazer parte do Pacotinho de Amor.
+          Recebemos seu cadastro e os documentos enviados.
+          A equipe analisará suas informações e entrará em contato
+          pelo número de telefone informado para conversar sobre
+          sua disponibilidade, sua participação e os próximos passos.
+          O envio do cadastro não representa aprovação automática
+          como voluntário(a).
+        </p>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- O shared.js INSERE AUTOMATICAMENTE O HEADER E O FOOTER -->
+
+  <script src="shared.js"></script>
+
+
+  <script>
+
+
+    function atualizarBotaoCadastro() {
+      const aceiteTermo = document.getElementById('aceiteTermo');
+      const aceiteLGPD = document.getElementById('aceiteLGPD');
+      const botao = document.getElementById('submitCadastro');
+
+      if (!aceiteTermo || !aceiteLGPD || !botao) return;
+
+      botao.disabled = !(aceiteTermo.checked && aceiteLGPD.checked);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const aceiteTermo = document.getElementById('aceiteTermo');
+      const aceiteLGPD = document.getElementById('aceiteLGPD');
+
+      aceiteTermo?.addEventListener('change', atualizarBotaoCadastro);
+      aceiteLGPD?.addEventListener('change', atualizarBotaoCadastro);
+
+      atualizarBotaoCadastro();
+    });
+
+    function enviarCadastro() {
+
+      /* MODALIDADES */
+
+      const modalidades = document.querySelectorAll(
+        'input[name="modalidades"]:checked'
+      );
+
+      if (modalidades.length === 0) {
+
+        alert(
+          'Selecione pelo menos uma forma de voluntariado.'
+        );
+
+        return;
+      }
+
+
+      /* DISPONIBILIDADE */
+
+      const disponibilidade =
+        document
+          .getElementById('disponibilidade')
+          .value
+          .trim();
+
+      if (!disponibilidade) {
+
+        alert(
+          'Informe seus dias e horários disponíveis.'
+        );
+
+        return;
+      }
+
+
+      /* NOME */
+
+      const nome =
+        document
+          .getElementById('nome')
+          .value
+          .trim();
+
+      if (!nome) {
+
+        alert(
+          'Informe seu nome completo.'
+        );
+
+        return;
+      }
+
+
+      /* E-MAIL */
+
+      const email =
+        document
+          .getElementById('email')
+          .value
+          .trim();
+
+      if (!email) {
+
+        alert(
+          'Informe seu e-mail.'
+        );
+
+        return;
+      }
+
+
+      /* TELEFONE */
+
+      const telefone =
+        document
+          .getElementById('telefone')
+          .value
+          .trim();
+
+      if (!telefone) {
+
+        alert(
+          'Informe seu número de telefone.'
+        );
+
+        return;
+      }
+
+
+      /* TERMO ASSINADO */
+
+      const termo =
+        document
+          .getElementById('termo')
+          .files
+          .length;
+
+      if (!termo) {
+
+        alert(
+          'Envie o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado assinado.'
+        );
+
+        return;
+      }
+
+
+      /* ACEITES OBRIGATÓRIOS */
+
+      const aceiteTermo =
+        document
+          .getElementById('aceiteTermo')
+          .checked;
+
+      if (!aceiteTermo) {
+
+        alert(
+          'É necessário declarar que você leu e concorda com o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado.'
+        );
+
+        return;
+      }
+
+
+      /* CIÊNCIA SOBRE LGPD */
+
+      const aceiteLGPD =
+        document
+          .getElementById('aceiteLGPD')
+          .checked;
+
+      if (!aceiteLGPD) {
+
+        alert(
+          'É necessário confirmar a ciência sobre o tratamento dos seus dados e a Política de Privacidade.'
+        );
+
+        return;
+      }
+
+
+      /* MOSTRA SUCESSO */
+
+      document
+        .getElementById('sucesso')
+        .classList
+        .add('active');
+
+
+      /* ROLA ATÉ A MENSAGEM */
+
+      document
+        .getElementById('sucesso')
+        .scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+    }
+
+  </script>
+
+</body>
+</html>

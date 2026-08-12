@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rifas | Pacotinho de Amor</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  >
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #fef7ff;
+      color: #1d1a20;
+    }
+
+    .pa-header {
+      background: rgba(255, 250, 255, 0.96);
+      border-bottom: 1px solid #eadbea;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(10px);
+    }
+
+    .pa-header-inner {
+      max-width: 1200px;
+      min-height: 68px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .pa-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #472056;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pa-header-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .pa-header-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .pa-header-nav a {
+      color: #3f3344;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color .2s ease;
+    }
+
+    .pa-header-nav a:hover {
+      color: #5f376e;
+    }
+
+    .pa-main {
+      min-height: calc(100vh - 68px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pa-content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+      flex: 1;
+    }
+
+    .pa-footer {
+      background: #35103f;
+      color: #fff;
+      padding: 42px 24px 24px;
+      width: 100%;
+    }
+
+    .pa-footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pa-footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pa-footer-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .pa-footer-brand strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .pa-footer-brand p {
+      margin: 0;
+      max-width: 760px;
+      color: #ead8ed;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .pa-footer nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      margin-top: 22px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.22);
+    }
+
+    .pa-footer nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .pa-footer nav a:hover {
+      text-decoration: underline;
+    }
+
+    .pa-footer small {
+      display: block;
+      margin-top: 16px;
+      color: #d9c2dd;
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .pa-header-inner {
+        min-height: 62px;
+        padding: 0 16px;
+      }
+
+      .pa-header-brand {
+        font-size: 17px;
+      }
+
+      .pa-header-logo {
+        width: 38px;
+        height: 38px;
+      }
+
+      .pa-header-nav {
+        gap: 12px;
+      }
+
+      .pa-header-nav a {
+        font-size: 12px;
+      }
+
+      .pa-content {
+        padding: 32px 16px 48px;
+      }
+
+      .pa-footer {
+        padding: 32px 20px 22px;
+      }
+
+      .pa-footer-brand {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER PADRONIZADO -->
+  <header class="pa-header">
+    <div class="pa-header-inner">
+
+      <a href="home.html" class="pa-header-brand">
+        <img
+          src="assets/logo-footer.png"
+          class="pa-header-logo"
+          alt="Pacotinho de Amor"
+        >
+        <span>Pacotinho de Amor</span>
+      </a>
+
+      <nav class="pa-header-nav" aria-label="Navegação principal">
+        <a href="home.html">Início</a>
+        <a href="animais-para-adocao.html">Animais</a>
+        <a href="sobre-o-projeto.html">Sobre o projeto</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="pa-main">
+
+    <section class="pa-content">
+
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <p class="uppercase tracking-wide text-sm font-bold text-[#78517a]">
+          Ajude um animal
+        </p>
+
+        <h1 class="text-4xl font-bold text-[#472056] mt-2">
+          Rifas do Pacotinho de Amor
+        </h1>
+
+        <p class="text-gray-600 mt-3">
+          Escolha um número disponível e participe das campanhas publicadas pela equipe.
+        </p>
+      </div>
+
+      <div
+        id="mensagem"
+        class="hidden max-w-2xl mx-auto mb-6 rounded-xl p-4 text-sm"
+      ></div>
+
+      <div
+        id="listaRifas"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-6"
+      ></div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER PADRONIZADO -->
+  <footer class="pa-footer">
+
+    <div class="pa-footer-inner">
+
+      <div class="pa-footer-brand">
+
+        <img
+          class="pa-footer-logo"
+          src="assets/logo-footer.png"
+          alt="Logo Pacotinho de Amor"
+        >
+
+        <div>
+          <strong>Pacotinho de Amor</strong>
+
+          <p>
+            Projeto independente dedicado a conectar animais que precisam
+            de um lar a pessoas dispostas a amar para sempre.
+          </p>
+        </div>
+
+      </div>
+
+      <nav aria-label="Links do rodapé">
+        <a href="home.html">Início</a>
+        <a href="animais-para-adocao.html">Animais</a>
+        <a href="sobre-o-projeto.html">Sobre o projeto</a>
+        <a href="quero-ajudar.html">Como ajudar</a>
+        <a href="rifas.html">Rifas</a>
+        <a href="conta.html">Conta</a>
+        <a href="login.html">Área voluntária</a>
+      </nav>
+
+      <small>
+        Mais de 1.950 animais adotados com amor. © Pacotinho de Amor
+      </small>
+
+    </div>
+
+  </footer>
+
+  <script>
+    const API_URL = "/api";
+    const mensagem = document.getElementById("mensagem");
+
+    function esc(valor) {
+      return String(valor ?? "").replace(/[&<>"']/g, function (caractere) {
+        const mapa = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        };
+
+        return mapa[caractere];
+      });
+    }
+
+    function aviso(texto, erro = false) {
+      mensagem.textContent = texto;
+
+      mensagem.className =
+        "max-w-2xl mx-auto mb-6 rounded-xl p-4 text-sm " +
+        (
+          erro
+            ? "bg-red-50 text-red-700 border border-red-200"
+            : "bg-green-50 text-green-700 border border-green-200"
+        );
+    }
+
+    async function buscar() {
+      const res = await fetch(`${API_URL}/raffles`, {
+        credentials: "same-origin"
+      });
+
+      const data = await res.json().catch(() => []);
+
+      if (!res.ok) {
+        throw new Error(
+          data.message || "Não foi possível carregar as rifas."
+        );
+      }
+
+      return Array.isArray(data)
+        ? data
+        : (data.raffles || []);
+    }
+
+    function render(rifas) {
+      const el = document.getElementById("listaRifas");
+
+      if (!rifas.length) {
+        el.innerHTML = `
+          <div class="lg:col-span-2 bg-white rounded-2xl p-10 text-center shadow-sm">
+            <span class="material-symbols-outlined text-5xl text-[#5F376E]">
+              confirmation_number
+            </span>
+
+            <h2 class="text-2xl font-bold text-[#472056] mt-3">
+              Nenhuma rifa disponível
+            </h2>
+
+            <p class="text-gray-600 mt-2">
+              Volte em breve para conferir novas campanhas.
+            </p>
+          </div>
+        `;
+
+        return;
+      }
+
+      el.innerHTML = rifas.map(function (r) {
+
+        const nums = r.numbers || [];
+        const sold = nums.filter(function (n) {
+          return n.status === "sold";
+        }).length;
+
+        const botoes = nums.map(function (n) {
+
+          const disponivel = n.status === "available";
+
+          return `
+            <button
+              type="button"
+              ${disponivel ? "" : "disabled"}
+              onclick="comprar('${esc(r.id || r._id)}', ${Number(n.number)})"
+              class="h-10 rounded-lg text-sm font-semibold ${
+                disponivel
+                  ? "bg-[#F4E5FA] text-[#5F376E] hover:bg-[#e9d4ee]"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }"
+            >
+              ${Number(n.number)}
+            </button>
+          `;
+        }).join("");
+
+        return `
+          <article class="bg-white rounded-2xl shadow-md border border-purple-100 overflow-hidden">
+
+            ${
+              r.prize_photo
+                ? `
+                  <img
+                    src="${esc(r.prize_photo)}"
+                    class="w-full h-56 object-cover"
+                    alt="Prêmio da rifa"
+                  >
+                `
+                : ""
+            }
+
+            <div class="p-6">
+
+              <div class="flex justify-between gap-3">
+
+                <h2 class="text-2xl font-bold text-[#472056]">
+                  ${esc(r.title)}
+                </h2>
+
+                <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold h-fit">
+                  Ativa
+                </span>
+
+              </div>
+
+              <p class="text-gray-600 mt-3">
+                ${esc(r.purpose)}
+              </p>
+
+              <div class="mt-4 rounded-xl bg-[#F8F1F9] p-4">
+                <p class="font-bold text-[#472056]">
+                  Prêmio
+                </p>
+
+                <p class="text-sm text-gray-600 mt-1">
+                  ${esc(r.prize_description)}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 mt-4">
+
+                <div class="rounded-xl bg-gray-50 p-3">
+                  <p class="text-xs text-gray-500">
+                    Valor
+                  </p>
+
+                  <p class="font-bold">
+                    R$ ${Number(r.ticket_price || 0).toFixed(2).replace(".", ",")}
+                  </p>
+                </div>
+
+                <div class="rounded-xl bg-gray-50 p-3">
+                  <p class="text-xs text-gray-500">
+                    Disponíveis
+                  </p>
+
+                  <p class="font-bold">
+                    ${nums.length - sold} de ${nums.length}
+                  </p>
+                </div>
+
+              </div>
+
+              <p class="font-bold text-[#472056] mt-5">
+                Escolha seu número
+              </p>
+
+              <div class="grid grid-cols-6 sm:grid-cols-8 gap-2 mt-3 max-h-72 overflow-y-auto pr-1">
+                ${botoes}
+              </div>
+
+              <p class="text-xs text-gray-500 mt-3">
+                Números em cinza já foram comprados.
+              </p>
+
+            </div>
+
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function comprar(id, number) {
+      try {
+
+        if (!confirm(`Comprar o número ${number}?`)) {
+          return;
+        }
+
+        const res = await fetch(
+          `${API_URL}/raffles/${encodeURIComponent(id)}/tickets`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({ number })
+          }
+        );
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.status === 401) {
+          aviso(
+            "Entre na sua conta de adotante para comprar um número.",
+            true
+          );
+          return;
+        }
+
+        if (!res.ok) {
+          throw new Error(
+            data.message || "Não foi possível comprar esse número."
+          );
+        }
+
+        aviso(
+          data.message || "Número comprado com sucesso!"
+        );
+
+        render(await buscar());
+
+      } catch (e) {
+
+        aviso(
+          e.message || "Não foi possível concluir a compra.",
+          true
+        );
+
+      }
+    }
+
+    (async function () {
+      try {
+        render(await buscar());
+      } catch (e) {
+        aviso(
+          e.message || "Não foi possível carregar as rifas.",
+          true
+        );
+      }
+    })();
+  </script>
+
+</body>
+</html>

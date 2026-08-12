@@ -1,0 +1,1009 @@
+:root {
+  --pa-purple: #472056;
+  --pa-pink: #ffcdfe;
+  --pa-ink: #1d1a20;
+  --pa-bg: #fef7ff;
+}
+
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  width: 100%;
+  min-height: 100%;
+}
+
+
+body {
+  width: 100%;
+  min-height: 100vh;
+
+  margin: 0;
+
+  padding-top: 76px;
+
+  background: var(--pa-bg);
+
+  color: var(--pa-ink);
+
+  font-family: Montserrat, sans-serif;
+
+  overflow-x: hidden;
+}
+
+
+body.pa-page-painel-voluntario {
+  padding-top: 0;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.pa-header {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  min-height: 76px;
+
+  display: grid;
+
+  /*
+   * A primeira coluna é a marca.
+   * A segunda ocupa somente o espaço disponível.
+   * A terceira fica reservada para as ações.
+   */
+  grid-template-columns:
+    minmax(180px, 230px)
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  column-gap: 28px;
+
+  padding:
+    12px
+    clamp(20px, 4vw, 64px);
+
+  background: rgba(254, 247, 255, 0.97);
+
+  border-bottom: 1px solid #e7e0e8;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 2px 12px rgba(71, 32, 86, 0.06);
+
+  font-family: Montserrat, sans-serif;
+}
+
+
+/* ============================================================
+   MARCA / LOGO
+   ============================================================ */
+
+.pa-brand {
+  min-width: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  gap: 10px;
+
+  color: var(--pa-purple);
+
+  font-size: 21px;
+
+  font-weight: 700;
+
+  line-height: 1.05;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+
+.pa-brand-logo {
+  width: 48px;
+
+  height: 48px;
+
+  min-width: 48px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  flex-shrink: 0;
+}
+
+
+.pa-brand span {
+  display: block;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   MENU PRINCIPAL
+   ============================================================ */
+
+.pa-nav {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: clamp(16px, 2.5vw, 36px);
+
+  overflow: hidden;
+}
+
+
+.pa-nav a {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  padding: 6px 2px;
+
+  color: #4c444d;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.15s ease;
+}
+
+
+.pa-nav a:hover,
+.pa-nav a[aria-current="page"] {
+  color: var(--pa-purple);
+}
+
+
+.pa-nav a[aria-current="page"]::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: -7px;
+
+  height: 3px;
+
+  border-radius: 3px;
+
+  background: var(--pa-purple);
+}
+
+
+/* ============================================================
+   AÇÕES DO HEADER
+   ============================================================ */
+
+.pa-header-actions {
+  min-width: max-content;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 18px;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   ÁREA VOLUNTÁRIA
+   ============================================================ */
+
+.pa-volunteer-link {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: max-content;
+
+  padding: 7px 0;
+
+  color: #4c444d;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.15s ease;
+}
+
+
+.pa-volunteer-link:hover,
+.pa-volunteer-link[aria-current="page"] {
+  color: var(--pa-purple);
+}
+
+
+/* ============================================================
+   CONTA
+   ============================================================ */
+
+.pa-account {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  min-width: max-content;
+
+  padding: 6px 16px 6px 6px;
+
+  border-radius: 999px;
+
+  background: var(--pa-pink);
+
+  color: var(--pa-purple) !important;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  flex-shrink: 0;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.pa-account:hover,
+.pa-account[aria-current="page"] {
+  background: var(--pa-purple);
+
+  color: #fff !important;
+}
+
+
+/* ============================================================
+   ÍCONE DA CONTA
+   ============================================================ */
+
+.pa-account-icon {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 30px;
+
+  height: 30px;
+
+  min-width: 30px;
+
+  border-radius: 50%;
+
+  background: var(--pa-purple);
+
+  color: #fff;
+
+  font-size: 18px;
+
+  line-height: 1;
+
+  flex-shrink: 0;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.pa-account:hover .pa-account-icon,
+.pa-account[aria-current="page"] .pa-account-icon {
+  background: #fff;
+
+  color: var(--pa-purple);
+}
+
+
+/* ============================================================
+   BOTÃO DE DOAÇÃO
+   ============================================================ */
+
+.pa-donate {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 11px 20px;
+
+  border-radius: 999px;
+
+  background: var(--pa-purple);
+
+  color: #fff !important;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.pa-footer {
+  width: 100%;
+
+  margin-top: 48px;
+
+  padding:
+    42px
+    clamp(20px, 5vw, 72px)
+    26px;
+
+  background: var(--pa-purple);
+
+  color: #fff;
+
+  font-family: Montserrat, sans-serif;
+}
+
+
+.pa-footer-inner {
+  width: 100%;
+
+  max-width: 1280px;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 36px;
+}
+
+
+/* ============================================================
+   MARCA DO FOOTER
+   ============================================================ */
+
+.pa-footer-brand {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+
+  min-width: 280px;
+
+  flex: 1 1 420px;
+}
+
+
+.pa-footer-logo {
+  width: 72px;
+
+  height: 72px;
+
+  min-width: 72px;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  object-fit: cover;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+
+.pa-footer strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 20px;
+
+  line-height: 1.2;
+}
+
+
+.pa-footer p {
+  margin: 0;
+
+  max-width: 430px;
+
+  color: #f9d8ff;
+
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   LINKS DO FOOTER
+   ============================================================ */
+
+.pa-footer nav {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 14px 20px;
+
+  flex: 1 1 420px;
+}
+
+
+.pa-footer a {
+  color: #fff;
+
+  font-weight: 600;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    opacity 0.15s ease;
+}
+
+
+.pa-footer a:hover {
+  text-decoration: underline;
+
+  opacity: 0.9;
+}
+
+
+.pa-footer small {
+  display: block;
+
+  width: 100%;
+
+  max-width: 1280px;
+
+  margin: 28px auto 0;
+
+  padding-top: 18px;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.25);
+
+  color: #f9d8ff;
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+
+.pa-toast {
+  position: fixed;
+
+  right: 18px;
+
+  bottom: 18px;
+
+  z-index: 2000;
+
+  width: max-content;
+
+  max-width: min(320px, calc(100vw - 36px));
+
+  padding: 14px 18px;
+
+  border-radius: 12px;
+
+  background: #322f35;
+
+  color: #fff;
+
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.25);
+
+  font:
+    600 14px Montserrat, sans-serif;
+
+  line-height: 1.4;
+
+  opacity: 0;
+
+  transform: translateY(18px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  pointer-events: none;
+}
+
+
+.pa-toast.show {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+
+/* ============================================================
+   PADRONIZAÇÃO DAS PÁGINAS
+   ============================================================ */
+
+body.pa-standardized > header:not(.pa-header) {
+  display: none !important;
+}
+
+
+body.pa-standardized > footer:not(.pa-footer) {
+  display: none !important;
+}
+
+
+body.pa-page-painel-voluntario .pa-header,
+body.pa-page-painel-voluntario .pa-footer {
+  display: none !important;
+}
+
+
+/* ============================================================
+   TABLET / NOTEBOOK MENOR
+   ============================================================ */
+
+@media (max-width: 1150px) {
+
+  .pa-header {
+    grid-template-columns:
+      minmax(160px, 200px)
+      minmax(0, 1fr)
+      auto;
+
+    column-gap: 18px;
+
+    padding-left: 24px;
+
+    padding-right: 24px;
+  }
+
+
+  .pa-brand {
+    font-size: 18px;
+  }
+
+
+  .pa-brand-logo {
+    width: 44px;
+
+    height: 44px;
+
+    min-width: 44px;
+  }
+
+
+  .pa-nav {
+    gap: 14px;
+  }
+
+
+  .pa-nav a {
+    font-size: 13px;
+  }
+
+
+  .pa-header-actions {
+    gap: 12px;
+  }
+
+
+  .pa-volunteer-link {
+    font-size: 13px;
+  }
+
+
+  .pa-account {
+    padding-right: 12px;
+
+    font-size: 13px;
+  }
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 950px) {
+
+  .pa-header {
+    min-height: 70px;
+
+    grid-template-columns:
+      auto
+      1fr
+      auto;
+
+    column-gap: 16px;
+
+    padding:
+      10px
+      20px;
+  }
+
+
+  body {
+    padding-top: 70px;
+  }
+
+
+  .pa-brand {
+    font-size: 17px;
+  }
+
+
+  .pa-brand-logo {
+    width: 42px;
+
+    height: 42px;
+
+    min-width: 42px;
+  }
+
+
+  .pa-nav {
+    gap: 12px;
+  }
+
+
+  .pa-nav a {
+    font-size: 12px;
+  }
+
+
+  .pa-header-actions {
+    gap: 10px;
+  }
+
+
+  .pa-volunteer-link {
+    font-size: 12px;
+  }
+
+
+  .pa-account {
+    padding:
+      5px
+      10px
+      5px
+      5px;
+
+    font-size: 12px;
+  }
+
+
+  .pa-account-icon {
+    width: 28px;
+
+    height: 28px;
+
+    min-width: 28px;
+
+    font-size: 17px;
+  }
+
+}
+
+
+/* ============================================================
+   TABLET PEQUENO
+   ============================================================ */
+
+@media (max-width: 820px) {
+
+  /*
+   * Aqui o menu central some antes de começar
+   * qualquer possibilidade de sobreposição.
+   */
+
+  .pa-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    min-height: 68px;
+
+    padding:
+      10px
+      18px;
+  }
+
+
+  body {
+    padding-top: 68px;
+  }
+
+
+  .pa-brand {
+    flex: 0 1 auto;
+
+    min-width: 0;
+
+    font-size: 17px;
+  }
+
+
+  .pa-brand span {
+    overflow: visible;
+
+    text-overflow: clip;
+  }
+
+
+  .pa-nav {
+    display: none;
+  }
+
+
+  .pa-header-actions {
+    flex: 0 0 auto;
+
+    margin-left: auto;
+
+    gap: 14px;
+  }
+
+
+  .pa-volunteer-link {
+    display: inline-flex;
+
+    font-size: 13px;
+  }
+
+
+  .pa-account {
+    font-size: 13px;
+  }
+
+}
+
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+  body {
+    padding-top: 64px;
+  }
+
+
+  .pa-header {
+    min-height: 64px;
+
+    padding:
+      8px
+      14px;
+
+    column-gap: 10px;
+  }
+
+
+  .pa-brand {
+    gap: 8px;
+
+    font-size: 15px;
+
+    line-height: 1;
+  }
+
+
+  .pa-brand-logo {
+    width: 38px;
+
+    height: 38px;
+
+    min-width: 38px;
+  }
+
+
+  /*
+   * No celular deixamos somente Conta.
+   * Assim nunca fica "Área voluntária" colada
+   * com o botão de Conta.
+   */
+
+  .pa-volunteer-link {
+    display: none;
+  }
+
+
+  .pa-account {
+    padding: 5px;
+
+    border-radius: 50%;
+  }
+
+
+  .pa-account-label {
+    display: none;
+  }
+
+
+  .pa-account-icon {
+    width: 34px;
+
+    height: 34px;
+
+    min-width: 34px;
+
+    font-size: 20px;
+  }
+
+
+  .pa-footer {
+    margin-top: 32px;
+
+    padding:
+      30px
+      18px
+      22px;
+  }
+
+
+  .pa-footer-inner {
+    flex-direction: column;
+
+    gap: 26px;
+  }
+
+
+  .pa-footer-brand {
+    min-width: 0;
+
+    width: 100%;
+
+    flex: none;
+
+    flex-direction: column;
+  }
+
+
+  .pa-footer-logo {
+    width: 60px;
+
+    height: 60px;
+
+    min-width: 60px;
+  }
+
+
+  .pa-footer nav {
+    width: 100%;
+
+    justify-content: flex-start;
+
+    gap: 12px 18px;
+
+    flex: none;
+  }
+
+
+  .pa-footer small {
+    margin-top: 24px;
+  }
+
+}
+
+
+/* ============================================================
+   CELULAR MUITO PEQUENO
+   ============================================================ */
+
+@media (max-width: 400px) {
+
+  .pa-brand {
+    font-size: 14px;
+  }
+
+
+  .pa-brand-logo {
+    width: 34px;
+
+    height: 34px;
+
+    min-width: 34px;
+  }
+
+
+  .pa-header {
+    padding-left: 12px;
+
+    padding-right: 12px;
+  }
+
+
+  .pa-account-icon {
+    width: 32px;
+
+    height: 32px;
+
+    min-width: 32px;
+  }
+
+}

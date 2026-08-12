@@ -1,0 +1,674 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Pacotinho de amor - Pet Adoção</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .organic-blob {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+        .organic-blob-alt {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        /* Fluid Grid Setup */
+        .fluid-container {
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+    </style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container-low": "#f8f1f9",
+                "tertiary": "#333300",
+                "surface-variant": "#e7e0e8",
+                "on-secondary-fixed-variant": "#5f3961",
+                "primary-fixed-dim": "#e7b5f6",
+                "outline-variant": "#cfc3ce",
+                "surface-bright": "#fef7ff",
+                "surface-tint": "#784e87",
+                "on-secondary-fixed": "#2f0d33",
+                "error": "#ba1a1a",
+                "inverse-primary": "#e7b5f6",
+                "on-primary": "#ffffff",
+                "on-primary-container": "#d5a4e4",
+                "on-secondary": "#ffffff",
+                "on-background": "#1d1a20",
+                "on-surface-variant": "#4c444d",
+                "surface-dim": "#ded8e0",
+                "inverse-surface": "#322f35",
+                "on-tertiary": "#ffffff",
+                "inverse-on-surface": "#f6eef6",
+                "primary-container": "#5f376e",
+                "secondary-fixed-dim": "#e7b7e6",
+                "secondary-container": "#ffcdfe",
+                "background": "#fef7ff",
+                "tertiary-container": "#4a4a00",
+                "surface-container-highest": "#e7e0e8",
+                "on-error-container": "#93000a",
+                "tertiary-fixed": "#e9e964",
+                "on-secondary-container": "#7b537c",
+                "surface-container": "#f3ecf4",
+                "on-tertiary-fixed-variant": "#494900",
+                "surface-container-lowest": "#ffffff",
+                "primary": "#472056",
+                "on-error": "#ffffff",
+                "on-primary-fixed": "#2f073f",
+                "primary-fixed": "#f9d8ff",
+                "on-primary-fixed-variant": "#5f376e",
+                "secondary": "#78517a",
+                "secondary-fixed": "#ffd6fc",
+                "on-tertiary-fixed": "#1d1d00",
+                "on-tertiary-container": "#bbbb3b",
+                "error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#cccc4b",
+                "surface-container-high": "#ede6ee",
+                "outline": "#7e747e",
+                "on-surface": "#1d1a20",
+                "surface": "#fef7ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px",
+                "2xl": "1.5rem"
+        },
+        "spacing": {
+                "lg": "48px",
+                "xs": "4px",
+                "sm": "12px",
+                "base": "8px",
+                "md": "24px",
+                "margin-desktop": "64px",
+                "gutter": "24px",
+                "xl": "80px",
+                "margin-mobile": "16px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Montserrat"
+                ],
+                "headline-lg": [
+                        "Montserrat"
+                ],
+                "label-md": [
+                        "Montserrat"
+                ],
+                "body-md": [
+                        "Montserrat"
+                ],
+                "headline-lg-mobile": [
+                        "Montserrat"
+                ],
+                "body-lg": [
+                        "Montserrat"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.5px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "26px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-background text-on-background antialiased font-body-md">
+<main>
+<!-- Hero Section -->
+<section class="fluid-container py-xl md:py-[120px] relative overflow-hidden">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center relative z-10">
+<div class="flex flex-col gap-md max-w-lg">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight">
+                        Encontre um amigo para a vida toda.
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                        Somos um projeto independente de proteção animal: conectamos animais que precisam de um lar a pessoas interessadas em adoção responsável.
+                    </p>
+<div class="inline-flex w-fit items-center gap-2 rounded-full bg-secondary-container px-4 py-2 font-label-md text-on-secondary-container">
+<span class="material-symbols-outlined">favorite</span> +1.950 animais adotados
+</div>
+<div class="flex flex-wrap gap-sm mt-sm">
+<a class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-95 inline-flex items-center" href="animais-para-adocao.html">
+                            Conheça os animais
+                                                </a>
+<a class="bg-secondary-container text-on-secondary-container font-label-md text-label-md px-lg py-sm rounded-full hover:bg-secondary hover:text-on-secondary transition-colors active:scale-95 inline-flex items-center" href="http://127.0.0.1:8000/quero-ajudar.html">
+                            Quero ajudar
+                                                </a>
+</div>
+</div>
+<div class="relative h-[400px] md:h-[500px] w-full flex justify-center items-center">
+<!-- Organic Background Shape -->
+<div class="absolute inset-0 bg-primary-container opacity-20 organic-blob w-4/5 h-4/5 mx-auto"></div>
+<!-- Hero Image -->
+<div class="relative z-10 w-3/4 h-3/4 organic-blob overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="A high-quality, professional photograph of a happy, healthy golden retriever mix dog looking directly at the camera with a bright, welcoming expression. The dog is outdoors in a softly lit, green park setting during golden hour, emphasizing a warm, nurturing, and reliable atmosphere. The lighting is soft and flattering, highlighting the dog's fur, keeping the background slightly blurred for a modern, clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhHZq6Rjw-HpFuNnBkzvz-MU8NHaG1CeYGijtupl4fw9IWD15d0bO93HEPWBuMRE9XJRyjVO4CnjXf9ZpFn2oTlOjOrLUcQdNi0HS5wjdwMiOoQB2Q4idxHAxj-wJeziZxQcD4H_a37qpp71U8qM3w2oa7WBN4lAhr8f2KfjqXRJtIfv5bJSCihh7cxhQvdt6FM3HMHFxst7aC1qQ1O8NMOpSfBQJvsxsEErsFWTzGTNkL4AW-M2kV">
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Animals -->
+<section class="bg-surface-container-low py-xl">
+  <div class="fluid-container">
+    <div class="flex justify-between items-end mb-lg">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-primary mb-xs">Amigos em destaque</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Prontos para encontrar um lar para sempre.</p>
+      </div>
+      <a class="hidden md:flex items-center gap-xs text-primary font-label-md text-label-md hover:underline" href="animais-para-adocao.html">
+        Ver todos <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </div>
+
+    <!-- Os animais são carregados do MongoDB através da API. -->
+    <div id="featured-animals" class="grid grid-cols-1 md:grid-cols-3 gap-md">
+      <div class="md:col-span-2 bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] p-md animate-pulse">
+        <div class="h-64 rounded-xl bg-surface-container-high"></div>
+      </div>
+      <div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] p-md animate-pulse">
+        <div class="h-48 rounded-xl bg-surface-container-high"></div>
+      </div>
+    </div>
+
+    <p id="featured-empty" class="hidden text-center text-on-surface-variant py-lg">
+      No momento, não há animais disponíveis para adoção.
+    </p>
+
+    <div class="mt-md text-center md:hidden">
+      <a class="inline-flex items-center gap-xs text-primary font-label-md text-label-md hover:underline" href="animais-para-adocao.html">
+        Ver todos os animais <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>
+<!-- How it Works Section -->
+<section class="py-xl fluid-container" id="sobre">
+<div class="text-center mb-lg">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Como Funciona</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Um processo simples e transparente para garantir o melhor "match" possível.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-lg relative">
+<!-- Connecting Line (Desktop) -->
+<div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-[2px] bg-surface-variant -z-10"></div>
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center mb-md shadow-md">
+<span class="material-symbols-outlined text-4xl text-primary">search</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-lg text-on-surface mb-xs">Encontre um animal</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Explore nossos perfis detalhados.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center mb-md shadow-md">
+<span class="material-symbols-outlined text-4xl text-primary">menu_book</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-lg text-on-surface mb-xs">Conheça sua história</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Leia sobre a personalidade e necessidades.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center mb-md shadow-md">
+<span class="material-symbols-outlined text-4xl text-primary">edit_document</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-lg text-on-surface mb-xs">Preencha o formulário</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Conte-nos sobre seu estilo de vida.</p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center mb-md shadow-md">
+<span class="material-symbols-outlined text-4xl text-primary">favorite</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-lg text-on-surface mb-xs">Comece uma nova história</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Leve seu novo melhor amigo para casa.</p>
+</div>
+</div>
+</section>
+<!-- Donation CTA -->
+<section class="bg-primary-container text-on-primary-container py-xl relative overflow-hidden" id="ajudar">
+<!-- Decorative Background Element -->
+<div class="absolute -right-20 -top-20 w-96 h-96 bg-primary rounded-full opacity-50 blur-3xl mix-blend-multiply"></div>
+<div class="fluid-container relative z-10 flex flex-col md:flex-row items-center justify-between gap-lg">
+<div class="max-w-xl">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-sm">Ajude quem precisa</h2>
+<p class="font-body-lg text-body-lg mb-md opacity-90">Sua doação ajuda a fornecer abrigo, cuidados médicos e alimentação para animais resgatados enquanto aguardam um lar definitivo.</p>
+
+<!-- BOTÃO FAZER UMA DOAÇÃO -->
+<button
+    type="button"
+    id="btnDoacao"
+    class="bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md px-lg py-sm rounded-full hover:bg-secondary-container hover:text-on-secondary-container transition-colors shadow-lg active:scale-95 flex items-center gap-xs"
+>
+    Fazer uma doação
+    <span class="material-symbols-outlined">volunteer_activism</span>
+</button>
+
+</div>
+<div class="w-full md:w-1/3 aspect-square max-w-sm">
+<div class="w-full h-full organic-blob-alt overflow-hidden border-4 border-on-primary-container/20">
+<img class="w-full h-full object-cover" data-alt="A close-up, heartwarming shot of a human hand gently petting a small, sleeping puppy. The lighting is warm, soft, and intimate, highlighting the connection between human and animal. The color palette is composed of soft earth tones and warm grays, reinforcing a nurturing and professional brand identity. The image feels authentic, touching, and high-quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuATdHIjJDteme3NqNFg5NfFnBw7WDmiFDhgMIsL1fbAlAIr9fbrhWBBi0xdQ-6fIByyOGIEUri3L1e4T1eWL2Snb24DSFWk-RYWdBlHlnNfASF8PuDS-9c_lbExSsI2k5zjOBpwyiOoc9ucP4oXwWMMO5uXrIje1KgcKEYQmuwvcbtluD07KsbymKxDBBcfYuKZ3O9zAOuC2mETBOxqLwq6n4hZbEVVohd4-dzdPPKo_CQwC-NaFSXU">
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="pa-footer"><div class="pa-footer-inner"><div class="pa-footer-brand"><img class="pa-footer-logo" src="assets/logo-footer.png" alt="Logo Pacotinho de Amor"><div><strong>Pacotinho de Amor</strong><p>Projeto independente dedicado a conectar animais que precisam de um lar a pessoas dispostas a amar para sempre.</p></div></div><nav aria-label="Links do rodapé"><a href="home.html">Início</a><a href="animais-para-adocao.html">Animais</a><a href="sobre-o-projeto.html">Sobre o projeto</a><a href="quero-ajudar.html">Como ajudar</a><a href="rifas.html">Rifas</a><a href="login-adotante.html">Conta</a><a href="login-voluntario.html">Área voluntária</a></nav></div><small>Mais de 1.950 animais adotados com amor. © Pacotinho de Amor</small></footer>
+<!-- Bottom Navigation Shell - Mobile Only -->
+<nav class="md:hidden bg-surface-container-lowest dark:bg-inverse-surface docked full-width bottom-0 rounded-t-xl shadow-lg dark:shadow-none fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform duration-200" href="home.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md mt-1">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="animais-para-adocao.html">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-md text-label-md mt-1">Buscar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="solicitacoes-adocao.html">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-md text-label-md mt-1">Favoritos</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="dashboard-voluntario.html">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md mt-1">Perfil</span>
+</a>
+</nav>
+<script>
+        // Simple script to add slight shadow to top nav on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('top-nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+
+<script>
+(() => {
+  const grid = document.getElementById("featured-animals");
+  const empty = document.getElementById("featured-empty");
+
+  if (!grid) return;
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[char]));
+  }
+
+  function getId(animal) {
+    if (animal && animal._id && typeof animal._id === "object") {
+      return animal._id.$oid || animal._id.toString();
+    }
+    return animal?._id || animal?.id || "";
+  }
+
+  function imageFor(animal) {
+    return animal.image || animal.imagem || animal.photo || animal.foto || "assets/logo-footer.png";
+  }
+
+  function genderIcon(sex) {
+    const value = String(sex || "").toLowerCase();
+    return value.includes("fêmea") || value.includes("femea") ? "female"
+      : value.includes("macho") ? "male"
+      : "pets";
+  }
+
+  function render(animalList) {
+    const available = animalList.filter((animal) => {
+      const status = String(animal.status || "").toLowerCase();
+      return status === "disponível" || status === "disponivel" || !status;
+    });
+
+    if (!available.length) {
+      grid.classList.add("hidden");
+      empty.classList.remove("hidden");
+      return;
+    }
+
+    empty.classList.add("hidden");
+    grid.classList.remove("hidden");
+
+    const featured = available.slice(0, 3);
+
+    grid.innerHTML = featured.map((animal, index) => {
+      const id = getId(animal);
+      const name = animal.name || "Animal";
+      const age = animal.age || "Idade não informada";
+      const size = animal.size || "Porte não informado";
+      const sex = animal.sex || "Sexo não informado";
+      const breed = animal.breed || "Sem raça definida";
+      const description = animal.description || "Este animal está esperando por uma família.";
+      const image = imageFor(animal);
+      const location = animal.location || animal.localizacao || "";
+
+      if (index === 0) {
+        return `
+          <div class="md:col-span-2 bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] overflow-hidden group flex flex-col md:flex-row relative">
+            <div class="w-full md:w-1/2 h-64 md:h-auto relative">
+              <img
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                src="${escapeHTML(image)}"
+                alt="Foto de ${escapeHTML(name)}"
+                onerror="this.src='assets/logo-footer.png'"
+              >
+              <div class="absolute top-sm left-sm bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md px-xs py-base rounded-full backdrop-blur-sm">
+                Disponível
+              </div>
+            </div>
+            <div class="p-md flex flex-col justify-between w-full md:w-1/2">
+              <div>
+                <div class="flex justify-between items-start mb-sm">
+                  <h3 class="font-headline-md text-headline-md text-on-surface">${escapeHTML(name)}</h3>
+                  <button type="button" class="text-outline hover:text-primary transition-colors" aria-label="Favoritar ${escapeHTML(name)}">
+                    <span class="material-symbols-outlined">favorite</span>
+                  </button>
+                </div>
+                <div class="flex flex-wrap gap-xs mb-md">
+                  <span class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-xs py-base rounded-full">${escapeHTML(age)}</span>
+                  <span class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-xs py-base rounded-full">${escapeHTML(size)}</span>
+                  <span class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-xs py-base rounded-full">${escapeHTML(sex)}</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">${escapeHTML(description)}</p>
+                ${location ? `<p class="mt-2 text-sm text-on-surface-variant"><span class="material-symbols-outlined align-middle text-[16px]">location_on</span> ${escapeHTML(location)}</p>` : ""}
+              </div>
+              <a class="mt-md w-full border border-primary text-primary font-label-md text-label-md py-sm rounded-full hover:bg-primary hover:text-on-primary transition-colors inline-flex items-center justify-center" href="detalhes-animal.html?id=${encodeURIComponent(id)}">
+                Conheça ${escapeHTML(name)}
+              </a>
+            </div>
+          </div>`;
+      }
+
+      return `
+        <div class="bg-surface rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.05)] overflow-hidden group flex flex-col">
+          <div class="w-full h-48 relative">
+            <img
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              src="${escapeHTML(image)}"
+              alt="Foto de ${escapeHTML(name)}"
+              onerror="this.src='assets/logo-footer.png'"
+            >
+          </div>
+          <div class="p-md flex flex-col flex-grow justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-sm">
+                <h3 class="font-headline-md text-headline-md text-on-surface text-lg">${escapeHTML(name)}</h3>
+                <button type="button" class="text-outline hover:text-primary transition-colors" aria-label="Favoritar ${escapeHTML(name)}">
+                  <span class="material-symbols-outlined">favorite</span>
+                </button>
+              </div>
+              <p class="text-sm text-on-surface-variant mb-2">${escapeHTML(breed)}</p>
+              <div class="flex flex-wrap gap-xs mb-sm">
+                <span class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-xs py-base rounded-full">${escapeHTML(age)}</span>
+                <span class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-xs py-base rounded-full">${escapeHTML(sex)}</span>
+              </div>
+              ${location ? `<p class="text-sm text-on-surface-variant"><span class="material-symbols-outlined align-middle text-[16px]">location_on</span> ${escapeHTML(location)}</p>` : ""}
+            </div>
+            <a class="mt-sm w-full bg-surface-container-high text-on-surface font-label-md text-label-md py-xs rounded-full hover:bg-primary-container hover:text-on-primary-container transition-colors inline-flex items-center justify-center" href="detalhes-animal.html?id=${encodeURIComponent(id)}">
+              Ver perfil
+            </a>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  async function carregarAnimais() {
+    try {
+      const response = await fetch("/api/animals", {
+        credentials: "include"
+      });
+
+      if (!response.ok) {
+        throw new Error("Não foi possível carregar os animais.");
+      }
+
+      const data = await response.json();
+      const animals = Array.isArray(data) ? data : (data.animals || data.data || []);
+      render(animals);
+    } catch (error) {
+      console.error(error);
+      grid.classList.add("hidden");
+      empty.textContent = "Não foi possível carregar os animais no momento.";
+      empty.classList.remove("hidden");
+    }
+  }
+
+  carregarAnimais();
+})();
+</script>
+
+<script src="shared.js"></script>
+
+<!-- ==================== POP-UP DE DOAÇÃO PIX ==================== -->
+<div
+    id="pixModal"
+    class="fixed inset-0 hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+    style="z-index: 999999;"
+    aria-hidden="true"
+>
+    <div
+        class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pixTitulo"
+    >
+
+        <!-- X PARA FECHAR -->
+        <button
+            type="button"
+            id="fecharPix"
+            aria-label="Fechar"
+            class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-2xl font-bold text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition"
+        >
+            ×
+        </button>
+
+        <!-- ÍCONE -->
+        <div class="text-center pt-2">
+            <span class="material-symbols-outlined text-5xl text-tertiary">
+                volunteer_activism
+            </span>
+        </div>
+
+        <!-- TÍTULO -->
+        <h2
+            id="pixTitulo"
+            class="mt-3 text-center text-2xl font-bold text-gray-800"
+        >
+            Faça uma doação
+        </h2>
+
+        <!-- EXPLICAÇÃO -->
+        <p class="mt-3 text-center text-sm leading-6 text-gray-600">
+            Sua doação será destinada ao
+            <strong>projeto Pacotinho de Amor</strong> e utilizada para ajudar
+            <strong>os animais que mais necessitam</strong>.
+        </p>
+
+        <p class="mt-2 text-center text-sm leading-6 text-gray-500">
+            Toda contribuição ajuda com alimentação, cuidados, atendimento
+            veterinário e outras necessidades dos animais.
+        </p>
+
+        <!-- PIX -->
+        <div class="mt-5 rounded-xl bg-gray-100 p-4 text-center">
+            <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Chave Pix
+            </p>
+
+            <p
+                id="chavePix"
+                class="break-all text-sm font-semibold text-gray-800"
+            >
+                SUA-CHAVE-PIX-AQUI
+            </p>
+        </div>
+
+        <!-- COPIAR PIX -->
+        <button
+            type="button"
+            id="copiarPix"
+            class="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-tertiary-fixed py-3 font-semibold text-on-tertiary-fixed transition hover:opacity-90 active:scale-95"
+        >
+            <span class="material-symbols-outlined text-lg">
+                content_copy
+            </span>
+            Copiar chave Pix
+        </button>
+
+        <!-- CONFIRMAÇÃO -->
+        <p
+            id="pixCopiado"
+            class="mt-3 hidden text-center text-sm font-semibold text-green-600"
+        >
+            Chave Pix copiada!
+        </p>
+
+        <p class="mt-4 text-center text-xs text-gray-400">
+            Obrigado por ajudar a transformar a vida de um animal.
+        </p>
+
+    </div>
+</div>
+
+<script>
+    const btnDoacao = document.getElementById("btnDoacao");
+    const pixModal = document.getElementById("pixModal");
+    const fecharPix = document.getElementById("fecharPix");
+    const copiarPix = document.getElementById("copiarPix");
+    const chavePix = document.getElementById("chavePix");
+    const pixCopiado = document.getElementById("pixCopiado");
+
+    // ABRIR POP-UP SEM MUDAR DE PÁGINA
+    btnDoacao.addEventListener("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        pixModal.classList.remove("hidden");
+        pixModal.classList.add("flex");
+        pixModal.setAttribute("aria-hidden", "false");
+
+        document.body.style.overflow = "hidden";
+    });
+
+    // FECHAR NO X
+    fecharPix.addEventListener("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        fecharModalPix();
+    });
+
+    // FECHAR CLICANDO FORA DA CAIXA
+    pixModal.addEventListener("click", function(event) {
+        if (event.target === pixModal) {
+            fecharModalPix();
+        }
+    });
+
+    // FECHAR COM ESC
+    document.addEventListener("keydown", function(event) {
+        if (
+            event.key === "Escape" &&
+            !pixModal.classList.contains("hidden")
+        ) {
+            fecharModalPix();
+        }
+    });
+
+    function fecharModalPix() {
+        pixModal.classList.add("hidden");
+        pixModal.classList.remove("flex");
+        pixModal.setAttribute("aria-hidden", "true");
+
+        document.body.style.overflow = "";
+
+        pixCopiado.classList.add("hidden");
+    }
+
+    // COPIAR PIX
+    copiarPix.addEventListener("click", async function() {
+        const pix = chavePix.textContent.trim();
+
+        try {
+            await navigator.clipboard.writeText(pix);
+
+            pixCopiado.classList.remove("hidden");
+
+            setTimeout(function() {
+                pixCopiado.classList.add("hidden");
+            }, 2500);
+
+        } catch (error) {
+            alert("Não foi possível copiar a chave Pix.");
+        }
+    });
+</script>
+
+</body></html>

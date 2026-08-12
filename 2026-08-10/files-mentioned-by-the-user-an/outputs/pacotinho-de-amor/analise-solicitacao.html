@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Análise da intenção de adoção - Pacotinho de Amor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#784e87",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1d1a20",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f3ecf4",
+                        "on-tertiary-fixed-variant": "#494900",
+                        "background": "#fef7ff",
+                        "secondary": "#78517a",
+                        "surface-container-high": "#ede6ee",
+                        "primary-container": "#5f376e",
+                        "surface-container-highest": "#e7e0e8",
+                        "primary": "#472056",
+                        "on-secondary-container": "#7b537c",
+                        "surface": "#fef7ff",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#322f35",
+                        "on-secondary-fixed": "#2f0d33",
+                        "secondary-fixed": "#ffd6fc",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#333300",
+                        "surface-dim": "#ded8e0",
+                        "on-primary-fixed-variant": "#5f376e",
+                        "on-tertiary-container": "#bbbb3b",
+                        "tertiary-fixed-dim": "#cccc4b",
+                        "on-primary-fixed": "#2f073f",
+                        "primary-fixed-dim": "#e7b5f6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e7e0e8",
+                        "tertiary-container": "#4a4a00",
+                        "on-secondary-fixed-variant": "#5f3961",
+                        "on-surface-variant": "#4c444d",
+                        "outline": "#7e747e",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f8f1f9",
+                        "secondary-container": "#ffcdfe",
+                        "inverse-primary": "#e7b5f6",
+                        "on-primary-container": "#d5a4e4",
+                        "primary-fixed": "#f9d8ff",
+                        "secondary-fixed-dim": "#e7b7e6",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fef7ff",
+                        "on-tertiary-fixed": "#1d1d00",
+                        "tertiary-fixed": "#e9e964",
+                        "inverse-on-surface": "#f6eef6",
+                        "outline-variant": "#cfc3ce",
+                        "on-background": "#1d1a20"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "xs": "4px",
+                        "md": "24px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "xl": "80px",
+                        "lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Montserrat"],
+                        "body-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["26px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface dark:bg-surface-dim shadow-sm z-50">
+<div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 w-full z-50">
+<button aria-label="Voltar" class="flex items-center justify-center p-2 rounded-full hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors active:scale-95 transition-transform text-on-surface-variant dark:text-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed truncate px-4">
+                Análise: Maria Silva (Luna)
+            </h1>
+<div class="flex items-center gap-4">
+<!-- Trailing space for alignment, usually avatar goes here based on shared components, but the prompt implies this is a detail screen where the back button and title are primary. Keeping space to balance layout. -->
+<div class="w-10 h-10"></div>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full pb-32 md:pb-md">
+<!-- Left Sidebar / Request Overview -->
+<aside class="w-full md:w-80 p-margin-mobile md:p-margin-desktop md:pr-0 flex flex-col gap-6 shrink-0">
+<div class="bg-surface rounded-xl shadow-sm p-6 flex flex-col items-center text-center gap-4 border border-surface-variant">
+<div class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-highest shadow-sm">
+<img alt="Foto da Luna" class="object-cover w-full h-full" data-alt="A close up, high quality studio portrait of a beautiful young female adult cat, likely a mixed breed or domestic shorthair. The cat has soft, well-groomed fur. The lighting is bright and modern, creating a clean, professional aesthetic suitable for a pet adoption profile. The background is a soft, solid light purple or lilac color, consistent with the brand palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMijA3mxgB0qqPylmTM3ZUD8y82dAHthXku73vhkD5qeFGx5vhzi1X40colKSnBO7QGUAzhEN_w0CFgQuUXz8PxFF6XnlQslwOgoRCpANbhNg2Ynry44ZV-OUvx1vHY6wyf0flyyPFeEyiFBLIL8Kj64MvhidzaVucTKOIofRRDDXhs010SRq5gAQFoJnu71o2wereoZVblDLFu220TOcdI2TviN7sXf8zeWh_DFyu33uv9CLvjPmo">
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Luna</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Intenção de adoção</p>
+</div>
+<div class="w-full h-px bg-surface-variant my-2"></div>
+<div class="w-full flex justify-between items-center font-body-md text-body-md">
+<span class="text-on-surface-variant">Status:</span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">
+                        Em análise
+                    </span>
+</div>
+<div class="w-full flex justify-between items-center font-body-md text-body-md">
+<span class="text-on-surface-variant">Data da solicitação:</span>
+<span class="text-on-surface font-semibold">12/08</span>
+</div>
+<div class="w-full flex justify-between items-center font-body-md text-body-md">
+<span class="text-on-surface-variant">Adotante:</span>
+<span class="text-on-surface font-semibold">Maria Silva</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-grow flex flex-col p-margin-mobile md:p-margin-desktop md:pl-md gap-6 overflow-hidden">
+<!-- Tab Navigation (Bento Grid Header Style) -->
+<nav class="flex overflow-x-auto hide-scrollbar gap-2 pb-2 -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+<button class="whitespace-nowrap px-6 py-3 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Dados</button>
+<button class="whitespace-nowrap px-6 py-3 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Família</button>
+<button class="whitespace-nowrap px-6 py-3 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Residência</button>
+<button class="whitespace-nowrap px-6 py-3 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Rotina</button>
+<button class="whitespace-nowrap px-6 py-3 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors">Experiência</button>
+<!-- Active Tab -->
+<button class="whitespace-nowrap px-6 py-3 rounded-full font-label-md text-label-md bg-primary-container text-on-primary-container shadow-sm border border-outline-variant">Segurança / Fotos</button>
+</nav>
+<!-- Content Canvas -->
+<div class="bg-surface rounded-xl shadow-sm border border-surface-variant p-6 flex flex-col gap-8 flex-grow">
+<div class="flex items-center gap-3 pb-4 border-b border-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+<h3 class="font-headline-md text-headline-md text-primary">Gatos: Verificação de segurança</h3>
+</div>
+<!-- Bento Grid Photo Gallery -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group relative bg-surface-container-low rounded-xl overflow-hidden shadow-sm border border-surface-variant hover:shadow-md transition-shadow">
+<div class="aspect-[4/3] w-full overflow-hidden bg-surface-container">
+<img alt="Foto da janela" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A bright, well-lit interior photograph showing a window in a modern apartment. The window is covered with a clear, tightly strung safety net (tela de proteção), typical for preventing cats from falling. The view outside shows a sunny urban landscape. The room is decorated in soft, warm tones, emphasizing a clean, modern, and safe living environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD2fUnMKt-CG1MtAh3TMREK6cvMNEniHAu_wQ-mrD6Et5da4k1Pg0NIkqmPPugh4cIaX_ZTknqUUHbRE_yjCdSzyuwstcU1IyZDW1wMc8fYUk55TU8MdGBgXpzgWppCy4rcybfrgzGGrZ1pzLF9UERHToCJrKbf8gS-bIodfV5MgNDcYid7dF5MVz13SmztD1UpDqEavgmh6bjBKiVX8IwnIQFWccdCwcWqbMcyxW_KTSM70IO70vv">
+</div>
+<div class="p-4 bg-surface">
+<p class="font-label-md text-label-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0; font-size: 18px;">window</span>
+                                Fotos das janelas
+                            </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-surface-container-low rounded-xl overflow-hidden shadow-sm border border-surface-variant hover:shadow-md transition-shadow">
+<div class="aspect-[4/3] w-full overflow-hidden bg-surface-container">
+<img alt="Foto da tela em detalhe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up, detailed photograph of a sturdy safety net (tela de proteção) installed over an opening. The focus is on the mesh pattern and the secure attachment points, demonstrating structural integrity. The background is slightly blurred but suggests a clean, well-maintained residential setting with ample natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsSpmMSFG6Qps-G6vTCysJmf79RzjOpE7HE9qiaTLkvl8UUOIYA5-8npVa_yQOFf6TkRSgot-ec4l9Xh6cIvsPXD4S1roIwPJ4cc8H4fri0JnwQM9lgz3JGB7CMiFAOEAeMeIHwxmyOQNcFwUV7sVxKuJRxHn8DUqh8Xd4SiNAGJ-TLdjFgSchOl-kqA4OeHRuwDNPSb1ap3q8_Jg-5ELXcru2HESFc62a1AAUTMLCk7g-10QsWmej">
+</div>
+<div class="p-4 bg-surface">
+<p class="font-label-md text-label-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0; font-size: 18px;">grid_4x4</span>
+                                Fotos das telas
+                            </p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative bg-surface-container-low rounded-xl overflow-hidden shadow-sm border border-surface-variant hover:shadow-md transition-shadow sm:col-span-2 lg:col-span-1">
+<div class="aspect-[4/3] w-full overflow-hidden bg-surface-container">
+<img alt="Foto da varanda" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A wide-angle, inviting photograph of a modern apartment balcony (varanda). The entire open space is safely enclosed with a high-quality protective net from floor to ceiling. The balcony features cozy seating, some potted plants, and warm, pleasant lighting, creating a perfect, safe outdoor space for a pet. The overall aesthetic is bright, clean, and modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLt9rYMed0mDrhLhIyAIx3AU1uonwQ-vK8iH3_tu2sULTklOM4NWaoHtMwqgQl4kMFxlPSo5A4ZCt1k37WRCy3v7nWAtNz_OxQ5X_JsNFWnYMd5v3yj_Tx9ZmBMJ5Il0fMV7WGiJuvDnn80wd-RevNiP5R4qVYRJMfwan_72Uh8fSYEi8iDIucMiWZDfAHM39TLHkL1OIadqT5bWJtNQgkLrnFe-N0TscobJ4OgVIy6wlYe1GWyQSh">
+</div>
+<div class="p-4 bg-surface">
+<p class="font-label-md text-label-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0; font-size: 18px;">balcony</span>
+                                Fotos da varanda
+                            </p>
+</div>
+</div>
+</div>
+<!-- Observation Field -->
+<div class="mt-4 flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant" for="observacoes">Observações sobre a segurança da residência</label>
+<textarea class="w-full rounded-lg border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline p-4" id="observacoes" placeholder="Adicione notas sobre a avaliação das fotos enviadas..." rows="4"></textarea>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Decision Bar (Sticky Bottom) -->
+<div class="fixed bottom-0 w-full bg-surface shadow-[0_-4px_15px_rgba(95,55,110,0.05)] border-t border-surface-variant z-40 px-margin-mobile md:px-margin-desktop py-4 pb-safe flex flex-col sm:flex-row justify-end items-center gap-4">
+<button class="w-full sm:w-auto px-6 py-3 rounded-full font-label-md text-label-md border-2 border-outline-variant text-on-surface-variant bg-transparent hover:bg-surface-container hover:text-on-surface transition-colors">
+            Recusar
+        </button>
+<button class="w-full sm:w-auto px-6 py-3 rounded-full font-label-md text-label-md border-2 border-secondary text-primary bg-surface hover:bg-secondary-container transition-colors">
+            Solicitar mais informações
+        </button>
+<button class="w-full sm:w-auto px-8 py-3 rounded-full font-label-md text-label-md bg-tertiary-fixed text-on-tertiary-fixed hover:bg-tertiary-fixed-dim shadow-sm transition-colors flex items-center justify-center gap-2">
+            Aprovar para entrevista
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0; font-size: 20px;">check_circle</span>
+</button>
+</div>
+<!-- Spacer for sticky footer -->
+<div class="h-24 sm:h-20 w-full"></div>
+<style>
+        /* Utility to hide scrollbar for horizontal tabs while keeping functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Padding safe area for mobile notches */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .pb-safe {
+                padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+<script src="shared.js"></script>
+</body></html>

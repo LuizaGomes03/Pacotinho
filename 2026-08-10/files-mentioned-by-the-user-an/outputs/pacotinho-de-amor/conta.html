@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Criar conta — Pacotinho de Amor</title>
+
+  <link rel="stylesheet" href="shared.css">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #fef7ff;
+      color: #1d1a20;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 58px 20px 70px;
+    }
+
+    .account-card {
+      background: #fff;
+      border: 1px solid #e7e0e8;
+      border-radius: 22px;
+      padding: 38px;
+      box-shadow: 0 8px 28px rgba(71, 32, 86, .08);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #78517a;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: #472056;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .intro {
+      margin: 12px 0 28px;
+      color: #5b535d;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #472056;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .required {
+      color: #b42318;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 48px;
+      padding: 12px 14px;
+      border: 1px solid #d9d0db;
+      border-radius: 11px;
+      background: #fff;
+      color: #1d1a20;
+      font: 500 14px 'Montserrat', sans-serif;
+      outline: none;
+      transition: .2s ease;
+    }
+
+    input:focus {
+      border-color: #78517a;
+      box-shadow: 0 0 0 3px rgba(120, 81, 122, .12);
+    }
+
+    input:invalid:not(:placeholder-shown) {
+      border-color: #c77;
+    }
+
+    .help {
+      margin: 0;
+      color: #766d77;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .password-rules {
+      margin: 5px 0 0;
+      padding-left: 18px;
+      color: #766d77;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .declarations {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid #e7e0e8;
+    }
+
+    .declarations h2 {
+      margin: 0 0 6px;
+      color: #472056;
+      font-size: 18px;
+    }
+
+    .declarations-intro {
+      margin: 0 0 16px;
+      color: #6b626d;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 13px 0;
+      color: #4c444d;
+      font-size: 13px;
+      line-height: 1.55;
+      cursor: pointer;
+    }
+
+    .check input {
+      width: 18px;
+      min-width: 18px;
+      height: 18px;
+      min-height: 18px;
+      margin: 2px 0 0;
+      accent-color: #472056;
+      box-shadow: none;
+    }
+
+    .check a {
+      color: #472056;
+      font-weight: 700;
+    }
+
+    .submit {
+      width: 100%;
+      min-height: 50px;
+      margin-top: 20px;
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 12px;
+      background: #472056;
+      color: #fff;
+      font: 700 14px 'Montserrat', sans-serif;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .submit:hover:not(:disabled) {
+      background: #5a286d;
+      transform: translateY(-1px);
+    }
+
+    .submit:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-link {
+      margin: 18px 0 0;
+      text-align: center;
+      color: #625a64;
+      font-size: 13px;
+    }
+
+    .login-link a {
+      color: #472056;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 11px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff3f3;
+      border: 1px solid #efcaca;
+      color: #8b2d2d;
+    }
+
+    .message.success {
+      display: block;
+      background: #f3faf4;
+      border: 1px solid #cce6cf;
+      color: #27652e;
+    }
+
+    @media (max-width: 620px) {
+      main {
+        padding: 35px 14px 50px;
+      }
+
+      .account-card {
+        padding: 26px 18px;
+        border-radius: 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <section class="account-card">
+
+      <p class="eyebrow">Área do adotante</p>
+
+      <h1>Crie sua conta</h1>
+
+      <p class="intro">
+        Crie sua conta para acompanhar suas solicitações de adoção,
+        receber informações da equipe e acompanhar as etapas do processo.
+      </p>
+
+      <form id="cadastroAdotante" novalidate>
+
+        <div class="form-grid">
+
+          <div class="field full">
+            <label for="nome">
+              Nome completo <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="nome"
+              name="nome"
+              autocomplete="name"
+              required
+              placeholder="Digite seu nome completo"
+            >
+          </div>
+
+          <div class="field">
+            <label for="email">
+              E-mail <span class="required">*</span>
+            </label>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              required
+              placeholder="seu@email.com"
+            >
+          </div>
+
+          <div class="field">
+            <label for="telefone">
+              Telefone <span class="required">*</span>
+            </label>
+
+            <input
+              type="tel"
+              id="telefone"
+              name="telefone"
+              autocomplete="tel"
+              required
+              placeholder="(11) 99999-9999"
+            >
+          </div>
+
+          <div class="field">
+            <label for="cpf">
+              CPF <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="cpf"
+              name="cpf"
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="14"
+              required
+              placeholder="000.000.000-00"
+            >
+          </div>
+
+          <div class="field">
+            <label for="data-nascimento">
+              Data de nascimento <span class="required">*</span>
+            </label>
+
+            <input
+              type="date"
+              id="data-nascimento"
+              name="data-nascimento"
+              autocomplete="bday"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="password">
+              Senha <span class="required">*</span>
+            </label>
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+              placeholder="Crie uma senha"
+            >
+
+            <ul class="password-rules">
+              <li>Mínimo de 8 caracteres.</li>
+              <li>Evite usar uma senha já utilizada em outro serviço.</li>
+            </ul>
+          </div>
+
+          <div class="field">
+            <label for="confirm-password">
+              Confirmar senha <span class="required">*</span>
+            </label>
+
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirm-password"
+              autocomplete="new-password"
+              minlength="8"
+              required
+              placeholder="Digite a senha novamente"
+            >
+          </div>
+
+        </div>
+
+        <div class="declarations">
+
+          <h2>Declarações e privacidade</h2>
+
+          <p class="declarations-intro">
+            Os dois itens abaixo são obrigatórios para criar sua conta.
+          </p>
+
+          <label class="check">
+            <input
+              type="checkbox"
+              id="aceiteTermos"
+              name="aceiteTermos"
+              required
+            >
+
+            <span>
+              <span class="required">*</span>
+              Declaro que li, compreendi e concordo com os
+              <a
+                href="termos-uso.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Termos de Uso
+              </a>
+              da plataforma.
+            </span>
+          </label>
+
+          <label class="check">
+            <input
+              type="checkbox"
+              id="aceiteLGPD"
+              name="aceiteLGPD"
+              required
+            >
+
+            <span>
+              <span class="required">*</span>
+              Declaro estar ciente de que meus dados pessoais serão
+              tratados para as finalidades relacionadas à criação e
+              utilização da minha conta, conforme a
+              <a
+                href="politica-privacidade.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Política de Privacidade
+              </a>
+              e a legislação aplicável.
+            </span>
+          </label>
+
+        </div>
+
+        <div
+          id="message"
+          class="message"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+        <button
+          type="submit"
+          class="submit"
+          id="submitCadastro"
+          disabled
+        >
+          Criar minha conta
+        </button>
+
+        <p class="login-link">
+          Já possui uma conta?
+          <a href="login-adotante.html">
+            Entrar
+          </a>
+        </p>
+
+      </form>
+
+    </section>
+  </main>
+
+  <script src="shared.js"></script>
+
+  <script>
+    (() => {
+      const form = document.getElementById('cadastroAdotante');
+      const aceiteTermos = document.getElementById('aceiteTermos');
+      const aceiteLGPD = document.getElementById('aceiteLGPD');
+      const submit = document.getElementById('submitCadastro');
+      const message = document.getElementById('message');
+      const senha = document.getElementById('password');
+      const confirmarSenha = document.getElementById('confirm-password');
+      const cpf = document.getElementById('cpf');
+      const telefone = document.getElementById('telefone');
+
+      const API =
+        location.port === '8000'
+          ? '/api'
+          : 'http://127.0.0.1:8000/api';
+
+      function atualizarBotao() {
+        submit.disabled = !(
+          form.checkValidity() &&
+          aceiteTermos.checked &&
+          aceiteLGPD.checked &&
+          senha.value === confirmarSenha.value
+        );
+      }
+
+      function mostrarMensagem(texto, tipo) {
+        message.textContent = texto;
+        message.className = `message ${tipo}`;
+      }
+
+      cpf.addEventListener('input', () => {
+        let value = cpf.value
+          .replace(/\D/g, '')
+          .slice(0, 11);
+
+        value = value.replace(
+          /(\d{3})(\d)/,
+          '$1.$2'
+        );
+
+        value = value.replace(
+          /(\d{3})(\d)/,
+          '$1.$2'
+        );
+
+        value = value.replace(
+          /(\d{3})(\d{1,2})$/,
+          '$1-$2'
+        );
+
+        cpf.value = value;
+        atualizarBotao();
+      });
+
+      telefone.addEventListener('input', () => {
+        let value = telefone.value
+          .replace(/\D/g, '')
+          .slice(0, 11);
+
+        if (value.length <= 10) {
+          value = value.replace(
+            /^(\d{2})(\d{4})(\d{0,4}).*/,
+            '($1) $2-$3'
+          );
+        } else {
+          value = value.replace(
+            /^(\d{2})(\d{5})(\d{0,4}).*/,
+            '($1) $2-$3'
+          );
+        }
+
+        telefone.value = value;
+        atualizarBotao();
+      });
+
+      form.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', atualizarBotao);
+        input.addEventListener('change', atualizarBotao);
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        if (!aceiteTermos.checked || !aceiteLGPD.checked) {
+          mostrarMensagem(
+            'Para criar sua conta, é necessário aceitar os Termos de Uso e declarar ciência sobre a Política de Privacidade.',
+            'error'
+          );
+          return;
+        }
+
+        if (senha.value !== confirmarSenha.value) {
+          mostrarMensagem(
+            'As senhas não são iguais.',
+            'error'
+          );
+          confirmarSenha.focus();
+          return;
+        }
+
+        if (senha.value.length < 8) {
+          mostrarMensagem(
+            'A senha deve ter pelo menos 8 caracteres.',
+            'error'
+          );
+          senha.focus();
+          return;
+        }
+
+        const dados = {
+          nome: document.getElementById('nome').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          telefone: telefone.value.trim(),
+          cpf: cpf.value.trim(),
+          data_nascimento: document.getElementById('data-nascimento').value,
+          senha: senha.value
+        };
+
+        submit.disabled = true;
+        submit.textContent = 'Criando conta...';
+
+        try {
+          const response = await fetch(
+            `${API}/adopters`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              credentials: 'include',
+              body: JSON.stringify(dados)
+            }
+          );
+
+          let result = {};
+
+          try {
+            result = await response.json();
+          } catch {
+            result = {};
+          }
+
+          if (!response.ok) {
+            throw new Error(
+              result.message ||
+              'Não foi possível criar sua conta.'
+            );
+          }
+
+          // A conta foi criada. Agora fazemos o login automaticamente
+          // para que a pessoa já entre na própria área do adotante.
+          const loginResponse = await fetch(
+            `${API}/auth/adopter-login`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                email: dados.email,
+                password: dados.senha
+              })
+            }
+          );
+
+          let loginResult = {};
+
+          try {
+            loginResult = await loginResponse.json();
+          } catch {
+            loginResult = {};
+          }
+
+          if (!loginResponse.ok) {
+            throw new Error(
+              loginResult.message ||
+              'A conta foi criada, mas não foi possível iniciar a sessão automaticamente.'
+            );
+          }
+
+          mostrarMensagem(
+            'Conta criada com sucesso! Entrando na sua área...',
+            'success'
+          );
+
+          setTimeout(() => {
+            window.location.href = 'pagina-adotante.html';
+          }, 700);
+
+        } catch (error) {
+          mostrarMensagem(
+            error.message ||
+            'Não foi possível conectar ao servidor.',
+            'error'
+          );
+
+          submit.disabled = false;
+          submit.textContent = 'Criar minha conta';
+          atualizarBotao();
+        }
+      });
+
+      atualizarBotao();
+    })();
+  </script>
+
+</body>
+</html>

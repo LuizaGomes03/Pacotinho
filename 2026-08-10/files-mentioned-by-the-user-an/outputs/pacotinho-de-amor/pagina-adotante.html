@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Minha área — Pacotinho de Amor</title>
+
+  <link rel="stylesheet" href="shared.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Montserrat, sans-serif;
+      background: #fef7ff;
+      color: #1d1a20;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 58px 20px 72px;
+    }
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #78517a;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: #472056;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .welcome p {
+      max-width: 720px;
+      margin: 12px 0 0;
+      color: #5d555f;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e7e0e8;
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: 0 8px 28px rgba(71, 32, 86, .07);
+    }
+
+    .card+.card {
+      margin-top: 20px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      color: #472056;
+      font-size: 19px;
+    }
+
+    .card-intro {
+      margin: 0 0 20px;
+      color: #6a626c;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .adoption {
+      border: 1px solid #e8dfea;
+      border-radius: 15px;
+      padding: 18px;
+      background: #fcf8fd;
+    }
+
+    .adoption-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .animal-name {
+      margin: 0;
+      color: #472056;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #f1e7f4;
+      color: #472056;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .agenda-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 14px 0;
+      border-top: 1px solid #eee8ef;
+    }
+
+    .agenda-item:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .agenda-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #f3eaf5;
+      color: #472056;
+      font-size: 18px;
+    }
+
+    .agenda-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #472056;
+      font-size: 13px;
+    }
+
+    .agenda-item p {
+      margin: 0;
+      color: #655d67;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .quick-actions {
+      display: grid;
+      gap: 12px;
+    }
+
+    .action {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 16px;
+      border: 1px solid #e7e0e8;
+      border-radius: 14px;
+      background: #f8f1f9;
+      color: inherit;
+      text-decoration: none;
+      transition: .2s ease;
+    }
+
+    .action:hover {
+      background: #ede6ee;
+      border-color: #d5a4e4;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(71, 32, 86, .08);
+    }
+
+    .action strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #472056;
+      font-size: 14px;
+    }
+
+    .action span {
+      display: block;
+      color: #625a64;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .donation-box {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid #e7e0e8;
+      border-radius: 14px;
+      background: #fcf8fd;
+    }
+
+    .donation-box h3 {
+      margin: 0 0 7px;
+      color: #472056;
+      font-size: 15px;
+    }
+
+    .donation-box p {
+      margin: 0;
+      color: #625a64;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .pix-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 45px;
+      margin-top: 13px;
+      padding: 11px 15px;
+      border: 0;
+      border-radius: 11px;
+      background: #472056;
+      color: #fff;
+      font: 700 13px Montserrat, sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .pix-button:hover {
+      background: #5a286d;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 14px;
+      color: #5f5661;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .terms input {
+      width: 16px;
+      min-width: 16px;
+      height: 16px;
+      margin-top: 1px;
+      accent-color: #472056;
+    }
+
+    .terms a {
+      color: #472056;
+      font-weight: 700;
+    }
+
+    .profile-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 11px 0;
+      border-bottom: 1px solid #eee8ef;
+      font-size: 13px;
+    }
+
+    .profile-row:last-child {
+      border-bottom: 0;
+    }
+
+    .profile-row span {
+      color: #756c77;
+    }
+
+    .profile-row strong {
+      color: #3f3742;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .empty {
+      padding: 18px;
+      border-radius: 13px;
+      background: #faf7fb;
+      color: #6d6470;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 820px) {
+      main {
+        padding: 38px 15px 55px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      h1 {
+        font-size: 27px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .adoption-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <section class="welcome">
+      <p class="eyebrow">Área do adotante</p>
+
+      <h1>Olá! Bem-vindo(a) ao Pacotinho de Amor.</h1>
+
+      <p>
+        Aqui você poderá acompanhar suas solicitações de adoção,
+        consultar sua agenda e acessar as principais opções da plataforma.
+      </p>
+    </section>
+
+    <div class="layout">
+
+      <div>
+
+        <section class="card">
+          <h2>Meu processo de adoção</h2>
+
+          <p class="card-intro">
+            Acompanhe por aqui as etapas da sua solicitação.
+          </p>
+
+          <div class="adoption">
+
+            <div class="adoption-top">
+              <p class="animal-name">Nenhum processo iniciado</p>
+              <span class="status">Sem solicitação</span>
+            </div>
+
+            <div class="empty">
+              Você ainda não possui uma solicitação de adoção em andamento.
+              Quando iniciar um processo, o animal e o andamento aparecerão aqui.
+            </div>
+
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Minha agenda</h2>
+
+          <p class="card-intro">
+            Veja seus próximos compromissos relacionados ao processo de adoção.
+          </p>
+
+          <div class="agenda-item">
+            <div class="agenda-icon">📅</div>
+
+            <div>
+              <strong>Nenhum compromisso agendado</strong>
+
+              <p>
+                Quando houver uma visita, videochamada ou outro compromisso,
+                ele aparecerá nesta área.
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <aside>
+
+        <section class="card">
+          <h2>Ações rápidas</h2>
+
+          <p class="card-intro">
+            Acesse rapidamente as principais áreas do projeto.
+          </p>
+
+          <div class="quick-actions">
+
+            <a class="action" href="animais-para-adocao.html">
+              <strong>Ver animais para adoção</strong>
+              <span>
+                Conheça os animais disponíveis e veja seus perfis.
+              </span>
+            </a>
+
+            <a class="action" href="quero-ajudar.html">
+              <strong>Quero ajudar</strong>
+              <span>
+                Conheça as formas de apoiar o Pacotinho de Amor e os animais.
+              </span>
+            </a>
+
+          </div>
+
+          <div class="donation-box">
+
+            <h3>Quero fazer um PIX</h3>
+
+            <p>
+              Você também pode realizar uma contribuição diretamente pelo PIX.
+              O valor recebido é destinado ao projeto e utilizado em necessidades
+              dos animais, como atendimento veterinário, alimentação, transporte
+              e outras despesas necessárias aos cuidados e acolhimento.
+            </p>
+
+            <a class="pix-button" href="quero-ajudar.html#pix">
+              Ver dados para PIX
+            </a>
+
+            <label class="terms">
+              <input type="checkbox" id="pixTerms">
+
+              <span>
+                Estou ciente de que a contribuição será destinada ao
+                <strong>Projeto Pacotinho de Amor</strong> para auxiliar
+                nos cuidados dos animais, conforme as necessidades do projeto.
+                Consulte os
+                <a href="termos-uso.html" target="_blank" rel="noopener noreferrer">
+                  Termos de Uso
+                </a>
+                para mais informações.
+              </span>
+            </label>
+
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Meus dados</h2>
+
+          <p class="card-intro">
+            Informações da conta do adotante.
+          </p>
+
+          <div class="profile-row">
+            <span>Nome</span>
+            <strong id="nomeAdotante">Adotante</strong>
+          </div>
+
+          <div class="profile-row">
+            <span>E-mail</span>
+            <strong id="emailAdotante">—</strong>
+          </div>
+        </section>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <script src="shared.js"></script>
+
+  <script>
+    (() => {
+      const API =
+        location.port === '8000'
+          ? '/api'
+          : 'http://127.0.0.1:8000/api';
+
+      const nome = localStorage.getItem('adopter_name');
+      const email = localStorage.getItem('adopter_email');
+
+      // resto do código...
+    })();
+  </script>
+  if (nome) {
+  document.getElementById('nomeAdotante').textContent = nome;
+  }
+
+  if (email) {
+  document.getElementById('emailAdotante').textContent = email;
+  }
+
+  const pixTerms = document.getElementById('pixTerms');
+  const pixButton = document.querySelector('.pix-button');
+
+  pixButton.addEventListener('click', (event) => {
+  if (!pixTerms.checked) {
+  event.preventDefault();
+  alert(
+  'Antes de consultar os dados para PIX, marque a caixa confirmando que você está ciente da destinação da contribuição.'
+  );
+  pixTerms.focus();
+  }
+  });
+
+  async function carregarSessaoSeExistir() {
+  try {
+  const response = await fetch(
+  `${API}/adopters/me`,
+  {
+  credentials: 'include'
+  }
+  );
+
+  if (!response.ok) return;
+
+  const data = await response.json();
+
+  if (data.ok && data.user) {
+  document.getElementById('nomeAdotante').textContent =
+  data.user.name || 'Adotante';
+
+  document.getElementById('emailAdotante').textContent =
+  data.user.email || '—';
+  }
+  } catch {
+  // A tela continua funcionando enquanto a autenticação
+  // definitiva não estiver sendo utilizada.
+  }
+  }
+
+  carregarSessaoSeExistir();
+  })();
+  </script>
+
+</body>
+
+</html>api

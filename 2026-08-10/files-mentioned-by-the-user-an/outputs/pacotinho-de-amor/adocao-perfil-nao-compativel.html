@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Adoção Não Aprovada</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#333300",
+                        "secondary-fixed": "#ffd6fc",
+                        "on-primary-fixed-variant": "#5f376e",
+                        "on-secondary-fixed": "#2f0d33",
+                        "outline": "#7e747e",
+                        "on-background": "#1d1a20",
+                        "on-primary-fixed": "#2f073f",
+                        "on-tertiary-container": "#bbbb3b",
+                        "tertiary-container": "#4a4a00",
+                        "background": "#fef7ff",
+                        "inverse-surface": "#322f35",
+                        "on-secondary-container": "#7b537c",
+                        "tertiary-fixed": "#e9e964",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#d5a4e4",
+                        "tertiary-fixed-dim": "#cccc4b",
+                        "on-tertiary-fixed-variant": "#494900",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fef7ff",
+                        "surface-tint": "#784e87",
+                        "surface-container": "#f3ecf4",
+                        "on-tertiary-fixed": "#1d1d00",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f6eef6",
+                        "outline-variant": "#cfc3ce",
+                        "surface-container-high": "#ede6ee",
+                        "surface-variant": "#e7e0e8",
+                        "surface-container-low": "#f8f1f9",
+                        "secondary-fixed-dim": "#e7b7e6",
+                        "primary-container": "#5f376e",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#4c444d",
+                        "secondary-container": "#ffcdfe",
+                        "on-surface": "#1d1a20",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#f9d8ff",
+                        "surface-dim": "#ded8e0",
+                        "secondary": "#78517a",
+                        "surface-container-highest": "#e7e0e8",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fef7ff",
+                        "on-secondary-fixed-variant": "#5f3961",
+                        "primary-fixed-dim": "#e7b5f6",
+                        "inverse-primary": "#e7b5f6",
+                        "primary": "#472056"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "12px",
+                        "lg": "48px",
+                        "md": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "xl": "80px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Montserrat", "sans-serif"],
+                        "headline-lg": ["Montserrat", "sans-serif"],
+                        "headline-lg-mobile": ["Montserrat", "sans-serif"],
+                        "label-md": ["Montserrat", "sans-serif"],
+                        "body-md": ["Montserrat", "sans-serif"],
+                        "headline-md": ["Montserrat", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["26px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body { font-family: 'Montserrat', sans-serif; }
+    </style>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar (Transactional - Hidden Navigation Elements) -->
+<header class="w-full top-0 sticky bg-surface shadow-sm z-50 flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 w-full">
+<div class="flex items-center gap-xs text-primary cursor-pointer hover:bg-surface-container transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold text-primary text-center w-full">
+            Pacotinho de Amor
+        </div>
+<div class="w-10"></div> <!-- Spacer for balance -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop bg-surface-container-low">
+<!-- Glassmorphism Card Container -->
+<section class="max-w-2xl w-full bg-surface-container-lowest rounded-xl shadow-lg p-lg border border-surface-container border-opacity-50 relative overflow-hidden flex flex-col items-center text-center">
+<!-- Subtle Decorative Element -->
+<div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary via-secondary to-primary-fixed"></div>
+<!-- Icon Indicator -->
+<div class="w-20 h-20 rounded-full bg-surface-container-highest flex items-center justify-center mb-md shadow-sm">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant">info</span>
+</div>
+<!-- Headline -->
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-md">
+                Status da Adoção
+            </h1>
+<!-- Message Body -->
+<div class="bg-surface-container rounded-lg p-md mb-lg border-l-4 border-primary">
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-prose mx-auto">
+                    Neste momento, não foi possível seguir com a adoção da Luna. Cada animal possui necessidades e características específicas, e nossa prioridade é sempre encontrar o lar mais adequado para ele.
+                </p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm">
+                    Agradecemos imensamente o seu interesse e o amor que você tem pelos animais.
+                </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row gap-sm w-full md:w-auto">
+<button class="flex items-center justify-center gap-xs px-md py-sm bg-primary text-on-primary rounded-full font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors shadow-sm hover:shadow-md w-full sm:w-auto active:scale-95">
+<span class="material-symbols-outlined text-lg">search</span>
+                    Conhecer outros animais
+                </button>
+<button class="flex items-center justify-center gap-xs px-md py-sm bg-transparent border border-secondary text-primary rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors w-full sm:w-auto active:scale-95">
+<span class="material-symbols-outlined text-lg">home</span>
+                    Voltar para o início
+                </button>
+</div>
+</section>
+</main>
+<script src="shared.js"></script>
+</body></html>

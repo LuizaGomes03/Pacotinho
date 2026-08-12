@@ -1,0 +1,195 @@
+<!DOCTYPE html><html class="light" lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Status da Adoção</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#333300",
+                        "secondary-fixed": "#ffd6fc",
+                        "on-primary-fixed-variant": "#5f376e",
+                        "on-secondary-fixed": "#2f0d33",
+                        "outline": "#7e747e",
+                        "on-background": "#1d1a20",
+                        "on-primary-fixed": "#2f073f",
+                        "on-tertiary-container": "#bbbb3b",
+                        "tertiary-container": "#4a4a00",
+                        "background": "#fef7ff",
+                        "inverse-surface": "#322f35",
+                        "on-secondary-container": "#7b537c",
+                        "tertiary-fixed": "#e9e964",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#d5a4e4",
+                        "tertiary-fixed-dim": "#cccc4b",
+                        "on-tertiary-fixed-variant": "#494900",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fef7ff",
+                        "surface-tint": "#784e87",
+                        "surface-container": "#f3ecf4",
+                        "on-tertiary-fixed": "#1d1d00",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f6eef6",
+                        "outline-variant": "#cfc3ce",
+                        "surface-container-high": "#ede6ee",
+                        "surface-variant": "#e7e0e8",
+                        "surface-container-low": "#f8f1f9",
+                        "secondary-fixed-dim": "#e7b7e6",
+                        "primary-container": "#5f376e",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#4c444d",
+                        "secondary-container": "#ffcdfe",
+                        "on-surface": "#1d1a20",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#f9d8ff",
+                        "surface-dim": "#ded8e0",
+                        "secondary": "#78517a",
+                        "surface-container-highest": "#e7e0e8",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fef7ff",
+                        "on-secondary-fixed-variant": "#5f3961",
+                        "primary-fixed-dim": "#e7b5f6",
+                        "inverse-primary": "#e7b5f6",
+                        "primary": "#472056"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "12px",
+                        "lg": "48px",
+                        "md": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "xl": "80px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-md": ["Montserrat"],
+                        "body-md": ["Montserrat"],
+                        "headline-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["26px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Montserrat', sans-serif; }
+    </style>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col relative pb-32 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface dark:bg-surface-dim shadow-sm flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 z-50 transition-transform active:scale-95">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Pacotinho de Amor</h1>
+<div class="flex items-center justify-center">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img alt="Luna, a gata" class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of Luna, a gata. The image shows a close-up of a gentle, domestic shorthair cat with soft fur and bright eyes. The background is a soft, muted pastel color that compliments the warm, professional aesthetic of the UI. The lighting is soft and studio-quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1vQAQxC9lA30s0Qt8hUz7zG3H2miCHf5Zul41lo7UOE6k7_g4QakQn3hplgfMHYJqAeHDv8NXFUepri3e77JM6Rrgrpt375NW5CLWWcmsR6yuM1NPcOKDrBgxFF3Vim5F3CVsLeRQGLtEkTu_RD-swFu5Y3rf9JBpBkfV6U3j-B1zlxQQDm6YYFGl4-7_dncx_RQGqbj_O6RSrgI3gCoK6FBtbz72zuKEljfLiu_C5bPziN_Dt6js">
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center px-margin-mobile md:px-margin-desktop py-lg max-w-4xl mx-auto w-full">
+<!-- Hero Section -->
+<div class="flex flex-col md:flex-row items-center justify-center gap-md mb-xl w-full">
+<div class="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg border-4 border-surface-container-lowest shrink-0">
+<img alt="Luna" class="w-full h-full object-cover" data-alt="A high-quality, professional photograph of a beautiful, healthy dog named Luna in a bright, modern indoor setting. Luna is looking directly at the camera with a calm, attentive expression. The lighting is soft and natural, creating a warm, inviting atmosphere. The background is slightly blurred, emphasizing Luna as the main subject. The overall aesthetic is professional, heartwarming, and aligned with a premium pet adoption service." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqIp5avOiLD0e6wFFlwQ7zW0aRpizAAeKivm-6YuWVVq5gH6C0tspjCVCDIQpMRwvL9HJ2_ksjvSGBtwQjAtRb6sfrCiJzs9PB334KCBuFbb5O-qnUYTr_5ndw3jJ1yQr1fv71XztEwHx20DZXwtKVkMWMGIUPxiFTfcq_PQgygD_UQLuPlwxZC-lnAI8b-YtjZx1tRBdOZzXYJwEMojkjNFKnbAqq5HzObu2Lq67wiNHGDm2fR4mN">
+</div>
+<div class="text-center md:text-left flex-1 max-w-lg">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-sm">Fase de Entrevista</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Queremos conhecer você um pouco melhor. Nossa equipe entrará em contato para conversar sobre você, sua rotina e a adaptação da Luna à sua futura casa.
+                </p>
+</div>
+</div>
+<!-- Timeline Section -->
+<div class="w-full max-w-2xl bg-surface-container-lowest rounded-xl shadow-[0_2px_15px_rgba(95,55,110,0.05)] p-md mb-xl">
+<h3 class="font-headline-md text-headline-md text-primary mb-lg text-center">Progresso da Adoção</h3>
+<div class="relative flex flex-col space-y-md">
+<!-- Timeline Line -->
+<div class="absolute left-[27px] top-[24px] bottom-[24px] w-0.5 bg-surface-variant z-0 hidden md:block"></div>
+<!-- Step 1: Análise (Completed) -->
+<div class="flex items-start relative z-10">
+<div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center shrink-0 mr-md shadow-sm border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="pt-sm">
+<h4 class="font-label-md text-label-md text-on-surface">1. Análise do Perfil</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Suas informações foram analisadas e aprovadas.</p>
+</div>
+</div>
+<!-- Step 2: Entrevista (Current) -->
+<div class="flex items-start relative z-10">
+<div class="w-14 h-14 rounded-full bg-primary flex items-center justify-center shrink-0 mr-md shadow-md border-4 border-surface-container-lowest ring-2 ring-primary-container">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">record_voice_over</span>
+</div>
+<div class="pt-sm">
+<h4 class="font-label-md text-label-md text-primary font-bold">2. Entrevista</h4>
+<p class="font-body-md text-body-md text-primary-container">Aguarde o contato da nossa equipe.</p>
+</div>
+</div>
+<!-- Step 3: Visita (Pending) -->
+<div class="flex items-start relative z-10">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center shrink-0 mr-md border-2 border-surface-variant">
+<span class="material-symbols-outlined text-outline" style="font-variation-settings: 'FILL' 0;">home</span>
+</div>
+<div class="pt-sm">
+<h4 class="font-label-md text-label-md text-outline">3. Visita</h4>
+<p class="font-body-md text-body-md text-outline-variant">Conheça a Luna pessoalmente.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="px-lg py-sm rounded-full border-2 border-[#B98CB9] text-primary font-label-md text-label-md hover:bg-surface-container hover:shadow-sm transition-all duration-200">
+            Voltar para o início
+        </button>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 pb-safe bg-surface dark:bg-surface-dim shadow-[0_-2px_10px_rgba(95,55,110,0.08)] z-50 md:hidden">
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-full px-5 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md mt-1">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">pets</span>
+<span class="font-label-md text-label-md mt-1">Pets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chat_bubble</span>
+<span class="font-label-md text-label-md mt-1">Mensagens</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-md text-label-md mt-1">Perfil</span>
+</a>
+</nav>
+<script src="shared.js"></script>
+</body></html>
