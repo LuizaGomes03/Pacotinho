@@ -4,11 +4,12 @@ import hashlib
 import json
 import os
 import secrets
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from http.cookies import SimpleCookie
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
+from urllib.request import Request as UrlRequest, urlopen
 
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
@@ -42,6 +43,15 @@ def load_env():
 
 
 load_env()
+
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
+WHATSAPP_ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN", "").strip()
+WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "").strip()
+WHATSAPP_API_VERSION = os.getenv("WHATSAPP_API_VERSION", "v23.0").strip()
+WHATSAPP_TEMPLATE_FIRST_PHASE = os.getenv("WHATSAPP_TEMPLATE_FIRST_PHASE", "").strip()
+WHATSAPP_TEMPLATE_APPROVED = os.getenv("WHATSAPP_TEMPLATE_APPROVED", "").strip()
+WHATSAPP_TEMPLATE_PASSWORD_RESET = os.getenv("WHATSAPP_TEMPLATE_PASSWORD_RESET", "").strip()
+WHATSAPP_TEMPLATE_LANGUAGE = os.getenv("WHATSAPP_TEMPLATE_LANGUAGE", "pt_BR").strip()
 
 MONGODB_URI = os.getenv("MONGODB_URI")
 
@@ -93,6 +103,8 @@ def serialize(doc):
     # Nunca enviar hash de senha para o navegador.
     result.pop("password_hash", None)
     result.pop("password", None)
+    # Campo usado somente pelo TTL do MongoDB para limpar histórico após 30 dias.
+    result.pop("history_expires_at", None)
 
     return result
 
@@ -351,7 +363,149 @@ def init_db():
         name="unique_adopter_cpf",
     )
 
+    # Solicitações recusadas ficam disponíveis para reversão por 30 dias.
+    # Depois disso, o MongoDB remove o documento automaticamente.
+    db.volunteer_requests.create_index(
+        "history_expires_at",
+        expireAfterSeconds=0,
+        name="volunteer_request_history_ttl",
+    )
+
     init_event_indexes()
+
+
+def normalizar_telefone_whatsapp(value):
+    digits = "".join(ch for ch in str(value or "") if ch.isdigit())
+    if digits.startswith("55") and len(digits) >= 12:
+        return digits
+    if len(digits) in (10, 11):
+        return "55" + digits
+    return digits
+
+
+def _whatsapp_post(payload):
+    if not WHATSAPP_ACCESS_TOKEN or not WHATSAPP_PHONE_NUMBER_ID:
+        return {
+            "sent": False,
+            "message": "API do WhatsApp não configurada."
+        }
+
+    request = UrlRequest(
+        f"https://graph.facebook.com/{WHATSAPP_API_VERSION}/{WHATSAPP_PHONE_NUMBER_ID}/messages",
+        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {WHATSAPP_ACCESS_TOKEN}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+
+    try:
+        with urlopen(request, timeout=20) as response:
+            body = response.read().decode("utf-8", errors="replace")
+        return {"sent": True, "response": body, "message": "Mensagem enviada pelo WhatsApp."}
+    except Exception as exc:
+        return {"sent": False, "message": f"Não foi possível enviar pelo WhatsApp: {exc}"}
+
+
+def _enviar_template(telefone, template_name, components=None):
+    numero = normalizar_telefone_whatsapp(telefone)
+    if not numero:
+        return {"sent": False, "message": "Telefone inválido para WhatsApp."}
+    if not template_name:
+        return {"sent": False, "message": "Template do WhatsApp não configurado."}
+
+    template = {
+        "name": template_name,
+        "language": {"code": WHATSAPP_TEMPLATE_LANGUAGE},
+    }
+    if components:
+        template["components"] = components
+
+    return _whatsapp_post({
+        "messaging_product": "whatsapp",
+        "to": numero,
+        "type": "template",
+        "template": template,
+    })
+
+
+def enviar_whatsapp_primeira_fase(telefone, nome):
+    # Para mensagem iniciada pelo projeto, use template aprovado pela Meta.
+    if WHATSAPP_TEMPLATE_FIRST_PHASE:
+        return _enviar_template(
+            telefone,
+            WHATSAPP_TEMPLATE_FIRST_PHASE,
+            [{
+                "type": "body",
+                "parameters": [{"type": "text", "text": nome}],
+            }],
+        )
+
+    # Fallback local apenas para teste/desenvolvimento.
+    numero = normalizar_telefone_whatsapp(telefone)
+    mensagem = (
+        f"Olá, {nome}! 💜\n\n"
+        "Você passou para a primeira fase do processo de voluntariado do "
+        "Pacotinho de Amor! 🐾\n\n"
+        "O próximo passo é uma breve entrevista com nossa equipe."
+    )
+    return {
+        "sent": False,
+        "whatsapp_url": f"https://wa.me/{numero}?text={quote(mensagem)}" if numero else None,
+        "message": "Configure WHATSAPP_TEMPLATE_FIRST_PHASE para envio automático.",
+    }
+
+
+def enviar_whatsapp_conta_criada(telefone, nome, email, activation_token):
+    link = f"{PUBLIC_BASE_URL}/primeiro-acesso-voluntario.html?token={quote(activation_token)}"
+
+    if WHATSAPP_TEMPLATE_APPROVED:
+        return _enviar_template(
+            telefone,
+            WHATSAPP_TEMPLATE_APPROVED,
+            [{
+                "type": "body",
+                "parameters": [
+                    {"type": "text", "text": nome},
+                    {"type": "text", "text": link},
+                ],
+            }],
+        )
+
+    numero = normalizar_telefone_whatsapp(telefone)
+    mensagem = (
+        f"Olá, {nome}! 💜\n\n"
+        "Sua aprovação final como voluntário(a) do Pacotinho de Amor foi concluída. "
+        "Sua conta já foi criada com o seu e-mail.\n\n"
+        f"E-mail: {email}\n\n"
+        "Para criar sua senha e ativar o acesso, use este link:\n"
+        f"{link}\n\n"
+        "Você não precisa criar outro cadastro. Seus dados já foram registrados pela equipe."
+    )
+    return {
+        "sent": False,
+        "whatsapp_url": f"https://wa.me/{numero}?text={quote(mensagem)}" if numero else None,
+        "message": "Configure WHATSAPP_TEMPLATE_APPROVED para envio automático.",
+        "first_access_url": link,
+    }
+
+
+def enviar_whatsapp_recuperacao(telefone, nome, token):
+    link = f"{PUBLIC_BASE_URL}/primeiro-acesso-voluntario.html?token={quote(token)}&mode=reset"
+    if WHATSAPP_TEMPLATE_PASSWORD_RESET:
+        return _enviar_template(
+            telefone,
+            WHATSAPP_TEMPLATE_PASSWORD_RESET,
+            [{
+                "type": "body",
+                "parameters": [
+                    {"type": "text", "text": nome},
+                    {"type": "text", "text": link},
+                ],
+            }],
+        )
+    return {"sent": False, "message": "Configure WHATSAPP_TEMPLATE_PASSWORD_RESET para recuperação automática.", "first_access_url": link}
 
 
 # ============================================================
@@ -548,6 +702,31 @@ class App(SimpleHTTPRequestHandler):
 
 
         # ----------------------------------------------------
+        # SOLICITAÇÕES DE VOLUNTÁRIOS - MASTER
+        # ----------------------------------------------------
+
+        if path == "/api/volunteer-requests":
+            if not is_master(self):
+                return self.send_json(
+                    403,
+                    {
+                        "ok": False,
+                        "message": "Somente a conta Master pode consultar solicitações de voluntários.",
+                    },
+                )
+
+            requests = db.volunteer_requests.find().sort(
+                "created_at",
+                -1,
+            )
+
+            return self.send_json(
+                200,
+                serialize_list(requests),
+            )
+
+
+        # ----------------------------------------------------
         # EVENTOS
         # ----------------------------------------------------
 
@@ -678,6 +857,44 @@ class App(SimpleHTTPRequestHandler):
             )
 
 
+        if path == "/api/auth/volunteer-first-access":
+            query = parse_qs(urlparse(self.path).query)
+            token = query.get("token", [""])[0].strip()
+            mode = query.get("mode", ["first"])[0].strip().lower()
+            if not token:
+                return self.send_json(400, {"ok": False, "message": "Token de acesso ausente."})
+
+            if mode == "reset":
+                volunteer = db.volunteers.find_one({
+                    "password_reset_token": token,
+                    "password_reset_expires_at": {"$gt": datetime.now(timezone.utc)},
+                })
+            else:
+                volunteer = db.volunteers.find_one({"activation_token": token, "first_access_completed": False})
+
+            if not volunteer:
+                return self.send_json(404, {"ok": False, "message": "Link inválido, expirado ou já utilizado."})
+
+            return self.send_json(200, {
+                "ok": True,
+                "mode": mode,
+                "user": {"name": volunteer.get("name", ""), "email": volunteer.get("email", "")},
+            })
+
+        if path == "/api/auth/volunteer-password-help":
+            email = str(parse_qs(urlparse(self.path).query).get("email", [""])[0]).strip().lower()
+            if not email:
+                return self.send_json(400, {"ok": False, "message": "Informe seu e-mail."})
+            volunteer = db.volunteers.find_one({"email": email})
+            # Resposta genérica para não revelar se o e-mail existe.
+            if not volunteer:
+                return self.send_json(200, {"ok": True, "message": "Se houver uma conta de voluntário com este e-mail, enviaremos um link pelo WhatsApp cadastrado."})
+            token = secrets.token_urlsafe(32)
+            expires = datetime.now(timezone.utc) + timedelta(minutes=30)
+            db.volunteers.update_one({"_id": volunteer["_id"]}, {"$set": {"password_reset_token": token, "password_reset_expires_at": expires}})
+            whatsapp = enviar_whatsapp_recuperacao(volunteer.get("phone", ""), volunteer.get("name", "voluntário(a)"), token)
+            return self.send_json(200, {"ok": True, "message": "Se houver uma conta de voluntário com este e-mail, enviaremos um link pelo WhatsApp cadastrado.", "whatsapp_sent": whatsapp.get("sent", False)})
+
         return super().do_GET()
 
 
@@ -688,6 +905,172 @@ class App(SimpleHTTPRequestHandler):
     def do_POST(self):
         path = urlparse(self.path).path
         data = self.body()
+
+        # ----------------------------------------------------
+        # PRIMEIRO ACESSO DO VOLUNTÁRIO
+        # ----------------------------------------------------
+        if path == "/api/auth/volunteer-first-access":
+            token = str(data.get("token", "")).strip()
+            senha = str(data.get("senha", ""))
+            mode = str(data.get("mode", "first")).strip().lower()
+
+            if not token or len(senha) < 8:
+                return self.send_json(400, {"ok": False, "message": "Informe um link válido e uma senha com pelo menos 8 caracteres."})
+
+            if mode == "reset":
+                volunteer = db.volunteers.find_one({
+                    "password_reset_token": token,
+                    "password_reset_expires_at": {"$gt": datetime.now(timezone.utc)},
+                })
+                if not volunteer:
+                    return self.send_json(404, {"ok": False, "message": "Link inválido ou expirado."})
+                unset = {"password_reset_token": "", "password_reset_expires_at": ""}
+                first_access = bool(volunteer.get("first_access_completed"))
+            else:
+                volunteer = db.volunteers.find_one({"activation_token": token, "first_access_completed": False})
+                if not volunteer:
+                    return self.send_json(404, {"ok": False, "message": "Link de primeiro acesso inválido ou já utilizado."})
+                unset = {"activation_token": ""}
+                first_access = True
+
+            updates = {
+                "password_hash": hash_password(senha),
+                "first_access_completed": True,
+                "first_access_completed_at": now(),
+            }
+            db.volunteers.update_one({"_id": volunteer["_id"]}, {"$set": updates, "$unset": unset})
+
+            return self.send_json(200, {
+                "ok": True,
+                "message": "Senha criada com sucesso. Agora você pode entrar com seu e-mail e senha."
+            })
+
+
+        # ----------------------------------------------------
+        # CADASTRO DE VOLUNTÁRIO - PÚBLICO
+        # ----------------------------------------------------
+
+        if path == "/api/volunteer-requests":
+            nome = str(data.get("nome", "")).strip()
+            email = str(data.get("email", "")).strip().lower()
+            telefone = str(data.get("telefone", "")).strip()
+            disponibilidade = str(
+                data.get("disponibilidade", "")
+            ).strip()
+
+            modalidades = data.get("modalidades", [])
+
+            if not isinstance(modalidades, list):
+                modalidades = [modalidades] if modalidades else []
+
+            modalidades = [
+                str(item).strip()
+                for item in modalidades
+                if str(item).strip()
+            ]
+
+            modalidades_permitidas = {
+                "Feirinha de adoção",
+                "Táxi Dog",
+                "Passeador(a)",
+            }
+
+            if any(
+                item not in modalidades_permitidas
+                for item in modalidades
+            ):
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "Uma ou mais formas de voluntariado são inválidas.",
+                    },
+                )
+
+            if not nome or not email or not telefone or not disponibilidade:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "Preencha nome, e-mail, telefone e disponibilidade.",
+                    },
+                )
+
+            if not modalidades:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "Selecione pelo menos uma forma de voluntariado.",
+                    },
+                )
+
+            if "@" not in email:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "Informe um e-mail válido.",
+                    },
+                )
+
+            if not bool(data.get("aceiteTermo")) or not bool(
+                data.get("aceiteLGPD")
+            ):
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "É necessário aceitar o Termo e confirmar a ciência sobre o tratamento dos dados.",
+                    },
+                )
+
+            pendente = db.volunteer_requests.find_one(
+                {
+                    "email": email,
+                    "status": "pending",
+                }
+            )
+
+            if pendente:
+                return self.send_json(
+                    409,
+                    {
+                        "ok": False,
+                        "message": "Já existe um cadastro de voluntariado pendente para este e-mail.",
+                    },
+                )
+
+            request = {
+                "name": nome,
+                "email": email,
+                "phone": telefone,
+                "modalidades": modalidades,
+                "disponibilidade": disponibilidade,
+                "aceiteTermo": True,
+                "aceiteLGPD": True,
+                "aceiteImagem": bool(
+                    data.get("aceiteImagem")
+                ),
+                "termoEnviado": bool(
+                    data.get("termoEnviado")
+                ),
+                "status": "pending",
+                "created_at": now(),
+            }
+
+            result = db.volunteer_requests.insert_one(
+                request
+            )
+
+            return self.send_json(
+                201,
+                {
+                    "ok": True,
+                    "id": str(result.inserted_id),
+                    "message": "Cadastro de voluntário enviado com sucesso.",
+                },
+            )
 
 
         # ----------------------------------------------------
@@ -1006,7 +1389,6 @@ class App(SimpleHTTPRequestHandler):
                         {
                             "ok": True,
                             "message": "Acesso Master autorizado.",
-                            "user_type": "master",
                             "user": serialize(master),
                         },
                         ensure_ascii=False,
@@ -1076,7 +1458,6 @@ class App(SimpleHTTPRequestHandler):
                     {
                         "ok": True,
                         "message": "Acesso autorizado.",
-                        "user_type": "volunteer",
                         "user": serialize(volunteer),
                     },
                     ensure_ascii=False,
@@ -1482,69 +1863,160 @@ class App(SimpleHTTPRequestHandler):
         data = self.body()
 
         # ====================================================
-        # PERFIL DA CONTA MASTER
+        # APROVAR / RECUSAR CADASTRO DE VOLUNTÁRIO - MASTER
         # ====================================================
-        if path == "/api/auth/master-profile":
-            master = get_master_from_session(self)
-            if not master or str(master.get("role", "")).upper() != "MASTER":
-                return self.send_json(401, {
+
+        if path.startswith("/api/volunteer-requests/"):
+            if not is_master(self):
+                return self.send_json(403, {
                     "ok": False,
-                    "message": "Você precisa estar conectado como conta Master.",
+                    "message": "Somente a conta Master pode analisar solicitações de voluntários.",
                 })
 
-            updates = {}
+            request_id = path.rsplit("/", 1)[-1]
+            request_object_id = object_id(request_id)
+            if not request_object_id:
+                return self.send_json(400, {"ok": False, "message": "ID de solicitação inválido."})
 
-            if "nome" in data:
-                nome = str(data.get("nome", "")).strip()
-                if not nome:
-                    return self.send_json(400, {"ok": False, "message": "Informe seu nome."})
-                updates["name"] = nome
-                # Mantém compatibilidade caso algum dado antigo use nome.
-                updates["nome"] = nome
+            status = str(data.get("status", "")).strip().lower()
+            allowed = {"first_phase", "approved", "rejected", "revert"}
+            if status not in allowed:
+                return self.send_json(400, {"ok": False, "message": "Status inválido."})
 
-            if "email" in data:
-                email = str(data.get("email", "")).strip().lower()
-                if not email or "@" not in email:
-                    return self.send_json(400, {"ok": False, "message": "Informe um e-mail válido."})
-                existente = db.accounts.find_one({
-                    "email": email,
-                    "_id": {"$ne": master["_id"]},
+            request = db.volunteer_requests.find_one({"_id": request_object_id})
+            if not request:
+                return self.send_json(404, {"ok": False, "message": "Solicitação de voluntariado não encontrada."})
+
+            current = str(request.get("status", "pending")).lower()
+            master_id = str(get_session(self)["user_id"])
+
+            # Reverter uma recusa: volta para a fila pendente e remove o TTL.
+            if status == "revert":
+                if current != "rejected":
+                    return self.send_json(409, {"ok": False, "message": "Somente solicitações recusadas podem ser revertidas."})
+                result = db.volunteer_requests.update_one(
+                    {"_id": request_object_id},
+                    {"$set": {"status": "pending"}, "$unset": {"history_expires_at": "", "reviewed_at": "", "reviewed_by": ""}},
+                )
+                return self.send_json(200, {"ok": True, "modified": result.modified_count, "message": "Solicitação revertida para pendente."})
+
+            # Recusar em qualquer fase anterior à aprovação final.
+            if status == "rejected":
+                result = db.volunteer_requests.update_one(
+                    {"_id": request_object_id},
+                    {"$set": {
+                        "status": "rejected",
+                        "reviewed_by": master_id,
+                        "reviewed_at": now(),
+                        "rejected_at": now(),
+                        "history_expires_at": datetime.now(timezone.utc) + timedelta(days=30),
+                    }},
+                )
+                return self.send_json(200, {"ok": True, "modified": result.modified_count, "message": "Solicitação recusada."})
+
+            # Primeira aprovação: somente entrevista. NÃO cria conta.
+            if status == "first_phase":
+                if current != "pending":
+                    return self.send_json(409, {"ok": False, "message": "Esta solicitação não está mais pendente."})
+
+                nome = str(request.get("name", request.get("nome", ""))).strip() or "voluntário(a)"
+                whatsapp = enviar_whatsapp_primeira_fase(request.get("phone", request.get("telefone", "")), nome)
+
+                result = db.volunteer_requests.update_one(
+                    {"_id": request_object_id},
+                    {"$set": {
+                        "status": "first_phase",
+                        "first_phase_at": now(),
+                        "reviewed_by": master_id,
+                        "reviewed_at": now(),
+                        "whatsapp_first_phase_sent": bool(whatsapp.get("sent")),
+                    }, "$unset": {"history_expires_at": ""}},
+                )
+
+                return self.send_json(200, {
+                    "ok": True,
+                    "modified": result.modified_count,
+                    "message": "Pessoa aprovada para a primeira fase. A conta de voluntário ainda não foi criada.",
+                    "whatsapp_sent": whatsapp.get("sent", False),
+                    "whatsapp_url": whatsapp.get("whatsapp_url"),
+                    "whatsapp_message": whatsapp.get("message"),
                 })
-                if existente:
-                    return self.send_json(409, {"ok": False, "message": "Este e-mail já está em uso."})
-                updates["email"] = email
 
-            if "profile_photo" in data:
-                foto = data.get("profile_photo")
-                if foto is not None:
-                    foto = str(foto)
-                    if not foto.startswith("data:image/"):
-                        return self.send_json(400, {"ok": False, "message": "A foto enviada não é válida."})
-                    if len(foto) > 2_000_000:
-                        return self.send_json(400, {"ok": False, "message": "A foto é muito grande. Escolha uma imagem menor."})
-                updates["profile_photo"] = foto
+            # Só a primeira fase pode virar aprovação final.
+            if current != "first_phase":
+                return self.send_json(409, {
+                    "ok": False,
+                    "message": "A pessoa precisa passar pela primeira fase e entrevista antes da aprovação final.",
+                })
 
-            if "senhaAtual" in data or "novaSenha" in data:
-                senha_atual = str(data.get("senhaAtual", ""))
-                nova_senha = str(data.get("novaSenha", ""))
-                if not senha_atual or not nova_senha:
-                    return self.send_json(400, {"ok": False, "message": "Informe a senha atual e a nova senha."})
-                if len(nova_senha) < 8:
-                    return self.send_json(400, {"ok": False, "message": "A nova senha deve ter pelo menos 8 caracteres."})
-                if not verify_password(senha_atual, master.get("password_hash")):
-                    return self.send_json(401, {"ok": False, "message": "A senha atual está incorreta."})
-                updates["password_hash"] = hash_password(nova_senha)
+            email = str(request.get("email", "")).strip().lower()
+            if not email or "@" not in email:
+                return self.send_json(400, {"ok": False, "message": "A solicitação não possui um e-mail válido."})
 
-            if not updates:
-                return self.send_json(400, {"ok": False, "message": "Nenhum dado para atualizar."})
+            if db.accounts.find_one({"email": email}) or db.adopters.find_one({"email": email}):
+                return self.send_json(409, {"ok": False, "message": "Este e-mail já pertence a outro tipo de conta."})
 
-            db.accounts.update_one({"_id": master["_id"]}, {"$set": updates})
-            atualizado = db.accounts.find_one({"_id": master["_id"]})
+            activation_token = secrets.token_urlsafe(32)
+            volunteer = {
+                "name": str(request.get("name", "")).strip(),
+                "email": email,
+                "phone": str(request.get("phone", "")).strip(),
+                "modalidades": request.get("modalidades", []),
+                "disponibilidade": str(request.get("disponibilidade", "")).strip(),
+                "status": "active",
+                "first_access_completed": False,
+                "activation_token": activation_token,
+                "approved_at": now(),
+                "approved_by": master_id,
+                "created_at": request.get("created_at") or now(),
+            }
+
+            existente = db.volunteers.find_one({"email": email})
+            if existente:
+                db.volunteers.update_one({"_id": existente["_id"]}, {"$set": volunteer})
+                volunteer_id = existente["_id"]
+            else:
+                result_volunteer = db.volunteers.insert_one(volunteer)
+                volunteer_id = result_volunteer.inserted_id
+
+            result_request = db.volunteer_requests.update_one(
+                {"_id": request_object_id},
+                {"$set": {
+                    "status": "approved",
+                    "interview_completed_at": now(),
+                    "reviewed_by": master_id,
+                    "reviewed_at": now(),
+                    "volunteer_id": str(volunteer_id),
+                }, "$unset": {"history_expires_at": ""}},
+            )
+
+            whatsapp = enviar_whatsapp_conta_criada(
+                request.get("phone", request.get("telefone", "")),
+                str(request.get("name", "")).strip() or "voluntário(a)",
+                email,
+                activation_token,
+            )
+
+            db.volunteer_requests.update_one(
+                {"_id": request_object_id},
+                {"$set": {
+                    "whatsapp_account_created_sent": bool(whatsapp.get("sent")),
+                    "whatsapp_account_created_message": whatsapp.get("message"),
+                }},
+            )
+
             return self.send_json(200, {
                 "ok": True,
-                "user": serialize(atualizado),
-                "message": "Perfil atualizado com sucesso.",
+                "modified": result_request.modified_count,
+                "message": "Entrevista concluída e conta de voluntário criada com sucesso.",
+                "volunteer_id": str(volunteer_id),
+                "activation_token": activation_token,
+                "whatsapp_sent": whatsapp.get("sent", False),
+                "whatsapp_url": whatsapp.get("whatsapp_url"),
+                "whatsapp_message": whatsapp.get("message"),
+                "first_access_url": whatsapp.get("first_access_url"),
             })
+
 
         if path.startswith("/api/event-requests/"):
 

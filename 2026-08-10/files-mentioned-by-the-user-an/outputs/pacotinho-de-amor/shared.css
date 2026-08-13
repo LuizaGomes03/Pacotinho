@@ -140,9 +140,11 @@ body.pa-page-painel-voluntario {
 .pa-brand span {
   display: block;
 
-  overflow: hidden;
+  overflow: visible;
 
-  text-overflow: ellipsis;
+  text-overflow: clip;
+
+  white-space: normal;
 }
 
 
@@ -226,47 +228,9 @@ body.pa-page-painel-voluntario {
 
   justify-content: flex-end;
 
-  gap: 18px;
+  gap: 0;
 
   white-space: nowrap;
-}
-
-
-/* ============================================================
-   ÁREA VOLUNTÁRIA
-   ============================================================ */
-
-.pa-volunteer-link {
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  min-width: max-content;
-
-  padding: 7px 0;
-
-  color: #4c444d;
-
-  font-size: 14px;
-
-  font-weight: 700;
-
-  line-height: 1.2;
-
-  text-decoration: none;
-
-  white-space: nowrap;
-
-  transition:
-    color 0.15s ease;
-}
-
-
-.pa-volunteer-link:hover,
-.pa-volunteer-link[aria-current="page"] {
-  color: var(--pa-purple);
 }
 
 
@@ -668,11 +632,6 @@ body.pa-page-painel-voluntario .pa-footer {
   }
 
 
-  .pa-volunteer-link {
-    font-size: 13px;
-  }
-
-
   .pa-account {
     padding-right: 12px;
 
@@ -735,11 +694,6 @@ body.pa-page-painel-voluntario .pa-footer {
 
   .pa-header-actions {
     gap: 10px;
-  }
-
-
-  .pa-volunteer-link {
-    font-size: 12px;
   }
 
 
@@ -879,17 +833,6 @@ body.pa-page-painel-voluntario .pa-footer {
     height: 38px;
 
     min-width: 38px;
-  }
-
-
-  /*
-   * No celular deixamos somente Conta.
-   * Assim nunca fica "Área voluntária" colada
-   * com o botão de Conta.
-   */
-
-  .pa-volunteer-link {
-    display: none;
   }
 
 

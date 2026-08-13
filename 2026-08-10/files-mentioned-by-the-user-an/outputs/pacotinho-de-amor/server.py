@@ -220,22 +220,6 @@ def get_adopter_from_session(handler):
 
 
 
-def get_master_from_session(handler):
-    """Retorna a conta MASTER autenticada."""
-    session = get_session(handler)
-
-    if not session or session.get("user_type") != "master":
-        return None
-
-    try:
-        from bson import ObjectId
-        return db.accounts.find_one(
-            {"_id": ObjectId(session["user_id"]), "role": "MASTER"}
-        )
-    except Exception:
-        return None
-
-
 def get_volunteer_from_session(handler):
     """Retorna o voluntário autenticado."""
     session = get_session(handler)
@@ -253,10 +237,31 @@ def get_volunteer_from_session(handler):
         return None
 
 
+def get_master_from_session(handler):
+    """Retorna a conta MASTER autenticada na coleção accounts."""
+    session = get_session(handler)
+
+    if not session or session.get("user_type") != "master":
+        return None
+
+    try:
+        from bson import ObjectId
+
+        return db.accounts.find_one(
+            {"_id": ObjectId(session["user_id"])}
+        )
+    except Exception:
+        return None
+
+
 def is_master(handler):
-    """Verifica se a sessão pertence à conta MASTER da coleção accounts."""
+    """Somente a conta com role MASTER pode administrar eventos."""
     master = get_master_from_session(handler)
-    return bool(master)
+
+    if not master:
+        return False
+
+    return str(master.get("role", "")).upper() == "MASTER"
 
 
 def object_id(value):
@@ -325,15 +330,24 @@ def init_event_indexes():
         name="event_request_status",
     )
 
+    db.volunteer_requests.create_index(
+        "status",
+        name="volunteer_request_status",
+    )
+
+    db.volunteer_requests.create_index(
+        "created_at",
+        name="volunteer_request_created_at",
+    )
+
 
 def init_db():
     """Verifica a conexão e cria dados iniciais necessários."""
     client.admin.command("ping")
 
-    # Não criar dados de demonstração automaticamente.
-    # Os animais e voluntários devem vir exclusivamente do MongoDB Atlas.
-    # As contas reais/fakes de teste devem ser cadastradas pela aplicação
-    # ou diretamente no banco.
+    # Não criar animais ou usuários de demonstração automaticamente.
+    # Todos os dados devem vir do MongoDB Atlas.
+
     # Índices para evitar contas duplicadas.
     db.adopters.create_index(
         "email",
@@ -491,29 +505,6 @@ class App(SimpleHTTPRequestHandler):
             )
 
 
-        if path.startswith("/api/animals/"):
-            animal_id = path.rsplit("/", 1)[-1]
-            animal = db.animals.find_one(
-                {"_id": object_id(animal_id)}
-            )
-
-            if not animal:
-                return self.send_json(
-                    404,
-                    {
-                        "ok": False,
-                        "message": "Animal não encontrado.",
-                    },
-                )
-
-            return self.send_json(
-                200,
-                {
-                    "ok": True,
-                    "animal": serialize(animal),
-                },
-            )
-
         if path == "/api/animals":
             animals = db.animals.find().sort(
                 "created_at",
@@ -564,6 +555,31 @@ class App(SimpleHTTPRequestHandler):
                 },
             )
 
+
+
+        # ----------------------------------------------------
+        # SOLICITAÇÕES DE CADASTRO DE VOLUNTÁRIOS - MASTER
+        # ----------------------------------------------------
+
+        if path == "/api/volunteer-requests":
+            if not is_master(self):
+                return self.send_json(
+                    403,
+                    {
+                        "ok": False,
+                        "message": "Somente a conta Master pode consultar solicitações de voluntários.",
+                    },
+                )
+
+            requests = db.volunteer_requests.find().sort(
+                "created_at",
+                -1,
+            )
+
+            return self.send_json(
+                200,
+                serialize_list(requests),
+            )
 
 
         # ----------------------------------------------------
@@ -668,23 +684,14 @@ class App(SimpleHTTPRequestHandler):
             if session["user_type"] == "adopter":
                 user = get_adopter_from_session(self)
 
+            elif session["user_type"] == "volunteer":
+                user = get_volunteer_from_session(self)
+
             elif session["user_type"] == "master":
                 user = get_master_from_session(self)
 
             else:
-                try:
-                    from bson import ObjectId
-
-                    user = db.volunteers.find_one(
-                        {
-                            "_id": ObjectId(
-                                session["user_id"]
-                            )
-                        }
-                    )
-
-                except Exception:
-                    user = None
+                user = None
 
             if not user:
                 return self.send_json(
@@ -716,6 +723,96 @@ class App(SimpleHTTPRequestHandler):
     def do_POST(self):
         path = urlparse(self.path).path
         data = self.body()
+
+
+        # ----------------------------------------------------
+        # CADASTRO DE VOLUNTÁRIO - PÚBLICO
+        # ----------------------------------------------------
+
+        if path == "/api/volunteer-requests":
+            nome = str(data.get("nome", "")).strip()
+            email = str(data.get("email", "")).strip().lower()
+            telefone = str(data.get("telefone", "")).strip()
+            disponibilidade = str(data.get("disponibilidade", "")).strip()
+            modalidades = data.get("modalidades", [])
+
+            if not isinstance(modalidades, list):
+                modalidades = [modalidades] if modalidades else []
+
+            modalidades = [
+                str(item).strip()
+                for item in modalidades
+                if str(item).strip()
+            ]
+
+            modalidades_permitidas = {
+                "Feirinha de adoção",
+                "Táxi Dog",
+                "Passeador(a)",
+            }
+
+            if any(item not in modalidades_permitidas for item in modalidades):
+                return self.send_json(400, {
+                    "ok": False,
+                    "message": "Uma ou mais formas de voluntariado são inválidas.",
+                })
+
+            if not nome or not email or not telefone or not disponibilidade:
+                return self.send_json(400, {
+                    "ok": False,
+                    "message": "Preencha nome, e-mail, telefone e disponibilidade.",
+                })
+
+            if not modalidades:
+                return self.send_json(400, {
+                    "ok": False,
+                    "message": "Selecione pelo menos uma forma de voluntariado.",
+                })
+
+            if "@" not in email:
+                return self.send_json(400, {
+                    "ok": False,
+                    "message": "Informe um e-mail válido.",
+                })
+
+            if not bool(data.get("aceiteTermo")) or not bool(data.get("aceiteLGPD")):
+                return self.send_json(400, {
+                    "ok": False,
+                    "message": "É necessário aceitar o Termo e confirmar a ciência sobre o tratamento dos dados.",
+                })
+
+            pendente = db.volunteer_requests.find_one({
+                "email": email,
+                "status": "pending",
+            })
+
+            if pendente:
+                return self.send_json(409, {
+                    "ok": False,
+                    "message": "Já existe um cadastro de voluntariado pendente para este e-mail.",
+                })
+
+            request = {
+                "name": nome,
+                "email": email,
+                "phone": telefone,
+                "modalidades": modalidades,
+                "disponibilidade": disponibilidade,
+                "aceiteTermo": True,
+                "aceiteLGPD": True,
+                "aceiteImagem": bool(data.get("aceiteImagem")),
+                "termoEnviado": bool(data.get("termoEnviado")),
+                "status": "pending",
+                "created_at": now(),
+            }
+
+            result = db.volunteer_requests.insert_one(request)
+
+            return self.send_json(201, {
+                "ok": True,
+                "id": str(result.inserted_id),
+                "message": "Cadastro de voluntário enviado com sucesso.",
+            })
 
 
         # ----------------------------------------------------
@@ -967,66 +1064,7 @@ class App(SimpleHTTPRequestHandler):
 
 
         # ----------------------------------------------------
-        # LOGIN DA CONTA MASTER (BÁRBARA)
-        # ----------------------------------------------------
-
-        if path == "/api/auth/master-login":
-            email = str(data.get("email", "")).strip().lower()
-            password = str(data.get("password", ""))
-
-            if not email or not password:
-                return self.send_json(
-                    400,
-                    {
-                        "ok": False,
-                        "message": "E-mail e senha são obrigatórios.",
-                    },
-                )
-
-            master = db.accounts.find_one(
-                {
-                    "email": email,
-                    "role": "MASTER",
-                }
-            )
-
-            if not master or not verify_password(
-                password,
-                master.get("password_hash"),
-            ):
-                return self.send_json(
-                    401,
-                    {
-                        "ok": False,
-                        "message": "E-mail ou senha inválidos.",
-                    },
-                )
-
-            token = create_session(master["_id"], "master")
-
-            self.send_response(200)
-            self.send_header(
-                "Content-Type",
-                "application/json; charset=utf-8",
-            )
-            self.send_session_cookie(token)
-            self.end_headers()
-
-            self.wfile.write(
-                json.dumps(
-                    {
-                        "ok": True,
-                        "message": "Acesso MASTER autorizado.",
-                        "user": serialize(master),
-                    },
-                    ensure_ascii=False,
-                ).encode("utf-8")
-            )
-            return
-
-
-        # ----------------------------------------------------
-        # LOGIN DO VOLUNTÁRIO
+        # LOGIN MASTER / VOLUNTÁRIO
         # ----------------------------------------------------
 
         if path == "/api/auth/login":
@@ -1039,44 +1077,89 @@ class App(SimpleHTTPRequestHandler):
                 data.get("password", "")
             )
 
+            # MASTER: a conta fica na coleção accounts.
+            master = db.accounts.find_one({"email": email})
 
-            volunteer = db.volunteers.find_one(
-                {"email": email}
-            )
+            if master and str(master.get("role", "")).upper() == "MASTER":
+                valid = False
 
+                if master.get("password_hash"):
+                    valid = verify_password(
+                        password,
+                        master.get("password_hash"),
+                    )
+                elif master.get("password"):
+                    valid = secrets.compare_digest(
+                        str(master.get("password")),
+                        password,
+                    )
+
+                    if valid:
+                        db.accounts.update_one(
+                            {"_id": master["_id"]},
+                            {
+                                "$set": {
+                                    "password_hash": hash_password(password)
+                                },
+                                "$unset": {"password": ""},
+                            },
+                        )
+
+                if not valid:
+                    return self.send_json(
+                        401,
+                        {
+                            "ok": False,
+                            "message": "E-mail ou senha inválidos.",
+                        },
+                    )
+
+                token = create_session(
+                    master["_id"],
+                    "master",
+                )
+
+                self.send_response(200)
+                self.send_header(
+                    "Content-Type",
+                    "application/json; charset=utf-8",
+                )
+                self.send_session_cookie(token)
+                self.end_headers()
+                self.wfile.write(
+                    json.dumps(
+                        {
+                            "ok": True,
+                            "message": "Acesso Master autorizado.",
+                            "user": serialize(master),
+                        },
+                        ensure_ascii=False,
+                    ).encode("utf-8")
+                )
+                return
+
+            # VOLUNTÁRIO: contas comuns ficam na coleção volunteers.
+            volunteer = db.volunteers.find_one({"email": email})
 
             if not volunteer:
                 return self.send_json(
                     401,
                     {
                         "ok": False,
-                        "message": (
-                            "E-mail ou senha inválidos."
-                        ),
+                        "message": "E-mail ou senha inválidos.",
                     },
                 )
 
-
             valid = False
-
 
             if volunteer.get("password_hash"):
                 valid = verify_password(
                     password,
-                    volunteer.get(
-                        "password_hash"
-                    ),
+                    volunteer.get("password_hash"),
                 )
-
-            # Compatibilidade com o usuário antigo
-            # que eventualmente ainda esteja no banco.
             elif volunteer.get("password"):
                 valid = secrets.compare_digest(
-                    str(
-                        volunteer.get(
-                            "password"
-                        )
-                    ),
+                    str(volunteer.get("password")),
                     password,
                 )
 
@@ -1085,46 +1168,33 @@ class App(SimpleHTTPRequestHandler):
                         {"_id": volunteer["_id"]},
                         {
                             "$set": {
-                                "password_hash": hash_password(
-                                    password
-                                )
+                                "password_hash": hash_password(password)
                             },
-                            "$unset": {
-                                "password": ""
-                            },
+                            "$unset": {"password": ""},
                         },
                     )
-
 
             if not valid:
                 return self.send_json(
                     401,
                     {
                         "ok": False,
-                        "message": (
-                            "E-mail ou senha inválidos."
-                        ),
+                        "message": "E-mail ou senha inválidos.",
                     },
                 )
-
 
             token = create_session(
                 volunteer["_id"],
                 "volunteer",
             )
 
-
             self.send_response(200)
-
             self.send_header(
                 "Content-Type",
                 "application/json; charset=utf-8",
             )
-
             self.send_session_cookie(token)
-
             self.end_headers()
-
             self.wfile.write(
                 json.dumps(
                     {
@@ -1135,7 +1205,6 @@ class App(SimpleHTTPRequestHandler):
                     ensure_ascii=False,
                 ).encode("utf-8")
             )
-
             return
 
 
@@ -1478,31 +1547,9 @@ class App(SimpleHTTPRequestHandler):
 
         if path == "/api/animals":
 
-            # Somente a conta MASTER (Bárbara) cadastra animais.
-            if not is_master(self):
-                return self.send_json(
-                    403,
-                    {
-                        "ok": False,
-                        "message": "Somente a conta MASTER pode cadastrar animais.",
-                    },
-                )
-
-            required = [
-                "name",
-                "species",
-                "breed",
-                "age",
-                "size",
-                "sex",
-                "description",
-                "location",
-                "image",
-            ]
-
-            if any(
-                not str(data.get(field, "")).strip()
-                for field in required
+            if (
+                not data.get("name")
+                or not data.get("species")
             ):
                 return self.send_json(
                     400,
@@ -1515,19 +1562,12 @@ class App(SimpleHTTPRequestHandler):
                 )
 
 
-            data = {
-                "name": str(data.get("name", "")).strip(),
-                "species": str(data.get("species", "")).strip(),
-                "breed": str(data.get("breed", "")).strip(),
-                "age": str(data.get("age", "")).strip(),
-                "size": str(data.get("size", "")).strip(),
-                "sex": str(data.get("sex", "")).strip(),
-                "description": str(data.get("description", "")).strip(),
-                "location": str(data.get("location", "")).strip(),
-                "image": str(data.get("image", "")).strip(),
-                "status": "disponível",
-                "created_at": now(),
-            }
+            data.update(
+                {
+                    "status": "disponível",
+                    "created_at": now(),
+                }
+            )
 
 
             result = db.animals.insert_one(
@@ -1563,6 +1603,145 @@ class App(SimpleHTTPRequestHandler):
     def do_PUT(self):
         path = urlparse(self.path).path
         data = self.body()
+
+        # ====================================================
+        # PERFIL DA CONTA MASTER
+        # ====================================================
+        if path == "/api/auth/master-profile":
+            master = get_master_from_session(self)
+            if not master or str(master.get("role", "")).upper() != "MASTER":
+                return self.send_json(401, {
+                    "ok": False,
+                    "message": "Você precisa estar conectado como conta Master.",
+                })
+
+            updates = {}
+
+            if "nome" in data:
+                nome = str(data.get("nome", "")).strip()
+                if not nome:
+                    return self.send_json(400, {"ok": False, "message": "Informe seu nome."})
+                updates["name"] = nome
+                # Mantém compatibilidade caso algum dado antigo use nome.
+                updates["nome"] = nome
+
+            if "email" in data:
+                email = str(data.get("email", "")).strip().lower()
+                if not email or "@" not in email:
+                    return self.send_json(400, {"ok": False, "message": "Informe um e-mail válido."})
+                existente = db.accounts.find_one({
+                    "email": email,
+                    "_id": {"$ne": master["_id"]},
+                })
+                if existente:
+                    return self.send_json(409, {"ok": False, "message": "Este e-mail já está em uso."})
+                updates["email"] = email
+
+            if "profile_photo" in data:
+                foto = data.get("profile_photo")
+                if foto is not None:
+                    foto = str(foto)
+                    if not foto.startswith("data:image/"):
+                        return self.send_json(400, {"ok": False, "message": "A foto enviada não é válida."})
+                    if len(foto) > 2_000_000:
+                        return self.send_json(400, {"ok": False, "message": "A foto é muito grande. Escolha uma imagem menor."})
+                updates["profile_photo"] = foto
+
+            if "senhaAtual" in data or "novaSenha" in data:
+                senha_atual = str(data.get("senhaAtual", ""))
+                nova_senha = str(data.get("novaSenha", ""))
+                if not senha_atual or not nova_senha:
+                    return self.send_json(400, {"ok": False, "message": "Informe a senha atual e a nova senha."})
+                if len(nova_senha) < 8:
+                    return self.send_json(400, {"ok": False, "message": "A nova senha deve ter pelo menos 8 caracteres."})
+                if not verify_password(senha_atual, master.get("password_hash")):
+                    return self.send_json(401, {"ok": False, "message": "A senha atual está incorreta."})
+                updates["password_hash"] = hash_password(nova_senha)
+
+            if not updates:
+                return self.send_json(400, {"ok": False, "message": "Nenhum dado para atualizar."})
+
+            db.accounts.update_one({"_id": master["_id"]}, {"$set": updates})
+            atualizado = db.accounts.find_one({"_id": master["_id"]})
+            return self.send_json(200, {
+                "ok": True,
+                "user": serialize(atualizado),
+                "message": "Perfil atualizado com sucesso.",
+            })
+
+        # ====================================================
+        # APROVAÇÃO/RECUSA DE CADASTRO DE VOLUNTÁRIO
+        # ====================================================
+        if path.startswith("/api/volunteer-requests/"):
+            if not is_master(self):
+                return self.send_json(
+                    403,
+                    {
+                        "ok": False,
+                        "message": "Somente a conta Master pode analisar solicitações de voluntários.",
+                    },
+                )
+
+            request_id = path.rsplit("/", 1)[-1]
+            request_object_id = object_id(request_id)
+
+            if not request_object_id:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "ID de solicitação inválido.",
+                    },
+                )
+
+            status = str(data.get("status", "")).strip().lower()
+
+            if status not in {"approved", "rejected"}:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "O status deve ser approved ou rejected.",
+                    },
+                )
+
+            request = db.volunteer_requests.find_one(
+                {"_id": request_object_id}
+            )
+
+            if not request:
+                return self.send_json(
+                    404,
+                    {
+                        "ok": False,
+                        "message": "Solicitação de voluntariado não encontrada.",
+                    },
+                )
+
+            result = db.volunteer_requests.update_one(
+                {"_id": request_object_id},
+                {
+                    "$set": {
+                        "status": status,
+                        "reviewed_by": get_session(self)["user_id"],
+                        "reviewed_at": now(),
+                    }
+                },
+            )
+
+            return self.send_json(
+                200,
+                {
+                    "ok": True,
+                    "modified": result.modified_count,
+                    "message": (
+                        "Cadastro de voluntário aprovado."
+                        if status == "approved"
+                        else "Cadastro de voluntário recusado."
+                    ),
+                },
+            )
+
 
         if path.startswith("/api/event-requests/"):
 
@@ -1699,6 +1878,47 @@ class App(SimpleHTTPRequestHandler):
 
     def do_DELETE(self):
         path = urlparse(self.path).path
+
+        # ====================================================
+        # EXCLUSÃO DA CONTA MASTER
+        # ====================================================
+        if path == "/api/auth/master-account":
+            master = get_master_from_session(self)
+            if not master or str(master.get("role", "")).upper() != "MASTER":
+                return self.send_json(401, {
+                    "ok": False,
+                    "message": "Você precisa estar conectado como conta Master.",
+                })
+
+            data = self.body()
+            senha_atual = str(data.get("senhaAtual", ""))
+            confirmacao = str(data.get("confirmacao", ""))
+
+            if confirmacao != "EXCLUIR":
+                return self.send_json(400, {"ok": False, "message": "Confirmação inválida."})
+            if not senha_atual or not verify_password(senha_atual, master.get("password_hash")):
+                return self.send_json(401, {"ok": False, "message": "Senha atual incorreta."})
+
+            master_id = str(master["_id"])
+            # Eventos criados pela conta são removidos junto com suas solicitações.
+            eventos = list(db.events.find({"createdBy": master_id}, {"_id": 1}))
+            event_ids = [str(item["_id"]) for item in eventos]
+            if event_ids:
+                db.event_requests.delete_many({"event_id": {"$in": event_ids}})
+                db.events.delete_many({"createdBy": master_id})
+
+            db.accounts.delete_one({"_id": master["_id"]})
+            delete_session(self)
+
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.clear_session_cookie()
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "ok": True,
+                "message": "Conta Master excluída com sucesso."
+            }, ensure_ascii=False).encode("utf-8"))
+            return
 
         if path.startswith("/api/events/"):
 

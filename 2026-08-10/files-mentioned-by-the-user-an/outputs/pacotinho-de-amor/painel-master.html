@@ -403,6 +403,23 @@
   }
 </style>
 
+
+<style>
+#volunteerConfirmModal{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(35,20,40,.42);backdrop-filter:blur(3px)}
+#volunteerConfirmModal.active{display:flex}
+.volunteer-confirm-box{width:min(430px,100%);background:#fff;border-radius:22px;padding:28px;box-shadow:0 24px 70px rgba(71,32,86,.25);animation:volunteerPop .18s ease-out}
+@keyframes volunteerPop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+.volunteer-confirm-box h3{font-size:21px;font-weight:700;color:#472056;margin:0 0 10px;text-align:center}
+.volunteer-confirm-box p{font-size:14px;line-height:1.55;color:#625a64;text-align:center;margin:0 0 22px}
+.volunteer-confirm-actions{display:flex;gap:10px}
+.volunteer-confirm-actions button{flex:1;border-radius:999px;min-height:44px;font-weight:700;cursor:pointer}
+.volunteer-confirm-no{border:1px solid #d9cedd;background:#fff;color:#472056}
+.volunteer-confirm-yes{border:0;background:#5f376e;color:#fff}
+.volunteer-confirm-danger{background:#b42318!important}
+#volunteerToast{position:fixed;right:22px;bottom:22px;z-index:100000;max-width:390px;padding:14px 18px;border-radius:13px;background:#472056;color:#fff;font-size:13px;font-weight:700;box-shadow:0 12px 35px rgba(71,32,86,.25);opacity:0;transform:translateY(12px);pointer-events:none;transition:.22s ease}
+#volunteerToast.show{opacity:1;transform:none}
+@media(max-width:600px){.volunteer-confirm-actions{flex-direction:column-reverse}.volunteer-confirm-box{padding:22px}.volunteer-confirm-actions button{width:100%}#volunteerToast{left:16px;right:16px;bottom:16px;max-width:none}}
+</style>
 </head>
 <body class="bg-[#F1EAF2] text-on-background font-body-md min-h-screen flex">
 <!-- Navigation Drawer (Sidebar) -->
@@ -448,17 +465,19 @@
     <span class="font-label-md text-label-md">Processos de adoção</span>
   </button>
 
+  <button type="button" data-menu="voluntarios" onclick="mostrarPagina('voluntarios')"
+    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
+    <span class="material-symbols-outlined">volunteer_activism</span>
+    <span class="font-label-md text-label-md">Solicitações de voluntários</span>
+    <span data-volunteer-pending-count class="hidden ml-auto min-w-6 h-6 px-1.5 rounded-full bg-white text-[#5F376E] text-xs font-bold items-center justify-center"></span>
+  </button>
+
   <button type="button" data-menu="doacoes" onclick="mostrarPagina('doacoes')"
     class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
     <span class="material-symbols-outlined">receipt_long</span>
     <span class="font-label-md text-label-md">Comprovantes e rifas</span>
   </button>
 
-  <button type="button" data-menu="eventos" onclick="mostrarPagina('eventos')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">storefront</span>
-    <span class="font-label-md text-label-md">Próximos eventos</span>
-  </button>
 
   <button type="button" data-menu="historico" onclick="mostrarPagina('historico')"
     class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
@@ -473,7 +492,7 @@ class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 
 <span class="material-symbols-outlined">settings</span>
 <span class="font-label-md text-label-md">Configurações</span>
 </button>
-<a class="flex items-center gap-sm px-gutter py-sm text-[#ffdad6] hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full" href="login-master.html">
+<a class="flex items-center gap-sm px-gutter py-sm text-[#ffdad6] hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full" href="home.html">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-label-md text-label-md">Sair</span>
 </a>
@@ -545,7 +564,8 @@ let dadosMaster = {
   events: [],
   receipts: [],
   raffles: [],
-  rafflePayments: []
+  rafflePayments: [],
+  volunteerRequests: []
 };
 
 function escaparHTML(valor) {
@@ -604,10 +624,11 @@ async function carregarDadosDoBanco() {
     buscarJSON("/events"),
     buscarJSON("/payment-receipts"),
     buscarJSON("/raffles"),
-    buscarJSON("/raffle-payments")
+    buscarJSON("/raffle-payments"),
+    buscarJSON("/volunteer-requests")
   ]);
 
-  const [usuario, animais, applications, events, receipts, raffles, rafflePayments] = resultados;
+  const [usuario, animais, applications, events, receipts, raffles, rafflePayments, volunteerRequests] = resultados;
 
   if (usuario.status === "fulfilled" && usuario.value?.ok) {
     dadosMaster.user = usuario.value.user || null;
@@ -637,6 +658,13 @@ async function carregarDadosDoBanco() {
     ? (Array.isArray(rafflePayments.value) ? rafflePayments.value : (rafflePayments.value?.payments || []))
     : [];
 
+  dadosMaster.volunteerRequests = volunteerRequests.status === "fulfilled"
+    ? (Array.isArray(volunteerRequests.value)
+        ? volunteerRequests.value
+        : (volunteerRequests.value?.requests || volunteerRequests.value?.volunteer_requests || []))
+    : [];
+
+  atualizarContadorSolicitacoesVoluntarios();
   atualizarNomeUsuario();
   renderPaginaAtual();
 }
@@ -648,6 +676,18 @@ function atualizarNomeUsuario() {
   elementos.forEach(el => el.textContent = nome);
   document.querySelectorAll("[data-master-photo]").forEach(el => {
     el.src = foto;
+  });
+}
+
+function atualizarContadorSolicitacoesVoluntarios() {
+  const pendentes = (dadosMaster.volunteerRequests || []).filter(
+    item => String(item?.status || "").toLowerCase() === "pending"
+  ).length;
+
+  document.querySelectorAll("[data-volunteer-pending-count]").forEach(el => {
+    el.textContent = String(pendentes);
+    el.classList.toggle("hidden", pendentes === 0);
+    el.classList.toggle("inline-flex", pendentes > 0);
   });
 }
 
@@ -900,7 +940,8 @@ function renderAgenda() {
     })
     .map(evento => ({
       tipo: "evento",
-      titulo: evento.title || evento.nome || "Evento",
+      id: String(evento._id?.$oid || evento._id || evento.id || ""),
+       titulo: evento.title || evento.nome || "Evento",
       data: obterDataAgenda(evento),
       hora: obterHoraAgenda(evento),
       local: evento.location || evento.local || "Local não informado",
@@ -957,6 +998,23 @@ function renderAgenda() {
             ${item.animal ? `<p class="text-sm mt-1"><strong>Animal:</strong> ${escaparHTML(item.animal)}</p>` : ""}
             <p class="text-sm mt-1"><strong>Local:</strong> ${escaparHTML(item.local)}</p>
             ${item.descricao ? `<p class="text-sm text-on-surface-variant mt-2">${escaparHTML(item.descricao)}</p>` : ""}
+
+            ${
+              item.tipo === "evento" && item.id
+                ? `
+                  <div class="mt-4 pt-4 border-t border-surface-variant flex justify-end">
+                    <button
+                      type="button"
+                      onclick="excluirEventoDaAgenda('${escaparHTML(item.id)}')"
+                      class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-red-300 text-red-700 bg-white hover:bg-red-50 transition font-semibold text-sm"
+                    >
+                      <span class="material-symbols-outlined text-base">delete</span>
+                      Excluir evento
+                    </button>
+                  </div>
+                `
+                : ""
+            }
           </div>
         </div>
       </article>
@@ -1209,6 +1267,213 @@ async function finalizarRifa(id) {
   }
 }
 
+
+function renderVoluntarios() {
+  const solicitacoes = dadosMaster.volunteerRequests || [];
+  const pendentes = solicitacoes.filter(item => String(item?.status || '').toLowerCase() === 'pending');
+  const primeiraFase = solicitacoes.filter(item => String(item?.status || '').toLowerCase() === 'first_phase');
+  const processadas = solicitacoes.filter(item => ['rejected','approved'].includes(String(item?.status || '').toLowerCase()));
+
+  const cabecalho = `
+    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
+      <div>
+        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Equipe do projeto</p>
+        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Solicitações de voluntários</h2>
+        <p class="text-on-surface-variant mt-1">A primeira aprovação é somente para entrevista. A conta de voluntário só é criada depois da aprovação final.</p>
+      </div>
+      <button type="button" onclick="carregarSolicitacoesVoluntarios()" class="inline-flex items-center justify-center gap-2 bg-white text-[#5F376E] border border-[#5F376E]/20 px-5 py-3 rounded-full font-semibold hover:bg-[#F8F1F9] transition-colors">
+        <span class="material-symbols-outlined">refresh</span>Atualizar
+      </button>
+    </header>`;
+
+  const renderCard = (item, fase) => {
+    const id = String(item._id?.$oid || item._id || item.id || '');
+    const nome = textoOuPadrao(item.name || item.nome, 'Nome não informado');
+    const email = textoOuPadrao(item.email, 'E-mail não informado');
+    const telefone = textoOuPadrao(item.phone || item.telefone, 'Telefone não informado');
+    const modalidades = Array.isArray(item.modalidades) ? item.modalidades : [];
+    const disponibilidade = textoOuPadrao(item.disponibilidade, 'Não informada');
+    const criado = item.created_at || item.createdAt || '';
+    const data = criado ? new Date(criado).toLocaleDateString('pt-BR') : 'Data não informada';
+
+    const isInterview = fase === 'first_phase';
+
+    return `
+      <article class="rounded-2xl border border-[#E7E0E8] bg-white p-5 md:p-6 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-start gap-4">
+          <div class="w-12 h-12 rounded-full bg-[#F8F1F9] text-[#5F376E] flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined">${isInterview ? 'record_voice_over' : 'person_add'}</span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+              <div>
+                <h3 class="text-lg font-bold text-[#472056]">${escaparHTML(nome)}</h3>
+                <p class="text-sm text-[#625A64] mt-1">Solicitação enviada em ${escaparHTML(data)}</p>
+              </div>
+              <span class="inline-flex w-fit items-center gap-1 px-3 py-1 rounded-full ${isInterview ? 'bg-blue-50 text-blue-700' : 'bg-[#FFF4D6] text-[#7A5200]'} text-xs font-bold">
+                <span class="material-symbols-outlined text-sm">${isInterview ? 'event_available' : 'schedule'}</span>${isInterview ? 'Aguardando entrevista' : 'Pendente'}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+              <div class="rounded-xl bg-[#F8F1F9] p-3">
+                <p class="text-xs font-semibold text-[#766D77] uppercase">E-mail</p>
+                <p class="text-sm font-semibold text-[#1D1A20] mt-1 break-all">${escaparHTML(email)}</p>
+              </div>
+              <div class="rounded-xl bg-[#F8F1F9] p-3">
+                <p class="text-xs font-semibold text-[#766D77] uppercase">Telefone</p>
+                <p class="text-sm font-semibold text-[#1D1A20] mt-1">${escaparHTML(telefone)}</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+              <div class="rounded-xl bg-[#FAF7FB] border border-[#E7E0E8] p-3">
+                <p class="text-xs font-semibold text-[#766D77] uppercase">Como deseja ajudar</p>
+                <p class="text-sm font-semibold text-[#1D1A20] mt-1">${escaparHTML(modalidades.length ? modalidades.join(', ') : 'Não informado')}</p>
+              </div>
+              <div class="rounded-xl bg-[#FAF7FB] border border-[#E7E0E8] p-3">
+                <p class="text-xs font-semibold text-[#766D77] uppercase">Disponibilidade</p>
+                <p class="text-sm font-semibold text-[#1D1A20] mt-1 whitespace-pre-line">${escaparHTML(disponibilidade)}</p>
+              </div>
+            </div>
+
+            <div class="mt-5 flex flex-col sm:flex-row gap-3">
+              ${isInterview
+                ? `<button type="button" onclick="decidirSolicitacaoVoluntario('${escaparHTML(id)}', 'approved')" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#5F376E] text-white px-5 py-3 font-bold hover:bg-[#472056] transition-colors"><span class="material-symbols-outlined">verified</span>Aprovar como voluntário</button>`
+                : `<button type="button" onclick="decidirSolicitacaoVoluntario('${escaparHTML(id)}', 'first_phase')" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#5F376E] text-white px-5 py-3 font-bold hover:bg-[#472056] transition-colors"><span class="material-symbols-outlined">record_voice_over</span>Aprovar para entrevista</button>`}
+              <button type="button" onclick="decidirSolicitacaoVoluntario('${escaparHTML(id)}', 'rejected')" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-white text-red-700 px-5 py-3 font-bold hover:bg-red-50 transition-colors"><span class="material-symbols-outlined">close</span>Recusar</button>
+            </div>
+          </div>
+        </div>
+      </article>`;
+  };
+
+  const listaPendentes = pendentes.length ? pendentes.map(item => renderCard(item, 'pending')).join('') : cardVazio('Não há solicitações de voluntariado pendentes.');
+  const listaEntrevistas = primeiraFase.length ? `
+    <section class="mt-xl bg-surface-container-lowest rounded-2xl shadow-md border border-blue-100 overflow-hidden">
+      <div class="p-md md:p-lg border-b border-blue-100">
+        <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Aguardando entrevista</h3>
+        <p class="text-sm text-on-surface-variant mt-1">Estas pessoas passaram pela primeira fase. A conta de voluntário ainda não foi criada.</p>
+      </div>
+      <div class="p-md md:p-lg space-y-4">${primeiraFase.map(item => renderCard(item, 'first_phase')).join('')}</div>
+    </section>` : '';
+
+  const historico = processadas.length ? `
+    <section class="mt-xl bg-surface-container-lowest rounded-2xl shadow-md border border-surface-variant/50 overflow-hidden">
+      <div class="p-md md:p-lg border-b border-surface-variant">
+        <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Histórico</h3>
+        <p class="text-sm text-on-surface-variant mt-1">Decisões já tomadas pela administração.</p>
+      </div>
+      <div class="divide-y divide-[#E7E0E8]">
+        ${processadas.map(item => {
+          const id = String(item._id?.$oid || item._id || item.id || '');
+          const nome = textoOuPadrao(item.name || item.nome, 'Nome não informado');
+          const email = textoOuPadrao(item.email, 'E-mail não informado');
+          const aprovado = String(item.status || '').toLowerCase() === 'approved';
+          return `<div class="p-md md:p-lg flex flex-col sm:flex-row sm:items-center gap-3">
+            <div class="w-10 h-10 rounded-full ${aprovado ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'} flex items-center justify-center shrink-0"><span class="material-symbols-outlined">${aprovado ? 'check_circle' : 'cancel'}</span></div>
+            <div class="flex-1 min-w-0"><p class="font-bold text-[#1D1A20]">${escaparHTML(nome)}</p><p class="text-sm text-[#625A64] break-all">${escaparHTML(email)}</p></div>
+            <span class="w-fit px-3 py-1 rounded-full ${aprovado ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'} text-xs font-bold">${aprovado ? 'Voluntário aprovado' : 'Recusada'}</span>
+            ${!aprovado ? `<button type="button" onclick="reverterSolicitacaoVoluntario('${escaparHTML(id)}')" class="inline-flex items-center justify-center gap-1 rounded-full border border-[#5F376E]/30 text-[#5F376E] px-4 py-2 text-sm font-bold hover:bg-[#F8F1F9]"><span class="material-symbols-outlined text-base">undo</span>Reverter</button>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    </section>` : '';
+
+  return `${cabecalho}
+    <section class="bg-surface-container-lowest rounded-2xl shadow-md border border-surface-variant/50 p-md md:p-lg">
+      <div class="flex items-start gap-3 mb-md"><div class="w-12 h-12 rounded-full bg-[#F8F1F9] text-[#5F376E] flex items-center justify-center shrink-0"><span class="material-symbols-outlined">groups</span></div><div><h3 class="font-headline-md text-headline-md text-on-surface font-bold">Pedidos aguardando aprovação</h3><p class="text-sm text-on-surface-variant mt-1">${pendentes.length} solicitação(ões) pendente(s).</p></div></div>
+      <div class="space-y-4">${listaPendentes}</div>
+    </section>
+    ${listaEntrevistas}
+    ${historico}`;
+}
+
+async function carregarSolicitacoesVoluntarios() {
+  try {
+    const dados = await buscarJSON("/volunteer-requests");
+    dadosMaster.volunteerRequests = Array.isArray(dados)
+      ? dados
+      : (dados?.requests || dados?.volunteer_requests || []);
+    atualizarContadorSolicitacoesVoluntarios();
+    if (paginaAtual === "voluntarios") renderPaginaAtual();
+  } catch (erro) {
+    console.error("Erro ao carregar solicitações de voluntários:", erro);
+    alert(erro.message || "Não foi possível carregar as solicitações de voluntários.");
+  }
+}
+
+async function decidirSolicitacaoVoluntario(id, status) {
+  if (!id) return;
+
+  const item = (dadosMaster.volunteerRequests || []).find(x => String(x._id?.$oid || x._id || x.id || '') === String(id));
+  const nome = item?.name || item?.nome || 'esta pessoa';
+
+  const mensagens = {
+    first_phase: `Aprovar ${nome} para a primeira fase? A pessoa será encaminhada para entrevista e ainda NÃO terá uma conta de voluntário.`,
+    approved: `A entrevista de ${nome} foi concluída e você confirma a aprovação final como voluntário(a)?`,
+    rejected: `Tem certeza que deseja recusar ${nome}?`,
+  };
+
+  const ok = await confirmarAcaoCustom(mensagens[status] || 'Tem certeza que deseja continuar?', status === 'rejected' ? 'Recusar' : 'Continuar');
+  if (!ok) return;
+
+  try {
+    const resposta = await fetch(`${API_URL}/volunteer-requests/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ status })
+    });
+
+    const resultado = await resposta.json().catch(() => ({}));
+    if (!resposta.ok) throw new Error(resultado.message || resultado.error || 'Não foi possível atualizar a solicitação.');
+
+    await carregarSolicitacoesVoluntarios();
+
+    if (status === 'first_phase') {
+      if (resultado.whatsapp_sent) {
+        mostrarToastCustom(`${nome} passou para a primeira fase. A mensagem foi enviada automaticamente pelo WhatsApp.`);
+      } else {
+        mostrarToastCustom(`${nome} passou para a primeira fase. O WhatsApp ainda não está configurado para envio automático.`, 'error');
+      }
+    } else if (status === 'approved') {
+      if (resultado.whatsapp_sent) {
+        mostrarToastCustom(`${nome} foi aprovado(a), a conta foi criada e a mensagem de primeiro acesso foi enviada pelo WhatsApp.`);
+      } else {
+        mostrarToastCustom(`${nome} foi aprovado(a) e a conta foi criada, mas o WhatsApp ainda não está configurado para envio automático.`, 'error');
+      }
+    } else {
+      mostrarToastCustom(`${nome} foi recusado(a).`);
+    }
+  } catch (erro) {
+    console.error('Erro ao decidir solicitação de voluntário:', erro);
+    mostrarToastCustom(erro.message || 'Não foi possível atualizar a solicitação.', 'error');
+  }
+}
+
+async function reverterSolicitacaoVoluntario(id) {
+  const item = (dadosMaster.volunteerRequests || []).find(x => String(x._id?.$oid || x._id || x.id || '') === String(id));
+  const nome = item?.name || item?.nome || 'esta pessoa';
+  const ok = await confirmarAcaoCustom(`Reverter a recusa de ${nome}? A solicitação voltará para pendente.`, 'Reverter');
+  if (!ok) return;
+
+  try {
+    const resposta = await fetch(`${API_URL}/volunteer-requests/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ status: 'revert' })
+    });
+    const resultado = await resposta.json().catch(() => ({}));
+    if (!resposta.ok) throw new Error(resultado.message || resultado.error || 'Não foi possível reverter a solicitação.');
+    await carregarSolicitacoesVoluntarios();
+    mostrarToastCustom(`${nome} voltou para a lista de solicitações pendentes.`);
+  } catch (erro) {
+    mostrarToastCustom(erro.message || 'Não foi possível reverter a solicitação.', 'error');
+  }
+}
+
 function renderHistorico() {
   return `<header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Atividades</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Histórico</h2><p class="text-on-surface-variant mt-1">O backend atual não possui uma rota de histórico.</p></header><section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-lg">${cardVazio("Nenhum histórico é exibido sem dados vindos do banco.")}</section>`;
 }
@@ -1218,6 +1483,7 @@ const paginas = {
   animais: renderAnimais,
   agenda: renderAgenda,
   adocao: renderAdocoes,
+  voluntarios: renderVoluntarios,
   doacoes: renderDoacoes,
   eventos: renderEventos,
   historico: renderHistorico,
@@ -1599,6 +1865,7 @@ function configurarEventosDisponibilidade() {
 
 document.addEventListener("DOMContentLoaded", () => {
   mostrarPagina("inicio");
+  atualizarContadorSolicitacoesVoluntarios();
   document.querySelectorAll("[data-mobile-page]").forEach(item => {
     item.classList.toggle("active", item.dataset.mobilePage === "inicio");
   });
@@ -2444,6 +2711,63 @@ async function salvarEvento() {
   }
 }
 
+async function excluirEventoDaAgenda(id) {
+  if (!id) return;
+
+  const confirmar = confirm(
+    "Tem certeza que deseja excluir este evento da agenda?\n\nEssa ação removerá o evento do banco de dados."
+  );
+
+  if (!confirmar) return;
+
+  try {
+    const resposta = await fetch(
+      `${API_URL}/events/${encodeURIComponent(id)}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+      }
+    );
+
+    const resultado = await resposta.json().catch(() => ({}));
+
+    if (!resposta.ok) {
+      throw new Error(
+        resultado.message ||
+        resultado.error ||
+        "Não foi possível excluir o evento."
+      );
+    }
+
+    dadosMaster.events = (dadosMaster.events || []).filter(evento => {
+      const eventoId = String(
+        evento._id?.$oid ||
+        evento._id ||
+        evento.id ||
+        ""
+      );
+
+      return eventoId !== String(id);
+    });
+
+    renderPaginaAtual();
+
+    alert("Evento excluído com sucesso.");
+
+  } catch (erro) {
+    console.error("Erro ao excluir evento da agenda:", erro);
+
+    alert(
+      erro.message ||
+      "Não foi possível excluir o evento."
+    );
+  }
+}
+
+
 async function excluirEvento(id) {
   if (!id) return;
 
@@ -2491,4 +2815,51 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+
+<div id="volunteerConfirmModal" aria-hidden="true">
+  <div class="volunteer-confirm-box" role="dialog" aria-modal="true" aria-labelledby="volunteerConfirmTitle">
+    <h3 id="volunteerConfirmTitle">Confirmar ação</h3>
+    <p id="volunteerConfirmMessage"></p>
+    <div class="volunteer-confirm-actions">
+      <button type="button" class="volunteer-confirm-no" id="volunteerConfirmNo">Não</button>
+      <button type="button" class="volunteer-confirm-yes" id="volunteerConfirmYes">Sim</button>
+    </div>
+  </div>
+</div>
+<div id="volunteerToast" role="status" aria-live="polite"></div>
+<script>
+let volunteerConfirmResolve = null;
+function confirmarAcaoCustom(mensagem, confirmar = 'Sim') {
+  const modal = document.getElementById('volunteerConfirmModal');
+  const msg = document.getElementById('volunteerConfirmMessage');
+  const yes = document.getElementById('volunteerConfirmYes');
+  const no = document.getElementById('volunteerConfirmNo');
+  msg.textContent = mensagem;
+  yes.textContent = confirmar;
+  yes.classList.toggle('volunteer-confirm-danger', confirmar === 'Recusar');
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden','false');
+  return new Promise(resolve => { volunteerConfirmResolve = resolve; });
+}
+function fecharConfirmacaoCustom(resultado) {
+  const modal = document.getElementById('volunteerConfirmModal');
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden','true');
+  const resolve = volunteerConfirmResolve;
+  volunteerConfirmResolve = null;
+  if (resolve) resolve(resultado);
+}
+document.getElementById('volunteerConfirmYes').addEventListener('click', () => fecharConfirmacaoCustom(true));
+document.getElementById('volunteerConfirmNo').addEventListener('click', () => fecharConfirmacaoCustom(false));
+document.getElementById('volunteerConfirmModal').addEventListener('click', e => { if (e.target.id === 'volunteerConfirmModal') fecharConfirmacaoCustom(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && volunteerConfirmResolve) fecharConfirmacaoCustom(false); });
+function mostrarToastCustom(mensagem, tipo='success') {
+  const toast = document.getElementById('volunteerToast');
+  toast.textContent = mensagem;
+  toast.style.background = tipo === 'error' ? '#b42318' : '#472056';
+  toast.classList.add('show');
+  clearTimeout(window.__volunteerToastTimer);
+  window.__volunteerToastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+</script>
 </body></html>

@@ -70,23 +70,12 @@
 
 
       <div class="pa-header-actions">
-
-        <!-- LOGIN VOLUNTÁRIO / MASTER -->
-        <a
-          class="pa-volunteer-link"
-          href="login.html"
-          ${page === 'login.html' ? 'aria-current="page"' : ''}
-        >
-          Área voluntária
-        </a>
-
-
-        <!-- LOGIN DO ADOTANTE -->
+        <!-- LOGIN ÚNICO -->
         <a
           class="pa-account"
-          href="login-adotante.html"
+          href="login.html"
           aria-label="Minha conta"
-          ${page === 'login-adotante.html' ? 'aria-current="page"' : ''}
+          ${page === 'login.html' ? 'aria-current="page"' : ''}
         >
           <span
             class="pa-account-icon material-symbols-outlined"
@@ -167,17 +156,8 @@
           <a href="rifas.html">
             Rifas
           </a>
-
-
-          <!-- LOGIN DO ADOTANTE -->
-          <a href="login-adotante.html">
-            Conta
-          </a>
-
-
-          <!-- LOGIN VOLUNTÁRIO / MASTER -->
           <a href="login.html">
-            Área voluntária
+            Conta
           </a>
 
 
@@ -304,7 +284,7 @@
 
     if (/^conta$/.test(text)) {
 
-      return 'login-adotante.html';
+      return 'login.html';
 
     }
 
@@ -589,6 +569,14 @@
     }
 
 
+    // Não interferir em botões que possuem comportamento real próprio.
+    if (element.closest('[data-no-demo]')) {
+
+      return;
+
+    }
+
+
     if (
       element instanceof HTMLButtonElement &&
       element.type === 'submit' &&
@@ -695,50 +683,22 @@
 
 
     /*
-     * ========================================================
-     * LOGIN DO ADOTANTE
-     * ========================================================
-     */
-
-    if (page === 'login-adotante.html') {
-
-      if (email && password) {
-
-        toast('Acesso autorizado');
-
-
-        setTimeout(() => {
-
-          location.href = 'pagina-adotante.html';
-
-        }, 500);
-
-
-        return;
-
-      }
-
-
-      toast(
-        'Preencha seus dados para continuar.'
-      );
-
-
-      return;
-
-    }
-
-
-    /*
-     * ========================================================
-     * LOGIN VOLUNTÁRIO / MASTER
-     *
-     * O login agora acontece em login.html.
-     * O backend decide se a conta é MASTER ou VOLUNTÁRIO.
-     * ========================================================
+      * ========================================================
+      * LOGIN ÚNICO
+      * ========================================================
+      * O backend informa o tipo da conta:
+      * MASTER      -> painel-master.html
+      * VOLUNTÁRIO  -> painel-voluntario.html
+      * ADOTANTE    -> pagina-adotante.html
+      * ========================================================
      */
 
     if (page === 'login.html') {
+
+      if (!email || !password) {
+        toast('Preencha seus dados para continuar.');
+        return;
+      }
 
       try {
 
@@ -758,31 +718,56 @@
         );
 
 
-        /*
-         * Se o backend devolver a role,
-         * usamos ela para decidir o painel.
-         */
-
-        const role =
+        const userType =
           String(
-            result.role ||
+            result.user_type ||
+            result.userType ||
+            result.user?.user_type ||
+            result.user?.userType ||
             result.user?.role ||
+            result.role ||
             ''
-          ).toUpperCase();
+          ).toLowerCase().trim();
 
 
         setTimeout(() => {
 
-          if (role === 'MASTER') {
+          if (
+            userType === 'master' ||
+            userType === 'admin'
+          ) {
 
             location.href = 'painel-master.html';
-
             return;
 
           }
 
 
-          location.href = 'painel-voluntario.html';
+          if (
+            userType === 'voluntario' ||
+            userType === 'volunteer'
+          ) {
+
+            location.href = 'painel-voluntario.html';
+            return;
+
+          }
+
+
+          if (
+            userType === 'adotante' ||
+            userType === 'adopter'
+          ) {
+
+            location.href = 'pagina-adotante.html';
+            return;
+
+          }
+
+
+          toast(
+            'A conta foi autenticada, mas o tipo de acesso não foi identificado.'
+          );
 
         }, 500);
 

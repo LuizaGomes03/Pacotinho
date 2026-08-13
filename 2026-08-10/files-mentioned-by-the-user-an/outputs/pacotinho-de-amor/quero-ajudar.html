@@ -262,13 +262,6 @@
       color: #472056;
     }
 
-
-    .required-star {
-      color: #b42318;
-      font-weight: 700;
-      margin-right: 3px;
-    }
-
     /* CONTATO */
 
     .contato {
@@ -304,18 +297,6 @@
     .submit:hover {
       background: #5d2a70;
       transform: translateY(-1px);
-    }
-
-
-    .submit:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .submit:disabled:hover {
-      background: #472056;
-      transform: none;
     }
 
     /* SUCESSO */
@@ -671,7 +652,8 @@
 
         <h2>Declarações e privacidade</h2>
 
-        <p class="obrigatorio">Os dois primeiros itens são obrigatórios para enviar o cadastro. A autorização de imagem é opcional.</p>
+
+        <!-- ACEITE DO TERMO -->
 
         <label class="check">
 
@@ -682,15 +664,19 @@
           >
 
           <span>
-            <span class="required-star" aria-hidden="true">*</span>
             Declaro que li, compreendi e concordo com o
-            <a href="termo-voluntariado-pacotinho-de-amor.pdf" target="_blank" rel="noopener noreferrer">
-              <strong>Termo de Adesão, Compromisso e Responsabilidade para Voluntariado do Projeto Pacotinho de Amor</strong>
-            </a>.
+            <strong>
+              Termo de Adesão, Compromisso e Responsabilidade para Voluntariado
+              para Voluntariado do Projeto Pacotinho de Amor
+            </strong>,
+            incluindo o objeto e as condições para realização
+            das atividades voluntárias.
           </span>
 
         </label>
 
+
+        <!-- LGPD -->
 
         <label class="check">
 
@@ -701,18 +687,25 @@
           >
 
           <span>
-            <span class="required-star" aria-hidden="true">*</span>
-            Declaro estar ciente de que meus dados pessoais serão tratados
-            para finalidades relacionadas ao cadastro e participação no
-            voluntariado, conforme a
-            <a href="politica-privacidade.html" target="_blank" rel="noopener noreferrer">
+            Declaro estar ciente de que os dados pessoais fornecidos
+            neste cadastro, incluindo nome, e-mail, telefone,
+            disponibilidade e demais informações necessárias,
+            poderão ser tratados pelo Pacotinho de Amor para
+            finalidades relacionadas ao cadastro, análise da
+            participação, organização das atividades voluntárias
+            e comunicação comigo, conforme a
+            <a href="politica-privacidade.html">
               Política de Privacidade
             </a>
-            e a legislação aplicável, incluindo a LGPD.
+            e a legislação aplicável, incluindo a
+            <strong>Lei Geral de Proteção de Dados Pessoais
+            (Lei nº 13.709/2018)</strong>.
           </span>
 
         </label>
 
+
+        <!-- USO DE IMAGEM -->
 
         <label class="check">
 
@@ -723,44 +716,48 @@
           >
 
           <span>
-            Autorizo, de forma opcional, o uso da minha imagem em fotografias
-            e vídeos realizados durante atividades do Projeto Pacotinho de Amor,
-            exclusivamente para divulgação institucional e das ações do projeto.
-            Esta autorização não é obrigatória para participar como voluntário(a).
+            Autorizo, de forma opcional, o uso da minha imagem
+            em fotografias e vídeos realizados durante atividades
+            do Projeto Pacotinho de Amor, exclusivamente para
+            divulgação institucional e das ações do projeto.
+            Esta autorização não é obrigatória para participar
+            como voluntário(a).
           </span>
 
         </label>
 
 
+        <!-- INFORMAÇÃO LGPD -->
+
         <div class="lgpd-info">
 
           <strong>Sobre seus dados:</strong>
 
-          <p>
-            Seus dados serão utilizados para analisar seu cadastro,
-            organizar as atividades voluntárias e entrar em contato
-            com você.
-          </p>
+        <p>
+          Os dados pessoais fornecidos neste formulário serão tratados
+          para finalidades relacionadas ao cadastro e participação no
+          voluntariado, análise da participação, organização das
+          atividades e comunicação com você, além de outras finalidades
+          previstas em nossa Política de Privacidade.
+        </p>
 
-          <p>
-            Para saber mais sobre quais dados são coletados, como são
-            utilizados, armazenados e compartilhados, consulte nossa
-            <a href="politica-privacidade.html">
-              Política de Privacidade
-            </a>.
-          </p>
+        <p>
+          O tratamento dos dados será realizado de acordo com a
+          Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018)
+          e demais normas aplicáveis.
+        </p>
 
-          <p>
-            A utilização da plataforma também está sujeita aos
-            <a href="termos-uso.html">
-              Termos de Uso
-            </a>,
-            que estabelecem as regras gerais aplicáveis ao site.
-          </p>
+        <p>
+          Você poderá exercer os direitos previstos na LGPD, observadas
+          as hipóteses e limitações estabelecidas pela legislação.
+        </p>
 
-        </div>
-
-      </div>
+        <p>
+          Para saber quais dados são coletados, por que são utilizados,
+          por quanto tempo podem ser mantidos e em quais situações
+          podem ser compartilhados, consulte nossa
+          <a href="politica-privacidade.html">Política de Privacidade</a>.
+        </p>        A utilização da plataforma também está sujeita aos        <a href="termos-uso.html">Termos de Uso</a>, que são as regras gerais       aplicáveis ao site e não substituem o Termo de Adesão específico para o voluntariado.     </p>
 
 
       <!-- BOTÃO ENVIAR -->
@@ -768,9 +765,7 @@
       <button
         type="button"
         class="submit"
-        id="submitCadastro"
         onclick="enviarCadastro()"
-        disabled
       >
         Enviar cadastro
       </button>
@@ -809,188 +804,263 @@
 
   <script>
 
+    
 
-    function atualizarBotaoCadastro() {
-      const aceiteTermo = document.getElementById('aceiteTermo');
-      const aceiteLGPD = document.getElementById('aceiteLGPD');
-      const botao = document.getElementById('submitCadastro');
+     async function enviarCadastro() {
 
-      if (!aceiteTermo || !aceiteLGPD || !botao) return;
+  /* MODALIDADES */
 
-      botao.disabled = !(aceiteTermo.checked && aceiteLGPD.checked);
-    }
+  const modalidadesSelecionadas = [
+    ...document.querySelectorAll(
+      'input[name="modalidades"]:checked'
+    )
+  ].map(input => input.value);
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const aceiteTermo = document.getElementById('aceiteTermo');
-      const aceiteLGPD = document.getElementById('aceiteLGPD');
+  if (modalidadesSelecionadas.length === 0) {
+    alert(
+      'Selecione pelo menos uma forma de voluntariado.'
+    );
+    return;
+  }
 
-      aceiteTermo?.addEventListener('change', atualizarBotaoCadastro);
-      aceiteLGPD?.addEventListener('change', atualizarBotaoCadastro);
 
-      atualizarBotaoCadastro();
-    });
+  /* DISPONIBILIDADE */
 
-    function enviarCadastro() {
+  const disponibilidade =
+    document
+      .getElementById('disponibilidade')
+      .value
+      .trim();
 
-      /* MODALIDADES */
+  if (!disponibilidade) {
+    alert(
+      'Informe seus dias e horários disponíveis.'
+    );
+    return;
+  }
 
-      const modalidades = document.querySelectorAll(
-        'input[name="modalidades"]:checked'
+
+  /* NOME */
+
+  const nome =
+    document
+      .getElementById('nome')
+      .value
+      .trim();
+
+  if (!nome) {
+    alert(
+      'Informe seu nome completo.'
+    );
+    return;
+  }
+
+
+  /* E-MAIL */
+
+  const email =
+    document
+      .getElementById('email')
+      .value
+      .trim();
+
+  if (!email) {
+    alert(
+      'Informe seu e-mail.'
+    );
+    return;
+  }
+
+
+  /* TELEFONE */
+
+  const telefone =
+    document
+      .getElementById('telefone')
+      .value
+      .trim();
+
+  if (!telefone) {
+    alert(
+      'Informe seu número de telefone.'
+    );
+    return;
+  }
+
+
+  /* TERMO ASSINADO */
+
+  const termoInput =
+    document.getElementById('termo');
+
+  const termoEnviado =
+    termoInput &&
+    termoInput.files &&
+    termoInput.files.length > 0;
+
+  if (!termoEnviado) {
+    alert(
+      'Envie o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado assinado.'
+    );
+    return;
+  }
+
+
+  /* ACEITE DO TERMO */
+
+  const aceiteTermo =
+    document
+      .getElementById('aceiteTermo')
+      .checked;
+
+  if (!aceiteTermo) {
+    alert(
+      'É necessário declarar que você leu e concorda com o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado.'
+    );
+    return;
+  }
+
+
+  /* CIÊNCIA SOBRE LGPD */
+
+  const aceiteLGPD =
+    document
+      .getElementById('aceiteLGPD')
+      .checked;
+
+  if (!aceiteLGPD) {
+    alert(
+      'É necessário confirmar a ciência sobre o tratamento dos seus dados e a Política de Privacidade.'
+    );
+    return;
+  }
+
+
+  /* AUTORIZAÇÃO DE IMAGEM */
+
+  const aceiteImagem =
+    document
+      .getElementById('aceiteImagem')
+      .checked;
+
+
+  /* BOTÃO */
+
+  const botao =
+    document.querySelector('.submit');
+
+  const textoOriginal =
+    botao.textContent;
+
+  botao.disabled = true;
+  botao.textContent = 'Enviando...';
+
+
+  /* ENVIO REAL PARA O SERVIDOR */
+
+  try {
+
+    const resposta = await fetch(
+      '/api/volunteer-requests',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        credentials: 'include',
+
+        body: JSON.stringify({
+
+          nome: nome,
+
+          email: email,
+
+          telefone: telefone,
+
+          modalidades:
+            modalidadesSelecionadas,
+
+          disponibilidade:
+            disponibilidade,
+
+          aceiteTermo:
+            aceiteTermo,
+
+          aceiteLGPD:
+            aceiteLGPD,
+
+          aceiteImagem:
+            aceiteImagem,
+
+          termoEnviado:
+            termoEnviado
+
+        })
+      }
+    );
+
+
+    const resultado =
+      await resposta
+        .json()
+        .catch(() => ({}));
+
+
+    /* ERRO */
+
+    if (!resposta.ok) {
+
+      throw new Error(
+        resultado.message ||
+        resultado.error ||
+        'Não foi possível enviar o cadastro.'
       );
 
-      if (modalidades.length === 0) {
-
-        alert(
-          'Selecione pelo menos uma forma de voluntariado.'
-        );
-
-        return;
-      }
-
-
-      /* DISPONIBILIDADE */
-
-      const disponibilidade =
-        document
-          .getElementById('disponibilidade')
-          .value
-          .trim();
-
-      if (!disponibilidade) {
-
-        alert(
-          'Informe seus dias e horários disponíveis.'
-        );
-
-        return;
-      }
-
-
-      /* NOME */
-
-      const nome =
-        document
-          .getElementById('nome')
-          .value
-          .trim();
-
-      if (!nome) {
-
-        alert(
-          'Informe seu nome completo.'
-        );
-
-        return;
-      }
-
-
-      /* E-MAIL */
-
-      const email =
-        document
-          .getElementById('email')
-          .value
-          .trim();
-
-      if (!email) {
-
-        alert(
-          'Informe seu e-mail.'
-        );
-
-        return;
-      }
-
-
-      /* TELEFONE */
-
-      const telefone =
-        document
-          .getElementById('telefone')
-          .value
-          .trim();
-
-      if (!telefone) {
-
-        alert(
-          'Informe seu número de telefone.'
-        );
-
-        return;
-      }
-
-
-      /* TERMO ASSINADO */
-
-      const termo =
-        document
-          .getElementById('termo')
-          .files
-          .length;
-
-      if (!termo) {
-
-        alert(
-          'Envie o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado assinado.'
-        );
-
-        return;
-      }
-
-
-      /* ACEITES OBRIGATÓRIOS */
-
-      const aceiteTermo =
-        document
-          .getElementById('aceiteTermo')
-          .checked;
-
-      if (!aceiteTermo) {
-
-        alert(
-          'É necessário declarar que você leu e concorda com o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado.'
-        );
-
-        return;
-      }
-
-
-      /* CIÊNCIA SOBRE LGPD */
-
-      const aceiteLGPD =
-        document
-          .getElementById('aceiteLGPD')
-          .checked;
-
-      if (!aceiteLGPD) {
-
-        alert(
-          'É necessário confirmar a ciência sobre o tratamento dos seus dados e a Política de Privacidade.'
-        );
-
-        return;
-      }
-
-
-      /* MOSTRA SUCESSO */
-
-      document
-        .getElementById('sucesso')
-        .classList
-        .add('active');
-
-
-      /* ROLA ATÉ A MENSAGEM */
-
-      document
-        .getElementById('sucesso')
-        .scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
-
     }
 
+
+    /* SUCESSO REAL */
+
+    document
+      .getElementById('sucesso')
+      .classList
+      .add('active');
+
+
+    document
+      .getElementById('sucesso')
+      .scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+
+
+    botao.disabled = true;
+    botao.textContent = 'Cadastro enviado';
+
+
+  } catch (erro) {
+
+    console.error(
+      'Erro ao enviar cadastro:',
+      erro
+    );
+
+
+    alert(
+      erro.message ||
+      'Não foi possível enviar seu cadastro. Tente novamente.'
+    );
+
+
+    botao.disabled = false;
+    botao.textContent = textoOriginal;
+
+  }
+
+}
   </script>
 
 </body>

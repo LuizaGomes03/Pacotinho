@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ative sua conta — Pacotinho de Amor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+body{font-family:Montserrat,sans-serif;background:#fef7ff}
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+<header class="border-b border-[#E7E0E8] bg-[#FEF7FF]">
+  <div class="max-w-6xl mx-auto px-5 py-4 flex items-center gap-3">
+    <img src="assets/logo-footer.png" alt="Pacotinho de Amor" class="w-11 h-11 rounded-full">
+    <strong class="text-[#472056] text-lg">Pacotinho de Amor</strong>
+  </div>
+</header>
+
+<main class="flex-1 flex items-center justify-center px-5 py-12">
+  <section class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-[#E7E0E8] overflow-hidden">
+    <div class="bg-[#F8F1F9] px-6 py-8 text-center">
+      <div class="w-16 h-16 mx-auto rounded-full bg-white flex items-center justify-center shadow-sm mb-4">
+        <span class="material-symbols-outlined text-[#5F376E] text-3xl">volunteer_activism</span>
+      </div>
+      <h1 class="text-2xl font-bold text-[#472056]">Ative sua conta de voluntário</h1>
+      <p class="text-sm text-[#625A64] mt-2">Seus dados já foram cadastrados pela equipe. Agora você só precisa criar sua senha.</p>
+    </div>
+
+    <div class="p-6 md:p-8">
+      <div id="loading" class="text-center text-sm text-[#625A64]">Verificando seu link...</div>
+
+      <div id="formArea" class="hidden">
+        <div class="rounded-xl bg-[#F8F1F9] p-4 mb-5">
+          <p class="text-xs font-semibold uppercase text-[#766D77]">Conta</p>
+          <p id="name" class="font-bold text-[#472056] mt-1"></p>
+          <p id="email" class="text-sm text-[#625A64] mt-1 break-all"></p>
+        </div>
+
+        <form id="activationForm" class="space-y-5">
+          <div>
+            <label for="senha" class="block text-sm font-bold text-[#1D1A20] mb-2">Crie sua senha</label>
+            <input id="senha" type="password" minlength="8" required autocomplete="new-password" placeholder="Mínimo de 8 caracteres" class="w-full rounded-xl border border-[#CFC3CE] px-4 py-3 text-base focus:border-[#5F376E] focus:ring-2 focus:ring-[#5F376E]/15 focus:outline-none">
+          </div>
+          <div>
+            <label for="confirmarSenha" class="block text-sm font-bold text-[#1D1A20] mb-2">Confirme sua senha</label>
+            <input id="confirmarSenha" type="password" minlength="8" required autocomplete="new-password" placeholder="Digite novamente" class="w-full rounded-xl border border-[#CFC3CE] px-4 py-3 text-base focus:border-[#5F376E] focus:ring-2 focus:ring-[#5F376E]/15 focus:outline-none">
+          </div>
+          <div id="message" class="hidden rounded-xl px-4 py-3 text-sm" role="alert"></div>
+          <button id="button" type="submit" class="w-full rounded-xl bg-[#5F376E] text-white py-3.5 font-bold hover:bg-[#472056] transition disabled:opacity-60">Criar senha</button>
+        </form>
+      </div>
+
+      <div id="errorArea" class="hidden text-center">
+        <span class="material-symbols-outlined text-red-600 text-4xl">error</span>
+        <h2 class="text-lg font-bold text-[#472056] mt-3">Link indisponível</h2>
+        <p id="errorMessage" class="text-sm text-[#625A64] mt-2"></p>
+      </div>
+
+      <div id="successArea" class="hidden text-center">
+        <span class="material-symbols-outlined text-green-600 text-5xl">check_circle</span>
+        <h2 class="text-xl font-bold text-[#472056] mt-3">Senha criada!</h2>
+        <p class="text-sm text-[#625A64] mt-2">Sua conta de voluntário está pronta. Agora você pode entrar usando seu e-mail e a senha que acabou de criar.</p>
+        <a href="login.html" class="inline-flex mt-6 rounded-xl bg-[#5F376E] text-white px-6 py-3 font-bold">Entrar na conta</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const API = location.port === '8000' ? '/api' : 'http://127.0.0.1:8000/api';
+  const params = new URLSearchParams(location.search);
+  const token = params.get('token') || '';
+  const mode = params.get('mode') || 'first';
+  const loading = document.getElementById('loading');
+  const formArea = document.getElementById('formArea');
+  const errorArea = document.getElementById('errorArea');
+  const errorMessage = document.getElementById('errorMessage');
+  const successArea = document.getElementById('successArea');
+  const message = document.getElementById('message');
+  const form = document.getElementById('activationForm');
+  const button = document.getElementById('button');
+
+  function erro(text){
+    loading.classList.add('hidden');
+    formArea.classList.add('hidden');
+    errorArea.classList.remove('hidden');
+    errorMessage.textContent = text;
+  }
+
+  async function carregar(){
+    if(!token){ erro('O link de primeiro acesso não possui um código válido.'); return; }
+    try{
+      const r = await fetch(`${API}/auth/volunteer-first-access?token=${encodeURIComponent(token)}`);
+      const d = await r.json().catch(()=>({}));
+      if(!r.ok || !d.ok) throw new Error(d.message || 'Link inválido ou já utilizado.');
+      document.getElementById('name').textContent = d.user?.name || '';
+      document.getElementById('email').textContent = d.user?.email || '';
+      loading.classList.add('hidden');
+      formArea.classList.remove('hidden');
+    }catch(e){ erro(e.message || 'Não foi possível validar o link.'); }
+  }
+
+  form.addEventListener('submit', async (event)=>{
+    event.preventDefault();
+    const senha = document.getElementById('senha').value;
+    const confirmar = document.getElementById('confirmarSenha').value;
+    message.className='hidden';
+    if(senha.length < 8){ message.textContent='A senha precisa ter pelo menos 8 caracteres.'; message.className='rounded-xl px-4 py-3 text-sm bg-red-50 text-red-700 border border-red-200'; return; }
+    if(senha !== confirmar){ message.textContent='As senhas não são iguais.'; message.className='rounded-xl px-4 py-3 text-sm bg-red-50 text-red-700 border border-red-200'; return; }
+    button.disabled=true; button.textContent='Criando senha...';
+    try{
+      const r = await fetch(`${API}/auth/volunteer-first-access`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,senha,mode})});
+      const d = await r.json().catch(()=>({}));
+      if(!r.ok || !d.ok) throw new Error(d.message || 'Não foi possível criar a senha.');
+      formArea.classList.add('hidden');
+      successArea.classList.remove('hidden');
+    }catch(e){
+      message.textContent=e.message || 'Não foi possível criar a senha.';
+      message.className='rounded-xl px-4 py-3 text-sm bg-red-50 text-red-700 border border-red-200';
+      button.disabled=false; button.textContent='Criar senha';
+    }
+  });
+
+  carregar();
+})();
+</script>
+</body>
+</html>
