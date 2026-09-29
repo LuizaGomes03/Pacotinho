@@ -472,12 +472,6 @@
     <span data-volunteer-pending-count class="hidden ml-auto min-w-6 h-6 px-1.5 rounded-full bg-white text-[#5F376E] text-xs font-bold items-center justify-center"></span>
   </button>
 
-  <button type="button" data-menu="doacoes" onclick="mostrarPagina('doacoes')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">receipt_long</span>
-    <span class="font-label-md text-label-md">Comprovantes e rifas</span>
-  </button>
-
 
   <button type="button" data-menu="historico" onclick="mostrarPagina('historico')"
     class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
@@ -548,11 +542,7 @@ class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 
     <span class="material-symbols-outlined">family_restroom</span>
     <span>Adoção</span>
   </button>
-
-  <button type="button" data-mobile-page="doacoes" onclick="mostrarPagina('doacoes')"
-          class="mobile-nav-item" aria-label="Comprovantes e rifas">
-    <span class="material-symbols-outlined">confirmation_number</span>
-    <span>Rifas</span>
+as</span>
   </button>
 </nav>
 
@@ -791,11 +781,7 @@ function renderInicio() {
             <div class="flex-1"><p class="font-bold">Eventos</p><p class="text-sm text-on-surface-variant">${eventos} registro(s) encontrado(s).</p></div>
             <span class="material-symbols-outlined">chevron_right</span>
           </button>
-          <button onclick="mostrarPagina('doacoes')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left">
-            <span class="material-symbols-outlined text-primary">receipt_long</span>
-            <div class="flex-1"><p class="font-bold">Comprovantes e rifas</p><p class="text-sm text-on-surface-variant">Cadastre comprovantes e publique rifas para os adotantes.</p></div>
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
+          
         </div>
       </section>
 
@@ -1053,11 +1039,7 @@ function renderDoacoes() {
   const payments = dadosMaster.rafflePayments || [];
 
   return `
-    <header class="mb-lg">
-      <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Transparência e campanhas</p>
-      <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Comprovantes e rifas</h2>
-      <p class="text-on-surface-variant mt-1">Registre pagamentos dos animais e acompanhe os pagamentos das rifas.</p>
-    </header>
+   
 
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-lg">
       <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md md:p-lg">
@@ -1120,7 +1102,6 @@ function renderDoacoes() {
         </div>
 
         <div class="mt-xl pt-lg border-t border-surface-variant">
-          <div class="flex items-center justify-between gap-3"><div><h4 class="font-headline-md text-headline-md text-on-surface font-bold">Rifas cadastradas</h4><p class="text-sm text-on-surface-variant mt-1">Somente pagamentos confirmados entram no sorteio.</p></div><a href="rifas.html" target="_blank" class="text-sm font-semibold text-[#5F376E] hover:underline">Ver site</a></div>
           <div class="mt-4 space-y-4">${raffles.length ? raffles.map(r => {
             const nums = Array.isArray(r.numbers) ? r.numbers : [];
             const paid = nums.filter(n => n.status === 'paid').length;

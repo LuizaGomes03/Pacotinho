@@ -12,88 +12,75 @@
    * ============================================================
    */
 
-  const header = `
-    <header class="pa-header">
+ const header = `
+  <header class="pa-header">
+
+    <a
+      class="pa-brand"
+      href="home.html"
+      aria-label="Pacotinho de Amor, início"
+    >
+      <img
+        class="pa-brand-logo"
+        src="assets/logo-footer.png"
+        alt="Logo Pacotinho de Amor"
+      >
+
+      <span>
+        Pacotinho<br>
+        de amor
+      </span>
+    </a>
+
+    <nav class="pa-nav" aria-label="Navegação principal">
 
       <a
-        class="pa-brand"
-        href="home.html"
-        aria-label="Pacotinho de Amor, início"
+        href="home.html#projeto"
+        ${page === 'home.html' ? 'aria-current="page"' : ''}
       >
-        <img
-          class="pa-brand-logo"
-          src="assets/logo-footer.png"
-          alt="Logo Pacotinho de Amor"
-        >
+        O Projeto
+      </a>
 
-        <span>
-          Pacotinho<br>
-          de amor
+      <a
+        href="animais-para-adocao.html"
+        ${page === 'animais-para-adocao.html' ? 'aria-current="page"' : ''}
+      >
+        Animais
+      </a>
+
+      <a
+        href="sobre-o-projeto.html"
+        ${page === 'sobre-o-projeto.html' ? 'aria-current="page"' : ''}
+      >
+        Quem Somos
+      </a>
+
+      <a
+        href="quero-ajudar.html"
+        ${page === 'quero-ajudar.html' ? 'aria-current="page"' : ''}
+      >
+        Como ajudar
+      </a>
+
+    </nav>
+
+    <div class="pa-header-actions">
+
+      <a
+        class="pa-account"
+        href="login.html"
+        aria-label="Minha conta"
+        ${page === 'login.html' ? 'aria-current="page"' : ''}
+      >
+        <span class="pa-account-label">
+          Conta
         </span>
       </a>
 
+    </div>
 
-      <nav class="pa-nav" aria-label="Navegação principal">
-
-        <a
-          href="animais-para-adocao.html"
-          ${page === 'animais-para-adocao.html' ? 'aria-current="page"' : ''}
-        >
-          Animais
-        </a>
-
-
-        <a
-          href="sobre-o-projeto.html"
-          ${page === 'sobre-o-projeto.html' ? 'aria-current="page"' : ''}
-        >
-          Sobre o projeto
-        </a>
-
-
-        <a
-          href="quero-ajudar.html"
-          ${page === 'quero-ajudar.html' ? 'aria-current="page"' : ''}
-        >
-          Como ajudar
-        </a>
-
-
-        <a
-          href="rifas.html"
-          ${page === 'rifas.html' ? 'aria-current="page"' : ''}
-        >
-          Rifas
-        </a>
-
-      </nav>
-
-
-      <div class="pa-header-actions">
-        <!-- LOGIN ÚNICO -->
-        <a
-          class="pa-account"
-          href="login.html"
-          aria-label="Minha conta"
-          ${page === 'login.html' ? 'aria-current="page"' : ''}
-        >
-          <span
-            class="pa-account-icon material-symbols-outlined"
-            aria-hidden="true"
-          >
-            person
-          </span>
-
-          <span class="pa-account-label">
-            Conta
-          </span>
-        </a>
-
-      </div>
-
-    </header>
-  `;
-
+  </header>
+`;
 
   /*
    * ============================================================
@@ -143,22 +130,15 @@
           </a>
 
 
-          <a href="sobre-o-projeto.html">
-            Sobre o projeto
-          </a>
+          <a href="home.html#projeto">
+    Projeto
+</a>
 
 
           <a href="quero-ajudar.html">
             Como ajudar
           </a>
 
-
-          <a href="rifas.html">
-            Rifas
-          </a>
-          <a href="login.html">
-            Conta
-          </a>
 
 
           <a href="politica-privacidade.html">

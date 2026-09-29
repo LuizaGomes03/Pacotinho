@@ -1,325 +1,357 @@
-<!DOCTYPE html><html class="light" lang="pt-BR"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Encontre seu novo melhor amigo - Pacotinho de amor</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-                "on-primary": "#ffffff",
-                "on-primary-container": "#d5a4e4",
-                "tertiary": "#333300",
-                "tertiary-container": "#4a4a00",
-                "secondary-container": "#ffcdfe",
-                "secondary": "#78517a",
-                "surface-dim": "#ded8e0",
-                "outline": "#7e747e",
-                "background": "#fef7ff",
-                "secondary-fixed": "#ffd6fc",
-                "on-error-container": "#93000a",
-                "surface-variant": "#e7e0e8",
-                "tertiary-fixed-dim": "#cccc4b",
-                "on-surface-variant": "#4c444d",
-                "error": "#ba1a1a",
-                "on-primary-fixed": "#2f073f",
-                "on-tertiary-container": "#bbbb3b",
-                "secondary-fixed-dim": "#e7b7e6",
-                "surface-tint": "#784e87",
-                "on-surface": "#1d1a20",
-                "surface-container-highest": "#e7e0e8",
-                "surface-container-low": "#f8f1f9",
-                "primary-container": "#5f376e",
-                "error-container": "#ffdad6",
-                "on-background": "#1d1a20",
-                "on-primary-fixed-variant": "#5f376e",
-                "inverse-on-surface": "#f6eef6",
-                "inverse-surface": "#322f35",
-                "on-secondary-fixed-variant": "#5f3961",
-                "surface": "#fef7ff",
-                "tertiary-fixed": "#e9e964",
-                "on-tertiary": "#ffffff",
-                "primary": "#472056",
-                "primary-fixed": "#f9d8ff",
-                "inverse-primary": "#e7b5f6",
-                "on-secondary-fixed": "#2f0d33",
-                "surface-container-lowest": "#ffffff",
-                "on-secondary-container": "#7b537c",
-                "on-tertiary-fixed-variant": "#494900",
-                "surface-container": "#f3ecf4",
-                "on-error": "#ffffff",
-                "primary-fixed-dim": "#e7b5f6",
-                "outline-variant": "#cfc3ce",
-                "surface-container-high": "#ede6ee",
-                "surface-bright": "#fef7ff",
-                "on-secondary": "#ffffff",
-                "on-tertiary-fixed": "#1d1d00"
-        },
-        "borderRadius": {
-                "DEFAULT": "0.25rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-        },
-        "spacing": {
-                "xl": "80px",
-                "xs": "4px",
-                "md": "24px",
-                "sm": "12px",
-                "lg": "48px",
-                "base": "8px",
-                "gutter": "24px",
-                "margin-desktop": "64px",
-                "margin-mobile": "16px"
-        },
-        "fontFamily": {
-                "headline-lg": [
-                        "Montserrat"
-                ],
-                "headline-md": [
-                        "Montserrat"
-                ],
-                "body-lg": [
-                        "Montserrat"
-                ],
-                "body-md": [
-                        "Montserrat"
-                ],
-                "label-md": [
-                        "Montserrat"
-                ],
-                "headline-lg-mobile": [
-                        "Montserrat"
-                ]
-        },
-        "fontSize": {
-                "headline-lg": [
-                        "32px",
-                        {
-                                "lineHeight": "40px",
-                                "fontWeight": "700"
-                        }
-                ],
-                "headline-md": [
-                        "24px",
-                        {
-                                "lineHeight": "32px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-lg": [
-                        "18px",
-                        {
-                                "lineHeight": "28px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "body-md": [
-                        "16px",
-                        {
-                                "lineHeight": "24px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "label-md": [
-                        "14px",
-                        {
-                                "lineHeight": "20px",
-                                "letterSpacing": "0.5px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-lg-mobile": [
-                        "26px",
-                        {
-                                "lineHeight": "32px",
-                                "fontWeight": "700"
-                        }
-                ]
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animais para adoção — Pacotinho de Amor</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary": "#ffffff",
+            "on-primary-container": "#d5a4e4",
+            "secondary-container": "#ffcdfe",
+            "secondary": "#78517a",
+            "outline": "#7e747e",
+            "background": "#fef7ff",
+            "secondary-fixed": "#ffd6fc",
+            "surface-variant": "#e7e0e8",
+            "on-surface-variant": "#4c444d",
+            "on-surface": "#1d1a20",
+            "surface-container-low": "#f8f1f9",
+            "primary-container": "#5f376e",
+            "on-background": "#1d1a20",
+            "surface": "#fef7ff",
+            "primary": "#472056",
+            "primary-fixed": "#f9d8ff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#7b537c",
+            "surface-container": "#f3ecf4",
+            "surface-container-high": "#ede6ee"
+          },
+          borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", "2xl": "1.5rem", full: "9999px" },
+          spacing: { xl: "80px", xs: "4px", md: "24px", sm: "12px", lg: "48px", base: "8px", gutter: "24px" },
+          fontFamily: {
+            "headline-lg": ["Montserrat"], "headline-md": ["Montserrat"], "body-lg": ["Montserrat"],
+            "body-md": ["Montserrat"], "label-md": ["Montserrat"], "headline-lg-mobile": ["Montserrat"]
+          },
+          fontSize: {
+            "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.5px", fontWeight: "600" }],
+            "headline-lg-mobile": ["26px", { lineHeight: "32px", fontWeight: "700" }]
+          }
         }
-},
-    },
-  }
-</script>
-<style>
-        .squircle {
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-        }
-        .squircle-alt {
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-        }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
+      }
+    }
+  </script>
+
+  <style>
+    .squircle { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible {
+      outline: 3px solid #e7b5f6; outline-offset: 2px;
     }
   </style>
-<link rel="stylesheet" href="shared.css">
+
+  <link rel="stylesheet" href="shared.css">
 </head>
+
 <body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
-<!-- TopAppBar -->
-<header class="bg-surface dark:bg-on-background docked full-width top-0 flat no shadows z-40 relative">
-<div class="flex justify-between items-center w-full px-sm py-xs max-w-[1200px] mx-auto">
-<div class="flex items-center gap-sm">
-<button class="p-xs text-primary dark:text-primary-fixed hover:bg-surface-container-high transition-colors rounded-full active:scale-95 transition-transform duration-150 hidden md:block">
-<span class="material-symbols-outlined" data-icon="menu">menu</span>
-</button>
-<a class="flex items-center gap-2 font-headline-lg-mobile md:font-headline-lg text-headline-md md:text-headline-lg text-primary dark:text-primary-fixed-dim" href="#">
-<img alt="Pacotinho de amor" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpQPhvMUBmlryre9gC9Vl0v2jjnE1cjHlOUT07FFwT7vsFGnKZjmGMRo3XH22hzygg8xLrftxczI1izrcnAHp9d97KBFZPcn4IQ0K7ifydPOvAF4KGLEocFcRUIlRf327ZwmxjWWy_ZyLV1FNH7rJOUUhTkD7YAW_x2JJGrdOmyOLk6HaVgxmfZnVr_Obsii4bgqQBoXk1oeR4w5fQpOSjweWK03UTqNSIvCfxTnCBu2J-I9hkfISBjMrLTXvceLkVcA">
-Pacotinho de amor
-</a>
-</div>
-<nav class="hidden md:flex items-center gap-md">
-<a class="text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors px-3 py-2 rounded-full" href="#">Início</a>
-<a class="text-primary dark:text-primary-fixed-dim font-bold font-label-md text-label-md hover:bg-surface-container-high transition-colors px-3 py-2 rounded-full" href="#">Buscar</a>
-<a class="text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors px-3 py-2 rounded-full" href="#">Favoritos</a>
-<a class="text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors px-3 py-2 rounded-full" href="#">Perfil</a>
-</nav>
-</div>
-</header>
-<!-- Main Content -->
-<main class="flex-grow w-full max-w-[1200px] mx-auto px-gutter py-lg md:py-xl flex flex-col gap-xl">
-<!-- Hero Section -->
-<section class="flex flex-col md:flex-row items-center gap-lg">
-<div class="flex-1 flex flex-col gap-sm">
-<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Encontre seu novo melhor amigo</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-prose">
-                    Navegue pelos nossos perfis e encontre o companheiro perfeito para alegrar sua casa. Adoção responsável e com amor.
-                </p>
-<!-- Search Bar -->
-<div class="mt-md relative max-w-md w-full">
-<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
-<input class="w-full pl-xl pr-sm py-sm rounded-xl border border-surface-variant bg-surface focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-body-md font-body-md outline-none" data-search-control placeholder="Buscar por raça ou nome..." type="text">
-</div>
-</div>
-<div class="flex-1 relative w-full aspect-square md:aspect-auto md:h-96 max-w-md mx-auto hidden md:block">
-<!-- Organic Shape Background -->
-<div class="absolute inset-0 bg-secondary-fixed squircle opacity-50 transform translate-x-4 translate-y-4"></div>
-<img alt="Happy dog" class="absolute inset-0 w-full h-full object-cover squircle shadow-lg border-4 border-surface" data-alt="A high-quality, professional photograph of a happy Golden Retriever puppy running towards the camera on a sunny day in a green park. The image is bright, inviting, and uses a soft organic aesthetic with shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASja092QGgHS9Iyz6VgYATORV_56XZAzZd8Ngv6i6v67oGmF1KFFvEJqwK5ooiSr-BmstV12Z99Zx2Up3K0Adri_JeYAZOaOmKU9WPUleXDaMXZV_natg3u1JwIxkEe1BJbvCVPTV5uIdToMjNPFKLm-eSzNLM6UrI_nOd4ra37ZXdr4Q6R7bbQzsvggrwh8R23EGbMlnUeZzVOqXoN1R5VL0-L-jD-8B4eWDGQszW51I8ZIYcLUCY">
-</div>
-</section>
-<!-- Filters Section -->
-<section class="bg-surface-container-low rounded-2xl p-md flex flex-wrap items-center gap-md" data-animal-filters data-species-filter="all">
-<div class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs">
-<span class="material-symbols-outlined" data-icon="tune">tune</span> Filtros
-            </div>
-<!-- Species Filter -->
-<div class="flex items-center gap-xs bg-surface rounded-full p-1 shadow-sm border border-surface-variant">
-<button class="px-sm py-1 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md transition-colors" data-filter-control data-species-filter="all" type="button">Todos</button>
-<button class="px-sm py-1 rounded-full text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md transition-colors" data-filter-control data-species-filter="dog" type="button">Cães</button>
-<button class="px-sm py-1 rounded-full text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md transition-colors" data-filter-control data-species-filter="cat" type="button">Gatos</button>
-</div>
-<!-- Gender Select -->
-<select class="bg-surface border border-surface-variant rounded-full px-md py-xs font-label-md text-label-md text-on-surface focus:border-primary outline-none" data-filter-control data-filter-key="sex">
-<option value="">Gênero</option>
-<option value="femea">Fêmea</option>
-<option value="macho">Macho</option>
-</select>
-<!-- Age Select -->
-<select class="bg-surface border border-surface-variant rounded-full px-md py-xs font-label-md text-label-md text-on-surface focus:border-primary outline-none" data-filter-control data-filter-key="age">
-<option value="">Idade</option>
-<option value="filhote">Filhote</option>
-<option value="adulto">Adulto</option>
-<option value="idoso">Idoso</option>
-</select>
-<!-- Size Select -->
-<select class="bg-surface border border-surface-variant rounded-full px-md py-xs font-label-md text-label-md text-on-surface focus:border-primary outline-none" data-filter-control data-filter-key="size">
-<option value="">Porte</option>
-<option value="pequeno">Pequeno</option>
-<option value="medio">Médio</option>
-<option value="grande">Grande</option>
-</select>
-</section>
-<!-- Pet Grid -->
-<section id="animal-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md lg:gap-lg">
-  <!-- Os animais cadastrados pela Bárbara serão inseridos aqui automaticamente. -->
-</section>
-<p class="hidden text-center text-on-surface-variant font-body-md" id="pa-no-results">Nenhum animal encontrado com esses filtros.</p>
-<!-- Pagination (Simple) -->
-<div id="animal-pagination" class="hidden flex justify-center items-center gap-2 mt-md">
-  <button type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high">
-    <span class="material-symbols-outlined">chevron_left</span>
-  </button>
-  <button type="button" class="w-8 h-8 rounded-full bg-primary text-on-primary font-label-md flex items-center justify-center">1</button>
-  <button type="button" class="w-8 h-8 rounded-full text-on-surface-variant hover:bg-surface-container-high font-label-md flex items-center justify-center">2</button>
-  <button type="button" class="w-8 h-8 rounded-full text-on-surface-variant hover:bg-surface-container-high font-label-md flex items-center justify-center">3</button>
-  <button type="button" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high">
-    <span class="material-symbols-outlined">chevron_right</span>
-  </button>
-</div>
+
+<!-- O header e o footer são inseridos pelo shared.js, igual à home -->
+
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-gutter py-lg md:py-xl pb-28 md:pb-xl flex flex-col gap-lg">
+
+  <!-- TOPO -->
+  <section class="flex flex-col md:flex-row items-center gap-lg">
+    <div class="flex-1 flex flex-col gap-sm">
+      <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+        Encontre seu novo melhor amigo
+      </h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-prose">
+        Conheça os animais que estão esperando por uma família.
+      </p>
+
+      <div class="mt-sm relative max-w-md w-full">
+        <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+        <input id="busca" type="search" placeholder="Buscar por nome ou raça"
+               class="w-full pl-[48px] pr-sm py-sm rounded-xl border border-surface-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary">
+      </div>
+    </div>
+
+    <div class="flex-1 relative w-full md:h-80 max-w-sm mx-auto hidden md:block">
+      <div class="absolute inset-0 bg-secondary-fixed squircle opacity-60 translate-x-4 translate-y-4"></div>
+      <img alt="Joe, cachorro resgatado pelo Pacotinho de Amor"
+           class="absolute inset-0 w-full h-full object-cover squircle shadow-lg border-4 border-surface"
+           src="assets/joe.jpg">
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="bg-surface-container-low rounded-2xl p-md flex flex-wrap items-center gap-sm md:gap-md">
+    <div class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs">
+      <span class="material-symbols-outlined">tune</span> Filtros
+    </div>
+
+    <div class="flex items-center gap-xs bg-surface-container-lowest rounded-full p-1 border border-surface-variant" id="filtroEspecie">
+      <button type="button" data-especie="todos" class="px-sm py-1 rounded-full font-label-md text-label-md">Todos</button>
+      <button type="button" data-especie="cao" class="px-sm py-1 rounded-full font-label-md text-label-md">Cães</button>
+      <button type="button" data-especie="gato" class="px-sm py-1 rounded-full font-label-md text-label-md">Gatos</button>
+    </div>
+
+    <select id="filtroSexo" class="bg-surface-container-lowest border border-surface-variant rounded-full px-md py-xs font-label-md text-label-md">
+      <option value="">Sexo</option>
+      <option value="femea">Fêmea</option>
+      <option value="macho">Macho</option>
+    </select>
+
+    <select id="filtroIdade" class="bg-surface-container-lowest border border-surface-variant rounded-full px-md py-xs font-label-md text-label-md">
+      <option value="">Idade</option>
+      <option value="filhote">Filhote (até 1 ano)</option>
+      <option value="adulto">Adulto (1 a 7 anos)</option>
+      <option value="idoso">Idoso (8 anos ou mais)</option>
+    </select>
+
+    <select id="filtroPorte" class="bg-surface-container-lowest border border-surface-variant rounded-full px-md py-xs font-label-md text-label-md">
+      <option value="">Porte</option>
+      <option value="pequeno">Pequeno</option>
+      <option value="medio">Médio</option>
+      <option value="grande">Grande</option>
+    </select>
+
+    <button type="button" id="limparFiltros" class="font-label-md text-label-md text-primary hover:underline md:ml-auto">
+      Limpar filtros
+    </button>
+  </section>
+
+  <!-- RESULTADO -->
+  <p id="contador" class="font-label-md text-label-md text-on-surface-variant -mb-sm" aria-live="polite"></p>
+
+  <section id="animal-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+    <!-- Carregando -->
+    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="h-56 rounded-xl bg-surface-container-high"></div></div>
+    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="h-56 rounded-xl bg-surface-container-high"></div></div>
+    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="h-56 rounded-xl bg-surface-container-high"></div></div>
+  </section>
+
+  <p id="mensagem" class="hidden text-center text-on-surface-variant py-lg"></p>
+
 </main>
-<!-- BottomNavBar (Mobile Only) -->
-<nav class="bg-surface-container-lowest dark:bg-inverse-surface shadow-lg dark:shadow-none docked full-width bottom-0 rounded-t-xl fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden">
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="home">home</span>
-<span class="font-label-md text-label-md mt-1">Início</span>
-</a>
-<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="search" data-weight="fill">search</span>
-<span class="font-label-md text-label-md mt-1">Buscar</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
-<span class="font-label-md text-label-md mt-1">Favoritos</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="person">person</span>
-<span class="font-label-md text-label-md mt-1">Perfil</span>
-</a>
+
+<!-- MENU INFERIOR (CELULAR) -->
+<nav class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-xl bg-surface-container-lowest px-4 pb-4 pt-2 shadow-lg md:hidden" aria-label="Menu principal">
+  <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="home.html">
+    <span class="material-symbols-outlined">home</span>
+    <span class="mt-1 font-label-md text-[12px]">Início</span>
+  </a>
+  <a class="flex flex-col items-center justify-center rounded-full bg-primary-fixed px-4 py-1 text-primary" href="animais-para-adocao.html" aria-current="page">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">search</span>
+    <span class="mt-1 font-label-md text-[12px]">Buscar</span>
+  </a>
+  <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="solicitacoes-adocao.html">
+    <span class="material-symbols-outlined">favorite</span>
+    <span class="mt-1 font-label-md text-[12px]">Favoritos</span>
+  </a>
+  <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="login.html">
+    <span class="material-symbols-outlined">person</span>
+    <span class="mt-1 font-label-md text-[12px]">Conta</span>
+  </a>
 </nav>
-<footer class="pa-footer"><div class="pa-footer-inner"><div class="pa-footer-brand"><img class="pa-footer-logo" src="assets/logo-footer.png" alt="Logo Pacotinho de Amor"><div><strong>Pacotinho de Amor</strong><p>Projeto independente dedicado a conectar animais que precisam de um lar a pessoas dispostas a amar para sempre.</p></div></div><nav aria-label="Links do rodapé"><a href="home.html">Início</a><a href="animais-para-adocao.html">Animais</a><a href="sobre-o-projeto.html">Sobre o projeto</a><a href="quero-ajudar.html">Como ajudar</a><a href="conta.html">Conta</a><a href="login-voluntario.html">Área voluntária</a></nav></div><small>Mais de 1.950 animais adotados com amor. © Pacotinho de Amor</small></footer>
+
+<script src="shared.js"></script>
+
 <script>
 (() => {
-  const panel = document.querySelector('[data-animal-filters]');
-  if (!panel) return;
-  const cards = Array.from(document.querySelectorAll('[data-animal-card]'));
-  const speciesButtons = Array.from(panel.querySelectorAll('[data-species-filter]'));
-  const selects = Array.from(panel.querySelectorAll('select[data-filter-key]'));
-  const search = panel.querySelector('[data-search-control]');
-  const noResults = document.getElementById('pa-no-results');
-  const strip = (value) => (value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const setSpecies = (value) => {
-    panel.dataset.speciesFilter = value;
-    speciesButtons.forEach((button) => {
-      const active = button.dataset.speciesFilter === value;
-      button.className = active
-        ? 'px-sm py-1 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md transition-colors'
-        : 'px-sm py-1 rounded-full text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md transition-colors';
+  const grid = document.getElementById("animal-grid");
+  const mensagem = document.getElementById("mensagem");
+  const contador = document.getElementById("contador");
+  const busca = document.getElementById("busca");
+  const filtroSexo = document.getElementById("filtroSexo");
+  const filtroIdade = document.getElementById("filtroIdade");
+  const filtroPorte = document.getElementById("filtroPorte");
+  const botoesEspecie = [...document.querySelectorAll("#filtroEspecie button")];
+
+  let animais = [];
+  let especieAtual = "todos";
+
+  /* ---------- utilidades ---------- */
+
+  // minúsculo e sem acento: "Cão" -> "cao", "Fêmea" -> "femea"
+  const limpar = (v) => String(v ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+
+  const escapeHTML = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[c]));
+
+  function getId(a) {
+    if (a?._id && typeof a._id === "object") return a._id.$oid || a._id.toString();
+    return a?._id || a?.id || "";
+  }
+
+  // "Cão", "Cachorro" -> cao | "Gato", "Gata" -> gato
+  function especieDe(texto) {
+    const t = limpar(texto);
+    if (t.startsWith("ca")) return "cao";
+    if (t.startsWith("gat")) return "gato";
+    return "";
+  }
+
+  // "Fêmea" -> femea | "Macho" -> macho
+  function sexoDe(texto) {
+    const t = limpar(texto);
+    if (t.startsWith("fem")) return "femea";
+    if (t.startsWith("mac")) return "macho";
+    return "";
+  }
+
+  // "Grande porte" -> grande
+  function porteDe(texto) {
+    const t = limpar(texto);
+    if (t.includes("pequen")) return "pequeno";
+    if (t.includes("medi")) return "medio";
+    if (t.includes("grand")) return "grande";
+    return "";
+  }
+
+  // "3 anos" -> adulto | "5 meses" -> filhote | "10 anos" -> idoso
+  function faixaIdade(texto) {
+    const t = limpar(texto);
+    if (t.includes("filhote")) return "filhote";
+    if (t.includes("idoso")) return "idoso";
+    if (t.includes("adulto")) return "adulto";
+
+    const numero = parseFloat((t.match(/\d+([.,]\d+)?/) || ["0"])[0].replace(",", "."));
+    if (t.includes("mes")) return "filhote";
+    if (!numero) return "";
+    if (numero < 1) return "filhote";
+    if (numero < 8) return "adulto";
+    return "idoso";
+  }
+
+  /* ---------- card ---------- */
+
+  function card(a) {
+    const img = a.image || a.imagem || a.photo || a.foto || "assets/logo-footer.png";
+    const nome = a.name || "Animal";
+    const detalhes = [a.age, a.sex, a.size].filter(Boolean);
+
+    return `
+      <article class="group flex flex-col overflow-hidden rounded-2xl bg-surface-container-lowest shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+        <div class="h-56 w-full overflow-hidden bg-surface-container">
+          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+               src="${escapeHTML(img)}" alt="Foto de ${escapeHTML(nome)}"
+               onerror="this.src='assets/logo-footer.png'">
+        </div>
+        <div class="flex flex-grow flex-col justify-between p-md">
+          <div>
+            <h2 class="font-headline-md text-[20px] text-on-surface">${escapeHTML(nome)}</h2>
+            <p class="mb-sm text-sm text-on-surface-variant">${escapeHTML(a.breed || "Sem raça definida")}</p>
+            <div class="flex flex-wrap gap-xs">
+              ${detalhes.map((d) => `<span class="rounded-full bg-surface-variant px-sm py-xs text-[13px] font-semibold text-on-surface-variant">${escapeHTML(d)}</span>`).join("")}
+            </div>
+            ${a.description ? `<p class="mt-sm line-clamp-2 text-sm text-on-surface-variant">${escapeHTML(a.description)}</p>` : ""}
+          </div>
+          <a class="mt-md inline-flex w-full items-center justify-center rounded-full bg-primary py-sm font-label-md text-label-md text-on-primary transition-colors hover:bg-primary-container"
+             href="detalhes-animal.html?id=${encodeURIComponent(getId(a))}">
+            Conheça ${escapeHTML(nome)}
+          </a>
+        </div>
+      </article>`;
+  }
+
+  /* ---------- filtros ---------- */
+
+  function pintarBotoesEspecie() {
+    botoesEspecie.forEach((b) => {
+      const ativo = b.dataset.especie === especieAtual;
+      b.className = "px-sm py-1 rounded-full font-label-md text-label-md transition-colors " +
+        (ativo ? "bg-primary text-on-primary" : "text-on-surface-variant hover:bg-surface-container-high");
+      b.setAttribute("aria-pressed", ativo);
     });
-  };
-  const apply = () => {
-    const searchValue = strip(search ? search.value : '');
-    const species = panel.dataset.speciesFilter || 'all';
-    const filters = {};
-    selects.forEach((select) => { filters[select.dataset.filterKey] = select.value; });
-    let visible = 0;
-    cards.forEach((card) => {
-      const matchesSearch = !searchValue || strip(card.dataset.search).indexOf(searchValue) !== -1;
-      const matchesSpecies = species === 'all' || card.dataset.species === species;
-      const matchesSex = !filters.sex || card.dataset.sex === filters.sex;
-      const matchesAge = !filters.age || card.dataset.age === filters.age;
-      const matchesSize = !filters.size || card.dataset.size === filters.size;
-      const show = matchesSearch && matchesSpecies && matchesSex && matchesAge && matchesSize;
-      card.classList.toggle('hidden', !show);
-      if (show) visible += 1;
-    });
-    if (noResults) noResults.classList.toggle('hidden', visible !== 0);
-  };
-  speciesButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      setSpecies(button.dataset.speciesFilter || 'all');
-      apply();
-    });
+  }
+
+  function aplicarFiltros() {
+    const termo = limpar(busca.value);
+
+    const visiveis = animais.filter((a) =>
+      (!termo || limpar(`${a.name} ${a.breed}`).includes(termo)) &&
+      (especieAtual === "todos" || especieDe(a.species) === especieAtual) &&
+      (!filtroSexo.value || sexoDe(a.sex) === filtroSexo.value) &&
+      (!filtroIdade.value || faixaIdade(a.age) === filtroIdade.value) &&
+      (!filtroPorte.value || porteDe(a.size) === filtroPorte.value)
+    );
+
+    grid.innerHTML = visiveis.map(card).join("");
+    grid.classList.toggle("hidden", visiveis.length === 0);
+
+    contador.textContent = visiveis.length === 1 ? "1 animal encontrado" : `${visiveis.length} animais encontrados`;
+
+    if (!visiveis.length) {
+      mensagem.textContent = "Nenhum animal encontrado com esses filtros.";
+      mensagem.classList.remove("hidden");
+    } else {
+      mensagem.classList.add("hidden");
+    }
+  }
+
+  botoesEspecie.forEach((b) => b.addEventListener("click", () => {
+    especieAtual = b.dataset.especie;
+    pintarBotoesEspecie();
+    aplicarFiltros();
+  }));
+
+  [filtroSexo, filtroIdade, filtroPorte].forEach((s) => s.addEventListener("change", aplicarFiltros));
+  busca.addEventListener("input", aplicarFiltros);
+
+  document.getElementById("limparFiltros").addEventListener("click", () => {
+    busca.value = "";
+    filtroSexo.value = filtroIdade.value = filtroPorte.value = "";
+    especieAtual = "todos";
+    pintarBotoesEspecie();
+    aplicarFiltros();
   });
-  selects.forEach((select) => select.addEventListener('change', apply));
-  if (search) search.addEventListener('input', apply);
-  setSpecies(panel.dataset.speciesFilter || 'all');
-  apply();
+
+  /* ---------- carregar do banco ---------- */
+
+  async function carregar() {
+    try {
+      const resposta = await fetch("/api/animals", { credentials: "include" });
+      if (!resposta.ok) throw new Error("Erro " + resposta.status);
+
+      const data = await resposta.json();
+      const lista = Array.isArray(data) ? data : (data.animals || data.data || []);
+
+      // só disponíveis, mais recentes primeiro
+      animais = lista
+        .filter((a) => {
+          const s = limpar(a.status);
+          return !s || s === "disponivel";
+        })
+        .sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")));
+
+      aplicarFiltros();
+    } catch (erro) {
+      console.error("Erro ao carregar animais:", erro);
+      grid.classList.add("hidden");
+      contador.textContent = "";
+      mensagem.textContent = "Não foi possível carregar os animais agora. Verifique se o servidor está rodando.";
+      mensagem.classList.remove("hidden");
+    }
+  }
+
+  pintarBotoesEspecie();
+  carregar();
 })();
 </script>
-<script src="shared.js"></script>
-</body></html>
+
+</body>
+</html>
