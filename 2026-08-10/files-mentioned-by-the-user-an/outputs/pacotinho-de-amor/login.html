@@ -1,353 +1,460 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Login | Pacotinho de Amor</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet">
-        
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-tint": "#784e87",
-                        "on-error-container": "#93000a",
-                        "on-surface": "#1d1a20",
-                        "on-secondary": "#ffffff",
-                        "surface-container": "#f3ecf4",
-                        "on-tertiary-fixed-variant": "#494900",
-                        "background": "#fef7ff",
-                        "secondary": "#78517a",
-                        "surface-container-high": "#ede6ee",
-                        "primary-container": "#5f376e",
-                        "surface-container-highest": "#e7e0e8",
-                        "primary": "#472056",
-                        "on-secondary-container": "#7b537c",
-                        "surface": "#fef7ff",
-                        "on-error": "#ffffff",
-                        "inverse-surface": "#322f35",
-                        "on-secondary-fixed": "#2f0d33",
-                        "secondary-fixed": "#ffd6fc",
-                        "error-container": "#ffdad6",
-                        "tertiary": "#333300",
-                        "surface-dim": "#ded8e0",
-                        "on-primary-fixed-variant": "#5f376e",
-                        "on-tertiary-container": "#bbbb3b",
-                        "tertiary-fixed-dim": "#cccc4b",
-                        "on-primary-fixed": "#2f073f",
-                        "primary-fixed-dim": "#e7b5f6",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-variant": "#e7e0e8",
-                        "tertiary-container": "#4a4a00",
-                        "on-secondary-fixed-variant": "#5f3961",
-                        "on-surface-variant": "#4c444d",
-                        "outline": "#7e747e",
-                        "on-tertiary": "#ffffff",
-                        "on-primary": "#ffffff",
-                        "surface-container-low": "#f8f1f9",
-                        "secondary-container": "#ffcdfe",
-                        "inverse-primary": "#e7b5f6",
-                        "on-primary-container": "#d5a4e4",
-                        "primary-fixed": "#f9d8ff",
-                        "secondary-fixed-dim": "#e7b7e6",
-                        "error": "#ba1a1a",
-                        "surface-bright": "#fef7ff",
-                        "on-tertiary-fixed": "#1d1d00",
-                        "tertiary-fixed": "#e9e964",
-                        "inverse-on-surface": "#f6eef6",
-                        "outline-variant": "#cfc3ce",
-                        "on-background": "#1d1a20"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "sm": "12px",
-                        "xs": "4px",
-                        "md": "24px",
-                        "base": "8px",
-                        "margin-mobile": "16px",
-                        "margin-desktop": "64px",
-                        "gutter": "24px",
-                        "xl": "80px",
-                        "lg": "48px"
-                    },
-                    "fontFamily": {
-                        "headline-md": ["Montserrat"],
-                        "headline-lg-mobile": ["Montserrat"],
-                        "label-md": ["Montserrat"],
-                        "headline-lg": ["Montserrat"],
-                        "body-md": ["Montserrat"],
-                        "body-lg": ["Montserrat"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["26px", { "lineHeight": "32px", "fontWeight": "700" }],
-                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600" }],
-                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
-                    }
-                }
-            }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Área voluntária — Pacotinho de Amor</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  >
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#472056",
+            "primary-container": "#5f376e",
+            "primary-fixed": "#f9d8ff",
+            secondary: "#78517a",
+            background: "#fef7ff",
+            "on-surface": "#1d1a20",
+            "on-surface-variant": "#4c444d",
+            outline: "#7e747e",
+            "outline-variant": "#cfc3ce",
+            "surface-variant": "#e7e0e8"
+          },
+          fontFamily: {
+            sans: ["Montserrat", "sans-serif"]
+          }
         }
-    </script>
-    <link rel="stylesheet" href="shared.css">
+      }
+    };
+  </script>
+
+  <style>
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #e7b5f6;
+      outline-offset: 3px;
+    }
+  </style>
+
+  <link rel="stylesheet" href="shared.css">
 </head>
 
-<body class="min-h-screen bg-[#FDF7FF] text-[#1D1A20] font-body-md">
+<body class="min-h-screen bg-background font-sans text-on-surface">
 
-    <!-- Header do site -->
-    <header class="pa-header">
-        <a href="home.html" class="pa-brand">
-            <img
-                src="assets/logo-footer.png"
-                alt="Pacotinho de Amor"
-                class="pa-brand-logo"
-            >
-            <span>Pacotinho de amor</span>
-        </a>
+  <main class="flex min-h-[calc(100vh-160px)] w-full items-center justify-center px-4 py-10 md:px-8">
 
-        <nav class="pa-nav" aria-label="Navegação principal">
-            <a href="animais-para-adocao.html">Animais</a>
-            <a href="sobre-o-projeto.html">Sobre o projeto</a>
-        </nav>
-    </header>
+    <section class="w-full max-w-[440px] rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(95,55,110,0.10)] md:p-8">
 
-    <!-- Área principal -->
-    <main class="min-h-[calc(100vh-150px)] w-full flex items-center justify-center px-4 py-10 md:px-8">
-        <section
-            class="w-full max-w-[460px] bg-white rounded-2xl shadow-[0_8px_30px_rgba(95,55,110,0.10)] overflow-hidden"
-        >
+      <div class="mb-6 text-center">
 
-            <!-- Cabeçalho do login -->
-</div>
-
-                    <!-- Senha -->
-                    <div>
-                        <div class="flex items-center justify-between mb-1.5">
-                            <label
-                                class="block text-sm font-semibold text-[#1D1A20]"
-                                for="password"
-                            >
-                                Senha
-                            </label>
-
-                            <a
-                                href="#"
-                                class="text-xs font-semibold text-[#B98CB9] hover:text-[#5F376E] transition-colors"
-                            >
-                                Esqueci minha senha
-                            </a>
-                        </div>
-
-                        <div class="relative">
-                            <span
-                                aria-hidden="true"
-                                class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7E747E]"
-                            >
-                                lock
-                            </span>
-
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autocomplete="current-password"
-                                required
-                                placeholder="Digite sua senha"
-                                class="w-full pl-11 pr-4 py-3 bg-white border border-[#CFC3CE] rounded-xl focus:border-[#5F376E] focus:ring-2 focus:ring-[#5F376E]/15 focus:outline-none text-sm md:text-base"
-                            >
-                        </div>
-                    </div>
-
-                    <div id="loginMessage" class="hidden rounded-xl px-4 py-3 text-sm"></div>
-
-                    <button
-                        id="loginButton"
-                        type="submit"
-                        class="w-full rounded-xl bg-[#5F376E] text-white py-3.5 px-4 font-semibold hover:bg-[#472056] transition-all active:scale-[0.99] disabled:opacity-60 flex items-center justify-center gap-2"
-                    >
-                        <span id="loginButtonText">Entrar</span>
-                        <span class="material-symbols-outlined text-[20px]">
-                            arrow_forward
-                        </span>
-                    </button>
-
-                </form>
-
-                <div class="mt-6 pt-5 border-t border-[#E7E0E8] text-center">
-                    <a
-                        href="home.html"
-                        class="text-sm font-semibold text-[#5F376E] hover:underline"
-                    >
-                        Voltar para o início
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="pa-footer">
-        <div class="pa-footer-inner">
-            <div class="pa-footer-brand">
-                <img
-                    class="pa-footer-logo"
-                    src="assets/logo-footer.png"
-                    alt="Logo Pacotinho de Amor"
-                >
-                <div>
-                    <strong>Pacotinho de Amor</strong>
-                    <p>
-                        Projeto independente dedicado a conectar animais
-                        que precisam de um lar a pessoas dispostas a amar para sempre.
-                    </p>
-                </div>
-            </div>
-
-            <nav aria-label="Links do rodapé">
-                <a href="home.html">Início</a>
-                <a href="animais-para-adocao.html">Animais</a>
-                <a href="sobre-o-projeto.html">Sobre o projeto</a>
-                <a href="quero-ajudar.html">Como ajudar</a>
-                <a href="conta.html">Conta</a>
-                <a href="login.html">Área voluntária</a>
-                <a href="politica-privacidade.html">Política de Privacidade</a>
-                <a href="termos-uso.html">Termos de Uso</a>
-            </nav>
+        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary-fixed">
+          <span class="material-symbols-outlined text-[28px] text-primary">
+            volunteer_activism
+          </span>
         </div>
 
-        <small>
-            Mais de 1.950 animais adotados com amor. © Pacotinho de Amor
-        </small>
-    </footer>
+        <h1 class="text-2xl font-bold text-primary">
+          Área voluntária
+        </h1>
 
-    <script>
-(() => {
-    const API = location.port === "8000"
-        ? "/api"
-        : "http://127.0.0.1:8000/api";
+        <p class="mt-1 text-sm text-on-surface-variant">
+          Entre com o e-mail e a senha da sua conta de voluntário(a).
+        </p>
 
-    const form = document.getElementById("loginForm");
-    const message = document.getElementById("loginMessage");
-    const button = document.getElementById("loginButton");
-    const buttonText = document.getElementById("loginButtonText");
+      </div>
 
-    if (!form) return;
+      <form id="loginForm" class="space-y-4" novalidate>
 
-    function showMessage(text) {
-        message.textContent = text;
+        <div>
+          <label for="email" class="mb-1.5 block text-sm font-semibold">
+            E-mail
+          </label>
+
+          <div class="relative">
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline"
+            >
+              mail
+            </span>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              placeholder="seuemail@exemplo.com"
+              class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-4 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15"
+            >
+          </div>
+        </div>
+
+        <div>
+
+          <div class="mb-1.5 flex items-center justify-between">
+            <label for="password" class="block text-sm font-semibold">
+              Senha
+            </label>
+
+            <a
+              href="recuperar-senha-voluntario.html"
+              class="text-xs font-semibold text-secondary hover:text-primary hover:underline"
+            >
+              Esqueci minha senha
+            </a>
+          </div>
+
+          <div class="relative">
+
+            <span
+              aria-hidden="true"
+              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline"
+            >
+              lock
+            </span>
+
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              placeholder="Digite sua senha"
+              class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-12 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15"
+            >
+
+            <button
+              type="button"
+              id="mostrarSenha"
+              aria-label="Mostrar senha"
+              class="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-outline hover:bg-background"
+            >
+              <span class="material-symbols-outlined text-[20px]">
+                visibility
+              </span>
+            </button>
+
+          </div>
+        </div>
+
+        <div
+          id="loginMessage"
+          role="alert"
+          aria-live="polite"
+          class="hidden"
+        ></div>
+
+        <button
+          id="loginButton"
+          type="submit"
+          class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-container px-4 py-3.5 font-semibold text-white transition hover:bg-primary disabled:opacity-60"
+        >
+          <span id="loginButtonText">Entrar</span>
+
+          <span class="material-symbols-outlined text-[20px]">
+            arrow_forward
+          </span>
+        </button>
+
+      </form>
+
+      <div class="mt-6 space-y-2 border-t border-surface-variant pt-5 text-center text-sm">
+
+        <p class="text-on-surface-variant">
+          Ainda não tem uma conta?
+
+          <a
+            href="cadastro.html"
+            class="font-semibold text-primary hover:underline"
+          >
+            Cadastre-se
+          </a>
+        </p>
+
+        <a
+          href="home.html"
+          class="inline-block font-semibold text-primary hover:underline"
+        >
+          Voltar para o início
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="shared.js"></script>
+
+  <script>
+    (() => {
+
+      /*
+       * O mesmo login funciona pelo servidor Python na porta 8000
+       * ou pelo Live Server.
+       */
+      const API =
+        location.port === "8000"
+          ? "/api"
+          : "http://127.0.0.1:8000/api";
+
+      const form = document.getElementById("loginForm");
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+      const message = document.getElementById("loginMessage");
+      const button = document.getElementById("loginButton");
+      const buttonText = document.getElementById("loginButtonText");
+      const toggle = document.getElementById("mostrarSenha");
+
+      /*
+       * Permite voltar para uma página interna depois do login.
+       * Exemplo:
+       * login.html?next=painel-voluntario.html
+       */
+      function destinoSeguro(padrao) {
+
+        const next =
+          new URLSearchParams(location.search).get("next") || "";
+
+        /*
+         * Aceita somente páginas HTML do próprio projeto.
+         * Não permite URLs externas.
+         */
+        const permitido =
+          /^[\w-]+\.html(?:\?[\w=&%.-]*)?$/.test(next);
+
+        return permitido ? next : padrao;
+      }
+
+      function mostrarErro(texto) {
+
+        message.textContent = texto;
+
         message.className =
-            "rounded-xl px-4 py-3 text-sm bg-red-50 text-red-700 border border-red-200";
-    }
+          "rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700";
+      }
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+      function limparErro() {
 
-        const email = document.getElementById("email").value.trim().toLowerCase();
-        const password = document.getElementById("password").value;
-
-        message.className = "hidden";
         message.textContent = "";
+        message.className = "hidden";
+      }
 
-        if (!email || !password) {
-            showMessage("Preencha o e-mail e a senha.");
-            return;
+      toggle.addEventListener("click", () => {
+
+        const visivel =
+          password.type === "text";
+
+        password.type =
+          visivel ? "password" : "text";
+
+        toggle.setAttribute(
+          "aria-label",
+          visivel ? "Mostrar senha" : "Ocultar senha"
+        );
+
+        toggle.querySelector("span").textContent =
+          visivel ? "visibility" : "visibility_off";
+      });
+
+      [email, password].forEach((campo) => {
+        campo.addEventListener("input", limparErro);
+      });
+
+      form.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+        limparErro();
+
+        const emailValor =
+          email.value.trim().toLowerCase();
+
+        const senhaValor =
+          password.value;
+
+        if (!emailValor || !senhaValor) {
+
+          mostrarErro(
+            "Preencha o e-mail e a senha."
+          );
+
+          (emailValor ? password : email).focus();
+
+          return;
         }
 
         button.disabled = true;
         buttonText.textContent = "Entrando...";
 
         try {
-            const response = await fetch(`${API}/auth/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                    email,
-                    password
-                })
-            });
 
-            const data = await response.json().catch(() => ({}));
-
-            if (!response.ok || !data.ok) {
-                throw new Error(
-                    data.message || "E-mail ou senha inválidos."
-                );
+          /*
+           * MASTER e VOLUNTÁRIO
+           *
+           * O backend atual usa /api/auth/login para os dois.
+           */
+          const resposta = await fetch(
+            `${API}/auth/login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              credentials: "include",
+              body: JSON.stringify({
+                email: emailValor,
+                password: senhaValor
+              })
             }
+          );
 
-            // O backend agora informa explicitamente o tipo da conta.
-            const userType = String(data.user_type || "").toLowerCase();
+          const dados =
+            await resposta.json().catch(() => ({}));
 
-            if (userType === "master") {
-                localStorage.setItem(
-                    "master_name",
-                    data.user?.name || data.user?.nome || ""
-                );
-                localStorage.setItem(
-                    "master_email",
-                    data.user?.email || ""
-                );
-                localStorage.setItem(
-                    "master_id",
-                    data.user?.id || ""
-                );
-
-                window.location.href = "painel-master.html";
-                return;
-            }
-
-            if (userType === "volunteer") {
-                localStorage.setItem(
-                    "volunteer_name",
-                    data.user?.name || data.user?.nome || ""
-                );
-                localStorage.setItem(
-                    "volunteer_email",
-                    data.user?.email || ""
-                );
-                localStorage.setItem(
-                    "volunteer_id",
-                    data.user?.id || ""
-                );
-
-                window.location.href = "painel-voluntario.html";
-                return;
-            }
+          if (!resposta.ok || !dados.ok) {
 
             throw new Error(
-                "A conta foi autenticada, mas o tipo de acesso não foi identificado."
+              dados.message ||
+              "E-mail ou senha inválidos."
+            );
+          }
+
+          /*
+           * Confirma com o servidor qual conta entrou.
+           */
+          const me =
+            await fetch(
+              `${API}/auth/me`,
+              {
+                credentials: "include"
+              }
             );
 
-        } catch (error) {
-            console.error("Erro no login:", error);
-            showMessage(
-                error.message || "Não foi possível realizar o login."
+          const sessao =
+            await me.json().catch(() => ({}));
+
+          if (!me.ok || !sessao.ok) {
+
+            throw new Error(
+              "Não foi possível confirmar sua sessão."
             );
-        } finally {
-            button.disabled = false;
-            buttonText.textContent = "Entrar";
+          }
+
+          const tipo =
+            String(
+              sessao.user_type || ""
+            ).toLowerCase();
+
+          const user =
+            sessao.user ||
+            dados.user ||
+            {};
+
+          /*
+           * CONTA MASTER
+           */
+          if (tipo === "master") {
+
+            localStorage.setItem(
+              "master_name",
+              user.name || user.nome || ""
+            );
+
+            localStorage.setItem(
+              "master_email",
+              user.email || ""
+            );
+
+            localStorage.setItem(
+              "master_id",
+              user.id || ""
+            );
+
+            location.href =
+              destinoSeguro("painel-master.html");
+
+            return;
+          }
+
+          /*
+           * CONTA VOLUNTÁRIO
+           */
+          if (tipo === "volunteer") {
+
+            localStorage.setItem(
+              "volunteer_name",
+              user.name || user.nome || ""
+            );
+
+            localStorage.setItem(
+              "volunteer_email",
+              user.email || ""
+            );
+
+            localStorage.setItem(
+              "volunteer_id",
+              user.id || ""
+            );
+
+            location.href =
+              destinoSeguro("painel-voluntario.html");
+
+            return;
+          }
+
+          /*
+           * O cadastro de adotante possui outro login:
+           * /api/auth/adopter-login.
+           *
+           * Portanto, esta página continua sendo exclusivamente
+           * para Master e voluntário(a).
+           */
+          throw new Error(
+            "Esta página é destinada ao acesso de voluntários e da conta Master."
+          );
+
+        } catch (erro) {
+
+          console.error(
+            "Erro no login:",
+            erro
+          );
+
+          const semServidor =
+            erro instanceof TypeError;
+
+          mostrarErro(
+            semServidor
+              ? "Não foi possível falar com o servidor. Verifique se o servidor Python está rodando na porta 8000."
+              : (
+                  erro.message ||
+                  "Não foi possível entrar."
+                )
+          );
+
+          button.disabled = false;
+          buttonText.textContent = "Entrar";
         }
-    });
-})();
-</script>
-</body>
 
+      });
+
+    })();
+  </script>
+
+</body>
 </html>

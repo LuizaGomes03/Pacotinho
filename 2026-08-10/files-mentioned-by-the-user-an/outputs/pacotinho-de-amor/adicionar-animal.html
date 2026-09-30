@@ -1,290 +1,197 @@
-<!DOCTYPE html><html class="light" lang="pt-BR"><head>
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+<head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Adicionar novo animal</title>
+<title>Adicionar novo animal — Pacotinho de Amor</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                            "surface-tint": "#784e87",
-                            "on-error-container": "#93000a",
-                            "on-surface": "#1d1a20",
-                            "on-secondary": "#ffffff",
-                            "surface-container": "#f3ecf4",
-                            "on-tertiary-fixed-variant": "#494900",
-                            "background": "#fef7ff",
-                            "secondary": "#78517a",
-                            "surface-container-high": "#ede6ee",
-                            "primary-container": "#5f376e",
-                            "surface-container-highest": "#e7e0e8",
-                            "primary": "#472056",
-                            "on-secondary-container": "#7b537c",
-                            "surface": "#fef7ff",
-                            "on-error": "#ffffff",
-                            "inverse-surface": "#322f35",
-                            "on-secondary-fixed": "#2f0d33",
-                            "secondary-fixed": "#ffd6fc",
-                            "error-container": "#ffdad6",
-                            "tertiary": "#333300",
-                            "surface-dim": "#ded8e0",
-                            "on-primary-fixed-variant": "#5f376e",
-                            "on-tertiary-container": "#bbbb3b",
-                            "tertiary-fixed-dim": "#cccc4b",
-                            "on-primary-fixed": "#2f073f",
-                            "primary-fixed-dim": "#e7b5f6",
-                            "surface-container-lowest": "#ffffff",
-                            "surface-variant": "#e7e0e8",
-                            "tertiary-container": "#4a4a00",
-                            "on-secondary-fixed-variant": "#5f3961",
-                            "on-surface-variant": "#4c444d",
-                            "outline": "#7e747e",
-                            "on-tertiary": "#ffffff",
-                            "on-primary": "#ffffff",
-                            "surface-container-low": "#f8f1f9",
-                            "secondary-container": "#ffcdfe",
-                            "inverse-primary": "#e7b5f6",
-                            "on-primary-container": "#d5a4e4",
-                            "primary-fixed": "#f9d8ff",
-                            "secondary-fixed-dim": "#e7b7e6",
-                            "error": "#ba1a1a",
-                            "surface-bright": "#fef7ff",
-                            "on-tertiary-fixed": "#1d1d00",
-                            "tertiary-fixed": "#e9e964",
-                            "inverse-on-surface": "#f6eef6",
-                            "outline-variant": "#cfc3ce",
-                            "on-background": "#1d1a20"
-                    },
-                    "borderRadius": {
-                            "DEFAULT": "0.25rem",
-                            "lg": "0.5rem",
-                            "xl": "0.75rem",
-                            "full": "9999px"
-                    },
-                    "spacing": {
-                            "sm": "12px",
-                            "xs": "4px",
-                            "md": "24px",
-                            "base": "8px",
-                            "margin-mobile": "16px",
-                            "margin-desktop": "64px",
-                            "gutter": "24px",
-                            "xl": "80px",
-                            "lg": "48px"
-                    },
-                    "fontFamily": {
-                            "headline-md": ["Montserrat"],
-                            "headline-lg-mobile": ["Montserrat"],
-                            "label-md": ["Montserrat"],
-                            "headline-lg": ["Montserrat"],
-                            "body-md": ["Montserrat"],
-                            "body-lg": ["Montserrat"]
-                    },
-                    "fontSize": {
-                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                            "headline-lg-mobile": ["26px", {"lineHeight": "32px", "fontWeight": "700"}],
-                            "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600"}],
-                            "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
-                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
-                    }
-                }
-            }
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-surface": "#1d1a20",
+          "surface-container": "#f3ecf4",
+          "background": "#fef7ff",
+          "secondary": "#78517a",
+          "surface-container-high": "#ede6ee",
+          "primary-container": "#5f376e",
+          "surface-container-highest": "#e7e0e8",
+          "primary": "#472056",
+          "on-secondary-container": "#7b537c",
+          "surface": "#fef7ff",
+          "error": "#ba1a1a",
+          "surface-container-lowest": "#ffffff",
+          "surface-variant": "#e7e0e8",
+          "on-surface-variant": "#4c444d",
+          "outline": "#7e747e",
+          "outline-variant": "#cfc3ce",
+          "on-primary": "#ffffff",
+          "surface-container-low": "#f8f1f9",
+          "secondary-container": "#ffcdfe",
+          "on-primary-container": "#d5a4e4"
+        },
+        borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+        spacing: { sm: "12px", xs: "4px", md: "24px", base: "8px", "margin-mobile": "16px", "margin-desktop": "64px", gutter: "24px", xl: "80px", lg: "48px" },
+        fontFamily: {
+          "headline-md": ["Montserrat"], "label-md": ["Montserrat"], "headline-lg": ["Montserrat"],
+          "body-md": ["Montserrat"], "body-lg": ["Montserrat"]
+        },
+        fontSize: {
+          "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+          "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.5px", fontWeight: "600" }],
+          "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }],
+          "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+          "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }]
         }
-    </script>
+      }
+    }
+  }
+</script>
 <style>
-        body { font-family: 'Montserrat', sans-serif; background-color: #fef7ff; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .icon-fill { font-variation-settings: 'FILL' 1; }
-    </style>
+  body { font-family: 'Montserrat', sans-serif; background-color: #fef7ff; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .icon-fill { font-variation-settings: 'FILL' 1; }
+  .obrigatorio { color: #ba1a1a; }
+  .campo { width: 100%; background: #fff; border: 1px solid #cfc3ce; border-radius: .5rem; padding: 12px; font-size: 16px; color: #1d1a20; outline: none; }
+  .campo:focus { border-color: #472056; box-shadow: 0 0 0 1px #472056; }
+  #aviso { transition: opacity .2s, transform .2s; }
+  #aviso.oculto { opacity: 0; transform: translate(-50%, 12px); pointer-events: none; }
+</style>
 <link rel="stylesheet" href="shared.css">
 </head>
+
 <body class="bg-surface text-on-surface flex flex-col min-h-screen">
-<!-- TopAppBar -->
-<header class="flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 w-full z-50 w-full top-0 sticky bg-surface dark:bg-surface-dim shadow-sm">
-<div class="flex items-center gap-4">
-<button class="text-primary dark:text-primary-fixed hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors active:scale-95 transition-transform p-2 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
-</button>
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Adicionar novo animal</h1>
-</div>
+
+<header class="flex items-center gap-4 px-margin-mobile md:px-margin-desktop h-16 w-full sticky top-0 z-50 bg-surface shadow-sm">
+  <button type="button" onclick="history.length > 1 ? history.back() : location.href='painel-voluntario.html'"
+          class="text-primary hover:bg-surface-container p-2 rounded-full flex items-center justify-center" aria-label="Voltar">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <h1 class="font-headline-md text-headline-md font-bold text-primary">Adicionar novo animal</h1>
 </header>
-<!-- Main Content -->
+
 <main class="flex-grow w-full max-w-4xl mx-auto px-margin-mobile md:px-0 py-lg pb-32 space-y-lg">
-<!-- Section 1: INFORMAÇÕES BÁSICAS -->
-<section class="bg-surface-container-lowest rounded-xl shadow-sm p-md border border-surface-variant">
-<h2 class="font-headline-md text-headline-md text-primary mb-md border-b border-surface-variant pb-xs">INFORMAÇÕES BÁSICAS</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Nome do animal</label>
-<input id="animal-name" name="name" required class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline" placeholder="Ex: Bob" type="text">
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Espécie</label>
-<select id="animal-species" name="species" required class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface">
-<option disabled="" selected="" value="">Selecione</option>
-<option value="Cão">Cachorro</option>
-<option value="Gata">Gato</option>
-<option value="Outro">Outro</option>
-</select>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Raça</label>
-<input id="animal-breed" name="breed" required class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline" placeholder="Ex: Golden retriever">
-</div>
-<div class="flex flex-col gap-xs md:col-span-2">
-<label class="font-label-md text-label-md text-on-surface-variant mb-xs">Sexo</label>
-<div class="flex gap-md">
-<label class="flex items-center gap-xs cursor-pointer">
-<input class="text-primary focus:ring-primary h-5 w-5 border-outline-variant" name="sex" type="radio" value="male">
-<span class="font-body-md text-body-md text-on-surface">Macho</span>
-</label>
-<label class="flex items-center gap-xs cursor-pointer">
-<input class="text-primary focus:ring-primary h-5 w-5 border-outline-variant" name="sex" type="radio" value="Fêmea">
-<span class="font-body-md text-body-md text-on-surface">Fêmea</span>
-</label>
-</div>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Idade (Aproximada)</label>
-<input id="animal-age" name="age" required class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline" placeholder="Ex: 2 anos" type="text">
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Porte</label>
-<select id="animal-size" name="size" required class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface">
-<option disabled="" selected="" value="">Selecione</option>
-<option value="Pequeno porte">Pequeno</option>
-<option value="Médio porte">Médio</option>
-<option value="Grande porte">Grande</option>
-</select>
-</div>
-<div class="flex flex-col gap-xs md:col-span-2">
-<label class="font-label-md text-label-md text-on-surface-variant">Localização Atual</label>
-<div class="relative">
-<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="location_on">location_on</span>
-<input id="animal-location" name="location" required class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm pl-10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline" placeholder="Cidade, Estado" type="text">
-</div>
-</div>
-</div>
-</section>
-<!-- Section 2: HISTÓRIA -->
-<section class="bg-surface-container-lowest rounded-xl shadow-sm p-md border border-surface-variant">
-<h2 class="font-headline-md text-headline-md text-primary mb-md border-b border-surface-variant pb-xs">HISTÓRIA</h2>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Conte a história deste animal</label>
-<textarea id="animal-description" name="description" required class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline resize-y" placeholder="Como ele foi resgatado? Um pouco do seu passado..." rows="4"></textarea>
-</div>
-</section>
-<!-- Section 3: AGENDA OPCIONAL -->
-<section class="bg-surface-container-lowest rounded-xl shadow-sm p-md border border-surface-variant" id="agenda-animal">
-<div class="flex flex-col gap-xs mb-md">
-<h2 class="font-headline-md text-headline-md text-primary border-b border-surface-variant pb-xs">AGENDA DO ANIMAL</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">Opcional: preencha apenas se o animal puder receber visitas ou videochamadas. Se não quiser, deixe em branco.</p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-<div class="bg-surface-container-low rounded-xl p-md border border-outline-variant/50 space-y-sm" id="agenda-presencial">
-<div class="flex items-center justify-between gap-sm">
-<div>
-<h3 class="font-headline-md text-headline-md text-primary">Visitar</h3>
-<p class="font-label-md text-label-md text-on-surface-variant">Receber interessados no animal</p>
-</div>
-<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">Opcional</span>
-</div>
-<div class="grid grid-cols-1 gap-sm">
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Dias disponíveis</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline" placeholder="Ex: Seg e qua" type="text">
-</div>
-<div class="grid grid-cols-2 gap-sm">
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Início</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface" type="time">
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Fim</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface" type="time">
-</div>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Observações</label>
-<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline resize-y" placeholder="Ex: somente no abrigo" rows="3"></textarea>
-</div>
-</div>
-</div>
-<div class="bg-surface-container-low rounded-xl p-md border border-outline-variant/50 space-y-sm" id="agenda-videochamada">
-<div class="flex items-center justify-between gap-sm">
-<div>
-<h3 class="font-headline-md text-headline-md text-primary">FaceTime</h3>
-<p class="font-label-md text-label-md text-on-surface-variant">Ligações com o interessado</p>
-</div>
-<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md">Opcional</span>
-</div>
-<div class="grid grid-cols-1 gap-sm">
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Dias disponíveis</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline" placeholder="Ex: ter, qui e sex" type="text">
-</div>
-<div class="grid grid-cols-2 gap-sm">
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Início</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface" type="time">
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Fim</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface" type="time">
-</div>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-md text-label-md text-on-surface-variant">Contato/observações</label>
-<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-body-md text-body-md text-on-surface placeholder:text-outline resize-y" placeholder="Ex: chamar no WhatsApp da equipe" rows="3"></textarea>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 6: FOTOS -->
-<section class="bg-surface-container-lowest rounded-xl shadow-sm p-md border border-surface-variant">
-<h2 class="font-headline-md text-headline-md text-primary mb-md border-b border-surface-variant pb-xs">FOTOS</h2>
-<div id="photo-dropzone" class="border-2 border-dashed border-outline-variant rounded-xl p-lg flex flex-col items-center justify-center text-center bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
-<div class="h-16 w-16 bg-secondary-container rounded-full flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-on-secondary-container icon-fill text-3xl">add_a_photo</span>
-</div>
-<h3 class="font-headline-md text-headline-md-mobile text-on-surface mb-xs">Adicionar fotos</h3>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-md">Selecione até 5 fotos. A primeira será usada como foto principal.</p>
-<label class="bg-secondary-container text-on-secondary-container font-label-md text-label-md py-sm px-md rounded-full hover:bg-surface-container-highest transition-colors active:scale-95 flex items-center gap-xs cursor-pointer">
-<span class="material-symbols-outlined text-sm">upload</span>
-Selecionar Arquivos
-<input id="animal-photos" type="file" accept="image/*" multiple class="hidden">
-</label>
-<div id="photo-preview" class="grid grid-cols-2 md:grid-cols-5 gap-sm mt-md w-full"></div>
-</div>
-</section>
-<!-- Fixed Footer Actions -->
-<div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest border-t border-surface-variant p-md flex justify-end gap-sm z-40 shadow-[0_-4px_10px_rgba(95,55,110,0.05)]">
-<button id="preview-animal" type="button" class="px-md py-sm rounded-full border border-secondary text-secondary font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95 bg-surface-container-lowest">
-                Visualizar Prévia
-            </button>
-<button id="publish-animal" type="button" class="px-md py-sm rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-95 shadow-sm">
-                Publicar animal
-            </button>
-</div>
+
+  <p class="text-sm text-on-surface-variant">Campos com <span class="obrigatorio font-bold">*</span> são obrigatórios.</p>
+
+  <!-- 1. INFORMAÇÕES BÁSICAS -->
+  <section class="bg-surface-container-lowest rounded-xl shadow-sm p-md border border-surface-variant">
+    <h2 class="font-headline-md text-headline-md text-primary mb-md border-b border-surface-variant pb-xs">Informações básicas</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+
+      <div class="flex flex-col gap-xs">
+        <label for="animal-name" class="font-label-md text-label-md text-on-surface-variant">Nome do animal <span class="obrigatorio">*</span></label>
+        <input id="animal-name" class="campo" placeholder="Ex: Bob" type="text">
+      </div>
+
+      <div class="flex flex-col gap-xs">
+        <label for="animal-species" class="font-label-md text-label-md text-on-surface-variant">Espécie <span class="obrigatorio">*</span></label>
+        <select id="animal-species" class="campo">
+          <option disabled selected value="">Selecione</option>
+          <option value="Cão">Cachorro</option>
+          <option value="Gato">Gato</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-xs">
+        <label for="animal-breed" class="font-label-md text-label-md text-on-surface-variant">Raça</label>
+        <input id="animal-breed" class="campo" placeholder="Ex: Sem raça definida">
+      </div>
+
+      <div class="flex flex-col gap-xs">
+        <label for="animal-age" class="font-label-md text-label-md text-on-surface-variant">Idade aproximada <span class="obrigatorio">*</span></label>
+        <input id="animal-age" class="campo" placeholder="Ex: 2 anos ou 5 meses" type="text">
+      </div>
+
+      <div class="flex flex-col gap-xs">
+        <span class="font-label-md text-label-md text-on-surface-variant">Sexo <span class="obrigatorio">*</span></span>
+        <div class="flex gap-md pt-sm">
+          <label class="flex items-center gap-xs cursor-pointer">
+            <input class="text-primary focus:ring-primary h-5 w-5 border-outline-variant" name="sex" type="radio" value="Macho">
+            <span>Macho</span>
+          </label>
+          <label class="flex items-center gap-xs cursor-pointer">
+            <input class="text-primary focus:ring-primary h-5 w-5 border-outline-variant" name="sex" type="radio" value="Fêmea">
+            <span>Fêmea</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-xs">
+        <label for="animal-size" class="font-label-md text-label-md text-on-surface-variant">Porte <span class="obrigatorio">*</span></label>
+        <select id="animal-size" class="campo">
+          <option disabled selected value="">Selecione</option>
+          <option value="Pequeno porte">Pequeno</option>
+          <option value="Médio porte">Médio</option>
+          <option value="Grande porte">Grande</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-xs md:col-span-2">
+        <label for="animal-location" class="font-label-md text-label-md text-on-surface-variant">Localização atual <span class="obrigatorio">*</span></label>
+        <input id="animal-location" class="campo" placeholder="Ex: São Paulo, SP" type="text">
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. HISTÓRIA -->
+  <section class="bg-surface-container-lowest rounded-xl shadow-sm p-md border border-surface-variant">
+    <h2 class="font-headline-md text-headline-md text-primary mb-md border-b border-surface-variant pb-xs">História</h2>
+    <div class="flex flex-col gap-xs">
+      <label for="animal-description" class="font-label-md text-label-md text-on-surface-variant">Conte um pouco sobre este animal <span class="obrigatorio">*</span></label>
+      <textarea id="animal-description" class="campo resize-y" rows="4" placeholder="Personalidade, como foi resgatado, se convive com outros animais..."></textarea>
+    </div>
+  </section>
+
+  <!-- 3. FOTO -->
+  <section class="bg-surface-container-lowest rounded-xl shadow-sm p-md border border-surface-variant">
+    <h2 class="font-headline-md text-headline-md text-primary mb-md border-b border-surface-variant pb-xs">Foto</h2>
+    <div id="photo-dropzone" class="border-2 border-dashed border-outline-variant rounded-xl p-lg flex flex-col items-center justify-center text-center bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer">
+      <div class="h-16 w-16 bg-secondary-container rounded-full flex items-center justify-center mb-sm">
+        <span class="material-symbols-outlined text-on-secondary-container icon-fill text-3xl">add_a_photo</span>
+      </div>
+      <h3 class="font-headline-md text-[20px] text-on-surface mb-xs">Adicionar foto</h3>
+      <p class="text-on-surface-variant max-w-sm mb-md">Escolha uma foto do celular ou do computador. Ela é reduzida automaticamente antes de salvar.</p>
+      <label class="bg-secondary-container text-on-secondary-container font-label-md text-label-md py-sm px-md rounded-full hover:bg-surface-container-highest flex items-center gap-xs cursor-pointer">
+        <span class="material-symbols-outlined text-sm">upload</span>
+        Selecionar foto
+        <input id="animal-photo" type="file" accept="image/*" class="hidden">
+      </label>
+      <div id="photo-preview" class="mt-md w-full flex justify-center"></div>
+    </div>
+  </section>
+
+  <!-- AÇÕES -->
+  <div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest border-t border-surface-variant p-md flex justify-end gap-sm z-40 shadow-[0_-4px_10px_rgba(95,55,110,0.05)]">
+    <button id="preview-animal" type="button" class="px-md py-sm rounded-full border border-secondary text-secondary font-label-md text-label-md hover:bg-surface-container-low bg-surface-container-lowest">
+      Visualizar prévia
+    </button>
+    <button id="publish-animal" type="button" class="px-md py-sm rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container disabled:opacity-60">
+      Publicar animal
+    </button>
+  </div>
 </main>
 
-<!-- Modal de pré-visualização -->
+<!-- AVISO -->
+<div id="aviso" role="status" aria-live="polite"
+     class="oculto fixed left-1/2 bottom-28 -translate-x-1/2 z-[200] max-w-[90vw] rounded-full bg-primary px-md py-sm text-center text-sm font-semibold text-on-primary shadow-lg"></div>
+
+<!-- PRÉVIA -->
 <div id="preview-modal" class="hidden fixed inset-0 z-[100] bg-black/50 p-4 flex items-center justify-center">
   <div class="bg-surface-container-lowest w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl p-lg relative">
     <button id="close-preview" type="button" aria-label="Fechar prévia" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary hover:bg-surface-container-highest">
       <span class="material-symbols-outlined">close</span>
     </button>
-    <p class="font-label-md text-on-surface-variant mb-xs">PRÉ-VISUALIZAÇÃO</p>
-    <h2 id="preview-name" class="font-headline-lg text-primary mb-md">Novo animal</h2>
+    <p class="font-label-md text-on-surface-variant mb-xs">Prévia</p>
+    <h2 id="preview-name" class="font-headline-lg text-headline-lg text-primary mb-md">Novo animal</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-      <div class="rounded-xl overflow-hidden bg-surface-container aspect-square">
-        <img id="preview-image" src="assets/logo-footer.png" alt="Prévia da foto" class="w-full h-full object-cover">
+      <div class="rounded-xl overflow-hidden bg-surface-container-high aspect-square">
+        <img id="preview-image" src="assets/logo-footer.png" alt="Prévia da foto" class="w-full h-full object-contain">
       </div>
       <div class="space-y-sm">
         <div id="preview-tags" class="flex flex-wrap gap-xs"></div>
@@ -297,130 +204,119 @@ Selecionar Arquivos
 
 <script>
 (() => {
-  const API_BASE = "http://127.0.0.1:8000";
-  const photoInput = document.getElementById("animal-photos");
-  const preview = document.getElementById("photo-preview");
-  const publishButton = document.getElementById("publish-animal");
-  const previewButton = document.getElementById("preview-animal");
-  const previewModal = document.getElementById("preview-modal");
-  const closePreview = document.getElementById("close-preview");
-  const photoDropzone = document.getElementById("photo-dropzone");
+  const $ = (id) => document.getElementById(id);
+  const photoInput = $("animal-photo");
+  const photoPreview = $("photo-preview");
+  const publishButton = $("publish-animal");
+  const previewModal = $("preview-modal");
 
-  if (!publishButton) return;
+  // Foto já reduzida, pronta para salvar (texto base64)
+  let fotoPronta = "";
 
-  let selectedFiles = [];
-
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-    }[char]));
+  /* ---------- aviso na tela ---------- */
+  function avisar(texto) {
+    const el = $("aviso");
+    el.textContent = texto;
+    el.classList.remove("oculto");
+    clearTimeout(avisar.timer);
+    avisar.timer = setTimeout(() => el.classList.add("oculto"), 3000);
   }
 
-  function showToast(message) {
-    const el = document.querySelector(".pa-toast");
-    if (!el) return;
-    el.textContent = message;
-    el.classList.add("show");
-    clearTimeout(window.__animalToast);
-    window.__animalToast = setTimeout(() => el.classList.remove("show"), 2600);
-  }
-
-  function renderPreview() {
-    preview.innerHTML = "";
-    selectedFiles.forEach((file, index) => {
-      const url = URL.createObjectURL(file);
-      const wrapper = document.createElement("div");
-      wrapper.className = "relative aspect-square rounded-lg overflow-hidden border border-outline-variant bg-surface";
-      wrapper.innerHTML = `
-        <img src="${url}" alt="Foto ${index + 1}" class="w-full h-full object-cover">
-        ${index === 0 ? '<span class="absolute left-1 top-1 bg-primary text-on-primary text-xs px-2 py-1 rounded-full">Principal</span>' : ""}
-      `;
-      preview.appendChild(wrapper);
+  /* ---------- reduzir a foto antes de salvar ----------
+     Fotos de celular têm vários MB. Aqui a foto é redimensionada
+     para no máximo 1000px e salva como JPEG, ficando com ~100-200 KB. */
+  function reduzirFoto(arquivo, tamanhoMax = 1000, qualidade = 0.8) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(arquivo);
+      img.onload = () => {
+        const escala = Math.min(1, tamanhoMax / Math.max(img.width, img.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(img.width * escala);
+        canvas.height = Math.round(img.height * escala);
+        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL("image/jpeg", qualidade));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Não foi possível ler essa imagem.")); };
+      img.src = url;
     });
   }
 
-  photoInput?.addEventListener("change", () => {
-    selectedFiles = Array.from(photoInput.files || []).slice(0, 5);
-    if (photoInput.files.length > 5) {
-      showToast("Você pode selecionar no máximo 5 fotos.");
+  photoInput.addEventListener("change", async () => {
+    const arquivo = photoInput.files && photoInput.files[0];
+    if (!arquivo) return;
+    try {
+      fotoPronta = await reduzirFoto(arquivo);
+      photoPreview.innerHTML = `
+        <div class="relative w-40 h-40 rounded-lg overflow-hidden border border-outline-variant bg-surface-container-high">
+          <img src="${fotoPronta}" alt="Foto selecionada" class="w-full h-full object-contain">
+        </div>`;
+    } catch (erro) {
+      fotoPronta = "";
+      photoPreview.innerHTML = "";
+      avisar(erro.message);
     }
-    renderPreview();
   });
 
-  photoDropzone?.addEventListener("click", (event) => {
-    if (event.target.closest("label")) return;
-    photoInput?.click();
+  $("photo-dropzone").addEventListener("click", (e) => {
+    if (e.target.closest("label")) return;
+    photoInput.click();
   });
 
-  function openAnimalPreview() {
-    const name = document.getElementById("animal-name")?.value.trim() || "Novo animal";
-    const species = document.getElementById("animal-species")?.value || "Espécie não informada";
-    const breed = document.getElementById("animal-breed")?.value.trim() || "Sem raça definida";
-    const age = document.getElementById("animal-age")?.value.trim() || "Idade não informada";
-    const size = document.getElementById("animal-size")?.value || "Porte não informado";
-    const sex = document.querySelector('input[name="sex"]:checked')?.value || "Sexo não informado";
-    const location = document.getElementById("animal-location")?.value.trim() || "Localização não informada";
-    const description = document.getElementById("animal-description")?.value.trim() || "Sem descrição.";
+  /* ---------- dados do formulário ---------- */
+  function lerFormulario() {
+    return {
+      name: $("animal-name").value.trim(),
+      species: $("animal-species").value,
+      breed: $("animal-breed").value.trim() || "Sem raça definida",
+      age: $("animal-age").value.trim(),
+      size: $("animal-size").value,
+      sex: document.querySelector('input[name="sex"]:checked')?.value || "",
+      location: $("animal-location").value.trim(),
+      description: $("animal-description").value.trim()
+    };
+  }
 
-    document.getElementById("preview-name").textContent = name;
-    document.getElementById("preview-description").textContent = description;
-    document.querySelector("#preview-location span:last-child").textContent = location;
-    document.getElementById("preview-tags").innerHTML = [species, breed, age, size, sex]
-      .map(value => `<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-sm">${escapeHTML(value)}</span>`)
-      .join("");
-
-    const previewImage = document.getElementById("preview-image");
-    if (selectedFiles.length) {
-      previewImage.src = URL.createObjectURL(selectedFiles[0]);
-    } else {
-      previewImage.src = "assets/logo-footer.png";
-    }
-
+  /* ---------- prévia ---------- */
+  function abrirPrevia() {
+    const d = lerFormulario();
+    $("preview-name").textContent = d.name || "Novo animal";
+    $("preview-description").textContent = d.description || "Sem descrição.";
+    document.querySelector("#preview-location span:last-child").textContent = d.location || "Localização não informada";
+    $("preview-tags").innerHTML = [d.species, d.breed, d.age, d.size, d.sex]
+      .filter(Boolean)
+      .map((v) => {
+        const s = document.createElement("span");
+        s.className = "bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-sm";
+        s.textContent = v;
+        return s.outerHTML;
+      }).join("");
+    $("preview-image").src = fotoPronta || "assets/logo-footer.png";
     previewModal.classList.remove("hidden");
     document.body.classList.add("overflow-hidden");
   }
 
-  previewButton?.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    openAnimalPreview();
-  });
-
-  closePreview?.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+  function fecharPrevia() {
     previewModal.classList.add("hidden");
     document.body.classList.remove("overflow-hidden");
-  });
-
-  previewModal?.addEventListener("click", (event) => {
-    if (event.target === previewModal) {
-      previewModal.classList.add("hidden");
-      document.body.classList.remove("overflow-hidden");
-    }
-  });
-
-  function fileToDataURL(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
   }
 
-  async function publishAnimal() {
-    const name = document.getElementById("animal-name")?.value.trim();
-    const species = document.getElementById("animal-species")?.value;
-    const breed = document.getElementById("animal-breed")?.value.trim() || "Sem raça definida";
-    const age = document.getElementById("animal-age")?.value.trim();
-    const size = document.getElementById("animal-size")?.value;
-    const sex = document.querySelector('input[name="sex"]:checked')?.value;
-    const location = document.getElementById("animal-location")?.value.trim();
-    const description = document.getElementById("animal-description")?.value.trim();
+  $("preview-animal").addEventListener("click", abrirPrevia);
+  $("close-preview").addEventListener("click", fecharPrevia);
+  previewModal.addEventListener("click", (e) => { if (e.target === previewModal) fecharPrevia(); });
 
-    if (!name || !species || !age || !size || !sex || !location || !description) {
-      showToast("Preencha os campos obrigatórios antes de publicar.");
+  /* ---------- publicar ---------- */
+  async function publicar() {
+    const d = lerFormulario();
+
+    const faltando = [
+      [!d.name, "nome"], [!d.species, "espécie"], [!d.age, "idade"], [!d.sex, "sexo"],
+      [!d.size, "porte"], [!d.location, "localização"], [!d.description, "história"]
+    ].filter(([falta]) => falta).map(([, nome]) => nome);
+
+    if (faltando.length) {
+      avisar("Preencha: " + faltando.join(", ") + ".");
       return;
     }
 
@@ -428,55 +324,40 @@ Selecionar Arquivos
     publishButton.textContent = "Publicando...";
 
     try {
-      const image = selectedFiles.length ? await fileToDataURL(selectedFiles[0]) : "";
-
-      const payload = {
-        name,
-        species,
-        breed,
-        age,
-        size,
-        sex,
-        location,
-        description,
-        image,
-        status: "disponível"
-      };
-
-      const response = await fetch(`${API_BASE}/api/animals`, {
+      const resposta = await fetch("/api/animals", {
         method: "POST",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...d, image: fotoPronta, status: "disponível" })
       });
 
-      const result = await response.json().catch(() => ({}));
+      const resultado = await resposta.json().catch(() => ({}));
 
-      if (!response.ok) {
-        throw new Error(result.error || result.message || "Não foi possível publicar o animal.");
+      // Sem login: leva para a área voluntária e volta para cá depois
+      if (resposta.status === 401) {
+        avisar("Faça login para cadastrar animais. Redirecionando...");
+        setTimeout(() => { location.href = "login.html?next=adicionar-animal.html"; }, 1500);
+        return;
       }
 
-      showToast(`${name} foi cadastrado com sucesso!`);
-      setTimeout(() => {
-        window.location.href = "animais-para-adocao.html";
-      }, 900);
-    } catch (error) {
-      console.error(error);
-      showToast(error.message || "Erro ao publicar o animal.");
+      if (!resposta.ok) {
+        throw new Error(resultado.error || resultado.message || `Não foi possível publicar (erro ${resposta.status}).`);
+      }
+
+      avisar(`${d.name} foi cadastrado com sucesso!`);
+      setTimeout(() => { location.href = "animais-para-adocao.html"; }, 1200);
+    } catch (erro) {
+      console.error(erro);
+      avisar(erro.message || "Erro ao publicar o animal.");
       publishButton.disabled = false;
       publishButton.textContent = "Publicar animal";
     }
   }
 
-  publishButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    publishAnimal();
-  });
+  publishButton.addEventListener("click", publicar);
 })();
 </script>
 
 <script src="shared.js"></script>
-</body></html>
+</body>
+</html>

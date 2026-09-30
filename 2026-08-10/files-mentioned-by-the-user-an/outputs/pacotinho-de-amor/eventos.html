@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Próximos eventos — Pacotinho de Amor</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: Montserrat, sans-serif; background: #fef7ff; color: #1d1a20; }
+    a:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 3px; }
+  </style>
+
+  <link rel="stylesheet" href="shared.css">
+</head>
+
+<body class="flex min-h-screen flex-col">
+
+<!-- O header e o footer são inseridos pelo shared.js -->
+
+<main class="mx-auto w-full max-w-[1200px] flex-grow px-6 py-12 md:py-16">
+
+  <header class="mb-10 max-w-2xl">
+    <h1 class="text-3xl font-bold text-[#472056] md:text-4xl">Próximos eventos</h1>
+    <p class="mt-3 text-lg text-[#4c444d]">
+      Nas feirinhas de adoção você conhece os animais pessoalmente, conversa com a equipe e pode sair de lá com um novo amigo.
+    </p>
+  </header>
+
+  <div id="lista-eventos" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div class="h-56 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
+    <div class="h-56 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
+    <div class="h-56 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
+  </div>
+
+  <!-- Quando não há eventos marcados -->
+  <div id="sem-eventos" class="hidden rounded-2xl bg-white p-10 text-center shadow-sm">
+    <span class="material-symbols-outlined text-5xl text-[#78517a]">event_busy</span>
+    <h2 class="mt-3 text-xl font-bold text-[#472056]">Nenhum evento marcado no momento</h2>
+    <p class="mx-auto mt-2 max-w-md text-[#4c444d]">
+      Siga o Instagram para saber em primeira mão quando for a próxima feirinha.
+    </p>
+    <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="https://www.instagram.com/projeto.pacotinhodeamor/" target="_blank" rel="noopener"
+         class="rounded-full bg-[#472056] px-6 py-3 font-semibold text-white hover:bg-[#5f376e]">
+        Seguir no Instagram
+      </a>
+      <a href="animais-para-adocao.html"
+         class="rounded-full border-2 border-[#472056] px-6 py-2.5 font-semibold text-[#472056] hover:bg-[#f8f1f9]">
+        Ver animais para adoção
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<script src="shared.js"></script>
+<script src="eventos.js"></script>
+<script>
+  mostrarEventos({ lista: "lista-eventos", vazio: "sem-eventos" });
+</script>
+
+</body>
+</html>

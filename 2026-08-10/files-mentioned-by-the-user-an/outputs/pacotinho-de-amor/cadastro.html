@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar conta — Pacotinho de Amor</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#472056",
+            "primary-container": "#5f376e",
+            "primary-fixed": "#f9d8ff",
+            secondary: "#78517a",
+            background: "#fef7ff",
+            "on-surface": "#1d1a20",
+            "on-surface-variant": "#4c444d",
+            outline: "#7e747e",
+            "outline-variant": "#cfc3ce",
+            "surface-variant": "#e7e0e8"
+          },
+          fontFamily: { sans: ["Montserrat", "sans-serif"] }
+        }
+      }
+    }
+  </script>
+  <style>
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid #e7b5f6;
+      outline-offset: 3px;
+    }
+  </style>
+  <link rel="stylesheet" href="shared.css">
+
+<style id="cadastro-responsive-layout">
+  /* Layout principal: card realmente largo no desktop e fluido em telas menores. */
+  .cadastro-card {
+    width: 94vw !important;
+    max-width: 1500px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  @media (min-width: 1200px) {
+    .cadastro-card {
+      width: 92vw !important;
+      max-width: 1500px !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .cadastro-card {
+      width: calc(100vw - 24px) !important;
+      max-width: none !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .cadastro-card > form > .space-y-4 > div:first-child {
+      width: 100%;
+    }
+
+    .cadastro-card > form {
+      width: 100%;
+    }
+  }
+</style>
+
+
+<style id="cadastro-wide-fields">
+  @media (min-width: 1024px) {
+    .cadastro-card form {
+      width: 100%;
+    }
+
+    .cadastro-card .grid {
+      width: 100%;
+    }
+  }
+</style>
+
+</head>
+<body class="min-h-screen bg-background font-sans text-on-surface">
+
+<main class="flex min-h-[calc(100vh-160px)] w-full items-center justify-center px-4 py-10 md:px-8">
+  <section class="w-full rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(95,55,110,0.10)] md:p-8 cadastro-card">
+    <div class="mb-7 text-center">
+      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary-fixed">
+        <span class="material-symbols-outlined text-[28px] text-primary">person_add</span>
+      </div>
+      <h1 class="text-2xl font-bold text-primary">Crie sua conta</h1>
+      <p class="mx-auto mt-2 max-w-[520px] text-sm leading-6 text-on-surface-variant">
+        Algumas informações podem agilizar um futuro processo de adoção. Se você decidir participar como voluntário(a), poderá fazer essa solicitação posteriormente.
+      </p>
+    </div>
+
+    <div id="message" role="alert" aria-live="polite" class="mb-5 hidden"></div>
+
+    <form id="cadastroForm" novalidate>
+      <div class="space-y-4">
+        <div>
+          <label for="nome" class="mb-1.5 block text-sm font-semibold">Nome completo <span class="text-red-600">*</span></label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline">person</span>
+            <input id="nome" type="text" autocomplete="name" required placeholder="Digite seu nome completo" class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-4 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label for="email" class="mb-1.5 block text-sm font-semibold">E-mail <span class="text-red-600">*</span></label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline">mail</span>
+              <input id="email" type="email" autocomplete="email" required placeholder="seuemail@exemplo.com" class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-4 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+            </div>
+          </div>
+          <div>
+            <label for="telefone" class="mb-1.5 block text-sm font-semibold">Telefone <span class="text-red-600">*</span></label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline">call</span>
+              <input id="telefone" type="tel" autocomplete="tel" required placeholder="(11) 99999-9999" class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-4 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label for="cpf" class="mb-1.5 block text-sm font-semibold">CPF <span class="text-red-600">*</span></label>
+            <input id="cpf" type="text" autocomplete="off" required placeholder="000.000.000-00" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+          <div>
+            <label for="dataNascimento" class="mb-1.5 block text-sm font-semibold">Data de nascimento <span class="text-red-600">*</span></label>
+            <input id="dataNascimento" type="date" required class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+        </div>
+      </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <div>
+            <label for="cep" class="mb-1.5 block text-sm font-semibold">CEP <span class="text-red-600">*</span></label>
+            <input id="cep" type="text" autocomplete="postal-code" placeholder="00000-000" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+          <div class="md:col-span-2">
+            <label for="endereco" class="mb-1.5 block text-sm font-semibold">Endereço <span class="text-red-600">*</span></label>
+            <input id="endereco" type="text" autocomplete="street-address" placeholder="Rua, avenida etc." class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+        </div>
+
+        <div class="mt-4 grid gap-4 md:grid-cols-4">
+          <div>
+            <label for="numero" class="mb-1.5 block text-sm font-semibold">Número <span class="text-red-600">*</span></label>
+            <input id="numero" type="text" placeholder="123" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+          <div>
+            <label for="bairro" class="mb-1.5 block text-sm font-semibold">Bairro <span class="text-red-600">*</span></label>
+            <input id="bairro" type="text" placeholder="Bairro" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+          <div>
+            <label for="cidade" class="mb-1.5 block text-sm font-semibold">Cidade <span class="text-red-600">*</span></label>
+            <input id="cidade" type="text" placeholder="Cidade" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+          <div>
+            <label for="estado" class="mb-1.5 block text-sm font-semibold">UF <span class="text-red-600">*</span></label>
+            <input id="estado" type="text" maxlength="2" placeholder="SP" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 uppercase focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+          </div>
+        </div>
+
+        <div class="mt-4 grid gap-4 md:grid-cols-2">
+          <div>
+            <label for="tipoMoradia" class="mb-1.5 block text-sm font-semibold">Tipo de moradia</label>
+            <select id="tipoMoradia" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+              <option value="">Selecione</option>
+              <option>Casa</option>
+              <option>Apartamento</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div>
+            <label for="outrosAnimais" class="mb-1.5 block text-sm font-semibold">Possui outros animais?</label>
+            <select id="outrosAnimais" class="w-full rounded-xl border border-outline-variant bg-white py-3 px-4 focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+              <option value="">Selecione</option>
+              <option>Não</option>
+              <option>Sim</option>
+            </select>
+          </div>
+        </div>
+
+      <div class="mt-5 space-y-3">
+        <label class="flex items-start gap-3 text-sm">
+          <input id="aceiteCadastro" type="checkbox" class="mt-1 rounded border-outline text-primary">
+          <span>Concordo com o cadastro e estou ciente do tratamento dos meus dados conforme a <a href="politica-privacidade.html" class="font-semibold text-primary hover:underline">Política de Privacidade</a>.</span>
+        </label>
+      </div>
+
+      <div class="mt-6 rounded-2xl border border-outline-variant bg-background p-5">
+        <div class="mb-4">
+          <h2 class="font-bold text-primary">Crie sua senha</h2>
+          <p class="mt-1 text-sm text-on-surface-variant">Use pelo menos 8 caracteres para proteger sua conta.</p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label for="senha" class="mb-1.5 block text-sm font-semibold">Senha</label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline">lock</span>
+              <input id="senha" type="password" autocomplete="new-password" required minlength="8" placeholder="Mínimo de 8 caracteres" class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-12 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+              <button type="button" data-toggle="senha" class="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-outline hover:bg-background" aria-label="Mostrar senha"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+            </div>
+          </div>
+          <div>
+            <label for="confirmarSenha" class="mb-1.5 block text-sm font-semibold">Confirmar senha</label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline">lock</span>
+              <input id="confirmarSenha" type="password" autocomplete="new-password" required minlength="8" placeholder="Digite novamente" class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-12 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15">
+              <button type="button" data-toggle="confirmarSenha" class="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-outline hover:bg-background" aria-label="Mostrar senha"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <button id="cadastroButton" type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-container px-4 py-3.5 font-semibold text-white transition hover:bg-primary disabled:opacity-60">
+          <span id="cadastroButtonText">Criar conta</span>
+          <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-6 space-y-2 border-t border-surface-variant pt-5 text-center text-sm">
+      <p class="text-on-surface-variant">Já possui uma conta? <a href="login.html" class="font-semibold text-primary hover:underline">Entrar</a></p>
+      <a href="home.html" class="inline-block font-semibold text-primary hover:underline">Voltar para o início</a>
+    </div>
+  </section>
+</main>
+
+<script src="shared.js"></script>
+<script>
+(() => {
+  const API = location.port === "8000" ? "/api" : "http://127.0.0.1:8000/api";
+  const form = document.getElementById("cadastroForm");
+  const message = document.getElementById("message");
+  const button = document.getElementById("cadastroButton");
+  const buttonText = document.getElementById("cadastroButtonText");
+
+  function erro(texto) {
+    message.textContent = texto;
+    message.className = "rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700";
+  }
+
+  function limpar() {
+    message.textContent = "";
+    message.className = "hidden";
+  }
+
+  document.querySelectorAll("[data-toggle]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const input = document.getElementById(btn.dataset.toggle);
+      const visible = input.type === "text";
+      input.type = visible ? "password" : "text";
+      btn.querySelector("span").textContent = visible ? "visibility" : "visibility_off";
+    });
+  });
+
+  form.addEventListener("input", limpar);
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    limpar();
+
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const telefone = document.getElementById("telefone").value.trim();
+    const cpf = document.getElementById("cpf").value.trim();
+    const nascimento = document.getElementById("dataNascimento").value;
+    const senha = document.getElementById("senha").value;
+    const confirmar = document.getElementById("confirmarSenha").value;
+
+    if (!nome || !email || !telefone || !cpf || !nascimento || !senha || !confirmar) {
+      erro("Preencha todos os dados obrigatórios.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      erro("Informe um e-mail válido.");
+      return;
+    }
+
+    if (senha.length < 8) {
+      erro("A senha deve ter pelo menos 8 caracteres.");
+      return;
+    }
+
+    if (senha !== confirmar) {
+      erro("As senhas não coincidem.");
+      return;
+    }
+
+    if (!document.getElementById("aceiteCadastro").checked) {
+      erro("É necessário concordar com o cadastro e confirmar a ciência da Política de Privacidade.");
+      return;
+    }
+
+    const dados = {
+      nome,
+      email,
+      telefone,
+      cpf,
+      data_nascimento: nascimento,
+      cep: document.getElementById("cep").value.trim(),
+      endereco: document.getElementById("endereco").value.trim(),
+      numero: document.getElementById("numero").value.trim(),
+      bairro: document.getElementById("bairro").value.trim(),
+      cidade: document.getElementById("cidade").value.trim(),
+      estado: document.getElementById("estado").value.trim().toUpperCase(),
+      tipo_moradia: document.getElementById("tipoMoradia").value,
+      possui_outros_animais: document.getElementById("outrosAnimais").value,
+      senha
+    };
+
+    button.disabled = true;
+    buttonText.textContent = "Criando conta...";
+
+    try {
+      const resposta = await fetch(`${API}/adopters`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(dados)
+      });
+
+      const resultado = await resposta.json().catch(() => ({}));
+      if (!resposta.ok) {
+        throw new Error(resultado.message || "Não foi possível criar a conta.");
+      }
+
+      alert("Conta criada com sucesso! Seus dados já estão salvos e poderão facilitar futuras solicitações de adoção ou voluntariado.");
+      location.href = "home.html";
+    } catch (e) {
+      console.error(e);
+      erro(e.message || "Não foi possível criar a conta.");
+      button.disabled = false;
+      buttonText.textContent = "Criar conta";
+    }
+  });
+})();
+</script>
+
+<script id="cadastro-masks">
+(function () {
+  const onlyDigits = (value) => value.replace(/\D/g, '');
+
+  function maskPhone(value) {
+    const digits = onlyDigits(value).slice(0, 11);
+    if (digits.length <= 2) return digits ? `(${digits}` : '';
+    if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+  }
+
+  function maskCpf(value) {
+    const digits = onlyDigits(value).slice(0, 11);
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+    if (digits.length <= 9) return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
+  }
+
+  function maskCep(value) {
+    const digits = onlyDigits(value).slice(0, 8);
+    if (digits.length <= 5) return digits;
+    return `${digits.slice(0, 5)}-${digits.slice(5)}`;
+  }
+
+  const phone = document.querySelector('[name="telefone"]');
+  const cpf = document.querySelector('[name="cpf"]');
+  const cep = document.querySelector('[name="cep"]');
+
+  if (phone) {
+    phone.inputMode = 'numeric';
+    phone.maxLength = 15;
+    phone.addEventListener('input', () => {
+      phone.value = maskPhone(phone.value);
+    });
+  }
+
+  if (cpf) {
+    cpf.inputMode = 'numeric';
+    cpf.maxLength = 14;
+    cpf.addEventListener('input', () => {
+      cpf.value = maskCpf(cpf.value);
+    });
+  }
+
+  if (cep) {
+    cep.inputMode = 'numeric';
+    cep.maxLength = 9;
+    cep.addEventListener('input', () => {
+      cep.value = maskCep(cep.value);
+    });
+  }
+
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', () => {
+      // Keep the visual masks in the fields, but send only digits to the API.
+      if (phone) phone.value = onlyDigits(phone.value);
+      if (cpf) cpf.value = onlyDigits(cpf.value);
+      if (cep) cep.value = onlyDigits(cep.value);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

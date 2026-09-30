@@ -1,353 +1,143 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Solicitações de adoção</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "surface-tint": "#784e87",
-                      "on-error-container": "#93000a",
-                      "on-surface": "#1d1a20",
-                      "on-secondary": "#ffffff",
-                      "surface-container": "#f3ecf4",
-                      "on-tertiary-fixed-variant": "#494900",
-                      "background": "#fef7ff",
-                      "secondary": "#78517a",
-                      "surface-container-high": "#ede6ee",
-                      "primary-container": "#5f376e",
-                      "surface-container-highest": "#e7e0e8",
-                      "primary": "#472056",
-                      "on-secondary-container": "#7b537c",
-                      "surface": "#fef7ff",
-                      "on-error": "#ffffff",
-                      "inverse-surface": "#322f35",
-                      "on-secondary-fixed": "#2f0d33",
-                      "secondary-fixed": "#ffd6fc",
-                      "error-container": "#ffdad6",
-                      "tertiary": "#333300",
-                      "surface-dim": "#ded8e0",
-                      "on-primary-fixed-variant": "#5f376e",
-                      "on-tertiary-container": "#bbbb3b",
-                      "tertiary-fixed-dim": "#cccc4b",
-                      "on-primary-fixed": "#2f073f",
-                      "primary-fixed-dim": "#e7b5f6",
-                      "surface-container-lowest": "#ffffff",
-                      "surface-variant": "#e7e0e8",
-                      "tertiary-container": "#4a4a00",
-                      "on-secondary-fixed-variant": "#5f3961",
-                      "on-surface-variant": "#4c444d",
-                      "outline": "#7e747e",
-                      "on-tertiary": "#ffffff",
-                      "on-primary": "#ffffff",
-                      "surface-container-low": "#f8f1f9",
-                      "secondary-container": "#ffcdfe",
-                      "inverse-primary": "#e7b5f6",
-                      "on-primary-container": "#d5a4e4",
-                      "primary-fixed": "#f9d8ff",
-                      "secondary-fixed-dim": "#e7b7e6",
-                      "error": "#ba1a1a",
-                      "surface-bright": "#fef7ff",
-                      "on-tertiary-fixed": "#1d1d00",
-                      "tertiary-fixed": "#e9e964",
-                      "inverse-on-surface": "#f6eef6",
-                      "outline-variant": "#cfc3ce",
-                      "on-background": "#1d1a20"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "sm": "12px",
-                      "xs": "4px",
-                      "md": "24px",
-                      "base": "8px",
-                      "margin-mobile": "16px",
-                      "margin-desktop": "64px",
-                      "gutter": "24px",
-                      "xl": "80px",
-                      "lg": "48px"
-              },
-              "fontFamily": {
-                      "headline-md": ["Montserrat"],
-                      "headline-lg-mobile": ["Montserrat"],
-                      "label-md": ["Montserrat"],
-                      "headline-lg": ["Montserrat"],
-                      "body-md": ["Montserrat"],
-                      "body-lg": ["Montserrat"]
-              },
-              "fontSize": {
-                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                      "headline-lg-mobile": ["26px", {"lineHeight": "32px", "fontWeight": "700"}],
-                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.5px", "fontWeight": "600"}],
-                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
-                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
-              }
-            }
-          }
-        }
-    </script>
-<link rel="stylesheet" href="shared.css">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas solicitações — Pacotinho de Amor</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: Montserrat, sans-serif; background: #fef7ff; color: #1d1a20; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 3px; }
+  </style>
+
+  <link rel="stylesheet" href="shared.css">
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col md:flex-row">
-<!-- Navigation Drawer (Desktop/Tablet) -->
-<nav aria-label="Navegação Lateral" class="hidden md:flex flex-col h-full w-80 rounded-r-xl bg-surface-container-low dark:bg-inverse-surface shadow-xl fixed left-0 top-0 z-40 py-md">
-<div class="px-margin-desktop mb-lg flex items-center gap-sm">
-<span aria-hidden="true" class="material-symbols-outlined text-primary font-headline-lg" style="font-variation-settings: 'FILL' 1;">pets</span>
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Pacotinho de Amor</h1>
-</div>
-<div class="px-margin-desktop mb-md">
-<div class="flex items-center gap-sm mb-xs">
-<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary-container">
-<img alt="Foto do usuário" class="w-full h-full object-cover" data-alt="A professional headshot of a friendly female volunteer wearing a smart casual outfit. She has dark hair and a warm smile. The background is a soft, out-of-focus modern office setting. The lighting is bright and airy, consistent with a clean, light-mode modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkCZnwck4rTclb5_dX8Qi7Styaec_f12IXFD7RVuhN6056j38fkV_GdRMLllW88qakxg3d3zQ4eaJLMs-WiLzrmYOs68JW396HWUGhr_bDRR0KS0eyqRuh33sazuJFG0AREWWfwV7ITXgwXUBw6c5R3UYa2H_eHaRzk4J-LgL4WhxDuzCMDsj8bF2NG0RLT_D1WGJRu5E-CNeegT-cERYuTlVrSbsaBGmeALevvt3GnZLC22K8c1AB">
-</div>
-<div>
-<p class="font-label-md text-label-md text-primary">Ana Silva</p>
-<p class="font-body-md text-body-md text-on-surface-variant text-sm">Adotante Nível 1</p>
-</div>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant text-xs ml-14">São Paulo, SP</p>
-</div>
-<ul class="flex-1 overflow-y-auto mt-4 px-2">
-<li>
-<a class="flex items-center gap-sm px-4 py-3 bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-lg mx-2 mb-1 transition-colors duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
-<span class="font-label-md text-label-md">Meus Processos</span>
-</a>
-</li>
-<li>
-<a class="flex items-center gap-sm text-on-surface-variant dark:text-surface-variant px-4 py-3 hover:bg-surface-container-highest dark:hover:bg-surface-variant rounded-lg mx-2 mb-1 transition-colors duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined">favorite</span>
-<span class="font-label-md text-label-md">Favoritos</span>
-</a>
-</li>
-<li>
-<a class="flex items-center gap-sm text-on-surface-variant dark:text-surface-variant px-4 py-3 hover:bg-surface-container-highest dark:hover:bg-surface-variant rounded-lg mx-2 mb-1 transition-colors duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined">menu_book</span>
-<span class="font-label-md text-label-md">Guia de Cuidados</span>
-</a>
-</li>
-<li class="mt-auto">
-<a class="flex items-center gap-sm text-on-surface-variant dark:text-surface-variant px-4 py-3 hover:bg-surface-container-highest dark:hover:bg-surface-variant rounded-lg mx-2 mb-1 transition-colors duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-label-md text-label-md">Configurações</span>
-</a>
-</li>
-<li>
-<a class="flex items-center gap-sm text-on-surface-variant dark:text-surface-variant px-4 py-3 hover:bg-surface-container-highest dark:hover:bg-surface-variant rounded-lg mx-2 mb-1 transition-colors duration-200 ease-in-out" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span class="font-label-md text-label-md">Sair</span>
-</a>
-</li>
-</ul>
-</nav>
-<!-- Top App Bar (Mobile) -->
-<header class="md:hidden flex items-center justify-between px-margin-mobile h-16 w-full z-50 sticky top-0 bg-surface dark:bg-surface-dim shadow-sm">
-<button aria-label="Voltar" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors p-2 rounded-full active:scale-95 transition-transform">
-<span class="material-symbols-outlined">arrow_back</span>
-</button>
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed truncate px-2">Pacotinho de Amor</h1>
-<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant">
-<img alt="Luna, a gata" class="w-full h-full object-cover" data-alt="A close-up portrait of a fluffy white cat with bright blue eyes, looking curiously at the camera. The background is a soft, muted pastel lilac, fitting a clean, light-mode modern pet care aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8GkMZyYBScfnEfSMA1f8_S99gmuIBUTbzij4klTZnbA8MAaNnaqmce1HkYO96G7dq8wKa-N-pA7k4sI8g2zoU4ibDUdNEGC2ErF-YZyRx_K33NJ1Jk9v7hLSXzA2qWmR_n96e26h0020RjkoD9YmvDk0gvdtfMJJbJYLR8-Qi8Pg3Egig98eRbBF14M71l5wGfH7vylevNSNA7QIEMZLaASps_foCj_6aQP-iaxary7qBxi5MqmAQ">
-</div>
-</header>
-<!-- Main Content Area -->
-<main class="flex-1 md:ml-80 pb-24 md:pb-lg w-full flex flex-col">
-<div class="px-margin-mobile md:px-margin-desktop py-lg max-w-6xl mx-auto w-full flex-1">
-<header class="mb-lg">
-<h1 class="font-headline-lg-mobile md:font-headline-lg text-primary mb-sm">Solicitações de adoção</h1>
-<p class="font-body-lg text-on-surface-variant max-w-3xl">Gerencie e acompanhe o status de todas as solicitações de adoção em andamento.</p>
-</header>
-<!-- Filters & Search -->
-<section class="bg-surface rounded-xl shadow-sm border border-surface-container-highest p-md mb-lg">
-<div class="flex flex-col lg:flex-row gap-md items-end">
-<div class="flex-1 w-full relative">
-<label class="sr-only" for="search-animal">Buscar por Animal ou Solicitante</label>
-<span class="material-symbols-outlined absolute left-sm top-1/2 transform -translate-y-1/2 text-outline">search</span>
-<input class="w-full pl-[40px] pr-sm py-sm rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-on-surface placeholder:text-outline" id="search-animal" placeholder="Buscar por nome do animal ou solicitante..." type="text">
-</div>
-<div class="flex flex-wrap gap-sm w-full lg:w-auto">
-<div class="flex-1 lg:flex-none min-w-[150px]">
-<label class="block font-label-md text-on-surface-variant mb-xs" for="filter-status">Status</label>
-<div class="relative">
-<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant rounded-lg py-sm pl-sm pr-[36px] font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="filter-status">
-<option value="all">Todos os status</option>
-<option value="nova">Nova</option>
-<option value="analise">Em análise</option>
-<option value="entrevista">Entrevista</option>
-<option value="aprovada">Aprovada</option>
-<option value="recusada">Recusada</option>
-<option value="concluida">Concluída</option>
-</select>
-<span class="material-symbols-outlined absolute right-sm top-1/2 transform -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
-</div>
-</div>
-<div class="flex-1 lg:flex-none min-w-[150px]">
-<label class="block font-label-md text-on-surface-variant mb-xs" for="filter-date">Data</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-sm px-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="filter-date" type="date">
-</div>
-</div>
-</div>
-</section>
-<!-- List of Solicitations (Bento/Card Grid Hybrid) -->
-<div class="grid grid-cols-1 xl:grid-cols-2 gap-md">
-<!-- Card 1: Em análise -->
-<article class="bg-surface rounded-xl shadow-[0_4px_20px_rgba(95,55,110,0.05)] border border-surface-container-highest overflow-hidden hover:shadow-[0_8px_24px_rgba(95,55,110,0.1)] transition-shadow duration-300 flex flex-col sm:flex-row relative group">
-<div class="absolute top-0 left-0 w-1 h-full bg-tertiary-fixed-dim"></div>
-<div class="w-full sm:w-40 h-48 sm:h-auto shrink-0 relative">
-<img alt="Foto do animal Luna" class="w-full h-full object-cover" data-alt="A cute golden retriever puppy sitting attentively on a lush green lawn. The puppy has soft, expressive eyes. The background is slightly blurred with bright, warm morning sunlight, fitting a cheerful and heartwarming pet care aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNF9HqZiV776F6zZKLtGJszDRL487RBE5pNR5RkrrqNEGygc4qaOjp2SHJSlM8Auga4Pk0Ar6QaCSSZ9M3T08aQc98JCj-JP-uz_Vmv_A93eZbX3bzUf7aoXpb4B8nA55eXg5rqsQXhaUIC2Vthu7S_GaYlq5Y7j27CVYnWLFhAcS2WPwS8tOZF-aIpCYeIVSRL-udaMEnfeP08dVhfw40v6g82tF1glNotGa5SsV_M4ss0fKFxu0c">
-<div class="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm">
-<span class="font-label-md text-primary block">Luna</span>
-</div>
-</div>
-<div class="p-md flex-1 flex flex-col justify-between">
-<div>
-<div class="flex justify-between items-start mb-xs">
-<div>
-<p class="font-label-md text-outline-variant text-sm uppercase tracking-wider mb-1">Solicitante</p>
-<h2 class="font-headline-md text-headline-md text-on-surface">Maria Silva</h2>
-</div>
-<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant font-label-md px-3 py-1 rounded-full text-sm">
-<span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                                    12/08
-                                </span>
-</div>
-<div class="mt-sm flex flex-wrap gap-2">
-<span class="inline-flex items-center gap-1 bg-tertiary-container/10 text-tertiary-container border border-tertiary-container/30 px-3 py-1 rounded-full font-label-md text-sm">
-<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim">pending</span>
-                                    Em análise
-                                </span>
-</div>
-</div>
-<div class="mt-md pt-sm border-t border-surface-container-highest flex items-center justify-between">
-<div>
-<p class="font-body-md text-xs text-outline mb-1">Próxima etapa</p>
-<p class="font-label-md text-on-surface-variant flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px] text-primary">fact_check</span>
-                                    Avaliar formulário
-                                </p>
-</div>
-<button aria-label="Ver detalhes da solicitação de Maria Silva" class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-<span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-</div>
-</article>
-<!-- Card 2: Entrevista -->
-<article class="bg-surface rounded-xl shadow-[0_4px_20px_rgba(95,55,110,0.05)] border border-surface-container-highest overflow-hidden hover:shadow-[0_8px_24px_rgba(95,55,110,0.1)] transition-shadow duration-300 flex flex-col sm:flex-row relative group">
-<div class="absolute top-0 left-0 w-1 h-full bg-[#FAFA73]"></div> <!-- Accent Yellow from guidelines for active/featured -->
-<div class="w-full sm:w-40 h-48 sm:h-auto shrink-0 relative">
-<img alt="Foto do animal Thor" class="w-full h-full object-cover" data-alt="A majestic adult German Shepherd looking strong and alert, standing in a well-lit indoor modern living room. The room features minimalist decor with light wood tones and a soft, airy atmosphere. The lighting is bright and clear." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4Hh-kseJPW4oNuYg8B9vjQnpzvjVxNakx3SHypDSwk3uPwy4GxMJl5t2QAPWB9NumAQDWExasFEEkJaOGOb7mD2_TV7O6QGzNR_yForoVtQ7JRT79Ky-76inbt-iPe6JSjjb0QT8j_t9swABlSqkorLWMkcsg8cUEeeHhE-HciMc2cAl_kc-uNzaoTC5t8pMcpuUY1zT_jpvdyYRpqqAq-yMZP0WsAdbzfkeFBxZ_SraVcYHJWSYA">
-<div class="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm">
-<span class="font-label-md text-primary block">Thor</span>
-</div>
-</div>
-<div class="p-md flex-1 flex flex-col justify-between">
-<div>
-<div class="flex justify-between items-start mb-xs">
-<div>
-<p class="font-label-md text-outline-variant text-sm uppercase tracking-wider mb-1">Solicitante</p>
-<h2 class="font-headline-md text-headline-md text-on-surface">João Souza</h2>
-</div>
-<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant font-label-md px-3 py-1 rounded-full text-sm">
-<span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                                    10/08
-                                </span>
-</div>
-<div class="mt-sm flex flex-wrap gap-2">
-<span class="inline-flex items-center gap-1 bg-secondary-container/30 text-primary border border-secondary-container px-3 py-1 rounded-full font-label-md text-sm">
-<span class="material-symbols-outlined text-[16px] text-primary">record_voice_over</span>
-                                    Entrevista
-                                </span>
-</div>
-</div>
-<div class="mt-md pt-sm border-t border-surface-container-highest flex items-center justify-between">
-<div>
-<p class="font-body-md text-xs text-outline mb-1">Próxima etapa</p>
-<p class="font-label-md text-on-surface-variant flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px] text-primary">video_call</span>
-                                    Agendar videochamada
-                                </p>
-</div>
-<button aria-label="Ver detalhes da solicitação de João Souza" class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-<span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-</div>
-</article>
-<!-- Card 3: Concluída -->
-<article class="bg-surface rounded-xl shadow-[0_4px_20px_rgba(95,55,110,0.05)] border border-surface-container-highest overflow-hidden hover:shadow-[0_8px_24px_rgba(95,55,110,0.1)] transition-shadow duration-300 flex flex-col sm:flex-row relative group opacity-75 hover:opacity-100">
-<div class="absolute top-0 left-0 w-1 h-full bg-outline-variant"></div>
-<div class="w-full sm:w-40 h-48 sm:h-auto shrink-0 relative grayscale-[30%]">
-<img alt="Foto do animal Pipoca" class="w-full h-full object-cover" data-alt="A small, fluffy white and brown mixed-breed puppy sleeping peacefully on a plush purple blanket. The scene is cozy and tranquil, lit by soft, diffused natural light from a nearby window, creating a serene and gentle mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgUlFD8FhGNsKar8WbvSybxBizbpKOeSNBwTIGEv_iKw8K35IkyZh2itJwOVnIIt8D9AoLdU7g6MVKaxSeR4eo7DcB8z-RWdgqnR4I4eKKT6tU2lr7uUIbnlbqfjxsDqrivCddztjKBnzFHgYe6Z23JfOmZ_Er6Nc8I4NHBlowcRsc5Ec0F8Rj_RgSyksY3EN4uMuyZLdBCDB4Itbczuj45wEQI3xvI-NDGgU2UiM8IKPsmjS-drS3">
-<div class="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm">
-<span class="font-label-md text-on-surface-variant block">Pipoca</span>
-</div>
-</div>
-<div class="p-md flex-1 flex flex-col justify-between">
-<div>
-<div class="flex justify-between items-start mb-xs">
-<div>
-<p class="font-label-md text-outline-variant text-sm uppercase tracking-wider mb-1">Solicitante</p>
-<h2 class="font-headline-md text-headline-md text-on-surface">Ana Oliveira</h2>
-</div>
-<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant font-label-md px-3 py-1 rounded-full text-sm">
-<span class="material-symbols-outlined text-[16px]">calendar_today</span>
-                                    05/08
-                                </span>
-</div>
-<div class="mt-sm flex flex-wrap gap-2">
-<span class="inline-flex items-center gap-1 bg-surface-container-high text-on-surface-variant border border-outline-variant px-3 py-1 rounded-full font-label-md text-sm">
-<span class="material-symbols-outlined text-[16px]">check_circle</span>
-                                    Adoção concluída
-                                </span>
-</div>
-</div>
-<div class="mt-md pt-sm border-t border-surface-container-highest flex items-center justify-between">
-<div>
-<p class="font-body-md text-xs text-outline mb-1">Processo</p>
-<p class="font-label-md text-on-surface-variant flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px] text-outline">done_all</span>
-                                    Finalizado
-                                </p>
-</div>
-<button aria-label="Ver histórico da solicitação de Ana Oliveira" class="w-10 h-10 rounded-full border border-outline-variant text-on-surface-variant flex items-center justify-center hover:bg-surface-container-highest transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-<span class="material-symbols-outlined">history</span>
-</button>
-</div>
-</div>
-</article>
-</div>
-</div>
+
+<body class="flex min-h-screen flex-col">
+
+<!-- O header e o footer são inseridos pelo shared.js -->
+
+<main class="mx-auto w-full max-w-3xl flex-grow px-5 py-10 md:py-14">
+
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-[#472056]">Minhas solicitações</h1>
+    <p class="mt-2 text-[#4c444d]">Acompanhe seus pedidos de adoção e de videochamada.</p>
+  </header>
+
+  <!-- Carregando -->
+  <div id="carregando" class="space-y-3">
+    <div class="h-28 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
+    <div class="h-28 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
+  </div>
+
+  <!-- Sem login -->
+  <section id="semLogin" class="hidden rounded-2xl bg-white p-8 text-center shadow-sm">
+    <span class="material-symbols-outlined text-5xl text-[#78517a]">lock</span>
+    <h2 class="mt-3 text-xl font-bold text-[#472056]">Entre na sua conta</h2>
+    <p class="mx-auto mt-2 max-w-md text-[#4c444d]">Para ver suas solicitações, entre com a conta de adotante que você usou no pedido.</p>
+    <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="conta.html?next=solicitacoes-adocao.html" class="rounded-full bg-[#472056] px-6 py-3 font-semibold text-white hover:bg-[#5f376e]">Entrar ou criar conta</a>
+      <a href="animais-para-adocao.html" class="rounded-full border-2 border-[#472056] px-6 py-2.5 font-semibold text-[#472056] hover:bg-[#f8f1f9]">Ver animais</a>
+    </div>
+  </section>
+
+  <!-- Sem pedidos -->
+  <section id="semPedidos" class="hidden rounded-2xl bg-white p-8 text-center shadow-sm">
+    <span class="material-symbols-outlined text-5xl text-[#78517a]">pets</span>
+    <h2 class="mt-3 text-xl font-bold text-[#472056]">Você ainda não fez nenhum pedido</h2>
+    <p class="mx-auto mt-2 max-w-md text-[#4c444d]">Conheça os animais e escolha um para adotar ou conhecer por videochamada.</p>
+    <a href="animais-para-adocao.html" class="mt-6 inline-block rounded-full bg-[#472056] px-6 py-3 font-semibold text-white hover:bg-[#5f376e]">Conhecer os animais</a>
+  </section>
+
+  <!-- Lista -->
+  <div id="lista" class="space-y-3"></div>
+
+  <p id="ajuda" class="hidden mt-8 text-center text-sm text-[#4c444d]">
+    A equipe entra em contato pelo WhatsApp para os próximos passos.
+  </p>
+
 </main>
-<!-- Bottom Navigation Bar (Mobile) -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 pb-safe bg-surface dark:bg-surface-dim shadow-[0_-2px_10px_rgba(95,55,110,0.08)] z-50">
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
-<span class="material-symbols-outlined mb-1">home</span>
-<span class="font-label-md text-label-md text-[10px]">Início</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
-<span class="material-symbols-outlined mb-1">pets</span>
-<span class="font-label-md text-label-md text-[10px]">Pets</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-200" href="#">
-<span class="material-symbols-outlined mb-1">chat_bubble</span>
-<span class="font-label-md text-label-md text-[10px]">Mensagens</span>
-</a>
-<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-full px-5 py-1 active:scale-90 transition-all duration-200" href="#">
-<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">person</span>
-<span class="font-label-md text-label-md text-[10px]">Perfil</span>
-</a>
-</nav>
+
 <script src="shared.js"></script>
-</body></html>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+
+  const dataBR = (iso) => {
+    if (!iso) return "";
+    const [a, m, d] = String(iso).slice(0, 10).split("-");
+    return d ? `${d}/${m}/${a}` : "";
+  };
+
+  const STATUS = {
+    "em análise": ["Em análise", "bg-amber-100 text-amber-800", "A equipe está avaliando seu pedido."],
+    "entrevista": ["Entrevista", "bg-blue-100 text-blue-800", "Vamos conversar para conhecer você melhor."],
+    "aprovada":   ["Aprovada", "bg-green-100 text-green-800", "Seu pedido foi aprovado! 💜"],
+    "recusada":   ["Não aprovada", "bg-red-100 text-red-800", "Desta vez o pedido não foi aprovado."],
+    "concluída":  ["Adoção concluída", "bg-[#ede6ee] text-[#4c444d]", "Obrigado por adotar!"]
+  };
+
+  function mostrar(id) {
+    ["carregando", "semLogin", "semPedidos"].forEach((x) => $(x).classList.toggle("hidden", x !== id));
+  }
+
+  function card(p, animais) {
+    const animal = animais.find((a) => String(a.id) === String(p.animal_id)) || {};
+    const nome = animal.name || p.animal_name || "Animal";
+    const foto = animal.image || "assets/logo-footer.png";
+    const video = p.contact_type === "videochamada";
+    const [rotulo, cor, texto] = STATUS[String(p.status || "em análise").toLowerCase()] || STATUS["em análise"];
+
+    return `
+      <article class="flex gap-4 rounded-2xl bg-white p-4 shadow-[0_4px_20px_rgba(95,55,110,0.06)]">
+        <img src="${esc(foto)}" alt="Foto de ${esc(nome)}" class="h-24 w-24 shrink-0 rounded-xl bg-[#ede6ee] object-cover" onerror="this.src='assets/logo-footer.png'">
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <p class="text-sm font-semibold text-[#78517a]">${video ? "Videochamada" : "Pedido de adoção"}</p>
+              <h2 class="text-lg font-bold text-[#472056]">${esc(nome)}</h2>
+            </div>
+            <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
+          </div>
+          <p class="mt-1 text-sm text-[#4c444d]">${texto}</p>
+          <p class="mt-2 text-xs text-[#4c444d]">
+            Enviado em ${dataBR(p.created_at)}${video && p.preferred_date ? ` • Você preferiu ${dataBR(p.preferred_date)} (${esc(p.preferred_period || "")})` : ""}
+          </p>
+          ${animal.id ? `<a href="detalhes-animal.html?id=${encodeURIComponent(animal.id)}" class="mt-2 inline-block text-sm font-semibold text-[#472056] hover:underline">Ver perfil de ${esc(nome)}</a>` : ""}
+        </div>
+      </article>`;
+  }
+
+  async function carregar() {
+    try {
+      const me = await fetch("/api/auth/me", { credentials: "include" }).then((r) => r.json()).catch(() => ({}));
+      if (!me.ok || me.user_type !== "adopter") return mostrar("semLogin");
+
+      const [pedidos, animais] = await Promise.all([
+        fetch("/api/applications", { credentials: "include" }).then((r) => (r.ok ? r.json() : [])),
+        fetch("/api/animals").then((r) => (r.ok ? r.json() : []))
+      ]);
+
+      if (!Array.isArray(pedidos) || !pedidos.length) return mostrar("semPedidos");
+
+      mostrar(null);
+      $("lista").innerHTML = pedidos.map((p) => card(p, Array.isArray(animais) ? animais : [])).join("");
+      $("ajuda").classList.remove("hidden");
+    } catch (erro) {
+      console.error(erro);
+      mostrar("semLogin");
+    }
+  }
+
+  carregar();
+})();
+</script>
+
+</body>
+</html>

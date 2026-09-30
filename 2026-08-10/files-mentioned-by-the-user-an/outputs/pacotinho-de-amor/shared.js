@@ -6,81 +6,78 @@
       ? '/api'
       : 'http://127.0.0.1:8000/api';
 
+  const atual = (arquivo) =>
+    page === arquivo ? 'aria-current="page"' : '';
+
   /*
    * ============================================================
    * HEADER
    * ============================================================
    */
 
- const header = `
+  const header = `
   <header class="pa-header">
 
-    <a
-      class="pa-brand"
-      href="home.html"
-      aria-label="Pacotinho de Amor, início"
-    >
-      <img
-        class="pa-brand-logo"
-        src="assets/logo-footer.png"
-        alt="Logo Pacotinho de Amor"
-      >
-
-      <span>
-        Pacotinho<br>
-        de amor
-      </span>
+    <a class="pa-brand" href="home.html" aria-label="Pacotinho de Amor, início">
+      <img class="pa-brand-logo" src="assets/logo-footer.png" alt="Logo Pacotinho de Amor">
+      <span>Pacotinho<br>de amor</span>
     </a>
 
     <nav class="pa-nav" aria-label="Navegação principal">
-
-      <a
-        href="home.html#projeto"
-        ${page === 'home.html' ? 'aria-current="page"' : ''}
-      >
-        O Projeto
-      </a>
-
-      <a
-        href="animais-para-adocao.html"
-        ${page === 'animais-para-adocao.html' ? 'aria-current="page"' : ''}
-      >
-        Animais
-      </a>
-
-      <a
-        href="sobre-o-projeto.html"
-        ${page === 'sobre-o-projeto.html' ? 'aria-current="page"' : ''}
-      >
-        Quem Somos
-      </a>
-
-      <a
-        href="quero-ajudar.html"
-        ${page === 'quero-ajudar.html' ? 'aria-current="page"' : ''}
-      >
-        Como ajudar
-      </a>
-
+      <a href="home.html#projeto" ${atual('home.html')}>O Projeto</a>
+      <a href="animais-para-adocao.html" ${atual('animais-para-adocao.html')}>Animais</a>
+      <a href="eventos.html" ${atual('eventos.html')}>Eventos</a>
+      <a href="sobre-o-projeto.html" ${atual('sobre-o-projeto.html')}>Quem Somos</a>
+      <a href="quero-ajudar.html" ${atual('quero-ajudar.html')}>Como ajudar</a>
     </nav>
 
     <div class="pa-header-actions">
 
       <a
         class="pa-account"
-        href="login.html"
+        href="minha-conta.html"
         aria-label="Minha conta"
-        ${page === 'login.html' ? 'aria-current="page"' : ''}
+        ${atual('minha-conta.html')}
       >
+        <span
+          class="material-symbols-outlined pa-account-icon"
+          aria-hidden="true"
+        >
+          person
+        </span>
+
         <span class="pa-account-label">
-          Conta
+          Minha conta
         </span>
       </a>
+
+      <button
+        type="button"
+        class="pa-menu-toggle"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        data-no-demo
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
 
     </div>
 
   </header>
-`;
+  `;
 
   /*
    * ============================================================
@@ -103,9 +100,7 @@
 
           <div>
 
-            <strong>
-              Pacotinho de Amor
-            </strong>
+            <strong>Pacotinho de Amor</strong>
 
             <p>
               Projeto independente dedicado a conectar animais
@@ -117,34 +112,29 @@
 
         </div>
 
-
         <nav aria-label="Links do rodapé">
 
-          <a href="home.html">
-            Início
-          </a>
-
+          <a href="home.html">Início</a>
 
           <a href="animais-para-adocao.html">
             Animais
           </a>
 
+          <a href="eventos.html">
+            Eventos
+          </a>
 
-          <a href="home.html#projeto">
-    Projeto
-</a>
-
+          <a href="sobre-o-projeto.html">
+            Quem Somos
+          </a>
 
           <a href="quero-ajudar.html">
             Como ajudar
           </a>
 
-
-
           <a href="politica-privacidade.html">
             Política de Privacidade
           </a>
-
 
           <a href="termos-uso.html">
             Termos de Uso
@@ -154,15 +144,12 @@
 
       </div>
 
-
       <small>
-        Mais de 1.950 animais adotados com amor.
-        © Pacotinho de Amor
+        Mais de 1.950 animais adotados com amor. © Pacotinho de Amor
       </small>
 
     </footer>
   `;
-
 
   /*
    * ============================================================
@@ -175,10 +162,10 @@
     `pa-page-${page.replace(/\.html$/, '')}`
   );
 
-
   /*
-   * O painel do voluntário possui layout próprio.
-   * As outras páginas recebem o header.
+   * ============================================================
+   * HEADER NAS PÁGINAS
+   * ============================================================
    */
 
   if (page !== 'painel-voluntario.html') {
@@ -188,17 +175,252 @@
       header
     );
 
+    /*
+     * ============================================================
+     * ESTILO DA "MINHA CONTA"
+     * ============================================================
+     */
+
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `
+      <style id="pa-account-style">
+
+        .pa-account {
+          display: inline-flex !important;
+          align-items: center;
+          gap: 7px;
+
+          padding: 8px 12px !important;
+
+          border-radius: 10px !important;
+
+          background: transparent !important;
+
+          color: #472056 !important;
+
+          text-decoration: none !important;
+
+          font-weight: 600;
+        }
+
+        .pa-account:hover {
+          background: #f8f1f9 !important;
+        }
+
+        .pa-account-icon {
+          font-size: 20px !important;
+          line-height: 1;
+        }
+
+        .pa-account-label {
+          white-space: nowrap;
+        }
+
+        @media (max-width: 860px) {
+
+          .pa-account {
+            padding: 8px !important;
+          }
+
+          .pa-account-label {
+            display: none;
+          }
+
+        }
+
+      </style>
+      `
+    );
+
+    /*
+     * ============================================================
+     * MENU RESPONSIVO
+     * ============================================================
+     */
+
+    document.head.insertAdjacentHTML(
+      'beforeend',
+      `
+      <style id="pa-menu-celular">
+
+        .pa-menu-toggle {
+          display: none;
+          align-items: center;
+          justify-content: center;
+
+          width: 42px;
+          height: 42px;
+
+          margin-left: 6px;
+
+          border: 0;
+          border-radius: 999px;
+
+          background: transparent;
+
+          color: #472056;
+
+          cursor: pointer;
+        }
+
+        .pa-menu-toggle:hover {
+          background: #f3ecf4;
+        }
+
+        body.pa-standardized > nav.fixed.bottom-0 {
+          display: none !important;
+        }
+
+        @media (max-width: 860px) {
+
+          .pa-header {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+          }
+
+          .pa-header .pa-nav {
+            display: none !important;
+          }
+
+          .pa-menu-toggle {
+            display: inline-flex;
+          }
+
+          .pa-header.pa-menu-aberto .pa-nav {
+
+            display: flex !important;
+
+            flex-direction: column;
+
+            gap: 2px;
+
+            position: absolute;
+
+            top: 100%;
+            left: 0;
+            right: 0;
+
+            padding: 10px 16px 16px;
+
+            background: #fff;
+
+            border-bottom: 1px solid #e7e0e8;
+
+            box-shadow:
+              0 12px 24px rgba(71, 32, 86, .12);
+          }
+
+          .pa-header.pa-menu-aberto .pa-nav a {
+
+            padding: 12px 10px;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+          }
+
+          .pa-header.pa-menu-aberto .pa-nav a:hover {
+            background: #f8f1f9;
+          }
+
+        }
+
+      </style>
+      `
+    );
+
+    const cabecalho =
+      document.querySelector('.pa-header');
+
+    const botaoMenu =
+      cabecalho.querySelector('.pa-menu-toggle');
+
+    const fecharMenu = () => {
+
+      cabecalho.classList.remove(
+        'pa-menu-aberto'
+      );
+
+      botaoMenu.setAttribute(
+        'aria-expanded',
+        'false'
+      );
+
+      botaoMenu.setAttribute(
+        'aria-label',
+        'Abrir menu'
+      );
+    };
+
+    botaoMenu.addEventListener(
+      'click',
+      () => {
+
+        const abrir =
+          !cabecalho.classList.contains(
+            'pa-menu-aberto'
+          );
+
+        cabecalho.classList.toggle(
+          'pa-menu-aberto',
+          abrir
+        );
+
+        botaoMenu.setAttribute(
+          'aria-expanded',
+          String(abrir)
+        );
+
+        botaoMenu.setAttribute(
+          'aria-label',
+          abrir
+            ? 'Fechar menu'
+            : 'Abrir menu'
+        );
+
+      }
+    );
+
+    document.addEventListener(
+      'click',
+      (e) => {
+
+        if (
+          !cabecalho.contains(e.target)
+        ) {
+          fecharMenu();
+        }
+
+      }
+    );
+
+    document.addEventListener(
+      'keydown',
+      (e) => {
+
+        if (e.key === 'Escape') {
+          fecharMenu();
+        }
+
+      }
+    );
+
   }
 
-
   /*
-   * Adiciona o footer nas páginas normais.
+   * ============================================================
+   * FOOTER NAS PÁGINAS NORMAIS
+   * ============================================================
    */
 
   if (
     page !== 'login.html' &&
     page !== 'painel-voluntario.html' &&
-    !document.querySelector('footer.pa-footer')
+    !document.querySelector(
+      'footer.pa-footer'
+    )
   ) {
 
     document.body.insertAdjacentHTML(
@@ -207,7 +429,6 @@
     );
 
   }
-
 
   /*
    * ============================================================
@@ -220,10 +441,29 @@
     '<div class="pa-toast" role="status" aria-live="polite"></div>'
   );
 
+  const toast = (message) => {
+
+    const el =
+      document.querySelector('.pa-toast');
+
+    if (!el || !message) return;
+
+    el.textContent = message;
+
+    el.classList.add('show');
+
+    clearTimeout(window.paToast);
+
+    window.paToast = setTimeout(
+      () => el.classList.remove('show'),
+      2600
+    );
+
+  };
 
   /*
    * ============================================================
-   * DESTINOS DOS BOTÕES
+   * NAVEGAÇÃO DAS PÁGINAS ANTIGAS
    * ============================================================
    */
 
@@ -234,230 +474,167 @@
       .replace(/\s+/g, ' ')
       .trim();
 
+    if (
+      /conheça os animais|conhecer outros animais|voltar para os animais/
+        .test(text)
+    ) {
+      return 'animais-para-adocao.html';
+    }
 
     if (
-      /conheça os animais|view all pets|browse pets|conhecer outros animais|voltar para os animais/.test(text)
+      /quero ajudar|fazer uma doação/
+        .test(text)
     ) {
-
-      return 'animais-para-adocao.html';
-
-    }
-
-
-    if (/conhecer animal/.test(text)) {
-
-      return 'detalhes-animal-luna.html';
-
-    }
-
-
-    if (/quero ajudar|fazer uma doação/.test(text)) {
-
       return 'quero-ajudar.html';
-
     }
-
 
     /*
-     * Conta agora abre o LOGIN DO ADOTANTE.
+     * Minha conta / Cadastro
      */
 
-    if (/^conta$/.test(text)) {
-
-      return 'login.html';
-
-    }
-
-
     if (
-      /ver próximas feirinhas|próximas feirinhas de adoção/.test(text)
+      /^conta$|^minha conta$|^cadastro$|^criar conta$|^crie sua conta$/
+        .test(text)
     ) {
 
-      return 'gerenciamento-feirinhas.html';
+      if (
+        /cadastro|criar conta|crie sua conta/
+          .test(text)
+      ) {
+        return 'cadastro.html';
+      }
 
+      return 'minha-conta.html';
     }
 
-
     if (
-      /configurar disponibilidade|gerenciar disponibilidade/.test(text)
+      /configurar disponibilidade|gerenciar disponibilidade/
+        .test(text)
     ) {
-
       return 'configurar-disponibilidade.html';
-
     }
 
-
-    if (/adicionar compromisso/.test(text)) {
-
+    if (
+      /adicionar compromisso/.test(text)
+    ) {
       return 'escolher-forma-contato.html';
-
     }
 
+    if (
+      /solicitar videochamada/.test(text)
+    ) {
+      return 'status-adocao-entrevista.html';
+    }
+
+    if (
+      /facetime|videochamada/.test(text)
+    ) {
+      return 'agenda-facetime.html';
+    }
 
     if (/visitar/.test(text)) {
-
       return 'agenda-visita.html';
-
     }
 
-
-    if (/facetime|videochamada/.test(text)) {
-
-      return 'agenda-facetime.html';
-
-    }
-
-
-    if (/solicitar videochamada/.test(text)) {
-
-      return 'status-adocao-entrevista.html';
-
-    }
-
-
-    if (/continuar para a entrevista/.test(text)) {
-
+    if (
+      /continuar para a entrevista/.test(text)
+    ) {
       return 'entrevista-adocao-luna.html';
-
     }
-
 
     if (/quero adotar/.test(text)) {
-
       return 'quero-adotar-luna.html';
-
     }
 
-
-    if (/adicionar animal|cadastrar animal/.test(text)) {
-
+    if (
+      /adicionar animal|cadastrar animal/
+        .test(text)
+    ) {
       return 'adicionar-animal.html';
-
     }
 
-
-    if (/aprovar para entrevista/.test(text)) {
-
-      return 'status-adocao-entrevista.html';
-
-    }
-
-
-    if (/voltar para o início|\bhome\b/.test(text)) {
-
+    if (
+      /voltar para o início/.test(text)
+    ) {
       return 'home.html';
-
     }
 
-
-    if (/voltar/.test(text)) {
-
-      return 'home.html';
-
-    }
-
-
-    if (/entrar/.test(text)) {
-
-      return 'painel-voluntario.html';
-
-    }
-
-
-    if (/solicitar mais informações/.test(text)) {
-
+    if (
+      /solicitar mais informações/.test(text)
+    ) {
       return 'solicitacoes-adocao.html';
-
     }
 
-
-    if (/agendar visita/.test(text)) {
-
+    if (
+      /agendar visita/.test(text)
+    ) {
       return 'status-adocao-entrevista.html';
-
     }
-
-
-    if (/publicar animal/.test(text)) {
-
-      return 'gerenciamento-animais.html';
-
-    }
-
 
     return null;
-
   };
-
 
   /*
    * ============================================================
-   * TOAST
+   * BOTÕES COM FUNÇÃO PRÓPRIA
    * ============================================================
    */
 
-  const toast = (message) => {
+  const temFuncaoPropria = (el) =>
+    el.id ||
+    el.hasAttribute('onclick') ||
+    el.getAttribute('type') === 'submit' ||
+    Object.keys(el.dataset).length > 0 ||
+    el.closest(
+      '[data-no-demo], [data-filter-control], [data-panel-menu-toggle], form, dialog, [role="dialog"]'
+    );
 
-    const el = document.querySelector('.pa-toast');
+  document.addEventListener(
+    'click',
+    (event) => {
 
-    if (!el) return;
+      const element =
+        event.target.closest(
+          'button, a[href="#"]'
+        );
 
+      if (
+        !element ||
+        element.closest(
+          '.pa-header, .pa-footer'
+        )
+      ) {
+        return;
+      }
 
-    el.textContent = message;
+      if (temFuncaoPropria(element)) {
+        return;
+      }
 
-    el.classList.add('show');
+      const dest =
+        target(
+          element.textContent || ''
+        );
 
+      if (dest) {
 
-    clearTimeout(window.paToast);
+        event.preventDefault();
 
+        location.href = dest;
 
-    window.paToast = setTimeout(() => {
+        return;
+      }
 
-      el.classList.remove('show');
-
-    }, 2600);
-
-  };
-
-
-  /*
-   * ============================================================
-   * API
-   * ============================================================
-   */
-
-  const request = async (route, payload) => {
-
-    const response = await fetch(`${API}${route}`, {
-
-      method: 'POST',
-
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify(payload)
-
-    });
-
-
-    const data = await response.json();
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.message ||
-        'Não foi possível concluir a ação.'
-      );
+      if (
+        element.matches(
+          'a[href="#"]'
+        )
+      ) {
+        event.preventDefault();
+      }
 
     }
-
-
-    return data;
-
-  };
-
+  );
 
   /*
    * ============================================================
@@ -468,341 +645,184 @@
   const sendApplication = async (form) => {
 
     const value = (id) =>
-      form.querySelector(`#${id}`)?.value.trim() || '';
+      form
+        .querySelector(`#${id}`)
+        ?.value
+        .trim() || '';
 
+    const animalId =
+      new URLSearchParams(
+        location.search
+      ).get('id') || '';
 
     try {
 
-      const result = await request('/applications', {
+      const response =
+        await fetch(
+          `${API}/applications`,
+          {
+            method: 'POST',
 
-        animal_id: 1,
+            headers: {
+              'Content-Type':
+                'application/json'
+            },
 
-        applicant_name: value('nome'),
+            credentials: 'include',
 
-        cpf: value('cpf'),
+            body: JSON.stringify({
 
-        email: value('email'),
+              animal_id:
+                animalId,
 
-        phone: value('telefone'),
+              applicant_name:
+                value('nome'),
 
-        birth_date: value('data-nascimento')
+              cpf:
+                value('cpf'),
 
-      });
+              email:
+                value('email'),
 
+              phone:
+                value('telefone'),
 
-      toast(result.message);
+              birth_date:
+                value('data-nascimento')
 
+            })
+          }
+        );
 
-      setTimeout(() => {
+      const data =
+        await response
+          .json()
+          .catch(() => ({}));
 
-        location.href = 'status-adocao-enviado.html';
+      if (!response.ok) {
 
-      }, 500);
+        throw new Error(
+          data.message ||
+          'Não foi possível enviar a solicitação.'
+        );
 
+      }
+
+      toast(
+        data.message ||
+        'Solicitação enviada.'
+      );
+
+      setTimeout(
+        () => {
+          location.href =
+            'status-adocao-enviado.html';
+        },
+        500
+      );
 
     } catch (error) {
 
-      toast(error.message);
+      toast(
+        error.message
+      );
 
     }
 
   };
 
-
   /*
    * ============================================================
-   * CLIQUES
+   * ENVIO DO FORMULÁRIO DE ADOÇÃO
    * ============================================================
+   *
+   * IMPORTANTE:
+   * O cadastro possui #nome e #cpf também.
+   * Por isso NÃO basta verificar esses dois campos.
+   *
+   * O formulário de adoção possui #data-nascimento.
+   * O cadastro possui #dataNascimento.
+   *
+   * Assim, o cadastro não será tratado como adoção.
    */
 
-  document.addEventListener('click', (event) => {
-
-    const element =
-      event.target.closest('button, a[href="#"]');
-
-
-    /*
-     * Não interferir no header e footer.
-     */
-
-    if (
-      !element ||
-      element.closest('.pa-header, .pa-footer')
-    ) {
-
-      return;
-
-    }
-
-
-    if (element.closest('[data-filter-control]')) {
-
-      return;
-
-    }
-
-
-    if (element.closest('[data-panel-menu-toggle]')) {
-
-      return;
-
-    }
-
-
-    // Não interferir em botões que possuem comportamento real próprio.
-    if (element.closest('[data-no-demo]')) {
-
-      return;
-
-    }
-
-
-    if (
-      element instanceof HTMLButtonElement &&
-      element.type === 'submit' &&
-      element.closest('form')
-    ) {
-
-      return;
-
-    }
-
-
-    if (
-      /próximo/.test(element.textContent || '') &&
-      element.closest('form')?.querySelector('#nome')
-    ) {
-
-      event.preventDefault();
-
-
-      sendApplication(
-        element.closest('form')
-      );
-
-
-      return;
-
-    }
-
-
-    const dest =
-      target(element.textContent || '');
-
-
-    if (dest) {
-
-      event.preventDefault();
-
-      location.href = dest;
-
-      return;
-
-    }
-
-
-    if (element.matches('a[href="#"]')) {
-
-      event.preventDefault();
-
-    }
-
-
-    if (element.tagName === 'BUTTON') {
-
-      event.preventDefault();
-
-
-      toast(
-        'Ação registrada. Esta demonstração não envia dados reais.'
-      );
-
-    }
-
-  });
-
-
-  /*
-   * ============================================================
-   * FORMULÁRIOS / LOGIN
-   * ============================================================
-   */
-
-  document.addEventListener('submit', async (event) => {
-
-    const form = event.target;
-
-
-    if (!(form instanceof HTMLFormElement)) {
-
-      return;
-
-    }
-
-
-    event.preventDefault();
-
-
-    const isLogin =
-      form.querySelector('input[type="password"]');
-
-
-    if (!isLogin) {
-
-      return sendApplication(form);
-
-    }
-
-
-    const email =
-      form.querySelector('#email')?.value.trim() || '';
-
-
-    const password =
-      form.querySelector('#password')?.value || '';
-
-
-    /*
-      * ========================================================
-      * LOGIN ÚNICO
-      * ========================================================
-      * O backend informa o tipo da conta:
-      * MASTER      -> painel-master.html
-      * VOLUNTÁRIO  -> painel-voluntario.html
-      * ADOTANTE    -> pagina-adotante.html
-      * ========================================================
-     */
-
-    if (page === 'login.html') {
-
-      if (!email || !password) {
-        toast('Preencha seus dados para continuar.');
+  document.addEventListener(
+    'submit',
+    (event) => {
+
+      const form =
+        event.target;
+
+      if (
+        !(form instanceof HTMLFormElement)
+      ) {
         return;
       }
 
-      try {
+      const formularioDeAdocao =
+        form.querySelector('#nome') &&
+        form.querySelector('#cpf') &&
+        form.querySelector('#data-nascimento');
 
-        const result =
-          await request('/auth/login', {
-
-            email: email,
-
-            password: password
-
-          });
-
-
-        toast(
-          result.message ||
-          'Acesso autorizado'
-        );
-
-
-        const userType =
-          String(
-            result.user_type ||
-            result.userType ||
-            result.user?.user_type ||
-            result.user?.userType ||
-            result.user?.role ||
-            result.role ||
-            ''
-          ).toLowerCase().trim();
-
-
-        setTimeout(() => {
-
-          if (
-            userType === 'master' ||
-            userType === 'admin'
-          ) {
-
-            location.href = 'painel-master.html';
-            return;
-
-          }
-
-
-          if (
-            userType === 'voluntario' ||
-            userType === 'volunteer'
-          ) {
-
-            location.href = 'painel-voluntario.html';
-            return;
-
-          }
-
-
-          if (
-            userType === 'adotante' ||
-            userType === 'adopter'
-          ) {
-
-            location.href = 'pagina-adotante.html';
-            return;
-
-          }
-
-
-          toast(
-            'A conta foi autenticada, mas o tipo de acesso não foi identificado.'
-          );
-
-        }, 500);
-
-
+      if (!formularioDeAdocao) {
         return;
-
-      } catch (error) {
-
-        toast(
-          error.message ||
-          'E-mail ou senha incorretos.'
-        );
-
-
-        return;
-
       }
 
-    }
+      event.preventDefault();
 
-
-    /*
-     * ========================================================
-     * FALLBACK DE LOGIN
-     * ========================================================
-     */
-
-    try {
-
-      const result =
-        await request('/auth/login', {
-
-          email: email,
-
-          password: password
-
-        });
-
-
-      toast(result.message);
-
-
-      setTimeout(() => {
-
-        location.href = 'painel-voluntario.html';
-
-      }, 500);
-
-
-    } catch (error) {
-
-      toast(error.message);
+      sendApplication(form);
 
     }
+  );
 
-  });
+  /*
+   * ============================================================
+   * PRÓXIMO — FORMULÁRIO DE ADOÇÃO
+   * ============================================================
+   */
+
+  document.addEventListener(
+    'click',
+    (event) => {
+
+      const botao =
+        event.target.closest(
+          'button'
+        );
+
+      const form =
+        botao?.closest('form');
+
+      if (
+        !botao ||
+        !form ||
+        botao.getAttribute('type') !== 'button'
+      ) {
+        return;
+      }
+
+      if (
+        !/próximo/i.test(
+          botao.textContent || ''
+        )
+      ) {
+        return;
+      }
+
+      const formularioDeAdocao =
+        form.querySelector('#nome') &&
+        form.querySelector('#cpf') &&
+        form.querySelector('#data-nascimento');
+
+      if (!formularioDeAdocao) {
+        return;
+      }
+
+      event.preventDefault();
+
+      sendApplication(form);
+
+    }
+  );
 
 })();

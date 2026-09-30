@@ -57,8 +57,97 @@
 
   <style>
     .squircle { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+
     a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible {
       outline: 3px solid #e7b5f6; outline-offset: 2px;
+    }
+
+    /* Apenas estética do topo */
+    .hero-adocao {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      padding: 24px 0 8px;
+    }
+
+    .hero-adocao h1 {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-adocao > p {
+      max-width: 720px;
+      margin: 16px auto 0;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.55;
+    }
+
+    .hero-adocao-search {
+      width: min(620px, 100%);
+      margin: 28px auto 0;
+    }
+
+    .hero-adocao-visual {
+      position: relative;
+      width: min(560px, 92%);
+      height: 250px;
+      margin: 34px auto 0;
+    }
+
+    .hero-adocao-visual::before {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      left: 4%;
+      top: 20px;
+      border-radius: 50%;
+      background: #f9d8ff;
+      transform: rotate(-12deg);
+    }
+
+    .hero-adocao-visual::after {
+      content: "";
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      right: 4%;
+      bottom: 4px;
+      border-radius: 42% 58% 60% 40%;
+      background: #ffd6fc;
+      transform: rotate(18deg);
+    }
+
+    .hero-adocao-photo {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      top: 0;
+      width: 270px;
+      height: 230px;
+      transform: translateX(-50%) rotate(2deg);
+      object-fit: cover;
+      border: 9px solid #ffffff;
+      border-radius: 42% 58% 48% 52% / 48% 42% 58% 52%;
+      box-shadow: 0 18px 45px rgba(71, 32, 86, 0.16);
+    }
+
+    @media (max-width: 640px) {
+      .hero-adocao {
+        padding-top: 8px;
+      }
+
+      .hero-adocao-visual {
+        height: 210px;
+      }
+
+      .hero-adocao-photo {
+        width: 225px;
+        height: 195px;
+      }
     }
   </style>
 
@@ -69,40 +158,36 @@
 
 <!-- O header e o footer são inseridos pelo shared.js, igual à home -->
 
-<main class="flex-grow w-full max-w-[1200px] mx-auto px-gutter py-lg md:py-xl pb-28 md:pb-xl flex flex-col gap-lg">
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-gutter py-lg md:py-xl  flex flex-col gap-lg">
 
   <!-- TOPO -->
-  <section class="flex flex-col md:flex-row items-center gap-lg">
-    <div class="flex-1 flex flex-col gap-sm">
-      <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
-        Encontre seu novo melhor amigo
-      </h1>
-      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-prose">
-        Conheça os animais que estão esperando por uma família.
-      </p>
+  <section class="hero-adocao">
+    <h1 class="font-headline-lg-mobile md:font-headline-lg text-primary">
+      Encontre seu novo melhor amigo
+    </h1>
 
-      <div class="mt-sm relative max-w-md w-full">
-        <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
-        <input id="busca" type="search" placeholder="Buscar por nome ou raça"
-               class="w-full pl-[48px] pr-sm py-sm rounded-xl border border-surface-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary">
-      </div>
+    <p class="font-body-lg text-on-surface-variant">
+      Conheça os animais que estão esperando por uma família.
+    </p>
+
+    <div class="hero-adocao-search relative">
+      <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+      <input id="busca" type="search" placeholder="Buscar por nome ou raça"
+             class="w-full pl-[48px] pr-sm py-sm rounded-xl border border-surface-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary">
     </div>
 
-    <div class="flex-1 relative w-full md:h-80 max-w-sm mx-auto hidden md:block">
-      <div class="absolute inset-0 bg-secondary-fixed squircle opacity-60 translate-x-4 translate-y-4"></div>
-      <img alt="Joe, cachorro resgatado pelo Pacotinho de Amor"
-           class="absolute inset-0 w-full h-full object-cover squircle shadow-lg border-4 border-surface"
-           src="assets/joe.jpg">
-    </div>
+    <div class="hero-adocao-visual" aria-hidden="true">
+      <img
+        class="hero-adocao-photo"
+        src="assets/animais/luna.jpg"
+        alt=""
+        onerror="this.src='assets/logo-footer.png'">
+</div>
   </section>
 
   <!-- FILTROS -->
-  <section class="bg-surface-container-low rounded-2xl p-md flex flex-wrap items-center gap-sm md:gap-md">
-    <div class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs">
-      <span class="material-symbols-outlined">tune</span> Filtros
-    </div>
-
-    <div class="flex items-center gap-xs bg-surface-container-lowest rounded-full p-1 border border-surface-variant" id="filtroEspecie">
+  <section class="bg-surface-container-low rounded-2xl p-md flex flex-wrap items-center justify-center gap-sm md:gap-md">
+<div class="flex items-center gap-xs bg-surface-container-lowest rounded-full p-1 border border-surface-variant" id="filtroEspecie">
       <button type="button" data-especie="todos" class="px-sm py-1 rounded-full font-label-md text-label-md">Todos</button>
       <button type="button" data-especie="cao" class="px-sm py-1 rounded-full font-label-md text-label-md">Cães</button>
       <button type="button" data-especie="gato" class="px-sm py-1 rounded-full font-label-md text-label-md">Gatos</button>
@@ -128,7 +213,7 @@
       <option value="grande">Grande</option>
     </select>
 
-    <button type="button" id="limparFiltros" class="font-label-md text-label-md text-primary hover:underline md:ml-auto">
+    <button type="button" id="limparFiltros" class="font-label-md text-label-md text-primary hover:underline">
       Limpar filtros
     </button>
   </section>
@@ -138,34 +223,15 @@
 
   <section id="animal-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
     <!-- Carregando -->
-    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="h-56 rounded-xl bg-surface-container-high"></div></div>
-    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="h-56 rounded-xl bg-surface-container-high"></div></div>
-    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="h-56 rounded-xl bg-surface-container-high"></div></div>
+    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
+    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
+    <div class="rounded-2xl bg-surface-container-lowest p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
   </section>
 
   <p id="mensagem" class="hidden text-center text-on-surface-variant py-lg"></p>
 
 </main>
 
-<!-- MENU INFERIOR (CELULAR) -->
-<nav class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-xl bg-surface-container-lowest px-4 pb-4 pt-2 shadow-lg md:hidden" aria-label="Menu principal">
-  <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="home.html">
-    <span class="material-symbols-outlined">home</span>
-    <span class="mt-1 font-label-md text-[12px]">Início</span>
-  </a>
-  <a class="flex flex-col items-center justify-center rounded-full bg-primary-fixed px-4 py-1 text-primary" href="animais-para-adocao.html" aria-current="page">
-    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">search</span>
-    <span class="mt-1 font-label-md text-[12px]">Buscar</span>
-  </a>
-  <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="solicitacoes-adocao.html">
-    <span class="material-symbols-outlined">favorite</span>
-    <span class="mt-1 font-label-md text-[12px]">Favoritos</span>
-  </a>
-  <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="login.html">
-    <span class="material-symbols-outlined">person</span>
-    <span class="mt-1 font-label-md text-[12px]">Conta</span>
-  </a>
-</nav>
 
 <script src="shared.js"></script>
 
@@ -246,8 +312,8 @@
 
     return `
       <article class="group flex flex-col overflow-hidden rounded-2xl bg-surface-container-lowest shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-        <div class="h-56 w-full overflow-hidden bg-surface-container">
-          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        <div class="aspect-[3/4] w-full overflow-hidden bg-surface-container-high">
+          <img class="h-full w-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-105"
                src="${escapeHTML(img)}" alt="Foto de ${escapeHTML(nome)}"
                onerror="this.src='assets/logo-footer.png'">
         </div>

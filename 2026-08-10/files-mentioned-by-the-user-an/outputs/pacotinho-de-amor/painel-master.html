@@ -1,2846 +1,1027 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Pacotinho de amor - Painel Master</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel da administração — Pacotinho de Amor</title>
 
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-                "on-primary": "#ffffff",
-                "on-primary-container": "#d5a4e4",
-                "tertiary": "#333300",
-                "tertiary-container": "#4a4a00",
-                "secondary-container": "#ffcdfe",
-                "secondary": "#78517a",
-                "surface-dim": "#ded8e0",
-                "outline": "#7e747e",
-                "background": "#fef7ff",
-                "secondary-fixed": "#ffd6fc",
-                "on-error-container": "#93000a",
-                "surface-variant": "#e7e0e8",
-                "tertiary-fixed-dim": "#cccc4b",
-                "on-surface-variant": "#4c444d",
-                "error": "#ba1a1a",
-                "on-primary-fixed": "#2f073f",
-                "on-tertiary-container": "#bbbb3b",
-                "secondary-fixed-dim": "#e7b7e6",
-                "surface-tint": "#784e87",
-                "on-surface": "#1d1a20",
-                "surface-container-highest": "#e7e0e8",
-                "surface-container-low": "#f8f1f9",
-                "primary-container": "#5f376e",
-                "error-container": "#ffdad6",
-                "on-background": "#1d1a20",
-                "on-primary-fixed-variant": "#5f376e",
-                "inverse-on-surface": "#f6eef6",
-                "inverse-surface": "#322f35",
-                "on-secondary-fixed-variant": "#5f3961",
-                "surface": "#fef7ff",
-                "tertiary-fixed": "#e9e964",
-                "on-tertiary": "#ffffff",
-                "primary": "#472056",
-                "primary-fixed": "#f9d8ff",
-                "inverse-primary": "#e7b5f6",
-                "on-secondary-fixed": "#2f0d33",
-                "surface-container-lowest": "#ffffff",
-                "on-secondary-container": "#7b537c",
-                "on-tertiary-fixed-variant": "#494900",
-                "surface-container": "#f3ecf4",
-                "on-error": "#ffffff",
-                "primary-fixed-dim": "#e7b5f6",
-                "outline-variant": "#cfc3ce",
-                "surface-container-high": "#ede6ee",
-                "surface-bright": "#fef7ff",
-                "on-secondary": "#ffffff",
-                "on-tertiary-fixed": "#1d1d00"
-        },
-        "borderRadius": {
-                "DEFAULT": "0.25rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-        },
-        "spacing": {
-                "xl": "80px",
-                "xs": "4px",
-                "md": "24px",
-                "sm": "12px",
-                "lg": "48px",
-                "base": "8px",
-                "gutter": "24px",
-                "margin-desktop": "64px",
-                "margin-mobile": "16px"
-        },
-        "fontFamily": {
-                "headline-lg": [
-                        "Montserrat"
-                ],
-                "headline-md": [
-                        "Montserrat"
-                ],
-                "body-lg": [
-                        "Montserrat"
-                ],
-                "body-md": [
-                        "Montserrat"
-                ],
-                "label-md": [
-                        "Montserrat"
-                ],
-                "headline-lg-mobile": [
-                        "Montserrat"
-                ]
-        },
-        "fontSize": {
-                "headline-lg": [
-                        "32px",
-                        {
-                                "lineHeight": "40px",
-                                "fontWeight": "700"
-                        }
-                ],
-                "headline-md": [
-                        "24px",
-                        {
-                                "lineHeight": "32px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-lg": [
-                        "18px",
-                        {
-                                "lineHeight": "28px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "body-md": [
-                        "16px",
-                        {
-                                "lineHeight": "24px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "label-md": [
-                        "14px",
-                        {
-                                "lineHeight": "20px",
-                                "letterSpacing": "0.5px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-lg-mobile": [
-                        "26px",
-                        {
-                                "lineHeight": "32px",
-                                "fontWeight": "700"
-                        }
-                ]
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#472056",
+            "primary-container": "#5f376e",
+            "primary-fixed": "#f9d8ff",
+            secondary: "#78517a",
+            "secondary-container": "#ffcdfe",
+            background: "#f7f1f8",
+            "on-surface": "#1d1a20",
+            "on-surface-variant": "#4c444d",
+            "outline-variant": "#cfc3ce",
+            "surface-variant": "#e7e0e8",
+            "surface-low": "#f8f1f9"
+          },
+          fontFamily: { sans: ["Montserrat", "sans-serif"] }
         }
       }
     }
-  }
-</script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-    </style>
-<style>
-    body {
-      min-height: 100dvh;
-    }
+  </script>
+
+  <style>
+    body { font-family: Montserrat, sans-serif; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 2px; }
+    .campo { width: 100%; border: 1px solid #cfc3ce; border-radius: .6rem; padding: .7rem .9rem; font-size: 15px; background: #fff; }
+    .campo:focus { border-color: #5f376e; box-shadow: 0 0 0 2px rgba(95,55,110,.15); outline: none; }
+    .rotulo { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #1d1a20; }
+    #toast { transition: opacity .2s, transform .2s; }
+    #toast.oculto { opacity: 0; transform: translateY(10px); pointer-events: none; }
   </style>
-<link rel="stylesheet" href="shared.css">
-
-<style id="layout-fix">
-  html { min-height: 100%; }
-
-  body {
-    min-height: 100dvh !important;
-    height: auto !important;
-    margin: 0;
-    overflow-x: hidden;
-  }
-
-  /* =========================
-     DESKTOP — SIDEBAR
-     ========================= */
-  [data-panel-sidebar] {
-    position: fixed !important;
-    inset: 0 auto 0 0 !important;
-    width: 280px !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    max-height: 100dvh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    flex: 0 0 280px !important;
-    z-index: 60 !important;
-    scrollbar-width: thin;
-  }
-
-  body > main,
-  main.flex-1 {
-    min-width: 0 !important;
-    min-height: 100dvh !important;
-    height: 100dvh !important;
-    margin-left: 280px;
-  }
-
-  #conteudo-painel {
-    min-height: 0 !important;
-    height: 100%;
-    overflow-y: auto;
-    box-sizing: border-box;
-  }
-
-  /* =========================
-     MOBILE SIDEBAR BACKDROP
-     ========================= */
-  .mobile-sidebar-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(20, 10, 25, .42);
-    z-index: 55;
-  }
-
-  .mobile-sidebar-backdrop.open {
-    display: block;
-  }
-
-  /* =========================
-     BARRA INFERIOR MOBILE
-     ========================= */
-  .mobile-bottom-nav {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 80;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    align-items: stretch;
-    gap: 2px;
-    padding: 7px 6px calc(7px + env(safe-area-inset-bottom));
-    background: rgba(255, 255, 255, .97);
-    border-top: 1px solid rgba(95, 55, 110, .12);
-    box-shadow: 0 -6px 22px rgba(40, 20, 50, .10);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .mobile-nav-item {
-    min-width: 0;
-    min-height: 56px;
-    border: 0;
-    background: transparent;
-    color: #6f6373;
-    border-radius: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    padding: 5px 2px;
-    font: 600 10px/14px Montserrat, sans-serif;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  .mobile-nav-item .material-symbols-outlined {
-    font-size: 22px;
-    line-height: 24px;
-  }
-
-  .mobile-nav-item.active {
-    background: #5F376E;
-    color: #fff;
-  }
-
-  .mobile-nav-item:active {
-    transform: scale(.96);
-  }
-
-  /* =========================
-     MOBILE
-     ========================= */
-  @media (max-width: 767px) {
-    body {
-      display: block !important;
-      min-height: 100dvh !important;
-      padding-bottom: 76px;
-    }
-
-    [data-panel-sidebar] {
-      display: flex !important;
-      width: min(86vw, 310px) !important;
-      max-width: 310px !important;
-      height: 100dvh !important;
-      transform: translateX(-105%);
-      transition: transform .22s ease;
-      box-shadow: 12px 0 30px rgba(0, 0, 0, .18);
-    }
-
-    [data-panel-sidebar].mobile-open {
-      transform: translateX(0);
-    }
-
-    main.flex-1,
-    body > main {
-      width: 100% !important;
-      margin-left: 0 !important;
-      min-height: 100dvh !important;
-      height: auto !important;
-      padding-bottom: 76px !important;
-    }
-
-    #conteudo-painel {
-      width: 100% !important;
-      max-width: none !important;
-      height: auto !important;
-      min-height: calc(100dvh - 64px - 76px) !important;
-      overflow: visible !important;
-      box-sizing: border-box;
-      padding: 14px !important;
-      padding-bottom: 92px !important;
-    }
-
-    header[data-mobile-header],
-    main > header {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-    }
-
-    header[data-mobile-header] {
-      min-height: 64px;
-      padding: 10px 14px !important;
-      gap: 8px;
-      background: rgba(255, 250, 255, .98);
-      border-bottom: 1px solid rgba(95, 55, 110, .10);
-    }
-
-    header[data-mobile-header] h1 {
-      min-width: 0;
-      flex: 1;
-      justify-content: center;
-      text-align: center;
-      font-size: 20px !important;
-      line-height: 24px !important;
-    }
-
-    header[data-mobile-header] h1 img {
-      width: 34px;
-      height: 34px;
-      flex: 0 0 auto;
-    }
-
-    #conteudo-painel .grid {
-      min-width: 0;
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    #conteudo-painel .rounded-xl {
-      max-width: 100%;
-    }
-
-    #conteudo-painel .overflow-x-auto {
-      max-width: 100%;
-      overflow-x: auto;
-    }
-
-    #conteudo-painel input,
-    #conteudo-painel select,
-    #conteudo-painel textarea,
-    #conteudo-painel button {
-      max-width: 100%;
-    }
-
-    #conteudo-painel table {
-      min-width: 560px;
-    }
-  }
-
-  /* Configurações ficam somente no menu lateral.
-     Não existe botão de configurações na barra inferior. */
-
-  @media (max-width: 390px) {
-    .mobile-bottom-nav {
-      padding-left: 3px;
-      padding-right: 3px;
-    }
-
-    .mobile-nav-item {
-      min-height: 54px;
-      font-size: 9px;
-    }
-
-    .mobile-nav-item .material-symbols-outlined {
-      font-size: 20px;
-    }
-
-    header[data-mobile-header] h1 {
-      font-size: 18px !important;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .mobile-bottom-nav {
-      display: none !important;
-    }
-
-    .mobile-sidebar-backdrop {
-      display: none !important;
-    }
-  }
-</style>
-
-
-<style>
-#volunteerConfirmModal{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(35,20,40,.42);backdrop-filter:blur(3px)}
-#volunteerConfirmModal.active{display:flex}
-.volunteer-confirm-box{width:min(430px,100%);background:#fff;border-radius:22px;padding:28px;box-shadow:0 24px 70px rgba(71,32,86,.25);animation:volunteerPop .18s ease-out}
-@keyframes volunteerPop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
-.volunteer-confirm-box h3{font-size:21px;font-weight:700;color:#472056;margin:0 0 10px;text-align:center}
-.volunteer-confirm-box p{font-size:14px;line-height:1.55;color:#625a64;text-align:center;margin:0 0 22px}
-.volunteer-confirm-actions{display:flex;gap:10px}
-.volunteer-confirm-actions button{flex:1;border-radius:999px;min-height:44px;font-weight:700;cursor:pointer}
-.volunteer-confirm-no{border:1px solid #d9cedd;background:#fff;color:#472056}
-.volunteer-confirm-yes{border:0;background:#5f376e;color:#fff}
-.volunteer-confirm-danger{background:#b42318!important}
-#volunteerToast{position:fixed;right:22px;bottom:22px;z-index:100000;max-width:390px;padding:14px 18px;border-radius:13px;background:#472056;color:#fff;font-size:13px;font-weight:700;box-shadow:0 12px 35px rgba(71,32,86,.25);opacity:0;transform:translateY(12px);pointer-events:none;transition:.22s ease}
-#volunteerToast.show{opacity:1;transform:none}
-@media(max-width:600px){.volunteer-confirm-actions{flex-direction:column-reverse}.volunteer-confirm-box{padding:22px}.volunteer-confirm-actions button{width:100%}#volunteerToast{left:16px;right:16px;bottom:16px;max-width:none}}
-</style>
 </head>
-<body class="bg-[#F1EAF2] text-on-background font-body-md min-h-screen flex">
-<!-- Navigation Drawer (Sidebar) -->
-<aside class="bg-[#5F376E] text-white docked left-0 h-full w-80 shadow-xl flex flex-col h-full py-md hidden md:flex sticky top-0 z-40" data-panel-sidebar>
-<div class="px-gutter mb-lg">
-<h1 class="font-headline-lg text-headline-md text-white flex items-center gap-sm">
-<img alt="Logo Pacotinho de amor" class="w-10 h-10 rounded-full object-cover" src="assets/logo-footer.png">
-    Pacotinho de amor
-</h1>
+
+<body class="bg-background text-on-surface">
+
+<!-- Tela de carregamento enquanto confere o login -->
+<div id="verificando" class="fixed inset-0 z-[300] flex items-center justify-center bg-background">
+  <p class="font-semibold text-primary">Verificando acesso...</p>
 </div>
-<div class="px-gutter mb-md flex items-center gap-sm">
-<div class="w-12 h-12 rounded-full overflow-hidden shrink-0">
-<img alt="Foto de perfil" class="w-full h-full object-cover" data-master-photo data-alt="Foto de perfil da administradora" src="assets/logo-footer.png">
-</div>
-<div>
-<p class="font-body-md text-body-md font-bold text-white">Olá, <span data-master-name>Bárbara</span></p>
-<p class="font-label-md text-label-md text-[#B98CB9]">Administradora do projeto</p>
-</div>
-</div>
-<nav class="flex-1 flex flex-col gap-xs pr-sm">
 
-  <button type="button" data-menu="inicio" onclick="mostrarPagina('inicio')"
-    class="flex items-center gap-sm px-gutter py-sm bg-white/20 text-white font-bold rounded-r-full transition-all duration-300 text-left">
-    <span class="material-symbols-outlined">dashboard</span>
-    <span class="font-label-md text-label-md">Visão geral</span>
-  </button>
+<!-- ==================== MENU LATERAL (COMPUTADOR) ==================== -->
+<aside class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-primary-container py-6 text-white md:flex">
+  <div class="mb-8 flex items-center gap-3 px-6">
+    <img src="assets/logo-footer.png" alt="" class="h-10 w-10 rounded-full object-cover">
+    <span class="text-lg font-bold leading-tight">Pacotinho<br>de amor</span>
+  </div>
 
-  <button type="button" data-menu="animais" onclick="mostrarPagina('animais')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">pets</span>
-    <span class="font-label-md text-label-md">Meus animais</span>
-  </button>
+  <div class="mb-6 flex items-center gap-3 px-6">
+    <img data-foto src="assets/logo-footer.png" alt="Foto de perfil" class="h-11 w-11 rounded-full object-cover ring-2 ring-white/30">
+    <div class="min-w-0">
+      <p class="truncate font-bold">Olá, <span data-nome>…</span></p>
+      <p class="text-xs text-white/70">Administração</p>
+    </div>
+  </div>
 
-  <button type="button" data-menu="agenda" onclick="mostrarPagina('agenda')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">calendar_month</span>
-    <span class="font-label-md text-label-md">Agenda</span>
-  </button>
+  <nav id="menuLateral" class="flex flex-1 flex-col gap-1 pr-3"></nav>
 
-  <button type="button" data-menu="adocao" onclick="mostrarPagina('adocao')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">family_restroom</span>
-    <span class="font-label-md text-label-md">Processos de adoção</span>
-  </button>
-
-  <button type="button" data-menu="voluntarios" onclick="mostrarPagina('voluntarios')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">volunteer_activism</span>
-    <span class="font-label-md text-label-md">Solicitações de voluntários</span>
-    <span data-volunteer-pending-count class="hidden ml-auto min-w-6 h-6 px-1.5 rounded-full bg-white text-[#5F376E] text-xs font-bold items-center justify-center"></span>
-  </button>
-
-
-  <button type="button" data-menu="historico" onclick="mostrarPagina('historico')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">history</span>
-    <span class="font-label-md text-label-md">Histórico</span>
-  </button>
-
-</nav>
-<div class="mt-auto pr-sm pt-md border-t border-white/20">
-<button type="button" data-menu="config" onclick="mostrarPagina('config')"
-class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full text-left w-full">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-label-md text-label-md">Configurações</span>
-</button>
-<a class="flex items-center gap-sm px-gutter py-sm text-[#ffdad6] hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full" href="home.html">
-<span class="material-symbols-outlined">logout</span>
-<span class="font-label-md text-label-md">Sair</span>
-</a>
-</div>
-</aside>
-<!-- Main Content -->
-
-<main class="flex-1 flex flex-col min-w-0 pb-20 md:pb-0">
-
-  <!-- TopAppBar (Mobile Only) -->
-  <header data-mobile-header class="bg-surface docked full-width top-0 flex justify-between items-center w-full px-sm py-xs md:hidden sticky z-30">
-    <button class="text-primary active:scale-95 transition-transform duration-150 p-2 hover:bg-surface-container-high rounded-full"
-            data-panel-menu-toggle type="button">
-      <span class="material-symbols-outlined">menu</span>
+  <div class="border-t border-white/20 pr-3 pt-3">
+    <button type="button" data-ir="config" class="item-menu flex w-full items-center gap-3 rounded-r-full px-6 py-3 text-left text-white/75 hover:bg-white/10">
+      <span class="material-symbols-outlined">settings</span> Configurações
     </button>
+    <button type="button" onclick="sair()" class="flex w-full items-center gap-3 rounded-r-full px-6 py-3 text-left text-[#ffdad6] hover:bg-white/10">
+      <span class="material-symbols-outlined">logout</span> Sair
+    </button>
+  </div>
+</aside>
 
-    <h1 class="font-headline-lg-mobile text-headline-md text-primary font-bold flex items-center gap-2">
-      <img alt="Logo" class="w-8 h-8 rounded-full" src="assets/logo-footer.png">
-      Pacotinho de amor
-    </h1>
+<!-- ==================== TOPO (CELULAR) ==================== -->
+<header class="sticky top-0 z-30 flex items-center justify-between border-b border-surface-variant bg-white px-4 py-3 md:hidden">
+  <div class="flex items-center gap-2">
+    <img src="assets/logo-footer.png" alt="" class="h-8 w-8 rounded-full">
+    <span class="font-bold text-primary">Painel</span>
+  </div>
+  <div class="flex items-center gap-1">
+    <button type="button" data-ir="config" aria-label="Configurações" class="rounded-full p-2 text-primary hover:bg-surface-low">
+      <span class="material-symbols-outlined">settings</span>
+    </button>
+    <button type="button" onclick="sair()" aria-label="Sair" class="rounded-full p-2 text-primary hover:bg-surface-low">
+      <span class="material-symbols-outlined">logout</span>
+    </button>
+  </div>
+</header>
 
-    <div class="w-10" aria-hidden="true"></div>
-  </header>
-
-  
-  <div id="conteudo-painel" class="p-gutter md:p-lg flex-1 overflow-y-auto w-full max-w-[1280px] mx-auto"></div>
+<!-- ==================== CONTEÚDO ==================== -->
+<main class="min-h-screen pb-24 md:ml-64 md:pb-8">
+  <div id="conteudo" class="mx-auto w-full max-w-5xl p-4 md:p-8"></div>
 </main>
 
-<!-- Bottom Navigation (Mobile Only) -->
-<nav id="mobileBottomNav"
-     class="mobile-bottom-nav md:hidden"
-     aria-label="Navegação principal">
-  <button type="button" data-mobile-page="inicio" onclick="mostrarPagina('inicio')"
-          class="mobile-nav-item active" aria-label="Início">
-    <span class="material-symbols-outlined">dashboard</span>
-    <span>Início</span>
-  </button>
+<!-- ==================== MENU INFERIOR (CELULAR) ==================== -->
+<nav id="menuInferior" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-surface-variant bg-white px-1 pb-[calc(6px+env(safe-area-inset-bottom))] pt-1.5 md:hidden"></nav>
 
-  <button type="button" data-mobile-page="animais" onclick="mostrarPagina('animais')"
-          class="mobile-nav-item" aria-label="Meus animais">
-    <span class="material-symbols-outlined">pets</span>
-    <span>Animais</span>
-  </button>
+<!-- ==================== MODAL EDITAR ANIMAL ==================== -->
+<div id="modalAnimal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4 flex items-start justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold text-secondary">Editar animal</p>
+        <h2 id="animalTitulo" class="text-xl font-bold text-primary"></h2>
+      </div>
+      <button type="button" onclick="fecharModal('modalAnimal')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
 
-  <button type="button" data-mobile-page="agenda" onclick="mostrarPagina('agenda')"
-          class="mobile-nav-item" aria-label="Agenda">
-    <span class="material-symbols-outlined">calendar_month</span>
-    <span>Agenda</span>
-  </button>
+    <input id="animalId" type="hidden">
 
-  <button type="button" data-mobile-page="adocao" onclick="mostrarPagina('adocao')"
-          class="mobile-nav-item" aria-label="Processos de adoção">
-    <span class="material-symbols-outlined">family_restroom</span>
-    <span>Adoção</span>
-  </button>
-as</span>
-  </button>
-</nav>
+    <label for="animalStatus" class="rotulo">Situação</label>
+    <select id="animalStatus" class="campo mb-1">
+      <option value="disponível">Disponível para adoção</option>
+      <option value="em adoção">Em processo de adoção</option>
+    </select>
+    <p class="mb-4 text-xs text-on-surface-variant">Só animais "disponíveis" aparecem no site. Para registrar uma adoção, use o botão <strong>Marcar como adotado</strong>.</p>
+
+    <label for="animalResponsavel" class="rotulo">Responsável</label>
+    <input id="animalResponsavel" class="campo mb-4" maxlength="120" placeholder="Ex.: Bárbara">
+
+    <label for="animalDescricao" class="rotulo">Descrição</label>
+    <textarea id="animalDescricao" class="campo mb-4" rows="4" maxlength="1000"></textarea>
+
+    <label class="mb-5 flex items-center gap-3 rounded-xl border border-surface-variant p-3">
+      <input id="animalPcd" type="checkbox" class="h-5 w-5 rounded text-primary-container focus:ring-primary-container">
+      <span class="text-sm"><strong>Animal PCD</strong> (com alguma deficiência)</span>
+    </label>
+
+    <button type="button" id="btnSalvarAnimal" onclick="salvarAnimal()" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
+      Salvar
+    </button>
+  </div>
+</div>
+
+<!-- ==================== MODAL MARCAR COMO ADOTADO ==================== -->
+<div id="modalAdocao" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4 flex items-start justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold text-green-700">Marcar como adotado 💜</p>
+        <h2 id="adocaoTitulo" class="text-xl font-bold text-primary"></h2>
+      </div>
+      <button type="button" onclick="fecharModal('modalAdocao')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <input id="adocaoId" type="hidden">
+
+    <label for="adocaoData" class="rotulo">Dia da adoção</label>
+    <input id="adocaoData" type="date" class="campo mb-4">
+
+    <label for="adocaoLocal" class="rotulo">Onde foi adotado? <span class="font-normal text-on-surface-variant">(opcional)</span></label>
+    <input id="adocaoLocal" class="campo mb-1" list="locaisAdocao" maxlength="120" placeholder="Ex.: Feirinha do Parque, Pelo site, Instagram">
+    <datalist id="locaisAdocao"></datalist>
+    <p class="mb-5 text-xs text-on-surface-variant">Ajuda a saber quais lugares e canais trazem mais adoções.</p>
+
+    <p class="mb-4 rounded-lg bg-surface-low p-3 text-sm text-on-surface-variant">O animal <strong>sai do site</strong> e passa a contar em <strong>Adotados</strong>.</p>
+
+    <button type="button" id="btnConfirmarAdocao" onclick="confirmarAdocao()" class="w-full rounded-full bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:opacity-60">
+      Confirmar adoção
+    </button>
+  </div>
+</div>
+
+<!-- ==================== MODAL CRIAR EVENTO ==================== -->
+<div id="modalEvento" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
+  <div class="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4 flex items-start justify-between gap-3">
+      <h2 class="text-xl font-bold text-primary">Criar evento</h2>
+      <button type="button" onclick="fecharModal('modalEvento')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <p class="mb-4 text-sm text-on-surface-variant">Todos os campos são obrigatórios.</p>
+
+    <label for="evTitulo" class="rotulo">Nome do evento</label>
+    <input id="evTitulo" class="campo mb-3" maxlength="120" placeholder="Ex.: Feirinha de adoção no parque">
+
+    <label for="evDescricao" class="rotulo">Descrição</label>
+    <textarea id="evDescricao" class="campo mb-3" rows="3" maxlength="1000"></textarea>
+
+    <div class="mb-3 grid grid-cols-3 gap-3">
+      <div><label for="evData" class="rotulo">Data</label><input id="evData" type="date" class="campo"></div>
+      <div><label for="evInicio" class="rotulo">Início</label><input id="evInicio" type="time" class="campo"></div>
+      <div><label for="evFim" class="rotulo">Fim</label><input id="evFim" type="time" class="campo"></div>
+    </div>
+
+    <label for="evLocal" class="rotulo">Local</label>
+    <input id="evLocal" class="campo mb-3" maxlength="200" placeholder="Endereço ou nome do lugar">
+
+    <label for="evEspaco" class="rotulo">Sobre o espaço</label>
+    <textarea id="evEspaco" class="campo mb-3" rows="2" maxlength="600" placeholder="Estrutura, regras, área coberta..."></textarea>
+
+    <div class="mb-5 grid grid-cols-3 gap-3">
+      <div><label for="evAnimais" class="rotulo">Máx. animais</label><input id="evAnimais" type="number" min="1" value="10" class="campo"></div>
+      <div><label for="evVoluntarios" class="rotulo">Máx. voluntários</label><input id="evVoluntarios" type="number" min="1" value="6" class="campo"></div>
+      <div><label for="evCapacidade" class="rotulo">Capacidade</label><input id="evCapacidade" type="number" min="1" value="16" class="campo"></div>
+    </div>
+
+    <button type="button" id="btnSalvarEvento" onclick="salvarEvento()" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
+      Publicar evento
+    </button>
+  </div>
+</div>
+
+<!-- ==================== CONFIRMAÇÃO ==================== -->
+<div id="modalConfirmar" class="fixed inset-0 z-[250] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl">
+    <p id="confirmarTexto" class="mb-5 text-on-surface"></p>
+    <div class="flex gap-2">
+      <button type="button" id="confirmarNao" class="flex-1 rounded-full border border-outline-variant py-2.5 font-semibold text-primary">Cancelar</button>
+      <button type="button" id="confirmarSim" class="flex-1 rounded-full bg-primary-container py-2.5 font-semibold text-white">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== AVISO ==================== -->
+<div id="toast" role="status" aria-live="polite" class="oculto fixed bottom-24 left-1/2 z-[300] max-w-[90vw] -translate-x-1/2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg md:bottom-6"></div>
 
 <script>
-let dadosMaster = {
-  user: null,
-  animals: [],
-  applications: [],
-  events: [],
-  receipts: [],
-  raffles: [],
-  rafflePayments: [],
-  volunteerRequests: []
-};
-
-function escaparHTML(valor) {
-  if (valor === null || valor === undefined) return "";
-  return String(valor)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function textoOuPadrao(valor, padrao = "Não informado") {
-  return valor !== undefined && valor !== null && String(valor).trim() !== ""
-    ? String(valor)
-    : padrao;
-}
-
-function formatarDataEvento(data) {
-  if (!data) return "Data não informada";
-  const partes = String(data).split("-");
-  if (partes.length !== 3) return escaparHTML(data);
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
-}
-
-function formatarHorarioEvento(evento) {
-  if (evento.startTime && evento.endTime) {
-    return `${escaparHTML(evento.startTime)} às ${escaparHTML(evento.endTime)}`;
-  }
-  if (evento.horario) return escaparHTML(evento.horario);
-  return "Horário não informado";
-}
-
-async function buscarJSON(endpoint) {
-  const resposta = await fetch(`${API_URL}${endpoint}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    credentials: "same-origin"
-  });
-
-  const dados = await resposta.json().catch(() => null);
-  if (!resposta.ok) {
-    throw new Error(
-      (dados && (dados.message || dados.error)) ||
-      `Erro ao consultar ${endpoint}.`
-    );
-  }
-  return dados;
-}
-
-async function carregarDadosDoBanco() {
-  const resultados = await Promise.allSettled([
-    buscarJSON("/auth/me"),
-    buscarJSON("/animals"),
-    buscarJSON("/applications"),
-    buscarJSON("/events"),
-    buscarJSON("/payment-receipts"),
-    buscarJSON("/raffles"),
-    buscarJSON("/raffle-payments"),
-    buscarJSON("/volunteer-requests")
-  ]);
-
-  const [usuario, animais, applications, events, receipts, raffles, rafflePayments, volunteerRequests] = resultados;
-
-  if (usuario.status === "fulfilled" && usuario.value?.ok) {
-    dadosMaster.user = usuario.value.user || null;
-  }
-
-  dadosMaster.animals = animais.status === "fulfilled"
-    ? (Array.isArray(animais.value) ? animais.value : (animais.value?.animals || []))
-    : [];
-
-  dadosMaster.applications = applications.status === "fulfilled"
-    ? (Array.isArray(applications.value) ? applications.value : (applications.value?.applications || []))
-    : [];
-
-  dadosMaster.events = events.status === "fulfilled"
-    ? (Array.isArray(events.value) ? events.value : (events.value?.events || []))
-    : [];
-
-  dadosMaster.receipts = receipts.status === "fulfilled"
-    ? (Array.isArray(receipts.value) ? receipts.value : (receipts.value?.receipts || []))
-    : [];
-
-  dadosMaster.raffles = raffles.status === "fulfilled"
-    ? (Array.isArray(raffles.value) ? raffles.value : (raffles.value?.raffles || []))
-    : [];
-
-  dadosMaster.rafflePayments = rafflePayments.status === "fulfilled"
-    ? (Array.isArray(rafflePayments.value) ? rafflePayments.value : (rafflePayments.value?.payments || []))
-    : [];
-
-  dadosMaster.volunteerRequests = volunteerRequests.status === "fulfilled"
-    ? (Array.isArray(volunteerRequests.value)
-        ? volunteerRequests.value
-        : (volunteerRequests.value?.requests || volunteerRequests.value?.volunteer_requests || []))
-    : [];
-
-  atualizarContadorSolicitacoesVoluntarios();
-  atualizarNomeUsuario();
-  renderPaginaAtual();
-}
-
-function atualizarNomeUsuario() {
-  const nome = dadosMaster.user?.name || dadosMaster.user?.nome || "Bárbara";
-  const foto = dadosMaster.user?.profile_photo || dadosMaster.user?.profilePhoto || "assets/logo-footer.png";
-  const elementos = document.querySelectorAll("[data-master-name]");
-  elementos.forEach(el => el.textContent = nome);
-  document.querySelectorAll("[data-master-photo]").forEach(el => {
-    el.src = foto;
-  });
-}
-
-function atualizarContadorSolicitacoesVoluntarios() {
-  const pendentes = (dadosMaster.volunteerRequests || []).filter(
-    item => String(item?.status || "").toLowerCase() === "pending"
-  ).length;
-
-  document.querySelectorAll("[data-volunteer-pending-count]").forEach(el => {
-    el.textContent = String(pendentes);
-    el.classList.toggle("hidden", pendentes === 0);
-    el.classList.toggle("inline-flex", pendentes > 0);
-  });
-}
-
-function mapaAnimais() {
-  return new Map(dadosMaster.animals.map(animal => [String(animal.id || animal._id || ""), animal]));
-}
-
-function animalDaSolicitacao(application) {
-  const id = application.animal_id || application.animalId;
-  if (id) return mapaAnimais().get(String(id)) || null;
-  return null;
-}
-
-function statusBonito(status) {
-  if (!status) return "Não informado";
-  const mapa = {
-    "em análise": "Em análise",
-    "em_analise": "Em análise",
-    "approved": "Aprovada",
-    "aprovada": "Aprovada",
-    "rejected": "Recusada",
-    "recusada": "Recusada",
-    "pending": "Pendente",
-    "pendente": "Pendente"
-  };
-  return mapa[String(status).toLowerCase()] || String(status);
-}
-
-function cardVazio(mensagem) {
-  return `
-    <div class="md:col-span-2 p-8 rounded-xl bg-surface-container-low text-center">
-      <span class="material-symbols-outlined text-4xl text-primary">inbox</span>
-      <p class="font-bold mt-2">${escaparHTML(mensagem)}</p>
-    </div>
-  `;
-}
-
-function renderInicio() {
-  const animais = dadosMaster.animals.length;
-  const applications = dadosMaster.applications.length;
-  const eventos = dadosMaster.events.length;
-
-  return `
-    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
-      <div>
-        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Lar temporário</p>
-        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Painel da administradora</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant mt-xs">
-          Dados exibidos exclusivamente a partir do banco de dados.
-        </p>
-      </div>
-      <button type="button" onclick="mostrarPagina('animais')"
-        class="inline-flex items-center justify-center gap-sm bg-[#5F376E] text-white px-5 py-3 rounded-full font-label-md text-label-md hover:bg-[#472056] transition-colors">
-        <span class="material-symbols-outlined">pets</span>
-        Ver animais
-      </button>
-    </header>
-
-    <section class="grid grid-cols-2 md:grid-cols-4 gap-sm md:gap-md mb-xl">
-      <button onclick="mostrarPagina('animais')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">ANIMAIS</span><span class="material-symbols-outlined text-primary">pets</span></div>
-        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">${animais}</p>
-        <p class="text-sm text-on-surface-variant">cadastrados no banco</p>
-      </button>
-      <button onclick="mostrarPagina('adocao')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">ADOÇÃO</span><span class="material-symbols-outlined text-primary">favorite</span></div>
-        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">${applications}</p>
-        <p class="text-sm text-on-surface-variant">solicitações no banco</p>
-      </button>
-      <button onclick="mostrarPagina('eventos')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">EVENTOS</span><span class="material-symbols-outlined text-primary">calendar_month</span></div>
-        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">${eventos}</p>
-        <p class="text-sm text-on-surface-variant">cadastrados no banco</p>
-      </button>
-      <button type="button" onclick="mostrarPagina('doacoes')" class="text-left bg-[#5F376E] text-white rounded-xl p-md shadow-md hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start"><span class="font-label-md text-label-md">DOAÇÕES</span><span class="material-symbols-outlined">volunteer_activism</span></div>
-        <p class="font-headline-lg text-headline-md font-bold mt-md">—</p>
-        <p class="text-sm opacity-90">sem API de doações</p>
-      </button>
-    </section>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-      <section class="bg-surface-container-lowest rounded-xl shadow-md p-md md:p-lg border border-surface-variant/50">
-        <div class="mb-md pb-sm border-b border-surface-variant">
-          <h3 class="font-headline-md text-headline-md text-on-surface">Dados reais</h3>
-          <p class="text-sm text-on-surface-variant mt-1">Nenhum registro é criado pelo painel para preencher a tela.</p>
-        </div>
-        <div class="space-y-sm">
-          <button onclick="mostrarPagina('animais')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left">
-            <span class="material-symbols-outlined text-primary">pets</span>
-            <div class="flex-1"><p class="font-bold">Animais</p><p class="text-sm text-on-surface-variant">${animais} registro(s) encontrado(s).</p></div>
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
-          <button onclick="mostrarPagina('adocao')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left">
-            <span class="material-symbols-outlined text-primary">family_restroom</span>
-            <div class="flex-1"><p class="font-bold">Processos de adoção</p><p class="text-sm text-on-surface-variant">${applications} registro(s) encontrado(s).</p></div>
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
-          <button onclick="mostrarPagina('eventos')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left">
-            <span class="material-symbols-outlined text-primary">storefront</span>
-            <div class="flex-1"><p class="font-bold">Eventos</p><p class="text-sm text-on-surface-variant">${eventos} registro(s) encontrado(s).</p></div>
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
-          
-        </div>
-      </section>
-
-      <section class="bg-surface-container-lowest rounded-xl shadow-md p-md md:p-lg border border-surface-variant/50">
-        <div class="flex justify-between items-center mb-md pb-sm border-b border-surface-variant">
-          <div><h3 class="font-headline-md text-headline-md text-on-surface">Próximos eventos</h3><p class="text-sm text-on-surface-variant mt-1">Somente eventos existentes no MongoDB.</p></div>
-          <button onclick="mostrarPagina('eventos')" class="text-primary font-semibold text-sm">Ver eventos</button>
-        </div>
-        ${renderResumoEventos()}
-      </section>
-    </div>
-  `;
-}
-
-function renderResumoEventos() {
-  if (!dadosMaster.events.length) {
-    return cardVazio("Nenhum evento cadastrado no banco.");
-  }
-
-  return `<div class="space-y-sm">${dadosMaster.events.slice(0, 3).map(evento => `
-    <div class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low text-left">
-      <div class="w-12 h-12 rounded-lg bg-primary text-white flex flex-col items-center justify-center shrink-0">
-        <span class="text-xs">${formatarDataEvento(evento.date)}</span>
-      </div>
-      <div class="flex-1 min-w-0">
-        <p class="font-bold truncate">${escaparHTML(evento.title || evento.nome || "Evento sem título")}</p>
-        <p class="text-sm text-on-surface-variant">${formatarHorarioEvento(evento)}</p>
-      </div>
-    </div>
-  `).join("")}</div>`;
-}
-
-function renderAnimais() {
-  const cabecalho = `
-    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
-      <div>
-        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Banco de dados</p>
-        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Meus animais</h2>
-        <p class="text-on-surface-variant mt-1">${dadosMaster.animals.length} animal(is) encontrado(s) no MongoDB.</p>
-      </div>
-      <a href="adicionar-animal.html" class="inline-flex items-center justify-center gap-sm bg-[#5F376E] text-white px-5 py-3 rounded-full font-label-md text-label-md hover:bg-[#472056] transition-colors shadow-sm">
-        <span class="material-symbols-outlined">add</span>
-        Adicionar animal
-      </a>
-    </header>`;
-
-  if (!dadosMaster.animals.length) {
-    return `${cabecalho}
-      <section class="bg-surface-container-lowest rounded-xl p-lg shadow-md border border-surface-variant/50">${cardVazio("Nenhum animal cadastrado no banco. Clique em \"Adicionar animal\" para cadastrar o primeiro.")}</section>`;
-  }
-
-  const cards = dadosMaster.animals.map(animal => {
-    const id = String(animal.id || animal._id || "");
-    const nome = textoOuPadrao(animal.name || animal.nome, "Animal sem nome");
-    const especie = textoOuPadrao(animal.species || animal.especie, "Espécie não informada");
-    const idade = textoOuPadrao(animal.age || animal.idade, "Idade não informada");
-    const status = statusBonito(animal.status);
-    const foto = animal.image || animal.image_url || animal.photo || animal.foto || "";
-    const responsavel = animal.responsible_person || animal.responsible || animal.responsavel || "Não informado";
-    const descricao = animal.description || animal.descricao || "Sem descrição cadastrada.";
-    const pcd = Boolean(animal.pcd);
-    return `
-      <article class="bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50">
-        <div class="flex gap-md">
-          <div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container shrink-0 flex items-center justify-center">
-            ${foto ? `<img class="w-full h-full object-cover" src="${escaparHTML(foto)}" alt="${escaparHTML(nome)}">` : `<span class="material-symbols-outlined text-4xl text-primary">pets</span>`}
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-sm">
-              <div>
-                <h3 class="font-headline-md text-headline-md text-primary">${escaparHTML(nome)}</h3>
-                <p class="text-sm text-on-surface-variant">${escaparHTML(especie)} • ${escaparHTML(idade)}</p>
-              </div>
-              <span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold">${escaparHTML(status)}</span>
-            </div>
-            <p class="mt-2 text-sm text-on-surface-variant">${escaparHTML(animal.breed || animal.raca || "Raça não informada")}</p>
-            <p class="mt-1 text-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-base">person</span>Responsável: <strong>${escaparHTML(responsavel)}</strong></p>
-            <p class="mt-1 text-sm text-on-surface-variant">${escaparHTML(descricao)}</p>
-            ${pcd ? `<span class="inline-flex items-center gap-1 mt-2 px-2.5 py-1 rounded-full bg-[#F4E5FA] text-[#5F376E] text-xs font-semibold"><span class="material-symbols-outlined text-sm">accessible</span>PCD</span>` : ""}
-          </div>
-        </div>
-        <div class="mt-md pt-md border-t border-surface-variant flex justify-end">
-          <button type="button" onclick="abrirModalEditarAnimal('${escaparHTML(id)}')" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#5F376E] text-[#5F376E] font-semibold text-sm hover:bg-[#F8F1F9] transition-colors">
-            <span class="material-symbols-outlined text-base">edit</span>
-            Editar informações
-          </button>
-        </div>
-      </article>`;
-  }).join("");
-
-  return `${cabecalho}<div class="grid grid-cols-1 md:grid-cols-2 gap-md">${cards}</div>`;
-}
-
-function renderAdocoes() {
-  if (!dadosMaster.applications.length) {
-    return `<header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Banco de dados</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Processos de adoção</h2><p class="text-on-surface-variant mt-1">Solicitações existentes no MongoDB.</p></header><section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-lg">${cardVazio("Nenhuma solicitação de adoção no banco.")}</section>`;
-  }
-
-  const rows = dadosMaster.applications.map(app => {
-    const animal = animalDaSolicitacao(app);
-    const pessoa = textoOuPadrao(app.applicant_name || app.name || app.nome, "Pessoa não informada");
-    const animalNome = animal ? (animal.name || animal.nome) : (app.animal_name || app.animalName || "Animal não identificado");
-    const etapa = statusBonito(app.status || app.etapa);
-    return `<tr class="border-t border-surface-variant"><td class="p-md font-semibold">${escaparHTML(pessoa)}</td><td class="p-md">${escaparHTML(animalNome)}</td><td class="p-md"><span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs">${escaparHTML(etapa)}</span></td><td class="p-md text-sm text-on-surface-variant">${escaparHTML(app.email || "E-mail não informado")}</td></tr>`;
-  }).join("");
-
-  return `<header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Banco de dados</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Processos de adoção</h2><p class="text-on-surface-variant mt-1">${dadosMaster.applications.length} solicitação(ões) encontrada(s) no MongoDB.</p></header><section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 overflow-hidden"><div class="p-md border-b border-surface-variant"><h3 class="font-headline-md text-headline-md text-on-surface">Solicitações</h3></div><div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-surface-container-low"><tr><th class="p-md">Pessoa</th><th class="p-md">Animal</th><th class="p-md">Status</th><th class="p-md">Contato</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
-}
-
-function renderEventos() {
-  return `<header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md"><div><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Gestão do projeto</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Próximos eventos</h2><p class="text-on-surface-variant mt-1">${dadosMaster.events.length} evento(s) atualmente cadastrados no banco.</p></div><button type="button" onclick="abrirModalEvento()" class="inline-flex items-center justify-center gap-sm bg-[#5F376E] text-white px-5 py-3 rounded-full font-semibold hover:bg-[#472056] transition-colors"><span class="material-symbols-outlined">add</span>Criar evento</button></header><section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md md:p-lg"><div id="listaEventosBarbara" class="grid grid-cols-1 md:grid-cols-2 gap-md"></div></section>`;
-}
-
-function obterDataAgenda(item) {
-  return item?.date || item?.data || item?.appointment_date || item?.meeting_date || item?.scheduled_date || item?.scheduledDate || item?.visit_date || item?.video_call_date || item?.videochat_date || "";
-}
-
-function obterHoraAgenda(item) {
-  if (item?.startTime) return item.startTime;
-  return item?.time || item?.horario || item?.appointment_time || item?.meeting_time || item?.scheduled_time || item?.scheduledTime || item?.visit_time || item?.video_call_time || "";
-}
-
-function obterTipoCompromisso(item) {
-  const valor = String(item?.appointment_type || item?.meeting_type || item?.contact_method || item?.schedule_type || item?.meetingMode || item?.mode || item?.tipo || "").toLowerCase();
-  if (valor.includes("face") || valor.includes("video") || valor.includes("chamada") || valor.includes("online")) return "FaceTime / videochamada";
-  if (valor.includes("visita") || valor.includes("presencial") || valor.includes("encontro")) return "Encontro presencial";
-  return "Encontro com adotante";
-}
-
-function renderAgenda() {
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
-
-  const eventos = (dadosMaster.events || [])
-    .filter(evento => {
-      const criadoPor = evento.createdBy || evento.created_by || evento.creator_id || evento.master_id || "";
-      const data = obterDataAgenda(evento);
-      if (criadoPor && String(criadoPor) !== String(BARBARA_ID)) return false;
-      if (!data) return true;
-      const d = new Date(`${data}T00:00:00`);
-      return !Number.isNaN(d.getTime()) && d >= hoje;
-    })
-    .map(evento => ({
-      tipo: "evento",
-      id: String(evento._id?.$oid || evento._id || evento.id || ""),
-       titulo: evento.title || evento.nome || "Evento",
-      data: obterDataAgenda(evento),
-      hora: obterHoraAgenda(evento),
-      local: evento.location || evento.local || "Local não informado",
-      descricao: evento.description || evento.obs || "",
-      icone: "event",
-      etiqueta: "Evento criado por você"
-    }));
-
-  const encontros = (dadosMaster.applications || [])
-    .filter(app => {
-      const data = obterDataAgenda(app);
-      if (!data) return false;
-      const d = new Date(`${data}T00:00:00`);
-      return !Number.isNaN(d.getTime()) && d >= hoje;
-    })
-    .map(app => {
-      const animal = animalDaSolicitacao(app);
-      return {
-        tipo: "adotante",
-        titulo: obterTipoCompromisso(app),
-        pessoa: app.applicant_name || app.name || app.nome || app.buyer_name || "Adotante não informado",
-        animal: animal ? (animal.name || animal.nome) : (app.animal_name || app.animalName || "Animal não informado"),
-        data: obterDataAgenda(app),
-        hora: obterHoraAgenda(app),
-        local: app.location || app.local || (String(obterTipoCompromisso(app)).toLowerCase().includes("facetime") ? "Videochamada" : "Local não informado"),
-        descricao: app.notes || app.observation || app.description || "",
-        icone: String(obterTipoCompromisso(app)).toLowerCase().includes("facetime") ? "videocam" : "handshake",
-        etiqueta: "Futuro adotante"
-      };
-    });
-
-  const compromissos = [...eventos, ...encontros].sort((a, b) => {
-    const da = `${a.data || "9999-12-31"}T${a.hora || "23:59"}`;
-    const db = `${b.data || "9999-12-31"}T${b.hora || "23:59"}`;
-    return da.localeCompare(db);
-  });
-
-  const eventosHtml = compromissos.length
-    ? compromissos.map(item => `
-      <article class="rounded-xl border border-surface-variant bg-surface-container-low p-md shadow-sm">
-        <div class="flex items-start gap-md">
-          <div class="w-12 h-12 rounded-full bg-secondary-container text-primary flex items-center justify-center shrink-0">
-            <span class="material-symbols-outlined">${escaparHTML(item.icone)}</span>
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="flex flex-wrap items-center gap-2">
-              <h3 class="font-headline-md text-headline-md text-primary">${escaparHTML(item.titulo)}</h3>
-              <span class="px-2 py-1 rounded-full bg-white border border-surface-variant text-xs font-semibold text-on-surface-variant">${escaparHTML(item.etiqueta)}</span>
-            </div>
-            <p class="text-sm text-on-surface-variant mt-1">
-              ${escaparHTML(formatarDataEvento(item.data))}${item.hora ? ` • ${escaparHTML(item.hora)}` : ""}
-            </p>
-            ${item.pessoa ? `<p class="text-sm mt-2"><strong>Adotante:</strong> ${escaparHTML(item.pessoa)}</p>` : ""}
-            ${item.animal ? `<p class="text-sm mt-1"><strong>Animal:</strong> ${escaparHTML(item.animal)}</p>` : ""}
-            <p class="text-sm mt-1"><strong>Local:</strong> ${escaparHTML(item.local)}</p>
-            ${item.descricao ? `<p class="text-sm text-on-surface-variant mt-2">${escaparHTML(item.descricao)}</p>` : ""}
-
-            ${
-              item.tipo === "evento" && item.id
-                ? `
-                  <div class="mt-4 pt-4 border-t border-surface-variant flex justify-end">
-                    <button
-                      type="button"
-                      onclick="excluirEventoDaAgenda('${escaparHTML(item.id)}')"
-                      class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-red-300 text-red-700 bg-white hover:bg-red-50 transition font-semibold text-sm"
-                    >
-                      <span class="material-symbols-outlined text-base">delete</span>
-                      Excluir evento
-                    </button>
-                  </div>
-                `
-                : ""
-            }
-          </div>
-        </div>
-      </article>
-    `).join("")
-    : cardVazio("Nenhum evento ou encontro futuro está cadastrado na agenda.");
-
-  return `
-    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
-      <div>
-        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Organização</p>
-        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Minha agenda</h2>
-        <p class="text-on-surface-variant mt-1">Veja em um só lugar os eventos criados por você e os encontros ou FaceTimes agendados com futuros adotantes.</p>
-      </div>
-      <button type="button" onclick="mostrarPagina('eventos')" class="inline-flex items-center justify-center gap-sm bg-[#5F376E] text-white px-5 py-3 rounded-full font-semibold hover:bg-[#472056] transition-colors">
-        <span class="material-symbols-outlined">add</span>
-        Criar evento
-      </button>
-    </header>
-
-    <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md md:p-lg">
-      <div class="flex items-center justify-between gap-3 mb-md">
-        <div>
-          <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Próximos compromissos</h3>
-          <p class="text-sm text-on-surface-variant mt-1">${compromissos.length} compromisso(s) encontrado(s).</p>
-        </div>
-        <span class="material-symbols-outlined text-primary">calendar_month</span>
-      </div>
-      <div class="space-y-md">${eventosHtml}</div>
-    </section>
-  `;
-}
-
-function renderDoacoes() {
-  const receipts = dadosMaster.receipts || [];
-  const raffles = dadosMaster.raffles || [];
-  const payments = dadosMaster.rafflePayments || [];
-
-  return `
-   
-
-    <div class="grid grid-cols-1 xl:grid-cols-2 gap-lg">
-      <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md md:p-lg">
-        <div class="flex items-start gap-md mb-md">
-          <div class="w-12 h-12 rounded-full bg-secondary-container text-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined">receipt_long</span></div>
-          <div><h3 class="font-headline-md text-headline-md text-on-surface font-bold">Comprovante de pagamento</h3><p class="text-sm text-on-surface-variant mt-1">Foto do animal, descrição do pagamento e foto do comprovante.</p></div>
-        </div>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-semibold text-gray-700">Animal cadastrado <span class="font-normal text-gray-500">(opcional)</span></label>
-            <select id="comprovanteAnimal" onchange="preencherNomeAnimalComprovante(this)" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 bg-white">
-              <option value="">Nenhum / animal ainda não cadastrado</option>
-              ${dadosMaster.animals.map(a => `<option value="${escaparHTML(String(a.id || a._id || ''))}" data-name="${escaparHTML(a.name || a.nome || 'Animal')}">${escaparHTML(a.name || a.nome || 'Animal')}</option>`).join('')}
-            </select>
-            <p class="mt-1 text-xs text-gray-500">Se o animal ainda não estiver disponível para adoção, você pode cadastrá-lo apenas pelo nome abaixo.</p>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-gray-700">Nome do animal *</label>
-            <input id="comprovanteNomeAnimal" type="text" maxlength="120" placeholder="Ex.: Mel, Thor, filhote resgatado..." class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3">
-          </div>
-          <div><label class="block text-sm font-semibold text-gray-700">Descrição *</label><textarea id="comprovanteDescricao" rows="4" maxlength="1000" placeholder="Ex.: pagamento de consulta veterinária e medicação." class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3"></textarea></div>
-          <div><label class="block text-sm font-semibold text-gray-700">Foto do animal *</label><input id="comprovanteFotoAnimal" type="file" accept="image/*" onchange="mostrarPreviewArquivo(this,'previewFotoAnimal')" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 bg-white"><img id="previewFotoAnimal" class="hidden mt-3 w-28 h-28 object-cover rounded-xl border border-gray-200" alt="Prévia do animal"></div>
-          <div><label class="block text-sm font-semibold text-gray-700">Foto do comprovante *</label><input id="comprovanteFoto" type="file" accept="image/*" onchange="mostrarPreviewArquivo(this,'previewComprovante')" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 bg-white"><img id="previewComprovante" class="hidden mt-3 w-28 h-28 object-cover rounded-xl border border-gray-200" alt="Prévia do comprovante"></div>
-          <div id="erroComprovante" class="hidden rounded-xl bg-red-50 border border-red-200 text-red-700 p-4 text-sm"></div>
-          <button type="button" onclick="salvarComprovantePagamento()" class="w-full rounded-full bg-[#5F376E] text-white py-3 font-semibold flex items-center justify-center gap-2"><span class="material-symbols-outlined">save</span>Salvar comprovante</button>
-        </div>
-        <div class="mt-xl pt-lg border-t border-surface-variant">
-          <h4 class="font-headline-md text-headline-md text-on-surface font-bold">Comprovantes cadastrados</h4>
-          <div class="mt-4 space-y-3">${receipts.length ? receipts.map(r => `<article class="rounded-xl bg-surface-container-low p-4 flex gap-4"><img src="${escaparHTML(r.animal_photo || '')}" class="w-20 h-20 object-cover rounded-lg shrink-0" alt="Animal"><div class="min-w-0 flex-1"><p class="font-bold text-gray-800">${escaparHTML(r.animal_name || 'Animal')}</p><p class="text-sm text-gray-600 mt-1">${escaparHTML(r.description || '')}</p><details class="mt-2"><summary class="cursor-pointer text-sm font-semibold text-[#5F376E]">Ver comprovante</summary><img src="${escaparHTML(r.receipt_photo || '')}" class="mt-3 max-h-56 rounded-lg object-contain bg-white" alt="Comprovante"></details></div></article>`).join('') : `<p class="text-sm text-on-surface-variant">Nenhum comprovante cadastrado.</p>`}</div>
-        </div>
-      </section>
-
-      <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md md:p-lg">
-        <div class="flex items-start gap-md mb-md">
-          <div class="w-12 h-12 rounded-full bg-secondary-container text-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined">confirmation_number</span></div>
-          <div><h3 class="font-headline-md text-headline-md text-on-surface font-bold">Publicar uma rifa</h3><p class="text-sm text-on-surface-variant mt-1">O adotante escolhe o número, paga via Pix e envia o comprovante para confirmação.</p></div>
-        </div>
-        <div class="space-y-4">
-          <div><label class="block text-sm font-semibold text-gray-700">Título da rifa *</label><input id="rifaTitulo" type="text" maxlength="120" placeholder="Ex.: Rifa para ajudar no tratamento do Thor" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3"></div>
-          <div><label class="block text-sm font-semibold text-gray-700">Para que serve? *</label><textarea id="rifaFinalidade" rows="3" maxlength="600" placeholder="Explique para onde o valor arrecadado será destinado." class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3"></textarea></div>
-          <div><label class="block text-sm font-semibold text-gray-700">Prêmio *</label><textarea id="rifaPremio" rows="3" maxlength="600" placeholder="Ex.: Cesta de produtos para pets." class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3"></textarea></div>
-          <div><label class="block text-sm font-semibold text-gray-700">Foto do prêmio *</label><input id="rifaFotoPremio" type="file" accept="image/*" onchange="mostrarPreviewArquivo(this,'previewPremio')" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 bg-white"><img id="previewPremio" class="hidden mt-3 w-36 h-28 object-cover rounded-xl border border-gray-200" alt="Prévia do prêmio"></div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><label class="block text-sm font-semibold text-gray-700">Valor por número (R$) *</label><input id="rifaValor" type="number" min="0.01" step="0.01" placeholder="10,00" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3"></div>
-            <div><label class="block text-sm font-semibold text-gray-700">Quantidade de números *</label><input id="rifaQuantidade" type="number" min="1" max="10000" placeholder="100" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3"></div>
-          </div>
-          <div class="rounded-xl border border-purple-100 bg-[#F8F1F9] p-4 space-y-3"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[#5F376E]">payments</span><strong class="text-[#472056]">Dados para pagamento via Pix</strong></div><div><label class="block text-sm font-semibold text-gray-700">Chave Pix *</label><input id="rifaPix" type="text" maxlength="200" placeholder="CPF, CNPJ, e-mail, telefone ou chave aleatória" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 bg-white"></div><div><label class="block text-sm font-semibold text-gray-700">Nome do recebedor</label><input id="rifaPixTitular" type="text" maxlength="120" placeholder="Ex.: Pacotinho de Amor" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 bg-white"></div></div>
-          <label class="flex items-center gap-3 rounded-xl border border-gray-200 p-4 cursor-pointer"><input id="rifaPublicar" type="checkbox" checked class="h-5 w-5"><span><strong>Publicar no site</strong><br><small class="text-gray-500">Os possíveis adotantes poderão visualizar a rifa e enviar o comprovante do Pix.</small></span></label>
-          <div id="erroRifa" class="hidden rounded-xl bg-red-50 border border-red-200 text-red-700 p-4 text-sm"></div>
-          <button type="button" onclick="criarRifa()" class="w-full rounded-full bg-[#5F376E] text-white py-3 font-semibold flex items-center justify-center gap-2"><span class="material-symbols-outlined">publish</span>Publicar rifa</button>
-        </div>
-
-        <div class="mt-xl pt-lg border-t border-surface-variant">
-          <div class="flex items-center justify-between gap-3"><div><h4 class="font-headline-md text-headline-md text-on-surface font-bold">Pagamentos aguardando confirmação</h4><p class="text-sm text-on-surface-variant mt-1">Confira o comprovante e confirme ou recuse cada pagamento.</p></div></div>
-          <div class="mt-4 space-y-4">${payments.filter(p => p.status === 'pending').length ? payments.filter(p => p.status === 'pending').map(p => {
-            const r = raffles.find(x => String(x.id || x._id) === String(p.raffle_id));
-            const rid = String(p.raffle_id || '');
-            return `<article class="rounded-xl border border-amber-200 bg-amber-50/40 p-4"><div class="flex justify-between gap-3"><div><p class="font-bold text-gray-800">${escaparHTML(r?.title || 'Rifa')}</p><p class="text-sm text-gray-600 mt-1">Número <strong>${escaparHTML(String(p.number))}</strong> • ${escaparHTML(p.buyer_name || 'Adotante')} • ${escaparHTML(p.buyer_email || '')}</p><p class="text-sm font-semibold text-[#5F376E] mt-1">R$ ${Number(p.amount || 0).toFixed(2).replace('.', ',')}</p></div><span class="text-xs font-bold px-2 py-1 rounded-full bg-amber-100 text-amber-800 h-fit">Aguardando</span></div><details class="mt-3"><summary class="cursor-pointer text-sm font-semibold text-[#5F376E]">Ver comprovante do Pix</summary><img src="${escaparHTML(p.proof_photo || '')}" class="mt-3 max-h-72 rounded-xl object-contain bg-white border border-gray-200" alt="Comprovante do Pix"></details><div class="mt-4 flex flex-col sm:flex-row gap-2"><button type="button" onclick="confirmarPagamentoRifa('${escaparHTML(rid)}',${Number(p.number)})" class="flex-1 rounded-full bg-green-600 text-white px-4 py-2 font-semibold">Confirmar pagamento</button><button type="button" onclick="recusarPagamentoRifa('${escaparHTML(rid)}',${Number(p.number)})" class="flex-1 rounded-full border border-red-300 text-red-700 px-4 py-2 font-semibold">Recusar e liberar número</button></div></article>`;
-          }).join('') : `<p class="text-sm text-on-surface-variant">Nenhum pagamento aguardando confirmação.</p>`}</div>
-        </div>
-
-        <div class="mt-xl pt-lg border-t border-surface-variant">
-          <div class="mt-4 space-y-4">${raffles.length ? raffles.map(r => {
-            const nums = Array.isArray(r.numbers) ? r.numbers : [];
-            const paid = nums.filter(n => n.status === 'paid').length;
-            const pending = nums.filter(n => n.status === 'pending_payment').length;
-            const finished = r.status === 'finished';
-            const rid = String(r.id || r._id || '');
-            return `<article class="rounded-xl border border-surface-variant p-4"><div class="flex gap-4"><img src="${escaparHTML(r.prize_photo || '')}" class="w-24 h-20 object-cover rounded-lg shrink-0" alt="Prêmio"><div class="min-w-0 flex-1"><div class="flex justify-between gap-2"><h5 class="font-bold text-gray-800">${escaparHTML(r.title || 'Rifa')}</h5><span class="text-xs px-2 py-1 rounded-full ${finished ? 'bg-gray-200 text-gray-700' : 'bg-green-100 text-green-700'}">${finished ? 'Finalizada' : (r.published ? 'Publicada' : 'Rascunho')}</span></div><p class="text-sm text-gray-600 mt-1">${escaparHTML(r.purpose || '')}</p><p class="text-sm font-semibold text-[#5F376E] mt-2">${paid}/${nums.length} pagos • ${pending} aguardando • R$ ${Number(r.ticket_price || 0).toFixed(2).replace('.', ',')}</p></div></div>${finished && r.winners?.length ? `<div class="mt-3 rounded-lg bg-secondary-container/60 p-3 text-sm"><strong>Ganhador(es):</strong> ${r.winners.map(w => `nº ${escaparHTML(String(w.number))} — ${escaparHTML(w.buyer_name || 'Comprador')}`).join(' • ')}</div>` : ''}${!finished ? `<div class="mt-4 flex flex-col sm:flex-row gap-2"><input id="quantidadeSorteio_${escaparHTML(rid)}" type="number" min="1" max="10" value="1" class="w-full sm:w-28 rounded-lg border border-gray-300 px-3 py-2"><button type="button" onclick="finalizarRifa('${escaparHTML(rid)}')" class="flex-1 rounded-full border border-[#5F376E] text-[#5F376E] px-4 py-2 font-semibold hover:bg-[#F8F1F9]">Finalizar e sortear</button></div>` : ''}</article>`;
-          }).join('') : `<p class="text-sm text-on-surface-variant">Nenhuma rifa cadastrada.</p>`}</div>
-        </div>
-      </section>
-    </div>
-  `;
-}
-
-async function arquivoDataURL(input) {
-  const file = input?.files?.[0];
-  if (!file) return "";
-  if (!file.type.startsWith("image/")) throw new Error("Selecione uma imagem válida.");
-  if (file.size > 6 * 1024 * 1024) throw new Error("Use imagens de até 6 MB.");
-  return await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error("Não foi possível ler a imagem."));
-    reader.readAsDataURL(file);
-  });
-}
-
-function mostrarPreviewArquivo(input, previewId) {
-  const preview = document.getElementById(previewId);
-  const file = input?.files?.[0];
-  if (!preview || !file) return;
-  preview.src = URL.createObjectURL(file);
-  preview.classList.remove("hidden");
-}
-
-function mostrarErroCampo(id, mensagem) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = mensagem;
-  el.classList.remove("hidden");
-}
-
-function preencherNomeAnimalComprovante(select) {
-  const nome = select?.selectedOptions?.[0]?.dataset?.name || "";
-  const campo = document.getElementById("comprovanteNomeAnimal");
-  if (campo && nome) {
-    campo.value = nome;
-  }
-}
-
-async function salvarComprovantePagamento() {
-  try {
-    document.getElementById("erroComprovante")?.classList.add("hidden");
-    const select = document.getElementById("comprovanteAnimal");
-    const animalId = select?.value || "";
-    const nomeAnimal = document.getElementById("comprovanteNomeAnimal")?.value.trim() || "";
-    const description = document.getElementById("comprovanteDescricao")?.value.trim() || "";
-    const animalPhoto = await arquivoDataURL(document.getElementById("comprovanteFotoAnimal"));
-    const receiptPhoto = await arquivoDataURL(document.getElementById("comprovanteFoto"));
-
-    if (!nomeAnimal || !description || !animalPhoto || !receiptPhoto) {
-      throw new Error("Informe o nome do animal, a descrição e selecione a foto do animal e a foto do comprovante.");
-    }
-
-    const resposta = await fetch(`${API_URL}/payment-receipts`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({
-        animal_id: animalId || null,
-        animal_name: nomeAnimal,
-        description,
-        animal_photo: animalPhoto,
-        receipt_photo: receiptPhoto
-      })
-    });
-
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível salvar o comprovante.");
-    dadosMaster.receipts.unshift(dados.receipt);
-    renderPaginaAtual();
-  } catch (erro) {
-    mostrarErroCampo("erroComprovante", erro.message || "Não foi possível salvar o comprovante.");
-  }
-}
-
-async function criarRifa() {
-  try {
-    document.getElementById("erroRifa")?.classList.add("hidden");
-    const title = document.getElementById("rifaTitulo")?.value.trim() || "";
-    const purpose = document.getElementById("rifaFinalidade")?.value.trim() || "";
-    const prizeDescription = document.getElementById("rifaPremio")?.value.trim() || "";
-    const ticketPrice = Number(document.getElementById("rifaValor")?.value || 0);
-    const totalNumbers = Number(document.getElementById("rifaQuantidade")?.value || 0);
-    const published = Boolean(document.getElementById("rifaPublicar")?.checked);
-    const pixKey = document.getElementById("rifaPix")?.value.trim() || "";
-    const pixHolder = document.getElementById("rifaPixTitular")?.value.trim() || "";
-    const prizePhoto = await arquivoDataURL(document.getElementById("rifaFotoPremio"));
-    if (!title || !purpose || !prizeDescription || !prizePhoto || !pixKey || ticketPrice <= 0 || totalNumbers < 1) throw new Error("Preencha os dados da rifa, a foto do prêmio, a chave Pix, o valor e a quantidade de números.");
-
-    const resposta = await fetch(`${API_URL}/raffles`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "same-origin", body: JSON.stringify({ title, purpose, prize_description: prizeDescription, prize_photo: prizePhoto, pix_key: pixKey, pix_holder: pixHolder, ticket_price: ticketPrice, total_numbers: totalNumbers, published }) });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível criar a rifa.");
-    dadosMaster.raffles.unshift(dados.raffle);
-    renderPaginaAtual();
-  } catch (erro) {
-    mostrarErroCampo("erroRifa", erro.message || "Não foi possível criar a rifa.");
-  }
-}
-
-async function confirmarPagamentoRifa(raffleId, number) {
-  if (!confirm(`Confirmar o pagamento do número ${number}?`)) return;
-  try {
-    const resposta = await fetch(`${API_URL}/raffles/${encodeURIComponent(raffleId)}/tickets/${encodeURIComponent(number)}/confirm`, { method: "POST", credentials: "same-origin" });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível confirmar o pagamento.");
-    await carregarDadosDoBanco();
-  } catch (erro) { alert(erro.message || "Não foi possível confirmar o pagamento."); }
-}
-
-async function recusarPagamentoRifa(raffleId, number) {
-  if (!confirm(`Recusar o pagamento do número ${number} e liberar esse número novamente?`)) return;
-  try {
-    const resposta = await fetch(`${API_URL}/raffles/${encodeURIComponent(raffleId)}/tickets/${encodeURIComponent(number)}/reject`, { method: "POST", credentials: "same-origin" });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível recusar o pagamento.");
-    await carregarDadosDoBanco();
-  } catch (erro) { alert(erro.message || "Não foi possível recusar o pagamento."); }
-}
-
-async function finalizarRifa(id) {
-  const input = document.getElementById(`quantidadeSorteio_${id}`);
-  const winnerCount = Number(input?.value || 1);
-  if (!confirm(`Finalizar esta rifa e sortear ${winnerCount} número(s)? Essa ação não poderá ser desfeita.`)) return;
-  try {
-    const resposta = await fetch(`${API_URL}/raffles/${encodeURIComponent(id)}/draw`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "same-origin", body: JSON.stringify({ winner_count: winnerCount }) });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível finalizar a rifa.");
-    const index = dadosMaster.raffles.findIndex(r => String(r.id || r._id || "") === String(id));
-    if (index >= 0) dadosMaster.raffles[index] = dados.raffle;
-    renderPaginaAtual();
-  } catch (erro) {
-    alert(erro.message || "Não foi possível finalizar a rifa.");
-  }
-}
-
-
-function renderVoluntarios() {
-  const solicitacoes = dadosMaster.volunteerRequests || [];
-  const pendentes = solicitacoes.filter(item => String(item?.status || '').toLowerCase() === 'pending');
-  const primeiraFase = solicitacoes.filter(item => String(item?.status || '').toLowerCase() === 'first_phase');
-  const processadas = solicitacoes.filter(item => ['rejected','approved'].includes(String(item?.status || '').toLowerCase()));
-
-  const cabecalho = `
-    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
-      <div>
-        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Equipe do projeto</p>
-        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Solicitações de voluntários</h2>
-        <p class="text-on-surface-variant mt-1">A primeira aprovação é somente para entrevista. A conta de voluntário só é criada depois da aprovação final.</p>
-      </div>
-      <button type="button" onclick="carregarSolicitacoesVoluntarios()" class="inline-flex items-center justify-center gap-2 bg-white text-[#5F376E] border border-[#5F376E]/20 px-5 py-3 rounded-full font-semibold hover:bg-[#F8F1F9] transition-colors">
-        <span class="material-symbols-outlined">refresh</span>Atualizar
-      </button>
-    </header>`;
-
-  const renderCard = (item, fase) => {
-    const id = String(item._id?.$oid || item._id || item.id || '');
-    const nome = textoOuPadrao(item.name || item.nome, 'Nome não informado');
-    const email = textoOuPadrao(item.email, 'E-mail não informado');
-    const telefone = textoOuPadrao(item.phone || item.telefone, 'Telefone não informado');
-    const modalidades = Array.isArray(item.modalidades) ? item.modalidades : [];
-    const disponibilidade = textoOuPadrao(item.disponibilidade, 'Não informada');
-    const criado = item.created_at || item.createdAt || '';
-    const data = criado ? new Date(criado).toLocaleDateString('pt-BR') : 'Data não informada';
-
-    const isInterview = fase === 'first_phase';
-
-    return `
-      <article class="rounded-2xl border border-[#E7E0E8] bg-white p-5 md:p-6 shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-start gap-4">
-          <div class="w-12 h-12 rounded-full bg-[#F8F1F9] text-[#5F376E] flex items-center justify-center shrink-0">
-            <span class="material-symbols-outlined">${isInterview ? 'record_voice_over' : 'person_add'}</span>
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-              <div>
-                <h3 class="text-lg font-bold text-[#472056]">${escaparHTML(nome)}</h3>
-                <p class="text-sm text-[#625A64] mt-1">Solicitação enviada em ${escaparHTML(data)}</p>
-              </div>
-              <span class="inline-flex w-fit items-center gap-1 px-3 py-1 rounded-full ${isInterview ? 'bg-blue-50 text-blue-700' : 'bg-[#FFF4D6] text-[#7A5200]'} text-xs font-bold">
-                <span class="material-symbols-outlined text-sm">${isInterview ? 'event_available' : 'schedule'}</span>${isInterview ? 'Aguardando entrevista' : 'Pendente'}
-              </span>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-              <div class="rounded-xl bg-[#F8F1F9] p-3">
-                <p class="text-xs font-semibold text-[#766D77] uppercase">E-mail</p>
-                <p class="text-sm font-semibold text-[#1D1A20] mt-1 break-all">${escaparHTML(email)}</p>
-              </div>
-              <div class="rounded-xl bg-[#F8F1F9] p-3">
-                <p class="text-xs font-semibold text-[#766D77] uppercase">Telefone</p>
-                <p class="text-sm font-semibold text-[#1D1A20] mt-1">${escaparHTML(telefone)}</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-              <div class="rounded-xl bg-[#FAF7FB] border border-[#E7E0E8] p-3">
-                <p class="text-xs font-semibold text-[#766D77] uppercase">Como deseja ajudar</p>
-                <p class="text-sm font-semibold text-[#1D1A20] mt-1">${escaparHTML(modalidades.length ? modalidades.join(', ') : 'Não informado')}</p>
-              </div>
-              <div class="rounded-xl bg-[#FAF7FB] border border-[#E7E0E8] p-3">
-                <p class="text-xs font-semibold text-[#766D77] uppercase">Disponibilidade</p>
-                <p class="text-sm font-semibold text-[#1D1A20] mt-1 whitespace-pre-line">${escaparHTML(disponibilidade)}</p>
-              </div>
-            </div>
-
-            <div class="mt-5 flex flex-col sm:flex-row gap-3">
-              ${isInterview
-                ? `<button type="button" onclick="decidirSolicitacaoVoluntario('${escaparHTML(id)}', 'approved')" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#5F376E] text-white px-5 py-3 font-bold hover:bg-[#472056] transition-colors"><span class="material-symbols-outlined">verified</span>Aprovar como voluntário</button>`
-                : `<button type="button" onclick="decidirSolicitacaoVoluntario('${escaparHTML(id)}', 'first_phase')" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#5F376E] text-white px-5 py-3 font-bold hover:bg-[#472056] transition-colors"><span class="material-symbols-outlined">record_voice_over</span>Aprovar para entrevista</button>`}
-              <button type="button" onclick="decidirSolicitacaoVoluntario('${escaparHTML(id)}', 'rejected')" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-white text-red-700 px-5 py-3 font-bold hover:bg-red-50 transition-colors"><span class="material-symbols-outlined">close</span>Recusar</button>
-            </div>
-          </div>
-        </div>
-      </article>`;
-  };
-
-  const listaPendentes = pendentes.length ? pendentes.map(item => renderCard(item, 'pending')).join('') : cardVazio('Não há solicitações de voluntariado pendentes.');
-  const listaEntrevistas = primeiraFase.length ? `
-    <section class="mt-xl bg-surface-container-lowest rounded-2xl shadow-md border border-blue-100 overflow-hidden">
-      <div class="p-md md:p-lg border-b border-blue-100">
-        <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Aguardando entrevista</h3>
-        <p class="text-sm text-on-surface-variant mt-1">Estas pessoas passaram pela primeira fase. A conta de voluntário ainda não foi criada.</p>
-      </div>
-      <div class="p-md md:p-lg space-y-4">${primeiraFase.map(item => renderCard(item, 'first_phase')).join('')}</div>
-    </section>` : '';
-
-  const historico = processadas.length ? `
-    <section class="mt-xl bg-surface-container-lowest rounded-2xl shadow-md border border-surface-variant/50 overflow-hidden">
-      <div class="p-md md:p-lg border-b border-surface-variant">
-        <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Histórico</h3>
-        <p class="text-sm text-on-surface-variant mt-1">Decisões já tomadas pela administração.</p>
-      </div>
-      <div class="divide-y divide-[#E7E0E8]">
-        ${processadas.map(item => {
-          const id = String(item._id?.$oid || item._id || item.id || '');
-          const nome = textoOuPadrao(item.name || item.nome, 'Nome não informado');
-          const email = textoOuPadrao(item.email, 'E-mail não informado');
-          const aprovado = String(item.status || '').toLowerCase() === 'approved';
-          return `<div class="p-md md:p-lg flex flex-col sm:flex-row sm:items-center gap-3">
-            <div class="w-10 h-10 rounded-full ${aprovado ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'} flex items-center justify-center shrink-0"><span class="material-symbols-outlined">${aprovado ? 'check_circle' : 'cancel'}</span></div>
-            <div class="flex-1 min-w-0"><p class="font-bold text-[#1D1A20]">${escaparHTML(nome)}</p><p class="text-sm text-[#625A64] break-all">${escaparHTML(email)}</p></div>
-            <span class="w-fit px-3 py-1 rounded-full ${aprovado ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'} text-xs font-bold">${aprovado ? 'Voluntário aprovado' : 'Recusada'}</span>
-            ${!aprovado ? `<button type="button" onclick="reverterSolicitacaoVoluntario('${escaparHTML(id)}')" class="inline-flex items-center justify-center gap-1 rounded-full border border-[#5F376E]/30 text-[#5F376E] px-4 py-2 text-sm font-bold hover:bg-[#F8F1F9]"><span class="material-symbols-outlined text-base">undo</span>Reverter</button>` : ''}
-          </div>`;
-        }).join('')}
-      </div>
-    </section>` : '';
-
-  return `${cabecalho}
-    <section class="bg-surface-container-lowest rounded-2xl shadow-md border border-surface-variant/50 p-md md:p-lg">
-      <div class="flex items-start gap-3 mb-md"><div class="w-12 h-12 rounded-full bg-[#F8F1F9] text-[#5F376E] flex items-center justify-center shrink-0"><span class="material-symbols-outlined">groups</span></div><div><h3 class="font-headline-md text-headline-md text-on-surface font-bold">Pedidos aguardando aprovação</h3><p class="text-sm text-on-surface-variant mt-1">${pendentes.length} solicitação(ões) pendente(s).</p></div></div>
-      <div class="space-y-4">${listaPendentes}</div>
-    </section>
-    ${listaEntrevistas}
-    ${historico}`;
-}
-
-async function carregarSolicitacoesVoluntarios() {
-  try {
-    const dados = await buscarJSON("/volunteer-requests");
-    dadosMaster.volunteerRequests = Array.isArray(dados)
-      ? dados
-      : (dados?.requests || dados?.volunteer_requests || []);
-    atualizarContadorSolicitacoesVoluntarios();
-    if (paginaAtual === "voluntarios") renderPaginaAtual();
-  } catch (erro) {
-    console.error("Erro ao carregar solicitações de voluntários:", erro);
-    alert(erro.message || "Não foi possível carregar as solicitações de voluntários.");
-  }
-}
-
-async function decidirSolicitacaoVoluntario(id, status) {
-  if (!id) return;
-
-  const item = (dadosMaster.volunteerRequests || []).find(x => String(x._id?.$oid || x._id || x.id || '') === String(id));
-  const nome = item?.name || item?.nome || 'esta pessoa';
-
-  const mensagens = {
-    first_phase: `Aprovar ${nome} para a primeira fase? A pessoa será encaminhada para entrevista e ainda NÃO terá uma conta de voluntário.`,
-    approved: `A entrevista de ${nome} foi concluída e você confirma a aprovação final como voluntário(a)?`,
-    rejected: `Tem certeza que deseja recusar ${nome}?`,
-  };
-
-  const ok = await confirmarAcaoCustom(mensagens[status] || 'Tem certeza que deseja continuar?', status === 'rejected' ? 'Recusar' : 'Continuar');
-  if (!ok) return;
-
-  try {
-    const resposta = await fetch(`${API_URL}/volunteer-requests/${encodeURIComponent(id)}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-      body: JSON.stringify({ status })
-    });
-
-    const resultado = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(resultado.message || resultado.error || 'Não foi possível atualizar a solicitação.');
-
-    await carregarSolicitacoesVoluntarios();
-
-    if (status === 'first_phase') {
-      if (resultado.whatsapp_sent) {
-        mostrarToastCustom(`${nome} passou para a primeira fase. A mensagem foi enviada automaticamente pelo WhatsApp.`);
-      } else {
-        mostrarToastCustom(`${nome} passou para a primeira fase. O WhatsApp ainda não está configurado para envio automático.`, 'error');
-      }
-    } else if (status === 'approved') {
-      if (resultado.whatsapp_sent) {
-        mostrarToastCustom(`${nome} foi aprovado(a), a conta foi criada e a mensagem de primeiro acesso foi enviada pelo WhatsApp.`);
-      } else {
-        mostrarToastCustom(`${nome} foi aprovado(a) e a conta foi criada, mas o WhatsApp ainda não está configurado para envio automático.`, 'error');
-      }
-    } else {
-      mostrarToastCustom(`${nome} foi recusado(a).`);
-    }
-  } catch (erro) {
-    console.error('Erro ao decidir solicitação de voluntário:', erro);
-    mostrarToastCustom(erro.message || 'Não foi possível atualizar a solicitação.', 'error');
-  }
-}
-
-async function reverterSolicitacaoVoluntario(id) {
-  const item = (dadosMaster.volunteerRequests || []).find(x => String(x._id?.$oid || x._id || x.id || '') === String(id));
-  const nome = item?.name || item?.nome || 'esta pessoa';
-  const ok = await confirmarAcaoCustom(`Reverter a recusa de ${nome}? A solicitação voltará para pendente.`, 'Reverter');
-  if (!ok) return;
-
-  try {
-    const resposta = await fetch(`${API_URL}/volunteer-requests/${encodeURIComponent(id)}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-      body: JSON.stringify({ status: 'revert' })
-    });
-    const resultado = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(resultado.message || resultado.error || 'Não foi possível reverter a solicitação.');
-    await carregarSolicitacoesVoluntarios();
-    mostrarToastCustom(`${nome} voltou para a lista de solicitações pendentes.`);
-  } catch (erro) {
-    mostrarToastCustom(erro.message || 'Não foi possível reverter a solicitação.', 'error');
-  }
-}
-
-function renderHistorico() {
-  return `<header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Atividades</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Histórico</h2><p class="text-on-surface-variant mt-1">O backend atual não possui uma rota de histórico.</p></header><section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-lg">${cardVazio("Nenhum histórico é exibido sem dados vindos do banco.")}</section>`;
-}
-
-const paginas = {
-  inicio: renderInicio,
-  animais: renderAnimais,
-  agenda: renderAgenda,
-  adocao: renderAdocoes,
-  voluntarios: renderVoluntarios,
-  doacoes: renderDoacoes,
-  eventos: renderEventos,
-  historico: renderHistorico,
-  config: () => `
-    <header class="mb-lg">
-      <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Conta e segurança</p>
-      <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Configurações</h2>
-      <p class="text-on-surface-variant mt-1">Gerencie seu perfil, segurança e preferências da conta.</p>
-    </header>
-
-    <div id="configFeedback" class="hidden mb-md rounded-xl px-4 py-3 text-sm font-semibold"></div>
-
-    <div class="space-y-lg">
-      <section class="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
-        <div class="flex flex-col md:flex-row md:items-center gap-lg">
-          <div class="flex items-center gap-md">
-            <div class="w-24 h-24 rounded-full overflow-hidden bg-surface-container shrink-0 ring-4 ring-[#F1EAF2]">
-              <img id="configFotoPreview" data-master-photo src="assets/logo-footer.png" alt="Foto de perfil" class="w-full h-full object-cover">
-            </div>
-            <div>
-              <h3 class="font-headline-md text-headline-md font-bold">Foto de perfil</h3>
-              <p class="text-sm text-on-surface-variant mt-1">Adicione, troque ou remova sua foto.</p>
-              <div class="flex flex-wrap gap-2 mt-3">
-                <label for="configFotoInput" class="inline-flex items-center gap-2 cursor-pointer rounded-full bg-[#5F376E] text-white px-4 py-2 font-semibold text-sm hover:bg-[#472056] transition">
-                  <span class="material-symbols-outlined text-lg">photo_camera</span>
-                  Escolher foto
-                </label>
-                <button type="button" onclick="removerFotoPerfil()" class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-4 py-2 font-semibold text-sm text-gray-700 hover:bg-gray-50 transition">
-                  <span class="material-symbols-outlined text-lg">delete</span>
-                  Remover
-                </button>
-              </div>
-              <input id="configFotoInput" type="file" accept="image/png,image/jpeg,image/webp" class="hidden" onchange="selecionarFotoPerfil(this)">
-              <p class="text-xs text-on-surface-variant mt-2">JPG, PNG ou WebP. A imagem será reduzida automaticamente.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
-        <div class="mb-md">
-          <h3 class="font-headline-md text-headline-md font-bold">Dados da conta</h3>
-          <p class="text-sm text-on-surface-variant mt-1">Atualize as informações usadas no seu perfil.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-          <div>
-            <label for="configNome" class="block text-sm font-semibold text-gray-700 mb-1">Nome</label>
-            <input id="configNome" type="text" autocomplete="name" class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]" placeholder="Seu nome">
-          </div>
-          <div>
-            <label for="configEmail" class="block text-sm font-semibold text-gray-700 mb-1">E-mail</label>
-            <input id="configEmail" type="email" autocomplete="email" class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]" placeholder="seu@email.com">
-          </div>
-        </div>
-        <button type="button" onclick="salvarDadosPerfil()" class="mt-5 inline-flex items-center gap-2 rounded-full bg-[#5F376E] text-white px-5 py-3 font-semibold hover:bg-[#472056] transition">
-          <span class="material-symbols-outlined">save</span>
-          Salvar alterações
-        </button>
-      </section>
-
-      <section class="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
-        <div class="mb-md">
-          <h3 class="font-headline-md text-headline-md font-bold">Segurança</h3>
-          <p class="text-sm text-on-surface-variant mt-1">Troque sua senha sempre que achar necessário.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
-          <div><label for="senhaAtualConfig" class="block text-sm font-semibold text-gray-700 mb-1">Senha atual</label><input id="senhaAtualConfig" type="password" autocomplete="current-password" class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"></div>
-          <div><label for="novaSenhaConfig" class="block text-sm font-semibold text-gray-700 mb-1">Nova senha</label><input id="novaSenhaConfig" type="password" autocomplete="new-password" minlength="8" class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"></div>
-          <div><label for="confirmaSenhaConfig" class="block text-sm font-semibold text-gray-700 mb-1">Confirmar nova senha</label><input id="confirmaSenhaConfig" type="password" autocomplete="new-password" minlength="8" class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"></div>
-        </div>
-        <button type="button" onclick="alterarSenhaPerfil()" class="mt-5 inline-flex items-center gap-2 rounded-full border border-[#5F376E] text-[#5F376E] px-5 py-3 font-semibold hover:bg-[#F8F1F9] transition">
-          <span class="material-symbols-outlined">lock_reset</span>
-          Alterar senha
-        </button>
-      </section>
-
-      <section class="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
-        <div class="mb-md">
-          <h3 class="font-headline-md text-headline-md font-bold">Sessão</h3>
-          <p class="text-sm text-on-surface-variant mt-1">Encerre o acesso atual neste dispositivo.</p>
-        </div>
-        <button type="button" onclick="sairDaConta()" class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-5 py-3 font-semibold text-gray-700 hover:bg-gray-50 transition">
-          <span class="material-symbols-outlined">logout</span>
-          Sair da conta
-        </button>
-      </section>
-
-      <section class="rounded-xl p-md md:p-lg shadow-md border border-red-200 bg-red-50">
-        <div class="flex items-start gap-md">
-          <span class="material-symbols-outlined text-red-600 text-3xl">warning</span>
-          <div class="flex-1">
-            <h3 class="font-headline-md text-headline-md font-bold text-red-800">Zona de perigo</h3>
-            <p class="text-sm text-red-700 mt-1">Excluir a conta é permanente. A ação deve exigir confirmação e não pode ser desfeita.</p>
-            <button type="button" onclick="abrirExclusaoConta()" class="mt-4 inline-flex items-center gap-2 rounded-full bg-red-600 text-white px-5 py-3 font-semibold hover:bg-red-700 transition">
-              <span class="material-symbols-outlined">delete_forever</span>
-              Excluir minha conta
-            </button>
-          </div>
-        </div>
-      </section>
-    </div>
-  `
-};
-
+/* ============================================================
+   CONFIGURAÇÃO
+   ============================================================ */
+const API = "/api";
+
+const PAGINAS = [
+  { id: "inicio",      nome: "Visão geral",  curto: "Início",   icone: "dashboard" },
+  { id: "animais",     nome: "Animais",      curto: "Animais",  icone: "pets" },
+  { id: "adocoes",     nome: "Pedidos",      curto: "Pedidos",  icone: "family_restroom" },
+  { id: "adotados",    nome: "Adotados",     curto: "Adotados", icone: "favorite" },
+  { id: "voluntarios", nome: "Voluntários",  curto: "Equipe",   icone: "volunteer_activism" },
+  { id: "eventos",     nome: "Eventos",      curto: "Eventos",  icone: "event" }
+];
+
+const dados = { user: null, animais: [], adocoes: [], voluntarios: [], eventos: [] };
 let paginaAtual = "inicio";
 
-function mostrarFeedbackConfig(mensagem, sucesso = true) {
-  const el = document.getElementById("configFeedback");
-  if (!el) return;
-  el.textContent = mensagem;
-  el.className = `mb-md rounded-xl px-4 py-3 text-sm font-semibold ${sucesso ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`;
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
 }
 
-function preencherConfiguracoes() {
-  const user = dadosMaster.user || {};
-  const nome = user.name || user.nome || "";
-  const email = user.email || "";
-  const foto = user.profile_photo || user.profilePhoto || "assets/logo-footer.png";
-  const nomeInput = document.getElementById("configNome");
-  const emailInput = document.getElementById("configEmail");
-  const fotoPreview = document.getElementById("configFotoPreview");
-  if (nomeInput) nomeInput.value = nome;
-  if (emailInput) emailInput.value = email;
-  if (fotoPreview) fotoPreview.src = foto;
+function aviso(texto, erro = false) {
+  const t = $("toast");
+  t.textContent = texto;
+  t.style.background = erro ? "#b42318" : "#472056";
+  t.classList.remove("oculto");
+  clearTimeout(aviso.timer);
+  aviso.timer = setTimeout(() => t.classList.add("oculto"), 3200);
 }
 
-async function arquivoImagemComprimida(file) {
-  if (!file) return "";
-  if (!file.type.startsWith("image/")) {
-    throw new Error("Selecione uma imagem válida.");
-  }
-  if (file.size > 8 * 1024 * 1024) {
-    throw new Error("A foto deve ter no máximo 8 MB.");
-  }
+function abrirModal(id) { $(id).classList.replace("hidden", "flex"); }
+function fecharModal(id) { $(id).classList.replace("flex", "hidden"); }
 
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      const img = new Image();
-
-      img.onload = () => {
-        const max = 512;
-        let width = img.naturalWidth || img.width;
-        let height = img.naturalHeight || img.height;
-
-        if (!width || !height) {
-          reject(new Error("Não foi possível identificar o tamanho da imagem."));
-          return;
-        }
-
-        if (width > max || height > max) {
-          if (width >= height) {
-            height = Math.round((height * max) / width);
-            width = max;
-          } else {
-            width = Math.round((width * max) / height);
-            height = max;
-          }
-        }
-
-        const canvas = document.createElement("canvas");
-        canvas.width = Math.max(1, width);
-        canvas.height = Math.max(1, height);
-
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          reject(new Error("Não foi possível processar a imagem."));
-          return;
-        }
-
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        // Envia JPEG comprimido para ficar abaixo do limite da API.
-        const foto = canvas.toDataURL("image/jpeg", 0.75);
-        if (!foto || foto.length < 100) {
-          reject(new Error("Não foi possível gerar a foto."));
-          return;
-        }
-
-        resolve(foto);
-      };
-
-      img.onerror = () => reject(new Error("Não foi possível abrir essa imagem."));
-      img.src = reader.result;
-    };
-
-    reader.onerror = () => reject(new Error("Não foi possível ler a imagem."));
-    reader.readAsDataURL(file);
+function confirmar(texto) {
+  return new Promise((resolve) => {
+    $("confirmarTexto").textContent = texto;
+    abrirModal("modalConfirmar");
+    const fim = (r) => { fecharModal("modalConfirmar"); resolve(r); };
+    $("confirmarSim").onclick = () => fim(true);
+    $("confirmarNao").onclick = () => fim(false);
   });
 }
 
-async function selecionarFotoPerfil(input) {
-  try {
-    const foto = await arquivoImagemComprimida(input?.files?.[0]);
-    if (!foto) return;
-    const preview = document.getElementById("configFotoPreview");
-    if (preview) preview.src = foto;
-
-    const resposta = await fetch(`${API_URL}/auth/master-profile`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({ profile_photo: foto })
-    });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível salvar a foto.");
-    dadosMaster.user = {
-      ...(dadosMaster.user || {}),
-      profile_photo: foto,
-      profilePhoto: foto,
-      ...(dados.user || {})
-    };
-    atualizarNomeUsuario();
-    const previewAtualizado = document.getElementById("configFotoPreview");
-    if (previewAtualizado) previewAtualizado.src = foto;
-    mostrarFeedbackConfig("Foto de perfil atualizada com sucesso.");
-  } catch (erro) {
-    mostrarFeedbackConfig(erro.message || "Não foi possível atualizar a foto.", false);
-  } finally {
-    if (input) input.value = "";
-  }
+function dataBR(iso) {
+  if (!iso) return "—";
+  const [a, m, d] = String(iso).slice(0, 10).split("-");
+  return d ? `${d}/${m}/${a}` : iso;
 }
 
-async function removerFotoPerfil() {
-  if (!confirm("Remover sua foto de perfil?")) return;
-  try {
-    const resposta = await fetch(`${API_URL}/auth/master-profile`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({ profile_photo: null })
-    });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível remover a foto.");
-    dadosMaster.user = dados.user || dadosMaster.user;
-    atualizarNomeUsuario();
-    const preview = document.getElementById("configFotoPreview");
-    if (preview) preview.src = "assets/logo-footer.png";
-    mostrarFeedbackConfig("Foto de perfil removida.");
-  } catch (erro) {
-    mostrarFeedbackConfig(erro.message || "Não foi possível remover a foto.", false);
-  }
-}
-
-async function salvarDadosPerfil() {
-  const nome = document.getElementById("configNome")?.value.trim() || "";
-  const email = document.getElementById("configEmail")?.value.trim().toLowerCase() || "";
-  if (!nome) return mostrarFeedbackConfig("Informe seu nome.", false);
-  if (!email || !email.includes("@")) return mostrarFeedbackConfig("Informe um e-mail válido.", false);
-
-  try {
-    const resposta = await fetch(`${API_URL}/auth/master-profile`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({ nome, email })
-    });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível salvar os dados.");
-    dadosMaster.user = dados.user || dadosMaster.user;
-    atualizarNomeUsuario();
-    mostrarFeedbackConfig("Dados da conta atualizados.");
-  } catch (erro) {
-    mostrarFeedbackConfig(erro.message || "Não foi possível salvar os dados.", false);
-  }
-}
-
-async function alterarSenhaPerfil() {
-  const senhaAtual = document.getElementById("senhaAtualConfig")?.value || "";
-  const novaSenha = document.getElementById("novaSenhaConfig")?.value || "";
-  const confirma = document.getElementById("confirmaSenhaConfig")?.value || "";
-  if (!senhaAtual || !novaSenha || !confirma) return mostrarFeedbackConfig("Preencha todos os campos de senha.", false);
-  if (novaSenha.length < 8) return mostrarFeedbackConfig("A nova senha deve ter pelo menos 8 caracteres.", false);
-  if (novaSenha !== confirma) return mostrarFeedbackConfig("As novas senhas não coincidem.", false);
-
-  try {
-    const resposta = await fetch(`${API_URL}/auth/master-profile`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({ senhaAtual, novaSenha })
-    });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível alterar a senha.");
-    ["senhaAtualConfig", "novaSenhaConfig", "confirmaSenhaConfig"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
-    mostrarFeedbackConfig("Senha alterada com sucesso.");
-  } catch (erro) {
-    mostrarFeedbackConfig(erro.message || "Não foi possível alterar a senha.", false);
-  }
-}
-
-async function sairDaConta() {
-  try {
-    await fetch(`${API_URL}/auth/logout`, { method: "POST", credentials: "same-origin" });
-  } finally {
-    window.location.href = "login-master.html";
-  }
-}
-
-function abrirExclusaoConta() {
-  const senha = prompt("Por segurança, digite sua senha atual para confirmar a exclusão da conta:");
-  if (senha === null) return;
-  if (!senha) return alert("Digite sua senha para continuar.");
-  const confirmacao = prompt('Digite EXCLUIR para confirmar a exclusão permanente da conta:');
-  if (confirmacao !== "EXCLUIR") return alert("Exclusão cancelada.");
-  excluirContaMaster(senha);
-}
-
-async function excluirContaMaster(senhaAtual) {
-  try {
-    const resposta = await fetch(`${API_URL}/auth/master-account`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({ senhaAtual, confirmacao: "EXCLUIR" })
-    });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(dados.message || "Não foi possível excluir a conta.");
-    alert("Sua conta foi excluída.");
-    window.location.href = "login-master.html";
-  } catch (erro) {
-    alert(erro.message || "Não foi possível excluir a conta.");
-  }
-}
-
-function renderPaginaAtual() {
-  const conteudo = document.getElementById("conteudo-painel");
-  if (!conteudo) return;
-
-  const render = paginas[paginaAtual] || paginas.inicio;
-  conteudo.innerHTML = typeof render === "function" ? render() : render;
-  atualizarNomeUsuario();
-  if (paginaAtual === "config") preencherConfiguracoes();
-
-  if (paginaAtual === "eventos" && typeof renderizarEventosBarbara === "function") {
-    renderizarEventosBarbara();
-  }
-}
-
-function mostrarPagina(pagina) {
-  paginaAtual = pagina;
-  renderPaginaAtual();
-
-  document.querySelectorAll("[data-mobile-page]").forEach(item => {
-    item.classList.toggle("active", item.dataset.mobilePage === pagina);
+// Faz a chamada à API e devolve o JSON (ou lança erro com a mensagem do servidor)
+async function api(caminho, opcoes = {}) {
+  const resposta = await fetch(API + caminho, {
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json" },
+    ...opcoes
   });
-
-  document.querySelectorAll("[data-menu]").forEach(item => {
-    item.classList.remove("bg-white/20", "text-white", "font-bold");
-    item.classList.add("text-white/70");
-    if (item.dataset.menu === pagina) {
-      item.classList.remove("text-white/70");
-      item.classList.add("bg-white/20", "text-white", "font-bold");
-    }
-  });
-}
-
-function salvarDisponibilidade() {
-  const feedback = document.getElementById("feedbackDisponibilidade");
-  if (!feedback) return;
-  feedback.classList.remove("hidden");
-  setTimeout(() => feedback.classList.add("hidden"), 3000);
-}
-
-function configurarEventosDisponibilidade() {
-  document.querySelectorAll(".day-toggle").forEach(toggle => {
-    toggle.addEventListener("change", function () {
-      const row = this.closest(".availability-row");
-      if (!row) return;
-
-      row.querySelectorAll(".time-input").forEach(input => {
-        input.disabled = !this.checked;
-        input.classList.toggle("opacity-50", !this.checked);
-      });
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  mostrarPagina("inicio");
-  atualizarContadorSolicitacoesVoluntarios();
-  document.querySelectorAll("[data-mobile-page]").forEach(item => {
-    item.classList.toggle("active", item.dataset.mobilePage === "inicio");
-  });
-  configurarEventosDisponibilidade();
-  carregarDadosDoBanco().catch(erro => {
-    console.error("Erro ao carregar dados do banco:", erro);
-  });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  var sidebar = document.querySelector('[data-panel-sidebar]');
-  var trigger = document.querySelector('[data-panel-menu-toggle]');
-  if (!sidebar || !trigger) return;
-
-  var backdrop = document.createElement('div');
-  backdrop.className = 'mobile-sidebar-backdrop';
-  document.body.appendChild(backdrop);
-
-  function abrirMenu() {
-    sidebar.classList.remove('hidden');
-    sidebar.classList.add('mobile-open');
-    backdrop.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  const json = await resposta.json().catch(() => ({}));
+  if (resposta.status === 401) {
+    location.href = "login.html?next=painel-master.html";
+    throw new Error("Sessão expirada.");
   }
+  if (!resposta.ok) throw new Error(json.message || "Algo deu errado.");
+  return json;
+}
 
-  function fecharMenu() {
-    sidebar.classList.remove('mobile-open');
-    backdrop.classList.remove('open');
-    document.body.style.overflow = '';
-    if (window.innerWidth < 768) sidebar.classList.add('hidden');
-  }
+function vazio(texto) {
+  return `<div class="rounded-xl bg-white p-8 text-center text-on-surface-variant">
+    <span class="material-symbols-outlined text-4xl text-secondary">inbox</span>
+    <p class="mt-2 font-semibold">${esc(texto)}</p></div>`;
+}
 
-  trigger.addEventListener('click', function () {
-    if (sidebar.classList.contains('mobile-open')) fecharMenu();
-    else abrirMenu();
-  });
+function titulo(texto, sub, botao = "") {
+  return `<header class="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div><h1 class="text-2xl font-bold text-primary md:text-3xl">${esc(texto)}</h1>
+    ${sub ? `<p class="mt-1 text-on-surface-variant">${esc(sub)}</p>` : ""}</div>${botao}</header>`;
+}
 
-  backdrop.addEventListener('click', fecharMenu);
+function botaoPrincipal(texto, icone, acao) {
+  return `<button type="button" onclick="${acao}" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 font-semibold text-white hover:bg-primary">
+    <span class="material-symbols-outlined">${icone}</span>${esc(texto)}</button>`;
+}
 
-  document.querySelectorAll('[data-menu]').forEach(function (item) {
-    item.addEventListener('click', function () {
-      if (window.innerWidth < 768) fecharMenu();
-    });
-  });
+const STATUS_ANIMAL = {
+  "disponível": ["Disponível", "bg-green-100 text-green-800"],
+  "em adoção":  ["Em adoção", "bg-amber-100 text-amber-800"],
+  "adotado":    ["Adotado", "bg-surface-variant text-on-surface-variant"]
+};
 
-  window.addEventListener('resize', function () {
-    if (window.innerWidth >= 768) {
-      sidebar.classList.remove('hidden', 'mobile-open');
-      backdrop.classList.remove('open');
-      document.body.style.overflow = '';
-    } else if (!sidebar.classList.contains('mobile-open')) {
-      sidebar.classList.add('hidden');
-    }
-  });
-});
-</script>
+/* ============================================================
+   CARREGAR DADOS
+   ============================================================ */
+async function carregarTudo() {
+  const [animais, adocoes, voluntarios, eventos] = await Promise.allSettled([
+    api("/animals"), api("/applications"), api("/volunteer-requests"), api("/events")
+  ]);
+  const lista = (r) => (r.status === "fulfilled" && Array.isArray(r.value) ? r.value : []);
+  dados.animais = lista(animais);
+  dados.adocoes = lista(adocoes);
+  dados.voluntarios = lista(voluntarios);
+  dados.eventos = lista(eventos);
+  desenhar();
+}
 
-<!-- MODAL EDITAR ANIMAL -->
-<div id="modalEditarAnimal" class="fixed inset-0 hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4" style="z-index:999999;">
-  <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
-    <button type="button" onclick="fecharModalEditarAnimal()" class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-2xl font-bold text-gray-600 hover:bg-gray-200" aria-label="Fechar">×</button>
-    <div class="pr-10">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-full bg-secondary-container text-primary flex items-center justify-center">
-          <span class="material-symbols-outlined">edit</span>
-        </div>
-        <div>
-          <p class="text-sm font-semibold text-secondary uppercase">Meus animais</p>
-          <h2 class="text-2xl font-bold text-gray-800">Editar informações</h2>
-        </div>
+/* ============================================================
+   PÁGINAS
+   ============================================================ */
+function paginaInicio() {
+  const pendentes = dados.voluntarios.filter((v) => v.status === "pending").length;
+  const disponiveis = dados.animais.filter((a) => (a.status || "disponível") === "disponível").length;
+  const proximos = dados.eventos.filter((e) => (e.date || "") >= new Date().toISOString().slice(0, 10));
+
+  const card = (pagina, numero, texto, icone, destaque = false) => `
+    <button type="button" data-ir="${pagina}" class="rounded-2xl p-5 text-left shadow-sm transition hover:shadow-md ${destaque ? "bg-primary-container text-white" : "bg-white"}">
+      <span class="material-symbols-outlined ${destaque ? "" : "text-secondary"}">${icone}</span>
+      <p class="mt-3 text-3xl font-bold">${numero}</p>
+      <p class="text-sm ${destaque ? "text-white/80" : "text-on-surface-variant"}">${texto}</p>
+    </button>`;
+
+  return titulo(`Olá, ${dados.user?.name || dados.user?.nome || ""}!`, "Resumo do projeto.") + `
+    <section class="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+      ${card("animais", disponiveis, "animais disponíveis", "pets")}
+      ${card("adotados", adotadosDoMes().length, "adotados este mês", "favorite")}
+      ${card("voluntarios", pendentes, "voluntários aguardando", "volunteer_activism", pendentes > 0)}
+      ${card("eventos", proximos.length, "próximos eventos", "event")}
+    </section>
+
+    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 text-lg font-bold text-primary">Atalhos</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a href="adicionar-animal.html" class="flex items-center gap-3 rounded-xl bg-surface-low p-4 font-semibold hover:bg-primary-fixed">
+          <span class="material-symbols-outlined text-primary">add_circle</span> Cadastrar animal
+        </a>
+        <button type="button" onclick="abrirModal('modalEvento')" class="flex items-center gap-3 rounded-xl bg-surface-low p-4 text-left font-semibold hover:bg-primary-fixed">
+          <span class="material-symbols-outlined text-primary">event</span> Criar evento
+        </button>
       </div>
-      <p id="editarAnimalNome" class="mt-3 text-sm text-gray-600"></p>
-    </div>
-
-    <input id="editarAnimalId" type="hidden">
-
-    <label for="editarAnimalResponsavel" class="block mt-5 text-sm font-semibold text-gray-700">Pessoa responsável *</label>
-    <input id="editarAnimalResponsavel" type="text" maxlength="120" placeholder="Ex.: Bárbara ou Tainá" class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]">
-
-    <label for="editarAnimalDescricao" class="block mt-4 text-sm font-semibold text-gray-700">Descrição</label>
-    <textarea id="editarAnimalDescricao" rows="4" maxlength="1000" placeholder="Informe características ou observações importantes sobre o animal." class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"></textarea>
-
-    <label class="mt-4 flex items-center justify-between gap-4 rounded-xl border border-gray-200 p-4 cursor-pointer hover:bg-gray-50">
-      <div>
-        <p class="font-semibold text-gray-800">Animal PCD</p>
-        <p class="text-sm text-gray-500 mt-1">Marque esta opção para identificar o animal no futuro usando o filtro PCD.</p>
-      </div>
-      <input id="editarAnimalPcd" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[#5F376E] focus:ring-[#5F376E]">
-    </label>
-
-    <div id="erroEditarAnimal" class="hidden mt-4 rounded-xl bg-red-50 border border-red-200 text-red-700 p-4 text-sm"></div>
-
-    <button type="button" id="btnSalvarEdicaoAnimal" onclick="salvarEdicaoAnimal()" class="mt-5 w-full rounded-full bg-[#5F376E] py-3 font-semibold text-white hover:bg-[#472056] transition flex items-center justify-center gap-2">
-      <span class="material-symbols-outlined">save</span>
-      Salvar alterações
-    </button>
-  </div>
-</div>
-
-<!-- MODAL DE RESGATE DE VALOR — DEMONSTRAÇÃO -->
-<div id="modalResgate" class="fixed inset-0 hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4" style="z-index:999999;">
-  <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-    <button type="button" onclick="fecharModalResgate()" class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-2xl font-bold text-gray-600 hover:bg-gray-200">×</button>
-
-    <div class="pt-2">
-      <span class="material-symbols-outlined text-4xl text-primary">payments</span>
-      <h2 class="mt-2 text-2xl font-bold text-gray-800">Resgatar valor</h2>
-      <p class="mt-2 text-sm leading-6 text-gray-600">
-        O resgate será feito pela responsável pelo projeto. Informe o valor e a chave Pix para receber.
-      </p>
-    </div>
-
-    <div class="mt-5 rounded-xl bg-gray-100 p-4">
-      <p class="text-xs text-gray-500">Saldo disponível</p>
-      <p class="text-2xl font-bold text-gray-800">Indisponível</p>
-    </div>
-
-    <label class="block mt-4 text-sm font-semibold text-gray-700">Valor do resgate</label>
-    <input id="valorResgate" type="number" min="1" max="0" disabled step="0.01" placeholder="R$ 0,00"
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-primary focus:ring-primary">
-
-    <label class="block mt-4 text-sm font-semibold text-gray-700">Chave Pix para receber</label>
-    <input id="pixResgate" type="text" placeholder="Digite a chave Pix"
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-primary focus:ring-primary">
-
-    <button type="button" onclick="confirmarResgate()" class="mt-5 w-full rounded-full bg-gray-400 py-3 font-semibold text-white cursor-not-allowed">
-      Indisponível sem API de doações
-    </button>
-
-    <p class="mt-3 text-center text-xs text-gray-400">
-      Nesta versão, o resgate é apenas registrado no sistema. Para transferir dinheiro de verdade, será necessário conectar um provedor de pagamentos/banco.
-    </p>
-  </div>
-</div>
-
-<script>
-function abrirModalResgate() {
-  const modal = document.getElementById("modalResgate");
-  if (!modal) return;
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
+    </section>`;
 }
 
-function fecharModalResgate() {
-  const modal = document.getElementById("modalResgate");
-  if (!modal) return;
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
-}
-
-function confirmarResgate() {
-  alert("O backend atual não possui uma API de doações. Nenhum valor foi movimentado.");
-}
-</script>
-
-
-<script>
-function abrirModalEditarAnimal(id) {
-  const animal = dadosMaster.animals.find(item => String(item.id || item._id || "") === String(id));
-  if (!animal) {
-    alert("Animal não encontrado.");
-    return;
-  }
-
-  document.getElementById("editarAnimalId").value = String(animal.id || animal._id || "");
-  document.getElementById("editarAnimalNome").textContent = `Editando: ${animal.name || animal.nome || "Animal sem nome"}`;
-  document.getElementById("editarAnimalResponsavel").value = animal.responsible_person || animal.responsible || animal.responsavel || "";
-  document.getElementById("editarAnimalDescricao").value = animal.description || animal.descricao || "";
-  document.getElementById("editarAnimalPcd").checked = Boolean(animal.pcd);
-  document.getElementById("erroEditarAnimal").classList.add("hidden");
-  document.getElementById("modalEditarAnimal").classList.remove("hidden");
-  document.getElementById("modalEditarAnimal").classList.add("flex");
-}
-
-function fecharModalEditarAnimal() {
-  const modal = document.getElementById("modalEditarAnimal");
-  if (!modal) return;
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
-}
-
-async function salvarEdicaoAnimal() {
-  const id = document.getElementById("editarAnimalId").value;
-  const responsavel = document.getElementById("editarAnimalResponsavel").value.trim();
-  const descricao = document.getElementById("editarAnimalDescricao").value.trim();
-  const pcd = document.getElementById("editarAnimalPcd").checked;
-  const erro = document.getElementById("erroEditarAnimal");
-  const btn = document.getElementById("btnSalvarEdicaoAnimal");
-
-  erro.classList.add("hidden");
-  erro.textContent = "";
-
-  if (!id) {
-    erro.textContent = "Não foi possível identificar o animal.";
-    erro.classList.remove("hidden");
-    return;
-  }
-
-  if (!responsavel) {
-    erro.textContent = "Informe a pessoa responsável pelo animal.";
-    erro.classList.remove("hidden");
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span> Salvando...`;
-
-  try {
-    const resposta = await fetch(`${API_URL}/animals/${encodeURIComponent(id)}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({
-        responsible_person: responsavel,
-        description: descricao,
-        pcd
-      })
-    });
-
-    const resultado = await resposta.json().catch(() => ({}));
-
-    if (!resposta.ok) {
-      throw new Error(resultado.message || resultado.error || "Não foi possível atualizar o animal.");
-    }
-
-    const atualizado = resultado.animal || resultado;
-    const index = dadosMaster.animals.findIndex(item => String(item.id || item._id || "") === String(id));
-    if (index >= 0) {
-      dadosMaster.animals[index] = { ...dadosMaster.animals[index], ...atualizado, responsible_person: responsavel, description: descricao, pcd };
-    }
-
-    fecharModalEditarAnimal();
-    renderPaginaAtual();
-  } catch (error) {
-    console.error("Erro ao editar animal:", error);
-    erro.textContent = error.message || "Não foi possível atualizar o animal.";
-    erro.classList.remove("hidden");
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = `<span class="material-symbols-outlined">save</span> Salvar alterações`;
-  }
-}
-</script>
-
-<!-- MODAL CRIAR EVENTO - MASTER -->
-<div
-  id="modalEvento"
-  class="fixed inset-0 hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4"
-  style="z-index:999999;"
->
-  <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
-
-    <button
-      type="button"
-      onclick="fecharModalEvento()"
-      class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-2xl font-bold text-gray-600 hover:bg-gray-200"
-      aria-label="Fechar"
-    >×</button>
-
-    <div class="pt-2 pr-10">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-full bg-secondary-container text-primary flex items-center justify-center">
-          <span class="material-symbols-outlined">event</span>
-        </div>
-        <div>
-          <p class="text-sm font-semibold text-secondary uppercase">Administração</p>
-          <h2 class="text-2xl font-bold text-gray-800">Criar novo evento</h2>
-        </div>
-      </div>
-
-      <p class="mt-3 text-sm leading-6 text-gray-600">
-        Cadastre um evento para que os voluntários possam visualizar as
-        informações e solicitar participação com os animais sob sua
-        responsabilidade.
-      </p>
-    </div>
-
-    <label for="eventoNome" class="block mt-6 text-sm font-semibold text-gray-700">
-      Nome do evento *
-    </label>
-    <input
-      id="eventoNome"
-      type="text"
-      maxlength="120"
-      placeholder="Ex.: Evento de Adoção - Parque Central"
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-    >
-
-    <label for="eventoDescricao" class="block mt-4 text-sm font-semibold text-gray-700">
-      Descrição do evento *
-    </label>
-    <textarea
-      id="eventoDescricao"
-      rows="4"
-      maxlength="1000"
-      placeholder="Explique o objetivo do evento e o que os voluntários precisam saber."
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-    ></textarea>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-      <div>
-        <label for="eventoData" class="block text-sm font-semibold text-gray-700">Data *</label>
-        <input
-          id="eventoData"
-          type="date"
-          class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-        >
-      </div>
-
-      <div>
-        <label for="eventoHoraInicio" class="block text-sm font-semibold text-gray-700">Início *</label>
-        <input
-          id="eventoHoraInicio"
-          type="time"
-          class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-        >
-      </div>
-
-      <div>
-        <label for="eventoHoraFim" class="block text-sm font-semibold text-gray-700">Término *</label>
-        <input
-          id="eventoHoraFim"
-          type="time"
-          class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-        >
-      </div>
-    </div>
-
-    <label for="eventoLocal" class="block mt-4 text-sm font-semibold text-gray-700">
-      Local *
-    </label>
-    <input
-      id="eventoLocal"
-      type="text"
-      maxlength="200"
-      placeholder="Nome do local ou endereço"
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-    >
-
-    <label for="eventoEspaco" class="block mt-4 text-sm font-semibold text-gray-700">
-      Descrição do espaço *
-    </label>
-    <textarea
-      id="eventoEspaco"
-      rows="3"
-      maxlength="600"
-      placeholder="Descreva o espaço disponível, área externa, estrutura, regras etc."
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-    ></textarea>
-
-    <div class="mt-5">
-      <h3 class="font-semibold text-gray-800">Limites de participação</h3>
-      <p class="text-sm text-gray-500 mt-1">
-        Esses limites serão usados para controlar as solicitações dos voluntários.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
-      <div>
-        <label for="eventoLimiteAnimais" class="block text-sm font-semibold text-gray-700">
-          Máx. de animais *
-        </label>
-        <input
-          id="eventoLimiteAnimais"
-          type="number"
-          min="1"
-          max="100"
-          value="10"
-          class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-        >
-      </div>
-
-      <div>
-        <label for="eventoLimiteVoluntarios" class="block text-sm font-semibold text-gray-700">
-          Máx. de voluntários *
-        </label>
-        <input
-          id="eventoLimiteVoluntarios"
-          type="number"
-          min="1"
-          max="100"
-          value="6"
-          class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-        >
-      </div>
-
-      <div>
-        <label for="eventoLimiteEspaco" class="block text-sm font-semibold text-gray-700">
-          Capacidade do espaço *
-        </label>
-        <input
-          id="eventoLimiteEspaco"
-          type="number"
-          min="1"
-          max="500"
-          value="16"
-          class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-        >
-      </div>
-    </div>
-
-    <div class="mt-5 rounded-xl bg-secondary-container/60 p-4">
-      <div class="flex items-start gap-3">
-        <span class="material-symbols-outlined text-primary">info</span>
-        <p class="text-sm leading-5 text-gray-700">
-          Os voluntários poderão solicitar participação com um animal.
-          A participação só será confirmada após aprovação da responsável
-          pelo projeto e de acordo com a disponibilidade do evento.
-        </p>
-      </div>
-    </div>
-
-    <div
-      id="erroEvento"
-      class="hidden mt-4 rounded-xl bg-red-50 border border-red-200 text-red-700 p-4 text-sm"
-    ></div>
-
-    <button
-      type="button"
-      id="btnSalvarEvento"
-      onclick="salvarEvento()"
-      class="mt-5 w-full rounded-full bg-[#5F376E] py-3 font-semibold text-white hover:bg-[#472056] transition flex items-center justify-center gap-2"
-    >
-      <span class="material-symbols-outlined">publish</span>
-      Publicar evento
-    </button>
-  </div>
-</div>
-
-<script>
-/*
- * EVENTOS - CONTA MASTER / BÁRBARA
- *
- * O evento é criado com o ID real da conta Master:
- * 6a7bbb49008e7892883394fc
- *
- * A API deve disponibilizar:
- * GET    /api/events
- * POST   /api/events
- * DELETE /api/events/:id
- *
- * Se seu backend estiver em outro endereço, altere API_URL.
- */
-
-const BARBARA_ID = "6a7bbb49008e7892883394fc";
-const API_URL = "/api";
-
-function abrirModalEvento() {
-  const modal = document.getElementById("modalEvento");
-  if (!modal) return;
-
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-  limparErroEvento();
-}
-
-function fecharModalEvento() {
-  const modal = document.getElementById("modalEvento");
-  if (!modal) return;
-
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
-  limparErroEvento();
-}
-
-function limparErroEvento() {
-  const erro = document.getElementById("erroEvento");
-  if (!erro) return;
-
-  erro.textContent = "";
-  erro.classList.add("hidden");
-}
-
-function mostrarErroEvento(mensagem) {
-  const erro = document.getElementById("erroEvento");
-  if (!erro) return;
-
-  erro.textContent = mensagem;
-  erro.classList.remove("hidden");
-}
-
-function formatarDataEvento(data) {
-  if (!data) return "Data não informada";
-
-  const partes = data.split("-");
-  if (partes.length !== 3) return data;
-
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
-}
-
-function escaparHTML(valor) {
-  if (valor === null || valor === undefined) return "";
-
-  return String(valor)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function formatarHorarioEvento(evento) {
-  if (evento.startTime && evento.endTime) {
-    return `${evento.startTime} às ${evento.endTime}`;
-  }
-
-  if (evento.horario) {
-    return evento.horario;
-  }
-
-  return "Horário não informado";
-}
-
-async function obterEventosMaster() {
-  const resposta = await fetch(`${API_URL}/events`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
-
-  if (!resposta.ok) {
-    throw new Error("Não foi possível carregar os eventos.");
-  }
-
-  const dados = await resposta.json();
-
-  if (Array.isArray(dados)) return dados;
-  if (Array.isArray(dados.events)) return dados.events;
-
-  return [];
-}
-
-async function renderizarEventosBarbara() {
-  const container = document.getElementById("listaEventosBarbara");
-  if (!container) return;
-
-  container.innerHTML = `
-    <div class="md:col-span-2 p-8 rounded-xl bg-surface-container-low text-center">
-      <span class="material-symbols-outlined text-4xl text-primary">
-        sync
-      </span>
-      <p class="font-bold mt-2">Carregando eventos...</p>
-    </div>
-  `;
-
-  try {
-    const lista = await obterEventosMaster();
-
-    if (!lista.length) {
-      container.innerHTML = `
-        <div class="md:col-span-2 p-8 rounded-xl bg-surface-container-low text-center">
-          <span class="material-symbols-outlined text-4xl text-primary">
-            event
-          </span>
-          <p class="font-bold mt-2">Nenhum evento cadastrado</p>
-          <p class="text-sm text-on-surface-variant mt-1">
-            Clique em "Criar evento" para cadastrar o primeiro evento.
-          </p>
-        </div>
-      `;
-      return;
-    }
-
-    container.innerHTML = lista.map(evento => {
-      const titulo = evento.title || evento.nome || "Evento sem título";
-      const descricao = evento.description || evento.obs || "";
-      const data = evento.date || evento.data || "";
-      const local = evento.location || evento.local || "Local não informado";
-      const horario = formatarHorarioEvento(evento);
-
-      const limiteAnimais = evento.animalLimit ?? "-";
-      const limiteVoluntarios = evento.volunteerLimit ?? "-";
-      const limiteEspaco = evento.spaceLimit ?? "-";
-
-      const idEvento =
-        evento._id?.$oid ||
-        evento._id ||
-        evento.id ||
-        "";
-
-      return `
-        <article class="bg-surface-container-low rounded-xl p-md border border-surface-variant shadow-sm">
-
-          <div class="flex items-start justify-between gap-sm">
-            <div>
-              <span class="inline-flex px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold mb-2">
-                Evento publicado
-              </span>
-
-              <h3 class="font-headline-md text-headline-md text-primary">
-                ${escaparHTML(titulo)}
-              </h3>
-
-              <p class="text-sm text-on-surface-variant mt-1">
-                ${escaparHTML(formatarDataEvento(data))}
-                •
-                ${escaparHTML(horario)}
-              </p>
+function paginaAnimais() {
+  const botao = `<a href="adicionar-animal.html" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 font-semibold text-white hover:bg-primary">
+    <span class="material-symbols-outlined">add</span>Cadastrar animal</a>`;
+
+  const ativos = dados.animais.filter((a) => a.status !== "adotado");
+  const qtdAdotados = dados.animais.length - ativos.length;
+  const sub = `${ativos.length} para adoção` + (qtdAdotados ? ` • ${qtdAdotados} já adotado(s)` : "");
+
+  if (!ativos.length) return titulo("Animais", sub, botao) + vazio("Nenhum animal para adoção no momento.");
+
+  return titulo("Animais", sub, botao) + `
+    <div class="grid gap-3 md:grid-cols-2">
+      ${ativos.map((a) => {
+        const [rotulo, cor] = STATUS_ANIMAL[a.status] || STATUS_ANIMAL["disponível"];
+        return `<article class="flex gap-4 rounded-2xl bg-white p-4 shadow-sm">
+          <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-20 w-20 shrink-0 rounded-xl bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="truncate font-bold text-primary">${esc(a.name || "Sem nome")}</h3>
+              <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
             </div>
-
-            <span class="material-symbols-outlined text-primary">
-              event
-            </span>
-          </div>
-
-          <div class="mt-md p-md rounded-lg bg-surface-container-lowest">
-            <div class="flex items-start gap-2">
-              <span class="material-symbols-outlined text-primary">
-                location_on
-              </span>
-
-              <div>
-                <p class="font-semibold text-sm">Local</p>
-                <p class="text-sm text-on-surface-variant mt-1">
-                  ${escaparHTML(local)}
-                </p>
-              </div>
+            <p class="text-sm text-on-surface-variant">${esc([a.species, a.age, a.sex].filter(Boolean).join(" • "))}</p>
+            ${a.responsible_person ? `<p class="mt-1 text-sm">Responsável: <strong>${esc(a.responsible_person)}</strong></p>` : ""}
+            <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold">
+              <button type="button" onclick="abrirAdocao('${esc(a.id)}')" class="text-green-700 hover:underline">Marcar como adotado</button>
+              <button type="button" onclick="editarAnimal('${esc(a.id)}')" class="text-primary hover:underline">Editar</button>
+              <a href="detalhes-animal.html?id=${encodeURIComponent(a.id)}" target="_blank" class="text-secondary hover:underline">Ver no site</a>
             </div>
           </div>
-
-          ${
-            descricao
-              ? `
-                <div class="mt-md">
-                  <p class="font-semibold text-sm">Sobre o evento</p>
-                  <p class="text-sm text-on-surface-variant mt-1 leading-6">
-                    ${escaparHTML(descricao)}
-                  </p>
-                </div>
-              `
-              : ""
-          }
-
-          <div class="grid grid-cols-3 gap-2 mt-md">
-
-            <div class="rounded-lg bg-white p-3 text-center">
-              <span class="material-symbols-outlined text-primary">pets</span>
-              <p class="text-xs text-on-surface-variant mt-1">Animais</p>
-              <p class="font-bold">${escaparHTML(limiteAnimais)}</p>
-            </div>
-
-            <div class="rounded-lg bg-white p-3 text-center">
-              <span class="material-symbols-outlined text-primary">groups</span>
-              <p class="text-xs text-on-surface-variant mt-1">Voluntários</p>
-              <p class="font-bold">${escaparHTML(limiteVoluntarios)}</p>
-            </div>
-
-            <div class="rounded-lg bg-white p-3 text-center">
-              <span class="material-symbols-outlined text-primary">meeting_room</span>
-              <p class="text-xs text-on-surface-variant mt-1">Espaço</p>
-              <p class="font-bold">${escaparHTML(limiteEspaco)}</p>
-            </div>
-
-          </div>
-
-          ${
-            evento.spaceDescription
-              ? `
-                <div class="mt-md rounded-lg bg-white p-md">
-                  <p class="font-semibold text-sm">Sobre o espaço</p>
-                  <p class="text-sm text-on-surface-variant mt-1">
-                    ${escaparHTML(evento.spaceDescription)}
-                  </p>
-                </div>
-              `
-              : ""
-          }
-
-          ${
-            idEvento
-              ? `
-                <button
-                  type="button"
-                  onclick="excluirEvento('${escaparHTML(idEvento)}')"
-                  class="mt-md text-red-600 font-semibold text-sm hover:underline"
-                >
-                  Excluir evento
-                </button>
-              `
-              : ""
-          }
-
-        </article>
-      `;
-    }).join("");
-
-  } catch (erro) {
-    console.error("Erro ao carregar eventos:", erro);
-
-    container.innerHTML = `
-      <div class="md:col-span-2 p-6 rounded-xl bg-red-50 border border-red-200">
-        <div class="flex items-start gap-3">
-          <span class="material-symbols-outlined text-red-600">error</span>
-          <div>
-            <p class="font-bold text-red-800">
-              Não foi possível carregar os eventos.
-            </p>
-            <p class="text-sm text-red-700 mt-1">
-              Verifique se o servidor da API está funcionando.
-            </p>
-          </div>
-        </div>
-      </div>
-    `;
-  }
+        </article>`;
+      }).join("")}
+    </div>`;
 }
 
-async function salvarEvento() {
-  limparErroEvento();
+/* ============================================================
+   ADOTADOS — números para saber quando e onde mais se adota
+   ============================================================ */
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
-  const nome = document.getElementById("eventoNome").value.trim();
-  const descricao = document.getElementById("eventoDescricao").value.trim();
-  const data = document.getElementById("eventoData").value;
-  const horaInicio = document.getElementById("eventoHoraInicio").value;
-  const horaFim = document.getElementById("eventoHoraFim").value;
-  const local = document.getElementById("eventoLocal").value.trim();
-  const espaco = document.getElementById("eventoEspaco").value.trim();
+const hojeISO = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+const adotados = () => dados.animais.filter((a) => a.status === "adotado");
+const adotadosDoMes = () => adotados().filter((a) => (a.adopted_at || "").slice(0, 7) === hojeISO().slice(0, 7));
 
-  const limiteAnimais =
-    Number(document.getElementById("eventoLimiteAnimais").value);
+// Barras horizontais simples: [["rótulo", número], ...]
+function barras(lista, vazioTexto = "Sem dados ainda.") {
+  const maior = Math.max(0, ...lista.map(([, n]) => n));
+  if (!maior) return `<p class="text-sm text-on-surface-variant">${vazioTexto}</p>`;
+  return `<div class="space-y-2">${lista.map(([rotulo, n]) => `
+    <div class="flex items-center gap-3 text-sm">
+      <span class="w-24 shrink-0 truncate text-on-surface-variant">${esc(rotulo)}</span>
+      <div class="h-6 flex-1 overflow-hidden rounded-full bg-surface-low">
+        <div class="h-full rounded-full bg-primary-container" style="width:${n ? Math.max(6, (n / maior) * 100) : 0}%"></div>
+      </div>
+      <span class="w-6 shrink-0 text-right font-bold text-primary">${n}</span>
+    </div>`).join("")}</div>`;
+}
 
-  const limiteVoluntarios =
-    Number(document.getElementById("eventoLimiteVoluntarios").value);
+function paginaAdotados() {
+  const lista = adotados();
+  const comData = lista.filter((a) => /^\d{4}-\d{2}-\d{2}$/.test(a.adopted_at || ""));
+  const caes = lista.filter((a) => /^c/i.test(a.species || "")).length;
+  const gatos = lista.filter((a) => /^g/i.test(a.species || "")).length;
 
-  const limiteEspaco =
-    Number(document.getElementById("eventoLimiteEspaco").value);
-
-  if (
-    !nome ||
-    !descricao ||
-    !data ||
-    !horaInicio ||
-    !horaFim ||
-    !local ||
-    !espaco
-  ) {
-    mostrarErroEvento("Preencha todos os campos obrigatórios.");
-    return;
+  // Últimos 12 meses
+  const hoje = new Date(`${hojeISO()}T12:00:00`);
+  const porMes = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
+    const chave = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    porMes.push([`${MESES[d.getMonth()]}/${String(d.getFullYear()).slice(2)}`, comData.filter((a) => a.adopted_at.startsWith(chave)).length]);
   }
 
-  if (horaFim <= horaInicio) {
-    mostrarErroEvento(
-      "O horário de término deve ser posterior ao horário de início."
-    );
-    return;
-  }
+  // Dia da semana (segunda a domingo)
+  const contaDia = [0, 0, 0, 0, 0, 0, 0];
+  comData.forEach((a) => contaDia[new Date(`${a.adopted_at}T12:00:00`).getDay()]++);
+  const porDia = [1, 2, 3, 4, 5, 6, 0].map((i) => [DIAS[i], contaDia[i]]);
 
-  if (!Number.isInteger(limiteAnimais) || limiteAnimais <= 0) {
-    mostrarErroEvento("Informe um limite válido de animais.");
-    return;
-  }
+  // Onde
+  const contaLocal = {};
+  lista.forEach((a) => { const l = (a.adoption_place || "Não informado").trim() || "Não informado"; contaLocal[l] = (contaLocal[l] || 0) + 1; });
+  const porLocal = Object.entries(contaLocal).sort((x, y) => y[1] - x[1]);
 
-  if (!Number.isInteger(limiteVoluntarios) || limiteVoluntarios <= 0) {
-    mostrarErroEvento("Informe um limite válido de voluntários.");
-    return;
-  }
+  const numero = (valor, texto, destaque = false) => `
+    <div class="rounded-2xl p-5 shadow-sm ${destaque ? "bg-primary-container text-white" : "bg-white"}">
+      <p class="text-3xl font-bold">${valor}</p>
+      <p class="text-sm ${destaque ? "text-white/80" : "text-on-surface-variant"}">${texto}</p>
+    </div>`;
 
-  if (!Number.isInteger(limiteEspaco) || limiteEspaco <= 0) {
-    mostrarErroEvento("Informe uma capacidade válida para o espaço.");
-    return;
-  }
+  const bloco = (tituloBloco, conteudo) => `
+    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 font-bold text-primary">${tituloBloco}</h2>${conteudo}
+    </section>`;
 
-  const btn = document.getElementById("btnSalvarEvento");
+  const recentes = [...lista].sort((a, b) => String(b.adopted_at || "").localeCompare(String(a.adopted_at || "")));
 
-  btn.disabled = true;
+  return titulo("Adotados", "Cada animal marcado como adotado entra aqui.") + `
+    <section class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+      ${numero(lista.length, "adotados pelo painel", true)}
+      ${numero(adotadosDoMes().length, "neste mês")}
+      ${numero(caes, "cães")}
+      ${numero(gatos, "gatos")}
+    </section>
 
-  btn.innerHTML = `
-    <span class="material-symbols-outlined animate-spin">
-      progress_activity
-    </span>
-    Publicando...
-  `;
+    <div class="grid gap-4 lg:grid-cols-2">
+      ${bloco("Adoções por mês", barras(porMes))}
+      ${bloco("Dia da semana", barras(porDia))}
+      <div class="lg:col-span-2">${bloco("Onde foram adotados", barras(porLocal, "Ainda não há locais registrados."))}</div>
+    </div>
 
-  const evento = {
-    title: nome,
-    description: descricao,
-    date: data,
-    startTime: horaInicio,
-    endTime: horaFim,
-    location: local,
-    spaceDescription: espaco,
-    animalLimit: limiteAnimais,
-    volunteerLimit: limiteVoluntarios,
-    spaceLimit: limiteEspaco,
-    status: "published",
-    createdBy: BARBARA_ID,
-    createdAt: new Date().toISOString()
+    <h2 class="mb-3 mt-8 text-lg font-bold text-primary">Histórico</h2>
+    ${recentes.length ? `<div class="divide-y divide-surface-variant rounded-2xl bg-white shadow-sm">
+      ${recentes.map((a) => `
+        <div class="flex items-center gap-3 p-4">
+          <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-12 w-12 shrink-0 rounded-full bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
+          <div class="min-w-0 flex-1">
+            <p class="truncate font-semibold">${esc(a.name)}</p>
+            <p class="truncate text-sm text-on-surface-variant">${a.adopted_at ? `${dataBR(a.adopted_at)} (${DIAS[new Date(a.adopted_at + "T12:00:00").getDay()].toLowerCase()})` : "Data não informada"}${a.adoption_place ? " • " + esc(a.adoption_place) : ""}</p>
+          </div>
+          <button type="button" onclick="desfazerAdocao('${esc(a.id)}')" class="shrink-0 text-sm font-semibold text-secondary hover:underline">Desfazer</button>
+        </div>`).join("")}
+    </div>` : vazio("Nenhum animal marcado como adotado ainda.")}`;
+}
+
+function paginaAdocoes() {
+  if (!dados.adocoes.length) return titulo("Pedidos de adoção") + vazio("Nenhum pedido ainda.");
+
+  const nomeAnimal = (p) => {
+    const id = p.animal_id || p.animalId;
+    const animal = dados.animais.find((a) => String(a.id) === String(id));
+    return animal?.name || p.animal_name || "—";
   };
 
+  const whatsPedido = (p) => {
+    const numero = numeroWhatsApp(p.phone);
+    if (!numero) return "";
+    const nome = String(p.applicant_name || "").split(" ")[0];
+    const bicho = nomeAnimal(p);
+    const texto = p.contact_type === "videochamada"
+      ? `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos seu pedido de videochamada para conhecer ${bicho === "—" ? "nosso animal" : "o(a) " + bicho}. Podemos combinar o horário?`
+      : `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos seu interesse em adotar ${bicho === "—" ? "um de nossos animais" : "o(a) " + bicho}. Podemos conversar?`;
+    return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+  };
+
+  return titulo("Pedidos de adoção", `${dados.adocoes.length} pedido(s).`) + `
+    <div class="space-y-3">
+      ${dados.adocoes.map((p) => {
+        const video = p.contact_type === "videochamada";
+        const whats = whatsPedido(p);
+        return `
+        <article class="rounded-2xl bg-white p-4 shadow-sm">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="font-bold text-primary">${esc(p.applicant_name || "Sem nome")}</h3>
+              <p class="text-sm text-on-surface-variant">${video ? "Quer conhecer por vídeo" : "Quer adotar"}: <strong>${esc(nomeAnimal(p))}</strong></p>
+            </div>
+            <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold ${video ? "bg-blue-100 text-blue-800" : "bg-secondary-container text-primary"}">
+              ${video ? "Videochamada" : esc(p.status || "em análise")}</span>
+          </div>
+          ${video ? `<p class="mt-2 flex items-center gap-1 text-sm font-semibold text-primary">
+            <span class="material-symbols-outlined text-base">event</span>Prefere ${dataBR(p.preferred_date)} • ${esc(p.preferred_period || "")}</p>` : ""}
+          <p class="mt-2 text-sm">${esc(p.email || "")}${p.phone ? " • " + esc(p.phone) : ""}</p>
+          ${p.notes ? `<p class="mt-2 rounded-lg bg-surface-low p-2 text-sm">${esc(p.notes)}</p>` : ""}
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+            <p class="text-xs text-on-surface-variant">Enviado em ${dataBR(p.created_at)}</p>
+            ${whats ? `<a href="${esc(whats)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1ebe5b]">
+              <span class="material-symbols-outlined text-[18px]">chat</span>Chamar no WhatsApp</a>` : ""}
+          </div>
+        </article>`;
+      }).join("")}
+    </div>`;
+}
+
+// Transforma "(11) 99999-9999" em "5511999999999" para o link do WhatsApp
+function numeroWhatsApp(telefone) {
+  let n = String(telefone || "").replace(/\D/g, "");
+  if (n.length === 10 || n.length === 11) n = "55" + n;
+  return n.length >= 12 ? n : "";
+}
+
+function linkWhatsApp(v) {
+  const numero = numeroWhatsApp(v.phone);
+  if (!numero) return "";
+  const primeiroNome = String(v.name || "").split(" ")[0];
+  const quemFala = String(dados.user?.name || dados.user?.nome || "").split(" ")[0];
+  const ajudas = (v.modalidades || []).join(", ").toLowerCase();
+  const texto =
+    `Olá, ${primeiroNome}! Aqui é ${quemFala ? "a " + quemFala + ", do" : "do"} Pacotinho de Amor 💜 ` +
+    `Recebemos seu cadastro para ser voluntário(a)${ajudas ? " (" + ajudas + ")" : ""}. ` +
+    `Podemos marcar uma conversa rápida para você conhecer o projeto?`;
+  return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+}
+
+function diasParaApagar(v) {
+  if (!v.expires_at) return "";
+  const dias = Math.ceil((new Date(v.expires_at) - new Date()) / 86400000);
+  if (dias <= 0) return "Será apagado hoje";
+  return dias === 1 ? "Apagado amanhã" : `Apagado em ${dias} dias`;
+}
+
+const STATUS_VOLUNTARIO = {
+  pending:   ["Novo", "bg-amber-100 text-amber-800"],
+  contacted: ["Chamado no WhatsApp", "bg-blue-100 text-blue-800"],
+  approved:  ["Aprovado", "bg-green-100 text-green-800"],
+  rejected:  ["Recusado", "bg-red-100 text-red-800"]
+};
+
+function paginaVoluntarios() {
+  const grupos = [
+    ["Novos pedidos", dados.voluntarios.filter((v) => v.status === "pending")],
+    ["Em conversa", dados.voluntarios.filter((v) => v.status === "contacted")],
+    ["Já respondidos", dados.voluntarios.filter((v) => v.status === "approved" || v.status === "rejected")]
+  ];
+
+  const cartao = (v) => {
+    const [rotulo, cor] = STATUS_VOLUNTARIO[v.status] || STATUS_VOLUNTARIO.pending;
+    const whats = linkWhatsApp(v);
+    const aberto = v.status === "pending" || v.status === "contacted";
+
+    return `
+    <article class="rounded-2xl bg-white p-5 shadow-sm">
+      <div class="flex flex-wrap items-start justify-between gap-2">
+        <div class="min-w-0">
+          <h3 class="font-bold text-primary">${esc(v.name || "Sem nome")}</h3>
+          <p class="text-sm text-on-surface-variant">${esc(v.phone || "Sem telefone")} • ${esc(v.email || "")}</p>
+        </div>
+        <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
+      </div>
+
+      <div class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+        <p class="rounded-lg bg-surface-low p-2"><strong>Quer ajudar com:</strong><br>${esc((v.modalidades || []).join(", ") || "—")}</p>
+        <p class="rounded-lg bg-surface-low p-2"><strong>Disponibilidade:</strong><br>${esc(v.disponibilidade || "—")}</p>
+      </div>
+
+      <p class="mt-2 text-xs text-on-surface-variant">Enviado em ${dataBR(v.created_at)} • ${diasParaApagar(v)}</p>
+
+      <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+        ${whats
+          ? `<a href="${esc(whats)}" target="_blank" rel="noopener" onclick="marcarChamado('${esc(v.id)}')"
+               class="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] py-2.5 font-semibold text-white hover:bg-[#1ebe5b]">
+               <span class="material-symbols-outlined text-[20px]">chat</span>Chamar no WhatsApp</a>`
+          : `<p class="flex-1 rounded-full bg-surface-low py-2.5 text-center text-sm text-on-surface-variant">Telefone inválido</p>`}
+        ${aberto ? `
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','approved')" class="flex-1 rounded-full bg-primary-container py-2.5 font-semibold text-white hover:bg-primary">Aprovar</button>
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','rejected')" class="flex-1 rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">Recusar</button>` : ""}
+      </div>
+    </article>`;
+  };
+
+  const secoes = grupos
+    .filter(([, lista]) => lista.length)
+    .map(([nome, lista]) => `
+      <h2 class="mb-3 mt-6 text-lg font-bold text-primary">${nome} <span class="text-on-surface-variant">(${lista.length})</span></h2>
+      <div class="space-y-3">${lista.map(cartao).join("")}</div>`)
+    .join("");
+
+  return titulo("Voluntários", "Chame cada pessoa no WhatsApp para a entrevista.") + `
+    <div class="flex items-start gap-3 rounded-2xl bg-primary-fixed p-4 text-sm text-primary">
+      <span class="material-symbols-outlined">schedule</span>
+      <p>Por privacidade, cada pedido é <strong>apagado automaticamente 14 dias</strong> depois de enviado.
+      Se a pessoa for aprovada, salve o contato dela no seu WhatsApp.</p>
+    </div>
+    ${secoes || `<div class="mt-6">${vazio("Nenhum pedido de voluntariado.")}</div>`}`;
+}
+
+// Ao clicar em "Chamar no WhatsApp", marca o pedido como "em conversa"
+async function marcarChamado(id) {
+  const v = dados.voluntarios.find((x) => String(x.id) === String(id));
+  if (!v || v.status !== "pending") return;
   try {
-    const resposta = await fetch(`${API_URL}/events`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(evento)
-    });
-
-    const resultado = await resposta.json().catch(() => ({}));
-
-    if (!resposta.ok) {
-      throw new Error(
-        resultado.message ||
-        resultado.error ||
-        "Não foi possível publicar o evento."
-      );
-    }
-
-    document.getElementById("eventoNome").value = "";
-    document.getElementById("eventoDescricao").value = "";
-    document.getElementById("eventoData").value = "";
-    document.getElementById("eventoHoraInicio").value = "";
-    document.getElementById("eventoHoraFim").value = "";
-    document.getElementById("eventoLocal").value = "";
-    document.getElementById("eventoEspaco").value = "";
-    document.getElementById("eventoLimiteAnimais").value = "10";
-    document.getElementById("eventoLimiteVoluntarios").value = "6";
-    document.getElementById("eventoLimiteEspaco").value = "16";
-
-    fecharModalEvento();
-
-    await renderizarEventosBarbara();
-
-    alert("Evento publicado com sucesso!");
-
+    await api(`/volunteer-requests/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status: "contacted" }) });
+    v.status = "contacted";
+    setTimeout(desenhar, 300);
   } catch (erro) {
-    console.error("Erro ao criar evento:", erro);
+    console.error(erro);
+  }
+}
 
-    mostrarErroEvento(
-      erro.message ||
-      "Não foi possível publicar o evento."
-    );
+function paginaEventos() {
+  const botao = botaoPrincipal("Criar evento", "add", "abrirModal('modalEvento')");
+  if (!dados.eventos.length) return titulo("Eventos", "", botao) + vazio("Nenhum evento cadastrado.");
 
+  return titulo("Eventos", `${dados.eventos.length} evento(s).`, botao) + `
+    <div class="grid gap-3 md:grid-cols-2">
+      ${dados.eventos.map((e) => `
+        <article class="rounded-2xl bg-white p-5 shadow-sm">
+          <p class="text-sm font-semibold text-secondary">${dataBR(e.date)} • ${esc(e.startTime || "")}–${esc(e.endTime || "")}</p>
+          <h3 class="mt-1 font-bold text-primary">${esc(e.title || "Evento")}</h3>
+          <p class="mt-1 flex items-center gap-1 text-sm text-on-surface-variant"><span class="material-symbols-outlined text-base">location_on</span>${esc(e.location || "")}</p>
+          ${e.description ? `<p class="mt-2 text-sm">${esc(e.description)}</p>` : ""}
+          <p class="mt-3 text-xs text-on-surface-variant">Até ${esc(e.animalLimit)} animais • ${esc(e.volunteerLimit)} voluntários • ${esc(e.spaceLimit)} pessoas</p>
+          <button type="button" onclick="excluirEvento('${esc(e.id)}')" class="mt-3 text-sm font-semibold text-red-700 hover:underline">Excluir</button>
+        </article>`).join("")}
+    </div>`;
+}
+
+function paginaConfig() {
+  const u = dados.user || {};
+  return titulo("Configurações", "Seu perfil e sua senha.") + `
+    <section class="mb-4 rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 font-bold text-primary">Perfil</h2>
+      <div class="mb-5 flex items-center gap-4">
+        <img data-foto src="${esc(u.profile_photo || "assets/logo-footer.png")}" alt="Foto de perfil" class="h-20 w-20 rounded-full object-cover">
+        <div class="flex flex-wrap gap-2">
+          <label class="cursor-pointer rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-white hover:bg-primary">
+            Trocar foto <input type="file" accept="image/*" class="hidden" onchange="trocarFoto(this)">
+          </label>
+          <button type="button" onclick="removerFoto()" class="rounded-full border border-outline-variant px-4 py-2 text-sm font-semibold">Remover</button>
+        </div>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div><label for="cfgNome" class="rotulo">Nome</label><input id="cfgNome" class="campo" value="${esc(u.name || u.nome || "")}"></div>
+        <div><label for="cfgEmail" class="rotulo">E-mail</label><input id="cfgEmail" type="email" class="campo" value="${esc(u.email || "")}"></div>
+      </div>
+      <button type="button" onclick="salvarPerfil()" class="mt-4 rounded-full bg-primary-container px-5 py-2.5 font-semibold text-white hover:bg-primary">Salvar</button>
+    </section>
+
+    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 font-bold text-primary">Trocar senha</h2>
+      <div class="grid gap-4 md:grid-cols-3">
+        <div><label for="cfgSenhaAtual" class="rotulo">Senha atual</label><input id="cfgSenhaAtual" type="password" autocomplete="current-password" class="campo"></div>
+        <div><label for="cfgSenhaNova" class="rotulo">Nova senha</label><input id="cfgSenhaNova" type="password" autocomplete="new-password" class="campo" placeholder="Mínimo 8 caracteres"></div>
+        <div><label for="cfgSenhaConfirma" class="rotulo">Repita a nova senha</label><input id="cfgSenhaConfirma" type="password" autocomplete="new-password" class="campo"></div>
+      </div>
+      <button type="button" onclick="trocarSenha()" class="mt-4 rounded-full border border-primary-container px-5 py-2.5 font-semibold text-primary hover:bg-surface-low">Alterar senha</button>
+    </section>`;
+}
+
+const RENDER = {
+  inicio: paginaInicio, animais: paginaAnimais, adocoes: paginaAdocoes, adotados: paginaAdotados,
+  voluntarios: paginaVoluntarios, eventos: paginaEventos, config: paginaConfig
+};
+
+/* ============================================================
+   NAVEGAÇÃO
+   ============================================================ */
+function montarMenus() {
+  $("menuLateral").innerHTML = PAGINAS.map((p) => `
+    <button type="button" data-ir="${p.id}" class="item-menu flex items-center gap-3 rounded-r-full px-6 py-3 text-left text-white/75 hover:bg-white/10">
+      <span class="material-symbols-outlined">${p.icone}</span>${p.nome}
+      ${p.id === "voluntarios" ? `<span data-contador class="ml-auto hidden rounded-full bg-white px-2 text-xs font-bold text-primary"></span>` : ""}
+    </button>`).join("");
+
+  $("menuInferior").innerHTML = PAGINAS.map((p) => `
+    <button type="button" data-ir="${p.id}" class="item-inferior flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-[10px] font-semibold text-on-surface-variant">
+      <span class="material-symbols-outlined">${p.icone}</span>${p.curto}
+    </button>`).join("");
+}
+
+function desenhar() {
+  $("conteudo").innerHTML = (RENDER[paginaAtual] || paginaInicio)();
+
+  document.querySelectorAll(".item-menu").forEach((b) => {
+    const ativo = b.dataset.ir === paginaAtual;
+    b.classList.toggle("bg-white/20", ativo);
+    b.classList.toggle("font-bold", ativo);
+    b.classList.toggle("text-white", ativo);
+    b.classList.toggle("text-white/75", !ativo);
+  });
+  document.querySelectorAll(".item-inferior").forEach((b) => {
+    const ativo = b.dataset.ir === paginaAtual;
+    b.classList.toggle("bg-primary-container", ativo);
+    b.classList.toggle("text-white", ativo);
+    b.classList.toggle("text-on-surface-variant", !ativo);
+  });
+
+  const pendentes = dados.voluntarios.filter((v) => v.status === "pending").length;
+  document.querySelectorAll("[data-contador]").forEach((el) => {
+    el.textContent = pendentes;
+    el.classList.toggle("hidden", !pendentes);
+  });
+
+  const nome = dados.user?.name || dados.user?.nome || "";
+  document.querySelectorAll("[data-nome]").forEach((el) => (el.textContent = nome));
+  document.querySelectorAll("[data-foto]").forEach((el) => (el.src = dados.user?.profile_photo || "assets/logo-footer.png"));
+}
+
+function irPara(pagina) {
+  paginaAtual = pagina;
+  desenhar();
+  window.scrollTo({ top: 0 });
+}
+
+// Qualquer elemento com data-ir="pagina" leva para aquela página
+document.addEventListener("click", (e) => {
+  const alvo = e.target.closest("[data-ir]");
+  if (alvo) irPara(alvo.dataset.ir);
+});
+
+/* ============================================================
+   AÇÕES — ANIMAIS
+   ============================================================ */
+function editarAnimal(id) {
+  const a = dados.animais.find((x) => String(x.id) === String(id));
+  if (!a) return;
+  $("animalId").value = a.id;
+  $("animalTitulo").textContent = a.name || "Animal";
+  $("animalStatus").value = STATUS_ANIMAL[a.status] ? a.status : "disponível";
+  $("animalResponsavel").value = a.responsible_person || "";
+  $("animalDescricao").value = a.description || "";
+  $("animalPcd").checked = Boolean(a.pcd);
+  abrirModal("modalAnimal");
+}
+
+async function salvarAnimal() {
+  const id = $("animalId").value;
+  const botao = $("btnSalvarAnimal");
+  botao.disabled = true;
+  try {
+    const r = await api(`/animals/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        status: $("animalStatus").value,
+        responsible_person: $("animalResponsavel").value.trim(),
+        description: $("animalDescricao").value.trim(),
+        pcd: $("animalPcd").checked
+      })
+    });
+    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
+    if (i >= 0) dados.animais[i] = r.animal;
+    fecharModal("modalAnimal");
+    desenhar();
+    aviso("Animal atualizado.");
+  } catch (erro) {
+    aviso(erro.message, true);
   } finally {
-    btn.disabled = false;
-
-    btn.innerHTML = `
-      <span class="material-symbols-outlined">publish</span>
-      Publicar evento
-    `;
+    botao.disabled = false;
   }
 }
 
-async function excluirEventoDaAgenda(id) {
-  if (!id) return;
+/* ============================================================
+   AÇÕES — ADOÇÃO
+   ============================================================ */
+function abrirAdocao(id) {
+  const a = dados.animais.find((x) => String(x.id) === String(id));
+  if (!a) return;
+  $("adocaoId").value = a.id;
+  $("adocaoTitulo").textContent = a.name || "Animal";
+  $("adocaoData").value = hojeISO();
+  $("adocaoData").max = hojeISO();
+  $("adocaoLocal").value = "";
 
-  const confirmar = confirm(
-    "Tem certeza que deseja excluir este evento da agenda?\n\nEssa ação removerá o evento do banco de dados."
-  );
+  // Sugestões: eventos cadastrados + canais comuns + locais já usados
+  const sugestoes = new Set([
+    ...dados.eventos.map((e) => e.title).filter(Boolean),
+    "Pelo site", "Instagram", "Indicação",
+    ...adotados().map((x) => x.adoption_place).filter(Boolean)
+  ]);
+  $("locaisAdocao").innerHTML = [...sugestoes].map((s) => `<option value="${esc(s)}"></option>`).join("");
 
-  if (!confirmar) return;
+  abrirModal("modalAdocao");
+}
+
+async function confirmarAdocao() {
+  const id = $("adocaoId").value;
+  const botao = $("btnConfirmarAdocao");
+  botao.disabled = true;
+  try {
+    const r = await api(`/animals/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify({ status: "adotado", adopted_at: $("adocaoData").value, adoption_place: $("adocaoLocal").value.trim() })
+    });
+    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
+    if (i >= 0) dados.animais[i] = r.animal;
+    fecharModal("modalAdocao");
+    desenhar();
+    aviso(`${r.animal?.name || "Animal"} foi adotado! 💜`);
+  } catch (erro) {
+    aviso(erro.message, true);
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+async function desfazerAdocao(id) {
+  const a = dados.animais.find((x) => String(x.id) === String(id));
+  if (!(await confirmar(`Desfazer a adoção de ${a?.name || "este animal"}? Ele volta a aparecer no site.`))) return;
+  try {
+    const r = await api(`/animals/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status: "disponível" }) });
+    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
+    if (i >= 0) dados.animais[i] = r.animal;
+    desenhar();
+    aviso("Adoção desfeita. O animal voltou para o site.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+/* ============================================================
+   AÇÕES — VOLUNTÁRIOS
+   ============================================================ */
+async function decidirVoluntario(id, status) {
+  const v = dados.voluntarios.find((x) => String(x.id) === String(id));
+  const nome = v?.name || "esta pessoa";
+  const texto = status === "approved" ? `Aprovar ${nome} como voluntário(a)?` : `Recusar o pedido de ${nome}?`;
+  if (!(await confirmar(texto))) return;
 
   try {
-    const resposta = await fetch(
-      `${API_URL}/events/${encodeURIComponent(id)}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin"
-      }
-    );
-
-    const resultado = await resposta.json().catch(() => ({}));
-
-    if (!resposta.ok) {
-      throw new Error(
-        resultado.message ||
-        resultado.error ||
-        "Não foi possível excluir o evento."
-      );
-    }
-
-    dadosMaster.events = (dadosMaster.events || []).filter(evento => {
-      const eventoId = String(
-        evento._id?.$oid ||
-        evento._id ||
-        evento.id ||
-        ""
-      );
-
-      return eventoId !== String(id);
-    });
-
-    renderPaginaAtual();
-
-    alert("Evento excluído com sucesso.");
-
+    await api(`/volunteer-requests/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status }) });
+    if (v) v.status = status;
+    desenhar();
+    aviso(status === "approved" ? `${nome} foi aprovado(a). Salve o contato no WhatsApp.` : `${nome} foi recusado(a).`);
   } catch (erro) {
-    console.error("Erro ao excluir evento da agenda:", erro);
-
-    alert(
-      erro.message ||
-      "Não foi possível excluir o evento."
-    );
+    aviso(erro.message, true);
   }
 }
 
+/* ============================================================
+   AÇÕES — EVENTOS
+   ============================================================ */
+async function salvarEvento() {
+  const valor = (id) => $(id).value.trim();
+  const evento = {
+    title: valor("evTitulo"), description: valor("evDescricao"),
+    date: valor("evData"), startTime: valor("evInicio"), endTime: valor("evFim"),
+    location: valor("evLocal"), spaceDescription: valor("evEspaco"),
+    animalLimit: Number(valor("evAnimais")), volunteerLimit: Number(valor("evVoluntarios")),
+    spaceLimit: Number(valor("evCapacidade"))
+  };
+
+  if (Object.values(evento).some((v) => v === "" || v === 0)) return aviso("Preencha todos os campos.", true);
+  if (evento.endTime <= evento.startTime) return aviso("O horário de fim precisa ser depois do início.", true);
+
+  const botao = $("btnSalvarEvento");
+  botao.disabled = true;
+  try {
+    const r = await api("/events", { method: "POST", body: JSON.stringify(evento) });
+    dados.eventos.push(r.event);
+    dados.eventos.sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
+    ["evTitulo", "evDescricao", "evData", "evInicio", "evFim", "evLocal", "evEspaco"].forEach((id) => ($(id).value = ""));
+    fecharModal("modalEvento");
+    irPara("eventos");
+    aviso("Evento publicado.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  } finally {
+    botao.disabled = false;
+  }
+}
 
 async function excluirEvento(id) {
-  if (!id) return;
-
-  const confirmar = confirm(
-    "Tem certeza que deseja excluir este evento?"
-  );
-
-  if (!confirmar) return;
-
+  if (!(await confirmar("Excluir este evento? Essa ação não pode ser desfeita."))) return;
   try {
-    const resposta = await fetch(
-      `${API_URL}/events/${encodeURIComponent(id)}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-
-    const resultado = await resposta.json().catch(() => ({}));
-
-    if (!resposta.ok) {
-      throw new Error(
-        resultado.message ||
-        resultado.error ||
-        "Não foi possível excluir o evento."
-      );
-    }
-
-    await renderizarEventosBarbara();
-
+    await api(`/events/${encodeURIComponent(id)}`, { method: "DELETE" });
+    dados.eventos = dados.eventos.filter((e) => String(e.id) !== String(id));
+    desenhar();
+    aviso("Evento excluído.");
   } catch (erro) {
-    console.error("Erro ao excluir evento:", erro);
-
-    alert(
-      erro.message ||
-      "Não foi possível excluir o evento."
-    );
+    aviso(erro.message, true);
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderizarEventosBarbara();
+/* ============================================================
+   AÇÕES — CONFIGURAÇÕES
+   ============================================================ */
+async function atualizarPerfil(corpo, mensagem) {
+  try {
+    const r = await api("/auth/master-profile", { method: "PUT", body: JSON.stringify(corpo) });
+    dados.user = r.user || dados.user;
+    desenhar();
+    aviso(mensagem);
+    return true;
+  } catch (erro) {
+    aviso(erro.message, true);
+    return false;
+  }
+}
+
+function salvarPerfil() {
+  const nome = $("cfgNome").value.trim();
+  const email = $("cfgEmail").value.trim().toLowerCase();
+  if (!nome || !email.includes("@")) return aviso("Informe nome e um e-mail válido.", true);
+  atualizarPerfil({ nome, email }, "Perfil atualizado.");
+}
+
+async function trocarSenha() {
+  const senhaAtual = $("cfgSenhaAtual").value;
+  const novaSenha = $("cfgSenhaNova").value;
+  if (!senhaAtual || !novaSenha) return aviso("Preencha a senha atual e a nova.", true);
+  if (novaSenha.length < 8) return aviso("A nova senha precisa ter pelo menos 8 caracteres.", true);
+  if (novaSenha !== $("cfgSenhaConfirma").value) return aviso("As novas senhas não são iguais.", true);
+  if (await atualizarPerfil({ senhaAtual, novaSenha }, "Senha alterada.")) {
+    ["cfgSenhaAtual", "cfgSenhaNova", "cfgSenhaConfirma"].forEach((id) => ($(id).value = ""));
+  }
+}
+
+// Reduz a foto para 512px antes de enviar
+function reduzirFoto(arquivo) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(arquivo);
+    img.onload = () => {
+      const escala = Math.min(1, 512 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * escala);
+      c.height = Math.round(img.height * escala);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", 0.8));
+    };
+    img.onerror = () => reject(new Error("Não foi possível abrir essa imagem."));
+    img.src = url;
+  });
+}
+
+async function trocarFoto(input) {
+  const arquivo = input.files?.[0];
+  if (!arquivo) return;
+  try {
+    atualizarPerfil({ profile_photo: await reduzirFoto(arquivo) }, "Foto atualizada.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+async function removerFoto() {
+  if (await confirmar("Remover sua foto de perfil?")) atualizarPerfil({ profile_photo: null }, "Foto removida.");
+}
+
+async function sair() {
+  try { await fetch(API + "/auth/logout", { method: "POST", credentials: "same-origin" }); } catch {}
+  location.href = "login.html";
+}
+
+/* ============================================================
+   INÍCIO — confere se quem abriu é a conta Master
+   ============================================================ */
+(async () => {
+  montarMenus();
+  try {
+    const me = await fetch(API + "/auth/me", { credentials: "same-origin" }).then((r) => r.json());
+    if (!me.ok || me.user_type !== "master") throw new Error();
+    dados.user = me.user;
+  } catch {
+    location.href = "login.html?next=painel-master.html";
+    return;
+  }
+  $("verificando").remove();
+  desenhar();
+  carregarTudo();
+})();
+
+// Fecha janelas ao clicar fora ou apertar Esc
+["modalAnimal", "modalEvento", "modalAdocao"].forEach((id) =>
+  $(id).addEventListener("click", (e) => { if (e.target.id === id) fecharModal(id); })
+);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") ["modalAnimal", "modalEvento", "modalAdocao"].forEach(fecharModal);
 });
 </script>
 
-
-<div id="volunteerConfirmModal" aria-hidden="true">
-  <div class="volunteer-confirm-box" role="dialog" aria-modal="true" aria-labelledby="volunteerConfirmTitle">
-    <h3 id="volunteerConfirmTitle">Confirmar ação</h3>
-    <p id="volunteerConfirmMessage"></p>
-    <div class="volunteer-confirm-actions">
-      <button type="button" class="volunteer-confirm-no" id="volunteerConfirmNo">Não</button>
-      <button type="button" class="volunteer-confirm-yes" id="volunteerConfirmYes">Sim</button>
-    </div>
-  </div>
-</div>
-<div id="volunteerToast" role="status" aria-live="polite"></div>
-<script>
-let volunteerConfirmResolve = null;
-function confirmarAcaoCustom(mensagem, confirmar = 'Sim') {
-  const modal = document.getElementById('volunteerConfirmModal');
-  const msg = document.getElementById('volunteerConfirmMessage');
-  const yes = document.getElementById('volunteerConfirmYes');
-  const no = document.getElementById('volunteerConfirmNo');
-  msg.textContent = mensagem;
-  yes.textContent = confirmar;
-  yes.classList.toggle('volunteer-confirm-danger', confirmar === 'Recusar');
-  modal.classList.add('active');
-  modal.setAttribute('aria-hidden','false');
-  return new Promise(resolve => { volunteerConfirmResolve = resolve; });
-}
-function fecharConfirmacaoCustom(resultado) {
-  const modal = document.getElementById('volunteerConfirmModal');
-  modal.classList.remove('active');
-  modal.setAttribute('aria-hidden','true');
-  const resolve = volunteerConfirmResolve;
-  volunteerConfirmResolve = null;
-  if (resolve) resolve(resultado);
-}
-document.getElementById('volunteerConfirmYes').addEventListener('click', () => fecharConfirmacaoCustom(true));
-document.getElementById('volunteerConfirmNo').addEventListener('click', () => fecharConfirmacaoCustom(false));
-document.getElementById('volunteerConfirmModal').addEventListener('click', e => { if (e.target.id === 'volunteerConfirmModal') fecharConfirmacaoCustom(false); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && volunteerConfirmResolve) fecharConfirmacaoCustom(false); });
-function mostrarToastCustom(mensagem, tipo='success') {
-  const toast = document.getElementById('volunteerToast');
-  toast.textContent = mensagem;
-  toast.style.background = tipo === 'error' ? '#b42318' : '#472056';
-  toast.classList.add('show');
-  clearTimeout(window.__volunteerToastTimer);
-  window.__volunteerToastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
-}
-</script>
-</body></html>
+</body>
+</html>

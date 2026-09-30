@@ -1,1463 +1,1039 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Pacotinho de amor - Painel do voluntário</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do voluntário — Pacotinho de Amor</title>
 
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-                "on-primary": "#ffffff",
-                "on-primary-container": "#d5a4e4",
-                "tertiary": "#333300",
-                "tertiary-container": "#4a4a00",
-                "secondary-container": "#ffcdfe",
-                "secondary": "#78517a",
-                "surface-dim": "#ded8e0",
-                "outline": "#7e747e",
-                "background": "#fef7ff",
-                "secondary-fixed": "#ffd6fc",
-                "on-error-container": "#93000a",
-                "surface-variant": "#e7e0e8",
-                "tertiary-fixed-dim": "#cccc4b",
-                "on-surface-variant": "#4c444d",
-                "error": "#ba1a1a",
-                "on-primary-fixed": "#2f073f",
-                "on-tertiary-container": "#bbbb3b",
-                "secondary-fixed-dim": "#e7b7e6",
-                "surface-tint": "#784e87",
-                "on-surface": "#1d1a20",
-                "surface-container-highest": "#e7e0e8",
-                "surface-container-low": "#f8f1f9",
-                "primary-container": "#5f376e",
-                "error-container": "#ffdad6",
-                "on-background": "#1d1a20",
-                "on-primary-fixed-variant": "#5f376e",
-                "inverse-on-surface": "#f6eef6",
-                "inverse-surface": "#322f35",
-                "on-secondary-fixed-variant": "#5f3961",
-                "surface": "#fef7ff",
-                "tertiary-fixed": "#e9e964",
-                "on-tertiary": "#ffffff",
-                "primary": "#472056",
-                "primary-fixed": "#f9d8ff",
-                "inverse-primary": "#e7b5f6",
-                "on-secondary-fixed": "#2f0d33",
-                "surface-container-lowest": "#ffffff",
-                "on-secondary-container": "#7b537c",
-                "on-tertiary-fixed-variant": "#494900",
-                "surface-container": "#f3ecf4",
-                "on-error": "#ffffff",
-                "primary-fixed-dim": "#e7b5f6",
-                "outline-variant": "#cfc3ce",
-                "surface-container-high": "#ede6ee",
-                "surface-bright": "#fef7ff",
-                "on-secondary": "#ffffff",
-                "on-tertiary-fixed": "#1d1d00"
-        },
-        "borderRadius": {
-                "DEFAULT": "0.25rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-        },
-        "spacing": {
-                "xl": "80px",
-                "xs": "4px",
-                "md": "24px",
-                "sm": "12px",
-                "lg": "48px",
-                "base": "8px",
-                "gutter": "24px",
-                "margin-desktop": "64px",
-                "margin-mobile": "16px"
-        },
-        "fontFamily": {
-                "headline-lg": [
-                        "Montserrat"
-                ],
-                "headline-md": [
-                        "Montserrat"
-                ],
-                "body-lg": [
-                        "Montserrat"
-                ],
-                "body-md": [
-                        "Montserrat"
-                ],
-                "label-md": [
-                        "Montserrat"
-                ],
-                "headline-lg-mobile": [
-                        "Montserrat"
-                ]
-        },
-        "fontSize": {
-                "headline-lg": [
-                        "32px",
-                        {
-                                "lineHeight": "40px",
-                                "fontWeight": "700"
-                        }
-                ],
-                "headline-md": [
-                        "24px",
-                        {
-                                "lineHeight": "32px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-lg": [
-                        "18px",
-                        {
-                                "lineHeight": "28px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "body-md": [
-                        "16px",
-                        {
-                                "lineHeight": "24px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "label-md": [
-                        "14px",
-                        {
-                                "lineHeight": "20px",
-                                "letterSpacing": "0.5px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-lg-mobile": [
-                        "26px",
-                        {
-                                "lineHeight": "32px",
-                                "fontWeight": "700"
-                        }
-                ]
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#472056",
+            "primary-container": "#5f376e",
+            "primary-fixed": "#f9d8ff",
+            secondary: "#78517a",
+            "secondary-container": "#ffcdfe",
+            background: "#f7f1f8",
+            "on-surface": "#1d1a20",
+            "on-surface-variant": "#4c444d",
+            "outline-variant": "#cfc3ce",
+            "surface-variant": "#e7e0e8",
+            "surface-low": "#f8f1f9"
+          },
+          fontFamily: { sans: ["Montserrat", "sans-serif"] }
         }
       }
     }
-  }
-</script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
+  </script>
+
+  <style>
+    body { font-family: Montserrat, sans-serif; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 2px; }
+    .campo { width: 100%; border: 1px solid #cfc3ce; border-radius: .6rem; padding: .7rem .9rem; font-size: 15px; background: #fff; }
+    .campo:focus { border-color: #5f376e; box-shadow: 0 0 0 2px rgba(95,55,110,.15); outline: none; }
+    .rotulo { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #1d1a20; }
+    #toast { transition: opacity .2s, transform .2s; }
+    #toast.oculto { opacity: 0; transform: translateY(10px); pointer-events: none; }
+
+    .painel-card {
+      border: 1px solid rgba(207,195,206,.55);
+      box-shadow: 0 2px 10px rgba(71,32,86,.05);
+    }
+    .item-menu, .item-inferior {
+      transition: background-color .2s ease, color .2s ease, transform .2s ease;
+    }
+    .item-menu:hover { transform: translateX(2px); }
+    @media (min-width: 768px) {
+      #conteudo { min-height: calc(100vh - 40px); }
     }
   </style>
-<link rel="stylesheet" href="shared.css">
 </head>
-<body class="bg-[#F1EAF2] text-on-background font-body-md min-h-screen flex">
-<!-- Navigation Drawer (Sidebar) -->
-<aside class="bg-[#5F376E] text-white docked left-0 h-full w-80 shadow-xl flex flex-col h-full py-md hidden md:flex sticky top-0 z-40" data-panel-sidebar>
-<div class="px-gutter mb-lg">
-<h1 class="font-headline-lg text-headline-md text-white flex items-center gap-sm">
-<img alt="Logo Pacotinho de amor" class="w-10 h-10 rounded-full object-cover" src="assets/logo-footer.png">
-    Pacotinho de amor
-</h1>
+
+<body class="bg-[#F7F1F8] text-on-surface">
+
+<!-- Tela de carregamento enquanto confere o login -->
+<div id="verificando" class="fixed inset-0 z-[300] flex items-center justify-center bg-background">
+  <p class="font-semibold text-primary">Verificando acesso...</p>
 </div>
-<div class="px-gutter mb-md flex items-center gap-sm">
-<div class="w-12 h-12 rounded-full overflow-hidden shrink-0">
-<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional woman with a warm, caring smile, wearing a dark green volunteer t-shirt. The background is a brightly lit, clean, and modern animal shelter office setting. The lighting is soft and natural, emphasizing a trustworthy and compassionate mood consistent with a modern pet adoption platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdUaKTh_llYkpD3yPXA0S6_JFMS2mCpV0T0-wGOR2GV-JqrkySZ_O_L5GyjKP75mScLS99RMSYsIb5Bf3BBOXKk1a8pZPnMKYAIyB49b7f8wLGaMwbE-mfWQg0ILdjkPOcdCGCLmRxcIt7DteRECJmkVfz3NidCtSTAhjCsjoBKggjNZPhdzI604wPoC1HKsM-SX6NJPlmk3NTaBK6rVKEy8LjuskMl0apkmbCpw7QeCfy1hmLvqYb">
-</div>
-<div>
-<p class="font-body-md text-body-md font-bold text-white">Welcome back</p>
-<p class="font-label-md text-label-md text-[#B98CB9]">Voluntário • Animais atribuídos</p>
-</div>
-</div>
-<nav class="flex-1 flex flex-col gap-xs pr-sm">
 
-  <button type="button" data-menu="inicio" onclick="mostrarPagina('inicio')"
-    class="flex items-center gap-sm px-gutter py-sm bg-white/20 text-white font-bold rounded-r-full transition-all duration-300 text-left">
-    <span class="material-symbols-outlined">dashboard</span>
-    <span class="font-label-md text-label-md">Visão geral</span>
-  </button>
+<!-- ==================== MENU LATERAL (COMPUTADOR) ==================== -->
+<aside class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-[#5F376E] py-6 text-white md:flex">
+  <div class="mb-8 flex items-center gap-3 px-6">
+    <img src="assets/logo-footer.png" alt="Logo Pacotinho de amor" class="h-10 w-10 rounded-full object-cover">
+    <span class="text-lg font-bold leading-tight">Pacotinho<br>de amor</span>
+  </div>
 
-  <button type="button" data-menu="animais" onclick="mostrarPagina('animais')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">pets</span>
-    <span class="font-label-md text-label-md">Meus animais</span>
-  </button>
+  <div class="mb-6 flex items-center gap-3 px-6">
+    <img data-foto src="assets/logo-footer.png" alt="Foto de perfil" class="h-11 w-11 rounded-full object-cover ring-2 ring-white/30">
+    <div class="min-w-0">
+      <p class="truncate font-bold">Olá, <span data-nome>Voluntário</span></p>
+      <p class="text-xs text-white/70">Voluntário • Animais atribuídos</p>
+    </div>
+  </div>
 
-  <button type="button" data-menu="agenda" onclick="mostrarPagina('agenda')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">calendar_month</span>
-    <span class="font-label-md text-label-md">Agenda</span>
-  </button>
+  <nav id="menuLateral" class="flex flex-1 flex-col gap-1 pr-3"></nav>
 
-  <button type="button" data-menu="adocao" onclick="mostrarPagina('adocao')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">family_restroom</span>
-    <span class="font-label-md text-label-md">Processos de adoção</span>
-  </button>
-
-  <button type="button" data-menu="doacoes" onclick="mostrarPagina('doacoes')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">volunteer_activism</span>
-    <span class="font-label-md text-label-md">Doações recebidas</span>
-  </button>
-
-  <button type="button" data-menu="eventos" onclick="mostrarPagina('eventos')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">storefront</span>
-    <span class="font-label-md text-label-md">Próximos eventos</span>
-  </button>
-
-  <button type="button" data-menu="historico" onclick="mostrarPagina('historico')"
-    class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all rounded-r-full text-left">
-    <span class="material-symbols-outlined">history</span>
-    <span class="font-label-md text-label-md">Histórico</span>
-  </button>
-
-</nav>
-<div class="mt-auto pr-sm pt-md border-t border-white/20">
-<button type="button" data-menu="config" onclick="mostrarPagina('config')"
-class="flex items-center gap-sm px-gutter py-sm text-white/70 hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full text-left w-full">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-label-md text-label-md">Configurações</span>
-</button>
-<a class="flex items-center gap-sm px-gutter py-sm text-[#ffdad6] hover:bg-white/10 transition-all duration-300 ease-in-out rounded-r-full" href="login-voluntario.html">
-<span class="material-symbols-outlined">logout</span>
-<span class="font-label-md text-label-md">Sair</span>
-</a>
-</div>
+  <div class="border-t border-white/20 pr-3 pt-3">
+    <button type="button" data-ir="config" class="item-menu flex w-full items-center gap-3 rounded-r-full px-6 py-3 text-left text-white/75 hover:bg-white/10">
+      <span class="material-symbols-outlined">settings</span> Configurações
+    </button>
+    <button type="button" onclick="sair()" class="flex w-full items-center gap-3 rounded-r-full px-6 py-3 text-left text-[#ffdad6] hover:bg-white/10">
+      <span class="material-symbols-outlined">logout</span> Sair
+    </button>
+  </div>
 </aside>
-<!-- Main Content -->
 
-<main class="flex-1 flex flex-col min-w-0 pb-20 md:pb-0">
-
-  <!-- TopAppBar (Mobile Only) -->
-  <header class="bg-surface docked full-width top-0 flex justify-between items-center w-full px-sm py-xs md:hidden sticky z-30">
-    <button class="text-primary active:scale-95 transition-transform duration-150 p-2 hover:bg-surface-container-high rounded-full"
-            data-panel-menu-toggle type="button">
-      <span class="material-symbols-outlined">menu</span>
+<!-- ==================== TOPO (CELULAR) ==================== -->
+<header class="sticky top-0 z-30 flex items-center justify-between border-b border-surface-variant bg-white px-4 py-3 md:hidden">
+  <div class="flex items-center gap-2">
+    <img src="assets/logo-footer.png" alt="Logo Pacotinho de amor" class="h-8 w-8 rounded-full">
+    <span class="font-bold text-primary">Painel do voluntário</span>
+  </div>
+  <div class="flex items-center gap-1">
+    <button type="button" data-ir="config" aria-label="Configurações" class="rounded-full p-2 text-primary hover:bg-surface-low">
+      <span class="material-symbols-outlined">settings</span>
     </button>
-
-    <h1 class="font-headline-lg-mobile text-headline-md text-primary font-bold flex items-center gap-2">
-      <img alt="Logo" class="w-8 h-8 rounded-full" src="assets/logo-footer.png">
-      Pacotinho de amor
-    </h1>
-
-    <button type="button" onclick="mostrarPagina('config')"
-       class="text-primary font-label-md text-label-md hover:bg-surface-container-high px-4 py-2 rounded-full">
-      Configurar
+    <button type="button" onclick="sair()" aria-label="Sair" class="rounded-full p-2 text-primary hover:bg-surface-low">
+      <span class="material-symbols-outlined">logout</span>
     </button>
-  </header>
+  </div>
+</header>
 
-  
-  <div id="conteudo-painel" class="p-gutter md:p-lg flex-1 overflow-y-auto w-full max-w-[1280px] mx-auto"></div>
+<!-- ==================== CONTEÚDO ==================== -->
+<main class="min-h-screen pb-24 md:ml-64 md:pb-8">
+  <div id="conteudo" class="mx-auto w-full max-w-5xl p-4 md:p-8"></div>
 </main>
 
-<!-- Bottom Navigation (Mobile Only) -->
-<nav class="bg-surface-container-lowest shadow-lg docked full-width bottom-0 rounded-t-xl fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-4 pt-2 md:hidden">
-  <button type="button" onclick="mostrarPagina('inicio')" class="flex flex-col items-center justify-center text-on-surface-variant">
-    <span class="material-symbols-outlined">dashboard</span>
-    <span class="font-label-md text-label-md text-xs">Início</span>
-  </button>
-  <button type="button" onclick="mostrarPagina('animais')" class="flex flex-col items-center justify-center text-on-surface-variant">
-    <span class="material-symbols-outlined">pets</span>
-    <span class="font-label-md text-label-md text-xs">Animais</span>
-  </button>
-  <button type="button" onclick="mostrarPagina('agenda')" class="flex flex-col items-center justify-center text-on-surface-variant">
-    <span class="material-symbols-outlined">calendar_month</span>
-    <span class="font-label-md text-label-md text-xs">Agenda</span>
-  </button>
-  <button type="button" onclick="mostrarPagina('adocao')" class="flex flex-col items-center justify-center text-on-surface-variant">
-    <span class="material-symbols-outlined">family_restroom</span>
-    <span class="font-label-md text-label-md text-xs">Adoção</span>
-  </button>
-  <button type="button" onclick="mostrarPagina('eventos')" class="flex flex-col items-center justify-center text-on-surface-variant">
-    <span class="material-symbols-outlined">event</span>
-    <span class="font-label-md text-label-md text-xs">Eventos</span>
-  </button>
-</nav>
+<!-- ==================== MENU INFERIOR (CELULAR) ==================== -->
+<nav id="menuInferior" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-surface-variant bg-white px-1 pb-[calc(6px+env(safe-area-inset-bottom))] pt-1.5 md:hidden"></nav>
 
-<script>
-const paginas = {
-  inicio: `
-    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
+<!-- ==================== MODAL EDITAR ANIMAL ==================== -->
+<div id="modalAnimal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4 flex items-start justify-between gap-3">
       <div>
-        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Lar temporário</p>
-        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Painel do voluntário</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant mt-xs">
-          Acompanhe os animais atribuídos a você, sua agenda e os processos de adoção.
-        </p>
+        <p class="text-sm font-semibold text-secondary">Editar animal</p>
+        <h2 id="animalTitulo" class="text-xl font-bold text-primary"></h2>
       </div>
-    </header>
-
-    <section class="grid grid-cols-2 md:grid-cols-4 gap-sm md:gap-md mb-xl">
-      <button onclick="mostrarPagina('animais')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">MEUS ANIMAIS</span><span class="material-symbols-outlined text-primary">pets</span></div>
-        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">4</p>
-        <p class="text-sm text-on-surface-variant">cadastrados</p>
+      <button type="button" onclick="fecharModal('modalAnimal')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
       </button>
-      <button onclick="mostrarPagina('adocao')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">ADOÇÃO</span><span class="material-symbols-outlined text-primary">favorite</span></div>
-        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">2</p>
-        <p class="text-sm text-on-surface-variant">interessados</p>
-      </button>
-      <button onclick="mostrarPagina('agenda')" class="text-left bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 hover:shadow-lg transition-shadow">
-        <div class="flex justify-between items-start"><span class="font-label-md text-label-md text-on-surface-variant">AGENDA</span><span class="material-symbols-outlined text-primary">calendar_month</span></div>
-        <p class="font-headline-lg text-headline-md text-on-surface font-bold mt-md">5</p>
-        <p class="text-sm text-on-surface-variant">compromissos</p>
-      </button>
-      <button type="button" onclick="mostrarPagina('animais')" class="text-left bg-[#5F376E] text-white rounded-xl p-md shadow-md hover:shadow-lg transition-shadow">
-         <div class="flex justify-between items-start"><span class="font-label-md text-label-md">MEUS ANIMAIS</span><span class="material-symbols-outlined">pets</span></div>
-         <p class="font-headline-lg text-headline-md font-bold mt-md">2</p>
-         <p class="text-sm opacity-90">atribuídos a você</p>
-       </button>
-    </section>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
-      <section class="bg-surface-container-lowest rounded-xl shadow-md p-md md:p-lg border border-surface-variant/50">
-        <div class="mb-md pb-sm border-b border-surface-variant">
-          <h3 class="font-headline-md text-headline-md text-on-surface">Precisa da sua atenção</h3>
-          <p class="text-sm text-on-surface-variant mt-1">Acesse cada área pelo menu lateral.</p>
-        </div>
-        <div class="space-y-sm">
-          <button onclick="mostrarPagina('adocao')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">family_restroom</span><div class="flex-1"><p class="font-bold">Processo de adoção</p><p class="text-sm text-on-surface-variant">1 adoção está em andamento.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
-          <button onclick="mostrarPagina('eventos')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">storefront</span><div class="flex-1"><p class="font-bold">Próximos eventos</p><p class="text-sm text-on-surface-variant">Veja local, data e horário.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
-          <button type="button" onclick="mostrarPagina('agenda')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">videocam</span><div class="flex-1"><p class="font-bold">FaceTime pendente</p><p class="text-sm text-on-surface-variant">1 interessado aguarda confirmação de horário.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
-          <button onclick="mostrarPagina('historico')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left"><span class="material-symbols-outlined text-primary">history</span><div class="flex-1"><p class="font-bold">Histórico</p><p class="text-sm text-on-surface-variant">FaceTime, encontros e eventos.</p></div><span class="material-symbols-outlined">chevron_right</span></button>
-        </div>
-      </section>
-
-      <section class="bg-surface-container-lowest rounded-xl shadow-md p-md md:p-lg border border-surface-variant/50">
-        <div class="flex justify-between items-center mb-md pb-sm border-b border-surface-variant">
-          <div><h3 class="font-headline-md text-headline-md text-on-surface">Próximos compromissos</h3><p class="text-sm text-on-surface-variant mt-1">O que está marcado na sua agenda.</p></div>
-          <button onclick="mostrarPagina('agenda')" class="text-primary font-semibold text-sm">Ver agenda</button>
-        </div>
-        <div class="space-y-sm">
-          <button onclick="mostrarPagina('agenda')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container text-left">
-            <div class="w-12 h-12 rounded-lg bg-primary text-white flex flex-col items-center justify-center shrink-0"><span class="text-xs">14 AGO</span><span class="font-bold">14h</span></div>
-            <div class="flex-1"><p class="font-bold">FaceTime com Maria</p><p class="text-sm text-on-surface-variant">Luna • interessado em adoção</p></div>
-            <span class="material-symbols-outlined text-primary">videocam</span>
-          </button>
-          <button onclick="mostrarPagina('agenda')" class="w-full flex items-center gap-md p-md rounded-xl bg-surface-container-low hover:bg-surface-container text-left">
-            <div class="w-12 h-12 rounded-lg bg-secondary text-white flex flex-col items-center justify-center shrink-0"><span class="text-xs">16 AGO</span><span class="font-bold">10h</span></div>
-            <div class="flex-1"><p class="font-bold">Encontro presencial</p><p class="text-sm text-on-surface-variant">Thor • João Silva</p></div>
-            <span class="material-symbols-outlined text-primary">handshake</span>
-          </button>
-        </div>
-      </section>
-    </div>
-  `,
-
-  animais: `
-    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
-      <div>
-        <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Animais atribuídos</p>
-        <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Meus animais</h2>
-        <p class="text-on-surface-variant mt-1">Animais cadastrados pela responsável pelo projeto e atribuídos a você.</p>
-      </div>
-    </header>
-
-    <div class="mb-lg p-md md:p-lg rounded-xl bg-secondary-container text-on-secondary-container border border-outline-variant/40">
-      <div class="flex items-start gap-sm">
-        <span class="material-symbols-outlined text-primary">info</span>
-        <div>
-          <p class="font-bold">Como funciona</p>
-          <p class="text-sm mt-1">
-            A responsável pelo projeto cadastra os animais e define qual voluntário ficará responsável por cada um.
-            Você cuida do acompanhamento, da agenda, dos FaceTimes e dos encontros presenciais.
-          </p>
-        </div>
-      </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-      <article class="bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 flex gap-md">
-        <div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container shrink-0">
-          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80" alt="Luna">
-        </div>
-        <div class="flex-1">
-          <div class="flex items-start justify-between gap-sm">
-            <div>
-              <h3 class="font-headline-md text-headline-md text-primary">Luna</h3>
-              <p class="text-sm text-on-surface-variant">Cachorra • 2 anos</p>
-            </div>
-            <span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold">Em adoção</span>
-          </div>
-          <p class="mt-2 text-sm text-on-surface-variant">2 pessoas interessadas</p>
-          <div class="mt-3 flex flex-wrap gap-2">
-            <button type="button" onclick="mostrarPagina('agenda')" class="px-3 py-2 rounded-full bg-[#5F376E] text-white text-xs font-semibold">Ver agenda</button>
-            <button type="button" onclick="mostrarPagina('adocao')" class="px-3 py-2 rounded-full border border-primary text-primary text-xs font-semibold">Processos de adoção</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="bg-surface-container-lowest rounded-xl p-md shadow-md border border-surface-variant/50 flex gap-md">
-        <div class="w-24 h-24 rounded-xl overflow-hidden bg-surface-container shrink-0">
-          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=300&q=80" alt="Thor">
-        </div>
-        <div class="flex-1">
-          <div class="flex items-start justify-between gap-sm">
-            <div>
-              <h3 class="font-headline-md text-headline-md text-primary">Thor</h3>
-              <p class="text-sm text-on-surface-variant">Cachorro • 4 anos</p>
-            </div>
-            <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">Publicado</span>
-          </div>
-          <p class="mt-2 text-sm text-on-surface-variant">1 pessoa interessada</p>
-          <div class="mt-3 flex flex-wrap gap-2">
-            <button type="button" onclick="mostrarPagina('agenda')" class="px-3 py-2 rounded-full bg-[#5F376E] text-white text-xs font-semibold">Ver agenda</button>
-            <button type="button" onclick="mostrarPagina('adocao')" class="px-3 py-2 rounded-full border border-primary text-primary text-xs font-semibold">Processos de adoção</button>
-          </div>
-        </div>
-      </article>
-    </div>
-  `,
-
-
-  agenda: `
-    <header class="mb-lg flex flex-col md:flex-row md:items-end md:justify-between gap-md">
-      <div><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Lar temporário</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Minha agenda</h2><p class="text-on-surface-variant mt-1">Gerencie seus compromissos e horários disponíveis.</p></div>
-      <button onclick="mostrarPagina('config')" class="inline-flex items-center gap-sm bg-[#5F376E] text-white px-5 py-3 rounded-full font-semibold"><span class="material-symbols-outlined">edit_calendar</span>Configurar disponibilidade</button>
-    </header>
-    <div class="flex gap-2 mb-lg overflow-x-auto">
-      <button class="px-5 py-2 rounded-full bg-[#5F376E] text-white font-semibold">Visão geral</button>
-      <button class="px-5 py-2 rounded-full bg-surface-container-lowest border border-surface-variant text-on-surface-variant">FaceTime</button>
-      <button class="px-5 py-2 rounded-full bg-surface-container-lowest border border-surface-variant text-on-surface-variant">Encontros presenciais</button>
-    </div>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
-      <section class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
-        <div class="flex justify-between items-center mb-md"><h3 class="font-headline-md text-headline-md text-on-surface">Agosto 2026</h3><div class="flex gap-2"><button class="p-2 rounded-full hover:bg-surface-container"><span class="material-symbols-outlined">chevron_left</span></button><button class="p-2 rounded-full hover:bg-surface-container"><span class="material-symbols-outlined">chevron_right</span></button></div></div>
-        <div class="grid grid-cols-7 gap-2 text-center text-xs text-on-surface-variant mb-2"><div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div></div>
-        <div class="grid grid-cols-7 gap-2">
-          <div class="p-4 text-center text-outline-variant">9</div><div class="p-4 text-center">10</div><div class="p-4 text-center">11</div><div class="p-4 text-center">12</div><div class="p-4 text-center bg-[#5F376E] text-white rounded-lg">13</div><div class="p-4 text-center">14</div><div class="p-4 text-center">15</div>
-        </div>
-        <div class="mt-md pt-md border-t border-surface-variant flex flex-wrap gap-md text-xs text-on-surface-variant"><span>● FaceTime</span><span>● Encontro presencial</span></div>
-      </section>
-      <section class="bg-surface-container-lowest rounded-xl p-md md:p-lg shadow-md border border-surface-variant/50">
-        <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Compromissos do dia</h3>
-        <div class="space-y-sm">
-          <div class="p-md rounded-xl bg-surface-container-low border-l-4 border-secondary"><p class="font-bold">14:00 — FaceTime</p><p class="text-sm text-on-surface-variant">Maria & Luna</p></div>
-          <div class="p-md rounded-xl bg-surface-container-low border-l-4 border-primary"><p class="font-bold">16:00 — Encontro presencial</p><p class="text-sm text-on-surface-variant">João & Thor</p></div>
-        </div>
-      </section>
-    </div>
-  `,
-
-  adocao: `
-    <header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Acompanhamento</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Processos de adoção</h2><p class="text-on-surface-variant mt-1">Veja quem está interessado e em qual etapa está cada processo.</p></header>
-    <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 overflow-hidden">
-      <div class="p-md border-b border-surface-variant"><h3 class="font-headline-md text-headline-md text-on-surface">Interessados</h3></div>
-      <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-surface-container-low"><tr><th class="p-md">Pessoa</th><th class="p-md">Animal</th><th class="p-md">Etapa</th><th class="p-md">Ação</th></tr></thead><tbody>
-        <tr class="border-t border-surface-variant"><td class="p-md font-semibold">Maria Costa</td><td class="p-md">Luna</td><td class="p-md"><span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs">Entrevista</span></td><td class="p-md"><button class="text-primary font-semibold">Detalhes</button></td></tr>
-        <tr class="border-t border-surface-variant"><td class="p-md font-semibold">João Silva</td><td class="p-md">Thor</td><td class="p-md"><span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs">Encontro realizado</span></td><td class="p-md"><button class="text-primary font-semibold">Detalhes</button></td></tr>
-      </tbody></table></div>
-    </section>
-  `,
-
-  eventos: `
-    <header class="mb-lg">
-      <p class="font-label-md text-label-md text-secondary uppercase mb-xs">Eventos do projeto</p>
-      <h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Próximos eventos</h2>
-      <p class="text-on-surface-variant mt-1">
-        Veja os eventos criados pela Bárbara e solicite uma vaga para um dos seus animais.
-      </p>
-    </header>
-
-    <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md md:p-lg">
-      <div class="flex items-center justify-between gap-md mb-lg">
-        <div>
-          <h3 class="font-headline-md text-headline-md text-on-surface">Eventos disponíveis</h3>
-          <p class="text-sm text-on-surface-variant mt-1">
-            A inscrição precisa ser aprovada pela responsável pelo projeto.
-          </p>
-        </div>
-
-        <span class="inline-flex items-center gap-xs px-3 py-2 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold">
-          <span class="material-symbols-outlined text-base">visibility</span>
-          Para voluntários
-        </span>
-      </div>
-
-      <div id="listaEventosVoluntario" class="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <div class="md:col-span-2 p-lg rounded-xl bg-surface-container-low text-center">
-          <span class="material-symbols-outlined text-4xl text-primary animate-pulse">sync</span>
-          <p class="font-bold mt-2">Carregando eventos...</p>
-        </div>
-      </div>
-    </section>
-  `,
-  historico: `
-    <header class="mb-lg"><p class="font-label-md text-label-md text-secondary uppercase mb-xs">Atividades</p><h2 class="font-headline-lg text-headline-md text-on-surface font-bold">Histórico</h2><p class="text-on-surface-variant mt-1">FaceTime, encontros presenciais e participação em eventos.</p></header>
-    <section class="bg-surface-container-lowest rounded-xl shadow-md border border-surface-variant/50 p-md">
-      <div class="space-y-sm">
-        <div class="flex items-center gap-md p-md rounded-xl bg-surface-container-low"><span class="material-symbols-outlined text-primary">videocam</span><div><p class="font-bold">FaceTime — Luna</p><p class="text-sm text-on-surface-variant">08/08/2026 • Maria</p></div></div>
-        <div class="flex items-center gap-md p-md rounded-xl bg-surface-container-low"><span class="material-symbols-outlined text-primary">handshake</span><div><p class="font-bold">Encontro presencial — Thor</p><p class="text-sm text-on-surface-variant">03/08/2026 • João</p></div></div>
-        <div class="flex items-center gap-md p-md rounded-xl bg-surface-container-low"><span class="material-symbols-outlined text-primary">storefront</span><div><p class="font-bold">Evento — Luna e Thor</p><p class="text-sm text-on-surface-variant">27/07/2026</p></div></div>
-      </div>
-    </section>
-  `
-};
-
-
-function salvarDisponibilidade() {
-  const feedback = document.getElementById("feedbackDisponibilidade");
-  if (!feedback) return;
-  feedback.classList.remove("hidden");
-  setTimeout(() => feedback.classList.add("hidden"), 3000);
-}
-
-function configurarEventosDisponibilidade() {
-  document.querySelectorAll(".day-toggle").forEach(toggle => {
-    toggle.addEventListener("change", function () {
-      const row = this.closest(".availability-row");
-      if (!row) return;
-
-      row.querySelectorAll(".time-input").forEach(input => {
-        input.disabled = !this.checked;
-        input.classList.toggle("opacity-50", !this.checked);
-      });
-    });
-  });
-}
-
-function mostrarPagina(pagina) {
-  const conteudo = document.getElementById("conteudo-painel");
-  if (!conteudo) return;
-
-  const paginaValida = Object.prototype.hasOwnProperty.call(paginas, pagina)
-    ? pagina
-    : "inicio";
-
-  conteudo.innerHTML = paginas[paginaValida];
-
-  if (paginaValida === "eventos") {
-    carregarEventosVoluntario();
-  }
-
-  document.querySelectorAll("[data-menu]").forEach(item => {
-    item.classList.remove("bg-white/20", "text-white", "font-bold");
-    item.classList.add("text-white/70");
-    if (item.dataset.menu === pagina) {
-      item.classList.remove("text-white/70");
-      item.classList.add("bg-white/20", "text-white", "font-bold");
-    }
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  mostrarPagina("inicio");
-  configurarEventosDisponibilidade();
-});
-</script>
-<script>
-document.addEventListener('click', function (event) {
-  var trigger = event.target.closest('[data-panel-menu-toggle]');
-  if (!trigger) return;
-  var sidebar = document.querySelector('[data-panel-sidebar]');
-  if (sidebar) sidebar.classList.toggle('hidden');
-});
-</script>
-
-
-
-<script>
-/*
- * EVENTOS - PAINEL DO VOLUNTÁRIO
- *
- * Eventos são criados somente pela conta Master/Bárbara.
- * O voluntário apenas:
- * 1. visualiza os eventos publicados;
- * 2. escolhe um animal atribuído a ele;
- * 3. envia uma solicitação;
- * 4. aguarda a aprovação da Bárbara.
- *
- * API esperada:
- * GET  /api/events
- * GET  /api/event-requests?volunteerId=...
- * POST /api/event-requests
- */
-
-const API_URL = "/api";
-
-/*
- * ID do voluntário atualmente conectado.
- *
- * Este é o ID que você mostrou para "Equipe Pacotinho":
- * 6a7a808c4fce3aac7eb3a1fa
- *
- * Quando o login estiver ligado à sessão, substitua esta constante
- * pela informação da sessão/token.
- */
-const VOLUNTARIO_ID = "6a7a808c4fce3aac7eb3a1fa";
-
-let eventoSelecionadoParaSolicitacao = null;
-let eventosCarregados = [];
-let solicitacoesDoVoluntario = [];
-let animaisDoVoluntario = [
-  {
-    id: "luna-demo",
-    name: "Luna"
-  },
-  {
-    id: "thor-demo",
-    name: "Thor"
-  }
-];
-
-
-function escaparHTML(valor) {
-  if (valor === null || valor === undefined) return "";
-
-  return String(valor)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-function obterId(item) {
-  if (!item) return "";
-
-  return (
-    item._id?.$oid ||
-    item._id ||
-    item.id ||
-    ""
-  );
-}
-
-
-function formatarDataEvento(data) {
-  if (!data) return "Data não informada";
-
-  const partes = String(data).split("-");
-
-  if (partes.length !== 3) {
-    return data;
-  }
-
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
-}
-
-
-function formatarHorarioEvento(evento) {
-  if (evento.startTime && evento.endTime) {
-    return `${evento.startTime} às ${evento.endTime}`;
-  }
-
-  return evento.horario || "Horário não informado";
-}
-
-
-function statusSolicitacao(status) {
-  const mapa = {
-    pending: {
-      texto: "Aguardando aprovação",
-      classe: "bg-yellow-100 text-yellow-800"
-    },
-    approved: {
-      texto: "Aprovada",
-      classe: "bg-green-100 text-green-800"
-    },
-    rejected: {
-      texto: "Recusada",
-      classe: "bg-red-100 text-red-800"
-    }
-  };
-
-  return mapa[status] || mapa.pending;
-}
-
-
-async function obterEventos() {
-  const resposta = await fetch(`${API_URL}/events`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
-
-  if (!resposta.ok) {
-    throw new Error("Não foi possível carregar os eventos.");
-  }
-
-  const dados = await resposta.json();
-
-  if (Array.isArray(dados)) return dados;
-
-  if (Array.isArray(dados.events)) {
-    return dados.events;
-  }
-
-  return [];
-}
-
-
-async function obterSolicitacoes() {
-  const resposta = await fetch(
-    `${API_URL}/event-requests?volunteerId=${encodeURIComponent(VOLUNTARIO_ID)}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-
-  /*
-   * Se a rota ainda não existir, não impedimos a visualização
-   * dos eventos. O restante do sistema pode ser conectado depois.
-   */
-  if (!resposta.ok) {
-    return [];
-  }
-
-  const dados = await resposta.json();
-
-  if (Array.isArray(dados)) return dados;
-
-  if (Array.isArray(dados.requests)) {
-    return dados.requests;
-  }
-
-  return [];
-}
-
-
-function obterSolicitacaoDoEvento(eventoId) {
-  return solicitacoesDoVoluntario.find(
-    item => String(obterId(item.eventId || item.event)) === String(eventoId)
-  );
-}
-
-
-function renderizarEventosVoluntario() {
-  const container = document.getElementById("listaEventosVoluntario");
-
-  if (!container) return;
-
-  if (!eventosCarregados.length) {
-    container.innerHTML = `
-      <div class="md:col-span-2 p-lg rounded-xl bg-surface-container-low text-center">
-        <span class="material-symbols-outlined text-4xl text-primary">event</span>
-
-        <p class="font-bold mt-2">
-          Nenhum evento disponível
-        </p>
-
-        <p class="text-sm text-on-surface-variant mt-1">
-          Quando Bárbara publicar um evento, ele aparecerá aqui.
-        </p>
-      </div>
-    `;
-
-    return;
-  }
-
-
-  container.innerHTML = eventosCarregados.map(evento => {
-
-    const id = obterId(evento);
-
-    const titulo =
-      evento.title ||
-      evento.nome ||
-      "Evento do projeto";
-
-    const descricao =
-      evento.description ||
-      evento.obs ||
-      "";
-
-    const data =
-      evento.date ||
-      evento.data ||
-      "";
-
-    const horario =
-      formatarHorarioEvento(evento);
-
-    const local =
-      evento.location ||
-      evento.local ||
-      "Local não informado";
-
-    const limiteAnimais =
-      evento.animalLimit ??
-      "-";
-
-    const limiteVoluntarios =
-      evento.volunteerLimit ??
-      "-";
-
-    const limiteEspaco =
-      evento.spaceLimit ??
-      "-";
-
-    const solicitacao =
-      obterSolicitacaoDoEvento(id);
-
-    let acao = "";
-
-    if (solicitacao) {
-
-      const status = statusSolicitacao(
-        solicitacao.status
-      );
-
-      acao = `
-        <div class="mt-md rounded-xl ${status.classe} px-4 py-3">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-base">
-              ${solicitacao.status === "approved"
-                ? "check_circle"
-                : solicitacao.status === "rejected"
-                  ? "cancel"
-                  : "schedule"}
-            </span>
-
-            <p class="font-semibold text-sm">
-              ${status.texto}
-            </p>
-          </div>
-        </div>
-      `;
-
-    } else {
-
-      acao = `
-        <button
-          type="button"
-          onclick="abrirSolicitacaoEvento('${escaparHTML(id)}')"
-          class="mt-md w-full bg-[#5F376E] text-white px-5 py-3 rounded-full font-semibold hover:bg-[#472056] transition-colors flex items-center justify-center gap-2"
-        >
-          <span class="material-symbols-outlined">
-            pets
-          </span>
-
-          Solicitar vaga para meu animal
-        </button>
-      `;
-    }
-
-
-    return `
-      <article class="bg-surface-container-low rounded-xl shadow-md border border-surface-variant/50 p-md">
-
-        <div class="flex items-start justify-between gap-sm">
-
-          <div>
-
-            <span class="inline-flex px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold mb-2">
-              Evento publicado
-            </span>
-
-            <h3 class="font-headline-md text-headline-md text-primary">
-              ${escaparHTML(titulo)}
-            </h3>
-
-            <p class="text-sm text-on-surface-variant mt-1">
-              ${escaparHTML(formatarDataEvento(data))}
-              •
-              ${escaparHTML(horario)}
-            </p>
-
-          </div>
-
-          <span class="material-symbols-outlined text-primary">
-            event
-          </span>
-
-        </div>
-
-
-        <div class="mt-md p-md rounded-xl bg-surface-container-lowest">
-
-          <div class="flex items-start gap-2">
-
-            <span class="material-symbols-outlined text-primary">
-              location_on
-            </span>
-
-            <div>
-
-              <p class="font-semibold">
-                ${escaparHTML(local)}
-              </p>
-
-              ${
-                evento.spaceDescription
-                  ? `
-                    <p class="text-sm text-on-surface-variant mt-1">
-                      ${escaparHTML(evento.spaceDescription)}
-                    </p>
-                  `
-                  : ""
-              }
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        ${
-          descricao
-            ? `
-              <p class="mt-md text-sm text-on-surface-variant leading-6">
-                ${escaparHTML(descricao)}
-              </p>
-            `
-            : ""
-        }
-
-
-        <div class="grid grid-cols-3 gap-2 mt-md">
-
-          <div class="rounded-lg bg-white p-3 text-center">
-
-            <span class="material-symbols-outlined text-primary">
-              pets
-            </span>
-
-            <p class="text-xs text-on-surface-variant mt-1">
-              Animais
-            </p>
-
-            <p class="font-bold">
-              ${escaparHTML(limiteAnimais)}
-            </p>
-
-          </div>
-
-
-          <div class="rounded-lg bg-white p-3 text-center">
-
-            <span class="material-symbols-outlined text-primary">
-              groups
-            </span>
-
-            <p class="text-xs text-on-surface-variant mt-1">
-              Voluntários
-            </p>
-
-            <p class="font-bold">
-              ${escaparHTML(limiteVoluntarios)}
-            </p>
-
-          </div>
-
-
-          <div class="rounded-lg bg-white p-3 text-center">
-
-            <span class="material-symbols-outlined text-primary">
-              meeting_room
-            </span>
-
-            <p class="text-xs text-on-surface-variant mt-1">
-              Capacidade
-            </p>
-
-            <p class="font-bold">
-              ${escaparHTML(limiteEspaco)}
-            </p>
-
-          </div>
-
-        </div>
-
-
-        ${acao}
-
-      </article>
-    `;
-
-  }).join("");
-}
-
-
-async function carregarEventosVoluntario() {
-
-  const container =
-    document.getElementById("listaEventosVoluntario");
-
-  if (!container) return;
-
-  container.innerHTML = `
-    <div class="md:col-span-2 p-lg rounded-xl bg-surface-container-low text-center">
-
-      <span class="material-symbols-outlined text-4xl text-primary animate-pulse">
-        sync
-      </span>
-
-      <p class="font-bold mt-2">
-        Carregando eventos...
-      </p>
-
-    </div>
-  `;
-
-
-  try {
-
-    eventosCarregados =
-      await obterEventos();
-
-
-    solicitacoesDoVoluntario =
-      await obterSolicitacoes();
-
-
-    /*
-     * Mostramos apenas eventos publicados.
-     */
-    eventosCarregados =
-      eventosCarregados.filter(
-        evento =>
-          !evento.status ||
-          evento.status === "published"
-      );
-
-
-    renderizarEventosVoluntario();
-
-
-  } catch (erro) {
-
-    console.error(
-      "Erro ao carregar eventos:",
-      erro
-    );
-
-
-    container.innerHTML = `
-      <div class="md:col-span-2 p-lg rounded-xl bg-red-50 border border-red-200">
-
-        <div class="flex items-start gap-3">
-
-          <span class="material-symbols-outlined text-red-600">
-            error
-          </span>
-
-          <div>
-
-            <p class="font-bold text-red-800">
-              Não foi possível carregar os eventos.
-            </p>
-
-            <p class="text-sm text-red-700 mt-1">
-              Verifique se o servidor está funcionando.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-    `;
-  }
-}
-
-
-function abrirSolicitacaoEvento(eventoId) {
-
-  eventoSelecionadoParaSolicitacao =
-    eventosCarregados.find(
-      evento =>
-        String(obterId(evento)) === String(eventoId)
-    );
-
-
-  if (!eventoSelecionadoParaSolicitacao) {
-    alert("Evento não encontrado.");
-    return;
-  }
-
-
-  const modal =
-    document.getElementById(
-      "modalSolicitacaoEvento"
-    );
-
-  const resumo =
-    document.getElementById(
-      "eventoSolicitacaoResumo"
-    );
-
-
-  const select =
-    document.getElementById(
-      "animalEventoSelect"
-    );
-
-
-  if (!modal || !resumo || !select) {
-    return;
-  }
-
-
-  const evento =
-    eventoSelecionadoParaSolicitacao;
-
-
-  resumo.innerHTML = `
-    <strong>
-      ${escaparHTML(
-        evento.title ||
-        evento.nome ||
-        "Evento"
-      )}
-    </strong>
-
-    <br>
-
-    ${escaparHTML(
-      formatarDataEvento(
-        evento.date ||
-        evento.data
-      )
-    )}
-
-    •
-
-    ${escaparHTML(
-      formatarHorarioEvento(evento)
-    )}
-
-    <br>
-
-    ${escaparHTML(
-      evento.location ||
-      evento.local ||
-      "Local não informado"
-    )}
-  `;
-
-
-  select.innerHTML = animaisDoVoluntario.map(
-    animal => `
-      <option value="${escaparHTML(
-        obterId(animal)
-      )}">
-        ${escaparHTML(
-          animal.name ||
-          animal.nome ||
-          "Animal"
-        )}
-      </option>
-    `
-  ).join("");
-
-
-  if (!animaisDoVoluntario.length) {
-
-    select.innerHTML = `
-      <option value="">
-        Nenhum animal atribuído
-      </option>
-    `;
-
-  }
-
-
-  document.getElementById(
-    "observacaoEvento"
-  ).value = "";
-
-
-  document.getElementById(
-    "erroSolicitacaoEvento"
-  ).classList.add("hidden");
-
-
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-}
-
-
-function fecharModalSolicitacao() {
-
-  const modal =
-    document.getElementById(
-      "modalSolicitacaoEvento"
-    );
-
-  if (!modal) return;
-
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
-
-  eventoSelecionadoParaSolicitacao = null;
-}
-
-
-function mostrarErroSolicitacao(mensagem) {
-
-  const erro =
-    document.getElementById(
-      "erroSolicitacaoEvento"
-    );
-
-  if (!erro) return;
-
-  erro.textContent = mensagem;
-  erro.classList.remove("hidden");
-}
-
-
-async function enviarSolicitacaoEvento() {
-
-  if (!eventoSelecionadoParaSolicitacao) {
-    return;
-  }
-
-
-  const animalId =
-    document.getElementById(
-      "animalEventoSelect"
-    ).value;
-
-
-  const observacao =
-    document.getElementById(
-      "observacaoEvento"
-    ).value.trim();
-
-
-  if (!animalId) {
-
-    mostrarErroSolicitacao(
-      "Selecione um animal antes de enviar a solicitação."
-    );
-
-    return;
-  }
-
-
-  const btn =
-    document.getElementById(
-      "btnEnviarSolicitacaoEvento"
-    );
-
-
-  btn.disabled = true;
-
-  btn.innerHTML = `
-    <span class="material-symbols-outlined animate-spin">
-      progress_activity
-    </span>
-    Enviando...
-  `;
-
-
-  const eventoId =
-    obterId(
-      eventoSelecionadoParaSolicitacao
-    );
-
-
-  const solicitacao = {
-
-    eventId: eventoId,
-
-    volunteerId: VOLUNTARIO_ID,
-
-    animalId: animalId,
-
-    status: "pending",
-
-    observation: observacao,
-
-    createdAt:
-      new Date().toISOString()
-
-  };
-
-
-  try {
-
-    const resposta =
-      await fetch(
-        `${API_URL}/event-requests`,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body:
-            JSON.stringify(
-              solicitacao
-            )
-        }
-      );
-
-
-    const resultado =
-      await resposta
-        .json()
-        .catch(
-          () => ({})
-        );
-
-
-    if (!resposta.ok) {
-
-      throw new Error(
-        resultado.message ||
-        resultado.error ||
-        "Não foi possível enviar a solicitação."
-      );
-
-    }
-
-
-    fecharModalSolicitacao();
-
-
-    alert(
-      "Solicitação enviada! Agora aguarde a aprovação da Bárbara."
-    );
-
-
-    /*
-     * Atualiza as solicitações para que o botão
-     * passe a mostrar "Aguardando aprovação".
-     */
-    solicitacoesDoVoluntario =
-      await obterSolicitacoes();
-
-
-    renderizarEventosVoluntario();
-
-
-  } catch (erro) {
-
-    console.error(
-      "Erro ao solicitar participação:",
-      erro
-    );
-
-
-    mostrarErroSolicitacao(
-      erro.message ||
-      "Não foi possível enviar a solicitação."
-    );
-
-
-  } finally {
-
-    btn.disabled = false;
-
-    btn.innerHTML = `
-      <span class="material-symbols-outlined">
-        send
-      </span>
-      Solicitar vaga
-    `;
-  }
-}
-
-
-/*
- * Quando o voluntário abre a página de eventos,
- * buscamos os eventos publicados no banco.
- */
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    carregarEventosVoluntario();
-
-  }
-);
-</script>
-
-
-<!-- MODAL SOLICITAR VAGA NO EVENTO -->
-<div
-  id="modalSolicitacaoEvento"
-  class="fixed inset-0 hidden items-center justify-center bg-black/60 backdrop-blur-sm px-4"
-  style="z-index:999999;"
->
-  <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
-    <button
-      type="button"
-      onclick="fecharModalSolicitacao()"
-      class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-2xl font-bold text-gray-600 hover:bg-gray-200"
-      aria-label="Fechar"
-    >×</button>
-
-    <div class="pr-10">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-full bg-secondary-container text-primary flex items-center justify-center">
-          <span class="material-symbols-outlined">pets</span>
-        </div>
-        <div>
-          <p class="text-sm font-semibold text-secondary uppercase">Participação em evento</p>
-          <h2 class="text-2xl font-bold text-gray-800">Solicitar uma vaga</h2>
-        </div>
-      </div>
-
-      <p id="eventoSolicitacaoResumo" class="mt-4 text-sm leading-6 text-gray-600"></p>
-    </div>
-
-    <label for="animalEventoSelect" class="block mt-5 text-sm font-semibold text-gray-700">
-      Qual animal você deseja levar? *
+    <input id="animalId" type="hidden">
+
+    <label for="animalStatus" class="rotulo">Situação</label>
+    <select id="animalStatus" class="campo mb-1">
+      <option value="disponível">Disponível para adoção</option>
+      <option value="em adoção">Em processo de adoção</option>
+    </select>
+    <p class="mb-4 text-xs text-on-surface-variant">Só animais "disponíveis" aparecem no site. Para registrar uma adoção, use o botão <strong>Marcar como adotado</strong>.</p>
+
+    <label for="animalResponsavel" class="rotulo">Responsável</label>
+    <input id="animalResponsavel" class="campo mb-4" maxlength="120" placeholder="Ex.: Bárbara">
+
+    <label for="animalDescricao" class="rotulo">Descrição</label>
+    <textarea id="animalDescricao" class="campo mb-4" rows="4" maxlength="1000"></textarea>
+
+    <label class="mb-5 flex items-center gap-3 rounded-xl border border-surface-variant p-3">
+      <input id="animalPcd" type="checkbox" class="h-5 w-5 rounded text-primary-container focus:ring-primary-container">
+      <span class="text-sm"><strong>Animal PCD</strong> (com alguma deficiência)</span>
     </label>
 
-    <select
-      id="animalEventoSelect"
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-    ></select>
-
-    <label for="observacaoEvento" class="block mt-4 text-sm font-semibold text-gray-700">
-      Observação
-    </label>
-
-    <textarea
-      id="observacaoEvento"
-      rows="3"
-      maxlength="500"
-      placeholder="Alguma informação importante sobre o animal ou participação?"
-      class="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#5F376E] focus:ring-[#5F376E]"
-    ></textarea>
-
-    <div class="mt-4 rounded-xl bg-secondary-container/60 p-4">
-      <div class="flex items-start gap-3">
-        <span class="material-symbols-outlined text-primary">info</span>
-        <p class="text-sm leading-5 text-gray-700">
-          Sua solicitação ficará <strong>pendente</strong> até Bárbara analisar
-          o espaço disponível e aprovar sua participação.
-        </p>
-      </div>
-    </div>
-
-    <div
-      id="erroSolicitacaoEvento"
-      class="hidden mt-4 rounded-xl bg-red-50 border border-red-200 text-red-700 p-4 text-sm"
-    ></div>
-
-    <button
-      type="button"
-      id="btnEnviarSolicitacaoEvento"
-      onclick="enviarSolicitacaoEvento()"
-      class="mt-5 w-full rounded-full bg-[#5F376E] py-3 font-semibold text-white hover:bg-[#472056] transition flex items-center justify-center gap-2"
-    >
-      <span class="material-symbols-outlined">send</span>
-      Solicitar vaga
+    <button type="button" id="btnSalvarAnimal" onclick="salvarAnimal()" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
+      Salvar
     </button>
   </div>
 </div>
 
-</body></html>
+<!-- ==================== MODAL MARCAR COMO ADOTADO ==================== -->
+<div id="modalAdocao" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4 flex items-start justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold text-green-700">Marcar como adotado 💜</p>
+        <h2 id="adocaoTitulo" class="text-xl font-bold text-primary"></h2>
+      </div>
+      <button type="button" onclick="fecharModal('modalAdocao')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <input id="adocaoId" type="hidden">
+
+    <label for="adocaoData" class="rotulo">Dia da adoção</label>
+    <input id="adocaoData" type="date" class="campo mb-4">
+
+    <label for="adocaoLocal" class="rotulo">Onde foi adotado? <span class="font-normal text-on-surface-variant">(opcional)</span></label>
+    <input id="adocaoLocal" class="campo mb-1" list="locaisAdocao" maxlength="120" placeholder="Ex.: Feirinha do Parque, Pelo site, Instagram">
+    <datalist id="locaisAdocao"></datalist>
+    <p class="mb-5 text-xs text-on-surface-variant">Ajuda a saber quais lugares e canais trazem mais adoções.</p>
+
+    <p class="mb-4 rounded-lg bg-surface-low p-3 text-sm text-on-surface-variant">O animal <strong>sai do site</strong> e passa a contar em <strong>Adotados</strong>.</p>
+
+    <button type="button" id="btnConfirmarAdocao" onclick="confirmarAdocao()" class="w-full rounded-full bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:opacity-60">
+      Confirmar adoção
+    </button>
+  </div>
+</div>
+
+<!-- ==================== MODAL CRIAR EVENTO ==================== -->
+<div id="modalEvento" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
+  <div class="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4 flex items-start justify-between gap-3">
+      <h2 class="text-xl font-bold text-primary">Criar evento</h2>
+      <button type="button" onclick="fecharModal('modalEvento')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <p class="mb-4 text-sm text-on-surface-variant">Todos os campos são obrigatórios.</p>
+
+    <label for="evTitulo" class="rotulo">Nome do evento</label>
+    <input id="evTitulo" class="campo mb-3" maxlength="120" placeholder="Ex.: Feirinha de adoção no parque">
+
+    <label for="evDescricao" class="rotulo">Descrição</label>
+    <textarea id="evDescricao" class="campo mb-3" rows="3" maxlength="1000"></textarea>
+
+    <div class="mb-3 grid grid-cols-3 gap-3">
+      <div><label for="evData" class="rotulo">Data</label><input id="evData" type="date" class="campo"></div>
+      <div><label for="evInicio" class="rotulo">Início</label><input id="evInicio" type="time" class="campo"></div>
+      <div><label for="evFim" class="rotulo">Fim</label><input id="evFim" type="time" class="campo"></div>
+    </div>
+
+    <label for="evLocal" class="rotulo">Local</label>
+    <input id="evLocal" class="campo mb-3" maxlength="200" placeholder="Endereço ou nome do lugar">
+
+    <label for="evEspaco" class="rotulo">Sobre o espaço</label>
+    <textarea id="evEspaco" class="campo mb-3" rows="2" maxlength="600" placeholder="Estrutura, regras, área coberta..."></textarea>
+
+    <div class="mb-5 grid grid-cols-3 gap-3">
+      <div><label for="evAnimais" class="rotulo">Máx. animais</label><input id="evAnimais" type="number" min="1" value="10" class="campo"></div>
+      <div><label for="evVoluntarios" class="rotulo">Máx. voluntários</label><input id="evVoluntarios" type="number" min="1" value="6" class="campo"></div>
+      <div><label for="evCapacidade" class="rotulo">Capacidade</label><input id="evCapacidade" type="number" min="1" value="16" class="campo"></div>
+    </div>
+
+    <button type="button" id="btnSalvarEvento" onclick="salvarEvento()" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
+      Publicar evento
+    </button>
+  </div>
+</div>
+
+<!-- ==================== CONFIRMAÇÃO ==================== -->
+<div id="modalConfirmar" class="fixed inset-0 z-[250] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl">
+    <p id="confirmarTexto" class="mb-5 text-on-surface"></p>
+    <div class="flex gap-2">
+      <button type="button" id="confirmarNao" class="flex-1 rounded-full border border-outline-variant py-2.5 font-semibold text-primary">Cancelar</button>
+      <button type="button" id="confirmarSim" class="flex-1 rounded-full bg-primary-container py-2.5 font-semibold text-white">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== AVISO ==================== -->
+<div id="toast" role="status" aria-live="polite" class="oculto fixed bottom-24 left-1/2 z-[300] max-w-[90vw] -translate-x-1/2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg md:bottom-6"></div>
+
+<script>
+/* ============================================================
+   CONFIGURAÇÃO
+   ============================================================ */
+const API = "/api";
+
+const PAGINAS = [
+  { id: "inicio",      nome: "Visão geral",  curto: "Início",   icone: "dashboard" },
+  { id: "animais",     nome: "Animais",      curto: "Animais",  icone: "pets" },
+  { id: "adocoes",     nome: "Pedidos",      curto: "Pedidos",  icone: "family_restroom" },
+  { id: "adotados",    nome: "Adotados",     curto: "Adotados", icone: "favorite" },
+  { id: "voluntarios", nome: "Voluntários",  curto: "Equipe",   icone: "volunteer_activism" },
+  { id: "eventos",     nome: "Eventos",      curto: "Eventos",  icone: "event" }
+];
+
+const dados = { user: null, animais: [], adocoes: [], voluntarios: [], eventos: [] };
+let paginaAtual = "inicio";
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+}
+
+function aviso(texto, erro = false) {
+  const t = $("toast");
+  t.textContent = texto;
+  t.style.background = erro ? "#b42318" : "#472056";
+  t.classList.remove("oculto");
+  clearTimeout(aviso.timer);
+  aviso.timer = setTimeout(() => t.classList.add("oculto"), 3200);
+}
+
+function abrirModal(id) { $(id).classList.replace("hidden", "flex"); }
+function fecharModal(id) { $(id).classList.replace("flex", "hidden"); }
+
+function confirmar(texto) {
+  return new Promise((resolve) => {
+    $("confirmarTexto").textContent = texto;
+    abrirModal("modalConfirmar");
+    const fim = (r) => { fecharModal("modalConfirmar"); resolve(r); };
+    $("confirmarSim").onclick = () => fim(true);
+    $("confirmarNao").onclick = () => fim(false);
+  });
+}
+
+function dataBR(iso) {
+  if (!iso) return "—";
+  const [a, m, d] = String(iso).slice(0, 10).split("-");
+  return d ? `${d}/${m}/${a}` : iso;
+}
+
+// Faz a chamada à API e devolve o JSON (ou lança erro com a mensagem do servidor)
+async function api(caminho, opcoes = {}) {
+  const resposta = await fetch(API + caminho, {
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json" },
+    ...opcoes
+  });
+  const json = await resposta.json().catch(() => ({}));
+  if (resposta.status === 401) {
+    location.href = "login.html?next=painel-master.html";
+    throw new Error("Sessão expirada.");
+  }
+  if (!resposta.ok) throw new Error(json.message || "Algo deu errado.");
+  return json;
+}
+
+function vazio(texto) {
+  return `<div class="rounded-xl bg-white p-8 text-center text-on-surface-variant">
+    <span class="material-symbols-outlined text-4xl text-secondary">inbox</span>
+    <p class="mt-2 font-semibold">${esc(texto)}</p></div>`;
+}
+
+function titulo(texto, sub, botao = "") {
+  return `<header class="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div><h1 class="text-2xl font-bold text-primary md:text-3xl">${esc(texto)}</h1>
+    ${sub ? `<p class="mt-1 text-on-surface-variant">${esc(sub)}</p>` : ""}</div>${botao}</header>`;
+}
+
+function botaoPrincipal(texto, icone, acao) {
+  return `<button type="button" onclick="${acao}" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 font-semibold text-white hover:bg-primary">
+    <span class="material-symbols-outlined">${icone}</span>${esc(texto)}</button>`;
+}
+
+const STATUS_ANIMAL = {
+  "disponível": ["Disponível", "bg-green-100 text-green-800"],
+  "em adoção":  ["Em adoção", "bg-amber-100 text-amber-800"],
+  "adotado":    ["Adotado", "bg-surface-variant text-on-surface-variant"]
+};
+
+/* ============================================================
+   CARREGAR DADOS
+   ============================================================ */
+async function carregarTudo() {
+  const [animais, adocoes, voluntarios, eventos] = await Promise.allSettled([
+    api("/animals"), api("/applications"), api("/volunteer-requests"), api("/events")
+  ]);
+  const lista = (r) => (r.status === "fulfilled" && Array.isArray(r.value) ? r.value : []);
+  dados.animais = lista(animais);
+  dados.adocoes = lista(adocoes);
+  dados.voluntarios = lista(voluntarios);
+  dados.eventos = lista(eventos);
+  desenhar();
+}
+
+/* ============================================================
+   PÁGINAS
+   ============================================================ */
+function paginaInicio() {
+  const pendentes = dados.voluntarios.filter((v) => v.status === "pending").length;
+  const disponiveis = dados.animais.filter((a) => (a.status || "disponível") === "disponível").length;
+  const proximos = dados.eventos.filter((e) => (e.date || "") >= new Date().toISOString().slice(0, 10));
+
+  const card = (pagina, numero, texto, icone, destaque = false) => `
+    <button type="button" data-ir="${pagina}" class="rounded-2xl p-5 text-left shadow-sm transition hover:shadow-md ${destaque ? "bg-primary-container text-white" : "bg-white"}">
+      <span class="material-symbols-outlined ${destaque ? "" : "text-secondary"}">${icone}</span>
+      <p class="mt-3 text-3xl font-bold">${numero}</p>
+      <p class="text-sm ${destaque ? "text-white/80" : "text-on-surface-variant"}">${texto}</p>
+    </button>`;
+
+  return titulo(`Olá, ${dados.user?.name || dados.user?.nome || ""}!`, "Resumo do projeto.") + `
+    <section class="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+      ${card("animais", disponiveis, "animais disponíveis", "pets")}
+      ${card("adotados", adotadosDoMes().length, "adotados este mês", "favorite")}
+      ${card("voluntarios", pendentes, "voluntários aguardando", "volunteer_activism", pendentes > 0)}
+      ${card("eventos", proximos.length, "próximos eventos", "event")}
+    </section>
+
+    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 text-lg font-bold text-primary">Atalhos</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a href="adicionar-animal.html" class="flex items-center gap-3 rounded-xl bg-surface-low p-4 font-semibold hover:bg-primary-fixed">
+          <span class="material-symbols-outlined text-primary">add_circle</span> Cadastrar animal
+        </a>
+        <button type="button" onclick="abrirModal('modalEvento')" class="flex items-center gap-3 rounded-xl bg-surface-low p-4 text-left font-semibold hover:bg-primary-fixed">
+          <span class="material-symbols-outlined text-primary">event</span> Criar evento
+        </button>
+      </div>
+    </section>`;
+}
+
+function paginaAnimais() {
+  const botao = `<a href="adicionar-animal.html" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 font-semibold text-white hover:bg-primary">
+    <span class="material-symbols-outlined">add</span>Cadastrar animal</a>`;
+
+  const ativos = dados.animais.filter((a) => a.status !== "adotado");
+  const qtdAdotados = dados.animais.length - ativos.length;
+  const sub = `${ativos.length} para adoção` + (qtdAdotados ? ` • ${qtdAdotados} já adotado(s)` : "");
+
+  if (!ativos.length) return titulo("Animais", sub, botao) + vazio("Nenhum animal para adoção no momento.");
+
+  return titulo("Animais", sub, botao) + `
+    <div class="grid gap-3 md:grid-cols-2">
+      ${ativos.map((a) => {
+        const [rotulo, cor] = STATUS_ANIMAL[a.status] || STATUS_ANIMAL["disponível"];
+        return `<article class="flex gap-4 rounded-2xl bg-white p-4 shadow-sm">
+          <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-20 w-20 shrink-0 rounded-xl bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="truncate font-bold text-primary">${esc(a.name || "Sem nome")}</h3>
+              <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
+            </div>
+            <p class="text-sm text-on-surface-variant">${esc([a.species, a.age, a.sex].filter(Boolean).join(" • "))}</p>
+            ${a.responsible_person ? `<p class="mt-1 text-sm">Responsável: <strong>${esc(a.responsible_person)}</strong></p>` : ""}
+            <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold">
+              <button type="button" onclick="abrirAdocao('${esc(a.id)}')" class="text-green-700 hover:underline">Marcar como adotado</button>
+              <button type="button" onclick="editarAnimal('${esc(a.id)}')" class="text-primary hover:underline">Editar</button>
+              <a href="detalhes-animal.html?id=${encodeURIComponent(a.id)}" target="_blank" class="text-secondary hover:underline">Ver no site</a>
+            </div>
+          </div>
+        </article>`;
+      }).join("")}
+    </div>`;
+}
+
+/* ============================================================
+   ADOTADOS — números para saber quando e onde mais se adota
+   ============================================================ */
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+const hojeISO = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+const adotados = () => dados.animais.filter((a) => a.status === "adotado");
+const adotadosDoMes = () => adotados().filter((a) => (a.adopted_at || "").slice(0, 7) === hojeISO().slice(0, 7));
+
+// Barras horizontais simples: [["rótulo", número], ...]
+function barras(lista, vazioTexto = "Sem dados ainda.") {
+  const maior = Math.max(0, ...lista.map(([, n]) => n));
+  if (!maior) return `<p class="text-sm text-on-surface-variant">${vazioTexto}</p>`;
+  return `<div class="space-y-2">${lista.map(([rotulo, n]) => `
+    <div class="flex items-center gap-3 text-sm">
+      <span class="w-24 shrink-0 truncate text-on-surface-variant">${esc(rotulo)}</span>
+      <div class="h-6 flex-1 overflow-hidden rounded-full bg-surface-low">
+        <div class="h-full rounded-full bg-primary-container" style="width:${n ? Math.max(6, (n / maior) * 100) : 0}%"></div>
+      </div>
+      <span class="w-6 shrink-0 text-right font-bold text-primary">${n}</span>
+    </div>`).join("")}</div>`;
+}
+
+function paginaAdotados() {
+  const lista = adotados();
+  const comData = lista.filter((a) => /^\d{4}-\d{2}-\d{2}$/.test(a.adopted_at || ""));
+  const caes = lista.filter((a) => /^c/i.test(a.species || "")).length;
+  const gatos = lista.filter((a) => /^g/i.test(a.species || "")).length;
+
+  // Últimos 12 meses
+  const hoje = new Date(`${hojeISO()}T12:00:00`);
+  const porMes = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
+    const chave = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    porMes.push([`${MESES[d.getMonth()]}/${String(d.getFullYear()).slice(2)}`, comData.filter((a) => a.adopted_at.startsWith(chave)).length]);
+  }
+
+  // Dia da semana (segunda a domingo)
+  const contaDia = [0, 0, 0, 0, 0, 0, 0];
+  comData.forEach((a) => contaDia[new Date(`${a.adopted_at}T12:00:00`).getDay()]++);
+  const porDia = [1, 2, 3, 4, 5, 6, 0].map((i) => [DIAS[i], contaDia[i]]);
+
+  // Onde
+  const contaLocal = {};
+  lista.forEach((a) => { const l = (a.adoption_place || "Não informado").trim() || "Não informado"; contaLocal[l] = (contaLocal[l] || 0) + 1; });
+  const porLocal = Object.entries(contaLocal).sort((x, y) => y[1] - x[1]);
+
+  const numero = (valor, texto, destaque = false) => `
+    <div class="rounded-2xl p-5 shadow-sm ${destaque ? "bg-primary-container text-white" : "bg-white"}">
+      <p class="text-3xl font-bold">${valor}</p>
+      <p class="text-sm ${destaque ? "text-white/80" : "text-on-surface-variant"}">${texto}</p>
+    </div>`;
+
+  const bloco = (tituloBloco, conteudo) => `
+    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 font-bold text-primary">${tituloBloco}</h2>${conteudo}
+    </section>`;
+
+  const recentes = [...lista].sort((a, b) => String(b.adopted_at || "").localeCompare(String(a.adopted_at || "")));
+
+  return titulo("Adotados", "Cada animal marcado como adotado entra aqui.") + `
+    <section class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+      ${numero(lista.length, "adotados pelo painel", true)}
+      ${numero(adotadosDoMes().length, "neste mês")}
+      ${numero(caes, "cães")}
+      ${numero(gatos, "gatos")}
+    </section>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      ${bloco("Adoções por mês", barras(porMes))}
+      ${bloco("Dia da semana", barras(porDia))}
+      <div class="lg:col-span-2">${bloco("Onde foram adotados", barras(porLocal, "Ainda não há locais registrados."))}</div>
+    </div>
+
+    <h2 class="mb-3 mt-8 text-lg font-bold text-primary">Histórico</h2>
+    ${recentes.length ? `<div class="divide-y divide-surface-variant rounded-2xl bg-white shadow-sm">
+      ${recentes.map((a) => `
+        <div class="flex items-center gap-3 p-4">
+          <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-12 w-12 shrink-0 rounded-full bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
+          <div class="min-w-0 flex-1">
+            <p class="truncate font-semibold">${esc(a.name)}</p>
+            <p class="truncate text-sm text-on-surface-variant">${a.adopted_at ? `${dataBR(a.adopted_at)} (${DIAS[new Date(a.adopted_at + "T12:00:00").getDay()].toLowerCase()})` : "Data não informada"}${a.adoption_place ? " • " + esc(a.adoption_place) : ""}</p>
+          </div>
+          <button type="button" onclick="desfazerAdocao('${esc(a.id)}')" class="shrink-0 text-sm font-semibold text-secondary hover:underline">Desfazer</button>
+        </div>`).join("")}
+    </div>` : vazio("Nenhum animal marcado como adotado ainda.")}`;
+}
+
+function paginaAdocoes() {
+  if (!dados.adocoes.length) return titulo("Pedidos de adoção") + vazio("Nenhum pedido ainda.");
+
+  const nomeAnimal = (p) => {
+    const id = p.animal_id || p.animalId;
+    const animal = dados.animais.find((a) => String(a.id) === String(id));
+    return animal?.name || p.animal_name || "—";
+  };
+
+  const whatsPedido = (p) => {
+    const numero = numeroWhatsApp(p.phone);
+    if (!numero) return "";
+    const nome = String(p.applicant_name || "").split(" ")[0];
+    const bicho = nomeAnimal(p);
+    const texto = p.contact_type === "videochamada"
+      ? `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos seu pedido de videochamada para conhecer ${bicho === "—" ? "nosso animal" : "o(a) " + bicho}. Podemos combinar o horário?`
+      : `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos seu interesse em adotar ${bicho === "—" ? "um de nossos animais" : "o(a) " + bicho}. Podemos conversar?`;
+    return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+  };
+
+  return titulo("Pedidos de adoção", `${dados.adocoes.length} pedido(s).`) + `
+    <div class="space-y-3">
+      ${dados.adocoes.map((p) => {
+        const video = p.contact_type === "videochamada";
+        const whats = whatsPedido(p);
+        return `
+        <article class="rounded-2xl bg-white p-4 shadow-sm">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="font-bold text-primary">${esc(p.applicant_name || "Sem nome")}</h3>
+              <p class="text-sm text-on-surface-variant">${video ? "Quer conhecer por vídeo" : "Quer adotar"}: <strong>${esc(nomeAnimal(p))}</strong></p>
+            </div>
+            <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold ${video ? "bg-blue-100 text-blue-800" : "bg-secondary-container text-primary"}">
+              ${video ? "Videochamada" : esc(p.status || "em análise")}</span>
+          </div>
+          ${video ? `<p class="mt-2 flex items-center gap-1 text-sm font-semibold text-primary">
+            <span class="material-symbols-outlined text-base">event</span>Prefere ${dataBR(p.preferred_date)} • ${esc(p.preferred_period || "")}</p>` : ""}
+          <p class="mt-2 text-sm">${esc(p.email || "")}${p.phone ? " • " + esc(p.phone) : ""}</p>
+          ${p.notes ? `<p class="mt-2 rounded-lg bg-surface-low p-2 text-sm">${esc(p.notes)}</p>` : ""}
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+            <p class="text-xs text-on-surface-variant">Enviado em ${dataBR(p.created_at)}</p>
+            ${whats ? `<a href="${esc(whats)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1ebe5b]">
+              <span class="material-symbols-outlined text-[18px]">chat</span>Chamar no WhatsApp</a>` : ""}
+          </div>
+        </article>`;
+      }).join("")}
+    </div>`;
+}
+
+// Transforma "(11) 99999-9999" em "5511999999999" para o link do WhatsApp
+function numeroWhatsApp(telefone) {
+  let n = String(telefone || "").replace(/\D/g, "");
+  if (n.length === 10 || n.length === 11) n = "55" + n;
+  return n.length >= 12 ? n : "";
+}
+
+function linkWhatsApp(v) {
+  const numero = numeroWhatsApp(v.phone);
+  if (!numero) return "";
+  const primeiroNome = String(v.name || "").split(" ")[0];
+  const quemFala = String(dados.user?.name || dados.user?.nome || "").split(" ")[0];
+  const ajudas = (v.modalidades || []).join(", ").toLowerCase();
+  const texto =
+    `Olá, ${primeiroNome}! Aqui é ${quemFala ? "a " + quemFala + ", do" : "do"} Pacotinho de Amor 💜 ` +
+    `Recebemos seu cadastro para ser voluntário(a)${ajudas ? " (" + ajudas + ")" : ""}. ` +
+    `Podemos marcar uma conversa rápida para você conhecer o projeto?`;
+  return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+}
+
+function diasParaApagar(v) {
+  if (!v.expires_at) return "";
+  const dias = Math.ceil((new Date(v.expires_at) - new Date()) / 86400000);
+  if (dias <= 0) return "Será apagado hoje";
+  return dias === 1 ? "Apagado amanhã" : `Apagado em ${dias} dias`;
+}
+
+const STATUS_VOLUNTARIO = {
+  pending:   ["Novo", "bg-amber-100 text-amber-800"],
+  contacted: ["Chamado no WhatsApp", "bg-blue-100 text-blue-800"],
+  approved:  ["Aprovado", "bg-green-100 text-green-800"],
+  rejected:  ["Recusado", "bg-red-100 text-red-800"]
+};
+
+function paginaVoluntarios() {
+  const grupos = [
+    ["Novos pedidos", dados.voluntarios.filter((v) => v.status === "pending")],
+    ["Em conversa", dados.voluntarios.filter((v) => v.status === "contacted")],
+    ["Já respondidos", dados.voluntarios.filter((v) => v.status === "approved" || v.status === "rejected")]
+  ];
+
+  const cartao = (v) => {
+    const [rotulo, cor] = STATUS_VOLUNTARIO[v.status] || STATUS_VOLUNTARIO.pending;
+    const whats = linkWhatsApp(v);
+    const aberto = v.status === "pending" || v.status === "contacted";
+
+    return `
+    <article class="rounded-2xl bg-white p-5 shadow-sm">
+      <div class="flex flex-wrap items-start justify-between gap-2">
+        <div class="min-w-0">
+          <h3 class="font-bold text-primary">${esc(v.name || "Sem nome")}</h3>
+          <p class="text-sm text-on-surface-variant">${esc(v.phone || "Sem telefone")} • ${esc(v.email || "")}</p>
+        </div>
+        <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
+      </div>
+
+      <div class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+        <p class="rounded-lg bg-surface-low p-2"><strong>Quer ajudar com:</strong><br>${esc((v.modalidades || []).join(", ") || "—")}</p>
+        <p class="rounded-lg bg-surface-low p-2"><strong>Disponibilidade:</strong><br>${esc(v.disponibilidade || "—")}</p>
+      </div>
+
+      <p class="mt-2 text-xs text-on-surface-variant">Enviado em ${dataBR(v.created_at)} • ${diasParaApagar(v)}</p>
+
+      <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+        ${whats
+          ? `<a href="${esc(whats)}" target="_blank" rel="noopener" onclick="marcarChamado('${esc(v.id)}')"
+               class="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] py-2.5 font-semibold text-white hover:bg-[#1ebe5b]">
+               <span class="material-symbols-outlined text-[20px]">chat</span>Chamar no WhatsApp</a>`
+          : `<p class="flex-1 rounded-full bg-surface-low py-2.5 text-center text-sm text-on-surface-variant">Telefone inválido</p>`}
+        ${aberto ? `
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','approved')" class="flex-1 rounded-full bg-primary-container py-2.5 font-semibold text-white hover:bg-primary">Aprovar</button>
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','rejected')" class="flex-1 rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">Recusar</button>` : ""}
+      </div>
+    </article>`;
+  };
+
+  const secoes = grupos
+    .filter(([, lista]) => lista.length)
+    .map(([nome, lista]) => `
+      <h2 class="mb-3 mt-6 text-lg font-bold text-primary">${nome} <span class="text-on-surface-variant">(${lista.length})</span></h2>
+      <div class="space-y-3">${lista.map(cartao).join("")}</div>`)
+    .join("");
+
+  return titulo("Voluntários", "Chame cada pessoa no WhatsApp para a entrevista.") + `
+    <div class="flex items-start gap-3 rounded-2xl bg-primary-fixed p-4 text-sm text-primary">
+      <span class="material-symbols-outlined">schedule</span>
+      <p>Por privacidade, cada pedido é <strong>apagado automaticamente 14 dias</strong> depois de enviado.
+      Se a pessoa for aprovada, salve o contato dela no seu WhatsApp.</p>
+    </div>
+    ${secoes || `<div class="mt-6">${vazio("Nenhum pedido de voluntariado.")}</div>`}`;
+}
+
+// Ao clicar em "Chamar no WhatsApp", marca o pedido como "em conversa"
+async function marcarChamado(id) {
+  const v = dados.voluntarios.find((x) => String(x.id) === String(id));
+  if (!v || v.status !== "pending") return;
+  try {
+    await api(`/volunteer-requests/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status: "contacted" }) });
+    v.status = "contacted";
+    setTimeout(desenhar, 300);
+  } catch (erro) {
+    console.error(erro);
+  }
+}
+
+function paginaEventos() {
+  const botao = botaoPrincipal("Criar evento", "add", "abrirModal('modalEvento')");
+  if (!dados.eventos.length) return titulo("Eventos", "", botao) + vazio("Nenhum evento cadastrado.");
+
+  return titulo("Eventos", `${dados.eventos.length} evento(s).`, botao) + `
+    <div class="grid gap-3 md:grid-cols-2">
+      ${dados.eventos.map((e) => `
+        <article class="rounded-2xl bg-white p-5 shadow-sm">
+          <p class="text-sm font-semibold text-secondary">${dataBR(e.date)} • ${esc(e.startTime || "")}–${esc(e.endTime || "")}</p>
+          <h3 class="mt-1 font-bold text-primary">${esc(e.title || "Evento")}</h3>
+          <p class="mt-1 flex items-center gap-1 text-sm text-on-surface-variant"><span class="material-symbols-outlined text-base">location_on</span>${esc(e.location || "")}</p>
+          ${e.description ? `<p class="mt-2 text-sm">${esc(e.description)}</p>` : ""}
+          <p class="mt-3 text-xs text-on-surface-variant">Até ${esc(e.animalLimit)} animais • ${esc(e.volunteerLimit)} voluntários • ${esc(e.spaceLimit)} pessoas</p>
+          <button type="button" onclick="excluirEvento('${esc(e.id)}')" class="mt-3 text-sm font-semibold text-red-700 hover:underline">Excluir</button>
+        </article>`).join("")}
+    </div>`;
+}
+
+function paginaConfig() {
+  const u = dados.user || {};
+  return titulo("Configurações", "Seu perfil e sua senha.") + `
+    <section class="mb-4 rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 font-bold text-primary">Perfil</h2>
+      <div class="mb-5 flex items-center gap-4">
+        <img data-foto src="${esc(u.profile_photo || "assets/logo-footer.png")}" alt="Foto de perfil" class="h-20 w-20 rounded-full object-cover">
+        <div class="flex flex-wrap gap-2">
+          <label class="cursor-pointer rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-white hover:bg-primary">
+            Trocar foto <input type="file" accept="image/*" class="hidden" onchange="trocarFoto(this)">
+          </label>
+          <button type="button" onclick="removerFoto()" class="rounded-full border border-outline-variant px-4 py-2 text-sm font-semibold">Remover</button>
+        </div>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div><label for="cfgNome" class="rotulo">Nome</label><input id="cfgNome" class="campo" value="${esc(u.name || u.nome || "")}"></div>
+        <div><label for="cfgEmail" class="rotulo">E-mail</label><input id="cfgEmail" type="email" class="campo" value="${esc(u.email || "")}"></div>
+      </div>
+      <button type="button" onclick="salvarPerfil()" class="mt-4 rounded-full bg-primary-container px-5 py-2.5 font-semibold text-white hover:bg-primary">Salvar</button>
+    </section>
+
+    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <h2 class="mb-4 font-bold text-primary">Trocar senha</h2>
+      <div class="grid gap-4 md:grid-cols-3">
+        <div><label for="cfgSenhaAtual" class="rotulo">Senha atual</label><input id="cfgSenhaAtual" type="password" autocomplete="current-password" class="campo"></div>
+        <div><label for="cfgSenhaNova" class="rotulo">Nova senha</label><input id="cfgSenhaNova" type="password" autocomplete="new-password" class="campo" placeholder="Mínimo 8 caracteres"></div>
+        <div><label for="cfgSenhaConfirma" class="rotulo">Repita a nova senha</label><input id="cfgSenhaConfirma" type="password" autocomplete="new-password" class="campo"></div>
+      </div>
+      <button type="button" onclick="trocarSenha()" class="mt-4 rounded-full border border-primary-container px-5 py-2.5 font-semibold text-primary hover:bg-surface-low">Alterar senha</button>
+    </section>`;
+}
+
+const RENDER = {
+  inicio: paginaInicio, animais: paginaAnimais, adocoes: paginaAdocoes, adotados: paginaAdotados,
+  voluntarios: paginaVoluntarios, eventos: paginaEventos, config: paginaConfig
+};
+
+/* ============================================================
+   NAVEGAÇÃO
+   ============================================================ */
+function montarMenus() {
+  $("menuLateral").innerHTML = PAGINAS.map((p) => `
+    <button type="button" data-ir="${p.id}" class="item-menu flex items-center gap-3 rounded-r-full px-6 py-3 text-left text-white/75 hover:bg-white/10">
+      <span class="material-symbols-outlined">${p.icone}</span>${p.nome}
+      ${p.id === "voluntarios" ? `<span data-contador class="ml-auto hidden rounded-full bg-white px-2 text-xs font-bold text-primary"></span>` : ""}
+    </button>`).join("");
+
+  $("menuInferior").innerHTML = PAGINAS.map((p) => `
+    <button type="button" data-ir="${p.id}" class="item-inferior flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-[10px] font-semibold text-on-surface-variant">
+      <span class="material-symbols-outlined">${p.icone}</span>${p.curto}
+    </button>`).join("");
+}
+
+function desenhar() {
+  $("conteudo").innerHTML = (RENDER[paginaAtual] || paginaInicio)();
+
+  document.querySelectorAll(".item-menu").forEach((b) => {
+    const ativo = b.dataset.ir === paginaAtual;
+    b.classList.toggle("bg-white/20", ativo);
+    b.classList.toggle("font-bold", ativo);
+    b.classList.toggle("text-white", ativo);
+    b.classList.toggle("text-white/75", !ativo);
+  });
+  document.querySelectorAll(".item-inferior").forEach((b) => {
+    const ativo = b.dataset.ir === paginaAtual;
+    b.classList.toggle("bg-primary-container", ativo);
+    b.classList.toggle("text-white", ativo);
+    b.classList.toggle("text-on-surface-variant", !ativo);
+  });
+
+  const pendentes = dados.voluntarios.filter((v) => v.status === "pending").length;
+  document.querySelectorAll("[data-contador]").forEach((el) => {
+    el.textContent = pendentes;
+    el.classList.toggle("hidden", !pendentes);
+  });
+
+  const nome = dados.user?.name || dados.user?.nome || "";
+  document.querySelectorAll("[data-nome]").forEach((el) => (el.textContent = nome));
+  document.querySelectorAll("[data-foto]").forEach((el) => (el.src = dados.user?.profile_photo || "assets/logo-footer.png"));
+}
+
+function irPara(pagina) {
+  paginaAtual = pagina;
+  desenhar();
+  window.scrollTo({ top: 0 });
+}
+
+// Qualquer elemento com data-ir="pagina" leva para aquela página
+document.addEventListener("click", (e) => {
+  const alvo = e.target.closest("[data-ir]");
+  if (alvo) irPara(alvo.dataset.ir);
+});
+
+/* ============================================================
+   AÇÕES — ANIMAIS
+   ============================================================ */
+function editarAnimal(id) {
+  const a = dados.animais.find((x) => String(x.id) === String(id));
+  if (!a) return;
+  $("animalId").value = a.id;
+  $("animalTitulo").textContent = a.name || "Animal";
+  $("animalStatus").value = STATUS_ANIMAL[a.status] ? a.status : "disponível";
+  $("animalResponsavel").value = a.responsible_person || "";
+  $("animalDescricao").value = a.description || "";
+  $("animalPcd").checked = Boolean(a.pcd);
+  abrirModal("modalAnimal");
+}
+
+async function salvarAnimal() {
+  const id = $("animalId").value;
+  const botao = $("btnSalvarAnimal");
+  botao.disabled = true;
+  try {
+    const r = await api(`/animals/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        status: $("animalStatus").value,
+        responsible_person: $("animalResponsavel").value.trim(),
+        description: $("animalDescricao").value.trim(),
+        pcd: $("animalPcd").checked
+      })
+    });
+    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
+    if (i >= 0) dados.animais[i] = r.animal;
+    fecharModal("modalAnimal");
+    desenhar();
+    aviso("Animal atualizado.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+/* ============================================================
+   AÇÕES — ADOÇÃO
+   ============================================================ */
+function abrirAdocao(id) {
+  const a = dados.animais.find((x) => String(x.id) === String(id));
+  if (!a) return;
+  $("adocaoId").value = a.id;
+  $("adocaoTitulo").textContent = a.name || "Animal";
+  $("adocaoData").value = hojeISO();
+  $("adocaoData").max = hojeISO();
+  $("adocaoLocal").value = "";
+
+  // Sugestões: eventos cadastrados + canais comuns + locais já usados
+  const sugestoes = new Set([
+    ...dados.eventos.map((e) => e.title).filter(Boolean),
+    "Pelo site", "Instagram", "Indicação",
+    ...adotados().map((x) => x.adoption_place).filter(Boolean)
+  ]);
+  $("locaisAdocao").innerHTML = [...sugestoes].map((s) => `<option value="${esc(s)}"></option>`).join("");
+
+  abrirModal("modalAdocao");
+}
+
+async function confirmarAdocao() {
+  const id = $("adocaoId").value;
+  const botao = $("btnConfirmarAdocao");
+  botao.disabled = true;
+  try {
+    const r = await api(`/animals/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify({ status: "adotado", adopted_at: $("adocaoData").value, adoption_place: $("adocaoLocal").value.trim() })
+    });
+    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
+    if (i >= 0) dados.animais[i] = r.animal;
+    fecharModal("modalAdocao");
+    desenhar();
+    aviso(`${r.animal?.name || "Animal"} foi adotado! 💜`);
+  } catch (erro) {
+    aviso(erro.message, true);
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+async function desfazerAdocao(id) {
+  const a = dados.animais.find((x) => String(x.id) === String(id));
+  if (!(await confirmar(`Desfazer a adoção de ${a?.name || "este animal"}? Ele volta a aparecer no site.`))) return;
+  try {
+    const r = await api(`/animals/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status: "disponível" }) });
+    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
+    if (i >= 0) dados.animais[i] = r.animal;
+    desenhar();
+    aviso("Adoção desfeita. O animal voltou para o site.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+/* ============================================================
+   AÇÕES — VOLUNTÁRIOS
+   ============================================================ */
+async function decidirVoluntario(id, status) {
+  const v = dados.voluntarios.find((x) => String(x.id) === String(id));
+  const nome = v?.name || "esta pessoa";
+  const texto = status === "approved" ? `Aprovar ${nome} como voluntário(a)?` : `Recusar o pedido de ${nome}?`;
+  if (!(await confirmar(texto))) return;
+
+  try {
+    await api(`/volunteer-requests/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status }) });
+    if (v) v.status = status;
+    desenhar();
+    aviso(status === "approved" ? `${nome} foi aprovado(a). Salve o contato no WhatsApp.` : `${nome} foi recusado(a).`);
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+/* ============================================================
+   AÇÕES — EVENTOS
+   ============================================================ */
+async function salvarEvento() {
+  const valor = (id) => $(id).value.trim();
+  const evento = {
+    title: valor("evTitulo"), description: valor("evDescricao"),
+    date: valor("evData"), startTime: valor("evInicio"), endTime: valor("evFim"),
+    location: valor("evLocal"), spaceDescription: valor("evEspaco"),
+    animalLimit: Number(valor("evAnimais")), volunteerLimit: Number(valor("evVoluntarios")),
+    spaceLimit: Number(valor("evCapacidade"))
+  };
+
+  if (Object.values(evento).some((v) => v === "" || v === 0)) return aviso("Preencha todos os campos.", true);
+  if (evento.endTime <= evento.startTime) return aviso("O horário de fim precisa ser depois do início.", true);
+
+  const botao = $("btnSalvarEvento");
+  botao.disabled = true;
+  try {
+    const r = await api("/events", { method: "POST", body: JSON.stringify(evento) });
+    dados.eventos.push(r.event);
+    dados.eventos.sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
+    ["evTitulo", "evDescricao", "evData", "evInicio", "evFim", "evLocal", "evEspaco"].forEach((id) => ($(id).value = ""));
+    fecharModal("modalEvento");
+    irPara("eventos");
+    aviso("Evento publicado.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+async function excluirEvento(id) {
+  if (!(await confirmar("Excluir este evento? Essa ação não pode ser desfeita."))) return;
+  try {
+    await api(`/events/${encodeURIComponent(id)}`, { method: "DELETE" });
+    dados.eventos = dados.eventos.filter((e) => String(e.id) !== String(id));
+    desenhar();
+    aviso("Evento excluído.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+/* ============================================================
+   AÇÕES — CONFIGURAÇÕES
+   ============================================================ */
+async function atualizarPerfil(corpo, mensagem) {
+  try {
+    const r = await api("/auth/master-profile", { method: "PUT", body: JSON.stringify(corpo) });
+    dados.user = r.user || dados.user;
+    desenhar();
+    aviso(mensagem);
+    return true;
+  } catch (erro) {
+    aviso(erro.message, true);
+    return false;
+  }
+}
+
+function salvarPerfil() {
+  const nome = $("cfgNome").value.trim();
+  const email = $("cfgEmail").value.trim().toLowerCase();
+  if (!nome || !email.includes("@")) return aviso("Informe nome e um e-mail válido.", true);
+  atualizarPerfil({ nome, email }, "Perfil atualizado.");
+}
+
+async function trocarSenha() {
+  const senhaAtual = $("cfgSenhaAtual").value;
+  const novaSenha = $("cfgSenhaNova").value;
+  if (!senhaAtual || !novaSenha) return aviso("Preencha a senha atual e a nova.", true);
+  if (novaSenha.length < 8) return aviso("A nova senha precisa ter pelo menos 8 caracteres.", true);
+  if (novaSenha !== $("cfgSenhaConfirma").value) return aviso("As novas senhas não são iguais.", true);
+  if (await atualizarPerfil({ senhaAtual, novaSenha }, "Senha alterada.")) {
+    ["cfgSenhaAtual", "cfgSenhaNova", "cfgSenhaConfirma"].forEach((id) => ($(id).value = ""));
+  }
+}
+
+// Reduz a foto para 512px antes de enviar
+function reduzirFoto(arquivo) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(arquivo);
+    img.onload = () => {
+      const escala = Math.min(1, 512 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * escala);
+      c.height = Math.round(img.height * escala);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", 0.8));
+    };
+    img.onerror = () => reject(new Error("Não foi possível abrir essa imagem."));
+    img.src = url;
+  });
+}
+
+async function trocarFoto(input) {
+  const arquivo = input.files?.[0];
+  if (!arquivo) return;
+  try {
+    atualizarPerfil({ profile_photo: await reduzirFoto(arquivo) }, "Foto atualizada.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+async function removerFoto() {
+  if (await confirmar("Remover sua foto de perfil?")) atualizarPerfil({ profile_photo: null }, "Foto removida.");
+}
+
+async function sair() {
+  try { await fetch(API + "/auth/logout", { method: "POST", credentials: "same-origin" }); } catch {}
+  location.href = "login.html";
+}
+
+/* ============================================================
+   INÍCIO — confere se quem abriu é a conta Master
+   ============================================================ */
+(async () => {
+  montarMenus();
+  try {
+    const me = await fetch(API + "/auth/me", { credentials: "same-origin" }).then((r) => r.json());
+    if (!me.ok || me.user_type !== "master") throw new Error();
+    dados.user = me.user;
+  } catch {
+    location.href = "login.html?next=painel-master.html";
+    return;
+  }
+  $("verificando").remove();
+  desenhar();
+  carregarTudo();
+})();
+
+// Fecha janelas ao clicar fora ou apertar Esc
+["modalAnimal", "modalEvento", "modalAdocao"].forEach((id) =>
+  $(id).addEventListener("click", (e) => { if (e.target.id === id) fecharModal(id); })
+);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") ["modalAnimal", "modalEvento", "modalAdocao"].forEach(fecharModal);
+});
+</script>
+
+</body>
+</html>

@@ -4,11 +4,11 @@ import hashlib
 import json
 import os
 import secrets
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from http.cookies import SimpleCookie
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
@@ -71,6 +71,29 @@ ALLOWED_ORIGINS = {
     "http://localhost:8000",
 }
 
+# Arquivos que o servidor NUNCA deve entregar ao navegador.
+# Arquivos que começam com "." (como .env e .gitignore) também são bloqueados.
+EXTENSOES_BLOQUEADAS = {".py", ".db", ".md", ".example"}
+
+# Campos aceitos ao cadastrar um animal.
+CAMPOS_ANIMAL = [
+    "name",
+    "species",
+    "breed",
+    "age",
+    "size",
+    "sex",
+    "location",
+    "description",
+    "image",
+]
+
+# Tamanho máximo da foto (em caracteres base64, ~1 MB de imagem).
+TAMANHO_MAX_FOTO = 1_500_000
+
+# Pedidos de voluntariado são apagados automaticamente depois deste prazo.
+DIAS_GUARDAR_VOLUNTARIOS = 14
+
 
 # ============================================================
 # FUNÇÕES AUXILIARES
@@ -89,6 +112,13 @@ def serialize(doc):
 
     if "_id" in result:
         result["id"] = str(result.pop("_id"))
+
+    # Datas do MongoDB viram texto para poderem ir ao navegador.
+    for chave, valor in result.items():
+        if isinstance(valor, datetime):
+            if valor.tzinfo is None:
+                valor = valor.replace(tzinfo=timezone.utc)
+            result[chave] = valor.isoformat()
 
     # Nunca enviar hash de senha para o navegador.
     result.pop("password_hash", None)
@@ -219,7 +249,6 @@ def get_adopter_from_session(handler):
         return None
 
 
-
 def get_volunteer_from_session(handler):
     """Retorna o voluntário autenticado."""
     session = get_session(handler)
@@ -340,6 +369,31 @@ def init_event_indexes():
         name="volunteer_request_created_at",
     )
 
+    # Apaga cada pedido automaticamente quando chega a data em "expires_at".
+    db.volunteer_requests.create_index(
+        "expires_at",
+        expireAfterSeconds=0,
+        name="volunteer_request_ttl",
+    )
+
+    # Pedidos antigos (de antes dessa regra) ganham a data de expiração
+    # contada a partir do dia em que foram enviados.
+    for pedido in db.volunteer_requests.find(
+        {"expires_at": {"$exists": False}},
+        {"created_at": 1},
+    ):
+        try:
+            enviado = datetime.fromisoformat(str(pedido.get("created_at")))
+            if enviado.tzinfo is None:
+                enviado = enviado.replace(tzinfo=timezone.utc)
+        except ValueError:
+            enviado = datetime.now(timezone.utc)
+
+        db.volunteer_requests.update_one(
+            {"_id": pedido["_id"]},
+            {"$set": {"expires_at": enviado + timedelta(days=DIAS_GUARDAR_VOLUNTARIOS)}},
+        )
+
 
 def init_db():
     """Verifica a conexão e cria dados iniciais necessários."""
@@ -399,7 +453,6 @@ class App(SimpleHTTPRequestHandler):
 
         super().end_headers()
 
-
     def send_json(self, code, data, extra_headers=None):
         raw = json.dumps(
             data,
@@ -426,7 +479,6 @@ class App(SimpleHTTPRequestHandler):
 
         self.wfile.write(raw)
 
-
     def send_session_cookie(self, token):
         cookie = SimpleCookie()
 
@@ -439,7 +491,6 @@ class App(SimpleHTTPRequestHandler):
             "Set-Cookie",
             cookie.output(header="").strip(),
         )
-
 
     def clear_session_cookie(self):
         cookie = SimpleCookie()
@@ -454,7 +505,6 @@ class App(SimpleHTTPRequestHandler):
             "Set-Cookie",
             cookie.output(header="").strip(),
         )
-
 
     def body(self):
         try:
@@ -481,11 +531,9 @@ class App(SimpleHTTPRequestHandler):
         ):
             return {}
 
-
     def do_OPTIONS(self):
         self.send_response(204)
         self.end_headers()
-
 
     # ========================================================
     # GET
@@ -493,7 +541,6 @@ class App(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         path = urlparse(self.path).path
-
 
         if path == "/api/health":
             return self.send_json(
@@ -503,7 +550,6 @@ class App(SimpleHTTPRequestHandler):
                     "database": "MongoDB Atlas",
                 },
             )
-
 
         if path == "/api/animals":
             animals = db.animals.find().sort(
@@ -519,9 +565,39 @@ class App(SimpleHTTPRequestHandler):
                 ],
             )
 
+        # ----------------------------------------------------
+        # SOLICITAÇÕES DE ADOÇÃO (PROTEGIDO)
+        # Adotante vê só os próprios pedidos;
+        # voluntário e Master veem todos.
+        # ----------------------------------------------------
 
         if path == "/api/applications":
-            applications = db.applications.find().sort(
+            session = get_session(self)
+
+            if not session:
+                return self.send_json(
+                    401,
+                    {
+                        "ok": False,
+                        "message": "Você precisa estar conectado.",
+                    },
+                )
+
+            filtro = {}
+
+            if session.get("user_type") == "adopter":
+                filtro = {"adopter_id": session["user_id"]}
+
+            elif session.get("user_type") not in {"volunteer", "master"}:
+                return self.send_json(
+                    403,
+                    {
+                        "ok": False,
+                        "message": "Acesso não permitido.",
+                    },
+                )
+
+            applications = db.applications.find(filtro).sort(
                 "created_at",
                 -1,
             )
@@ -533,7 +609,6 @@ class App(SimpleHTTPRequestHandler):
                     for application in applications
                 ],
             )
-
 
         if path == "/api/adopters/me":
             adopter = get_adopter_from_session(self)
@@ -554,8 +629,6 @@ class App(SimpleHTTPRequestHandler):
                     "user": serialize(adopter),
                 },
             )
-
-
 
         # ----------------------------------------------------
         # SOLICITAÇÕES DE CADASTRO DE VOLUNTÁRIOS - MASTER
@@ -581,7 +654,6 @@ class App(SimpleHTTPRequestHandler):
                 serialize_list(requests),
             )
 
-
         # ----------------------------------------------------
         # EVENTOS
         # ----------------------------------------------------
@@ -601,7 +673,6 @@ class App(SimpleHTTPRequestHandler):
                     for event in events
                 ],
             )
-
 
         if path == "/api/event-requests":
             query = parse_qs(
@@ -712,9 +783,7 @@ class App(SimpleHTTPRequestHandler):
                 },
             )
 
-
         return super().do_GET()
-
 
     # ========================================================
     # POST
@@ -723,7 +792,6 @@ class App(SimpleHTTPRequestHandler):
     def do_POST(self):
         path = urlparse(self.path).path
         data = self.body()
-
 
         # ----------------------------------------------------
         # CADASTRO DE VOLUNTÁRIO - PÚBLICO
@@ -783,7 +851,7 @@ class App(SimpleHTTPRequestHandler):
 
             pendente = db.volunteer_requests.find_one({
                 "email": email,
-                "status": "pending",
+                "status": {"$in": ["pending", "contacted"]},
             })
 
             if pendente:
@@ -804,6 +872,7 @@ class App(SimpleHTTPRequestHandler):
                 "termoEnviado": bool(data.get("termoEnviado")),
                 "status": "pending",
                 "created_at": now(),
+                "expires_at": datetime.now(timezone.utc) + timedelta(days=DIAS_GUARDAR_VOLUNTARIOS),
             }
 
             result = db.volunteer_requests.insert_one(request)
@@ -813,7 +882,6 @@ class App(SimpleHTTPRequestHandler):
                 "id": str(result.inserted_id),
                 "message": "Cadastro de voluntário enviado com sucesso.",
             })
-
 
         # ----------------------------------------------------
         # CADASTRO DE ADOTANTE
@@ -838,49 +906,25 @@ class App(SimpleHTTPRequestHandler):
                     400,
                     {
                         "ok": False,
-                        "message": (
-                            "Preencha todos os campos obrigatórios."
-                        ),
+                        "message": "Preencha todos os campos obrigatórios.",
                     },
                 )
 
-
-            nome = str(
-                data["nome"]
-            ).strip()
-
-            email = str(
-                data["email"]
-            ).strip().lower()
-
-            telefone = str(
-                data["telefone"]
-            ).strip()
-
-            cpf = str(
-                data["cpf"]
-            ).strip()
-
-            data_nascimento = str(
-                data["data_nascimento"]
-            ).strip()
-
-            senha = str(
-                data["senha"]
-            )
-
+            nome = str(data["nome"]).strip()
+            email = str(data["email"]).strip().lower()
+            telefone = str(data["telefone"]).strip()
+            cpf = str(data["cpf"]).strip()
+            data_nascimento = str(data["data_nascimento"]).strip()
+            senha = str(data["senha"])
 
             if len(senha) < 8:
                 return self.send_json(
                     400,
                     {
                         "ok": False,
-                        "message": (
-                            "A senha deve ter pelo menos 8 caracteres."
-                        ),
+                        "message": "A senha deve ter pelo menos 8 caracteres.",
                     },
                 )
-
 
             if "@" not in email:
                 return self.send_json(
@@ -891,34 +935,23 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-
-            if db.adopters.find_one(
-                {"email": email}
-            ):
+            if db.adopters.find_one({"email": email}):
                 return self.send_json(
                     409,
                     {
                         "ok": False,
-                        "message": (
-                            "Este e-mail já possui uma conta."
-                        ),
+                        "message": "Este e-mail já possui uma conta.",
                     },
                 )
 
-
-            if db.adopters.find_one(
-                {"cpf": cpf}
-            ):
+            if db.adopters.find_one({"cpf": cpf}):
                 return self.send_json(
                     409,
                     {
                         "ok": False,
-                        "message": (
-                            "Este CPF já possui uma conta."
-                        ),
+                        "message": "Este CPF já possui uma conta.",
                     },
                 )
-
 
             adopter = {
                 "name": nome,
@@ -930,11 +963,8 @@ class App(SimpleHTTPRequestHandler):
                 "created_at": now(),
             }
 
-
             try:
-                result = db.adopters.insert_one(
-                    adopter
-                )
+                result = db.adopters.insert_one(adopter)
 
             except Exception as error:
                 # Protege contra corrida/índice único.
@@ -943,28 +973,20 @@ class App(SimpleHTTPRequestHandler):
                         409,
                         {
                             "ok": False,
-                            "message": (
-                                "Já existe uma conta com esses dados."
-                            ),
+                            "message": "Já existe uma conta com esses dados.",
                         },
                     )
 
                 raise
 
-
             return self.send_json(
                 201,
                 {
                     "ok": True,
-                    "id": str(
-                        result.inserted_id
-                    ),
-                    "message": (
-                        "Conta criada com sucesso."
-                    ),
+                    "id": str(result.inserted_id),
+                    "message": "Conta criada com sucesso.",
                 },
             )
-
 
         # ----------------------------------------------------
         # LOGIN DO ADOTANTE
@@ -972,69 +994,47 @@ class App(SimpleHTTPRequestHandler):
 
         if path == "/api/auth/adopter-login":
 
-            email = str(
-                data.get("email", "")
-            ).strip().lower()
-
-            password = str(
-                data.get("password", "")
-            )
-
+            email = str(data.get("email", "")).strip().lower()
+            password = str(data.get("password", ""))
 
             if not email or not password:
                 return self.send_json(
                     400,
                     {
                         "ok": False,
-                        "message": (
-                            "E-mail e senha são obrigatórios."
-                        ),
+                        "message": "E-mail e senha são obrigatórios.",
                     },
                 )
 
-
-            adopter = db.adopters.find_one(
-                {"email": email}
-            )
-
+            adopter = db.adopters.find_one({"email": email})
 
             if not adopter:
                 return self.send_json(
                     401,
                     {
                         "ok": False,
-                        "message": (
-                            "E-mail ou senha inválidos."
-                        ),
+                        "message": "E-mail ou senha inválidos.",
                     },
                 )
 
-
             valid = verify_password(
                 password,
-                adopter.get(
-                    "password_hash"
-                ),
+                adopter.get("password_hash"),
             )
-
 
             if not valid:
                 return self.send_json(
                     401,
                     {
                         "ok": False,
-                        "message": (
-                            "E-mail ou senha inválidos."
-                        ),
+                        "message": "E-mail ou senha inválidos.",
                     },
                 )
-
 
             token = create_session(
                 adopter["_id"],
                 "adopter",
             )
-
 
             self.send_response(200)
 
@@ -1062,20 +1062,14 @@ class App(SimpleHTTPRequestHandler):
 
             return
 
-
         # ----------------------------------------------------
         # LOGIN MASTER / VOLUNTÁRIO
         # ----------------------------------------------------
 
         if path == "/api/auth/login":
 
-            email = str(
-                data.get("email", "")
-            ).strip().lower()
-
-            password = str(
-                data.get("password", "")
-            )
+            email = str(data.get("email", "")).strip().lower()
+            password = str(data.get("password", ""))
 
             # MASTER: a conta fica na coleção accounts.
             master = db.accounts.find_one({"email": email})
@@ -1207,7 +1201,6 @@ class App(SimpleHTTPRequestHandler):
             )
             return
 
-
         # ----------------------------------------------------
         # LOGOUT
         # ----------------------------------------------------
@@ -1238,8 +1231,6 @@ class App(SimpleHTTPRequestHandler):
             )
 
             return
-
-
 
         # ----------------------------------------------------
         # CRIAÇÃO DE EVENTO - MASTER
@@ -1338,7 +1329,6 @@ class App(SimpleHTTPRequestHandler):
                 },
             )
 
-
         # ----------------------------------------------------
         # SOLICITAÇÃO DE VAGA EM EVENTO - VOLUNTÁRIO
         # ----------------------------------------------------
@@ -1356,17 +1346,9 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            event_id = str(
-                data.get("eventId", "")
-            ).strip()
-
-            animal_id = str(
-                data.get("animalId", "")
-            ).strip()
-
-            observation = str(
-                data.get("observation", "")
-            ).strip()
+            event_id = str(data.get("eventId", "")).strip()
+            animal_id = str(data.get("animalId", "")).strip()
+            observation = str(data.get("observation", "")).strip()
 
             if not event_id or not animal_id:
                 return self.send_json(
@@ -1418,9 +1400,7 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            counts = get_event_request_counts(
-                event_id
-            )
+            counts = get_event_request_counts(event_id)
 
             if (
                 counts["approvedAnimals"]
@@ -1456,9 +1436,7 @@ class App(SimpleHTTPRequestHandler):
             }
 
             try:
-                result = db.event_requests.insert_one(
-                    request
-                )
+                result = db.event_requests.insert_one(request)
             except Exception as error:
                 if "duplicate key" in str(error).lower():
                     return self.send_json(
@@ -1481,7 +1459,6 @@ class App(SimpleHTTPRequestHandler):
                 },
             )
 
-
         # ----------------------------------------------------
         # SOLICITAÇÕES DE ADOÇÃO
         # ----------------------------------------------------
@@ -1496,12 +1473,9 @@ class App(SimpleHTTPRequestHandler):
                     400,
                     {
                         "ok": False,
-                        "message": (
-                            "Nome e e-mail são obrigatórios."
-                        ),
+                        "message": "Nome e e-mail são obrigatórios.",
                     },
                 )
-
 
             session = get_session(self)
 
@@ -1509,10 +1483,7 @@ class App(SimpleHTTPRequestHandler):
                 session
                 and session.get("user_type") == "adopter"
             ):
-                data["adopter_id"] = session[
-                    "user_id"
-                ]
-
+                data["adopter_id"] = session["user_id"]
 
             data.update(
                 {
@@ -1521,70 +1492,86 @@ class App(SimpleHTTPRequestHandler):
                 }
             )
 
-
-            result = db.applications.insert_one(
-                data
-            )
-
+            result = db.applications.insert_one(data)
 
             return self.send_json(
                 201,
                 {
                     "ok": True,
-                    "id": str(
-                        result.inserted_id
-                    ),
-                    "message": (
-                        "Solicitação registrada."
-                    ),
+                    "id": str(result.inserted_id),
+                    "message": "Solicitação registrada.",
                 },
             )
 
-
         # ----------------------------------------------------
-        # ANIMAIS
+        # ANIMAIS (PROTEGIDO)
+        # Só voluntários e a conta Master podem cadastrar.
         # ----------------------------------------------------
 
         if path == "/api/animals":
+            session = get_session(self)
 
-            if (
-                not data.get("name")
-                or not data.get("species")
-            ):
+            if not session or session.get("user_type") not in {"volunteer", "master"}:
+                return self.send_json(
+                    401,
+                    {
+                        "ok": False,
+                        "message": "Faça login como voluntário para cadastrar animais.",
+                    },
+                )
+
+            # Salva apenas os campos esperados.
+            animal = {
+                campo: str(data.get(campo, "")).strip()
+                for campo in CAMPOS_ANIMAL
+            }
+
+            if not animal["name"] or not animal["species"]:
                 return self.send_json(
                     400,
                     {
                         "ok": False,
-                        "message": (
-                            "Nome e espécie são obrigatórios."
-                        ),
+                        "message": "Nome e espécie são obrigatórios.",
                     },
                 )
 
+            imagem = animal["image"]
 
-            data.update(
+            if imagem and not imagem.startswith(("data:image/", "assets/", "https://")):
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "A foto enviada não é válida.",
+                    },
+                )
+
+            if len(imagem) > TAMANHO_MAX_FOTO:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "A foto é muito grande. Escolha uma imagem menor.",
+                    },
+                )
+
+            animal.update(
                 {
                     "status": "disponível",
                     "created_at": now(),
+                    "created_by": str(session["user_id"]),
                 }
             )
 
-
-            result = db.animals.insert_one(
-                data
-            )
-
+            result = db.animals.insert_one(animal)
 
             return self.send_json(
                 201,
                 {
                     "ok": True,
-                    "id": str(
-                        result.inserted_id
-                    ),
+                    "id": str(result.inserted_id),
                 },
             )
-
 
         return self.send_json(
             404,
@@ -1593,8 +1580,6 @@ class App(SimpleHTTPRequestHandler):
                 "message": "Rota não encontrada.",
             },
         )
-
-
 
     # ========================================================
     # PUT - APROVAÇÃO/RECUSA DE SOLICITAÇÃO
@@ -1696,12 +1681,12 @@ class App(SimpleHTTPRequestHandler):
 
             status = str(data.get("status", "")).strip().lower()
 
-            if status not in {"approved", "rejected"}:
+            if status not in {"contacted", "approved", "rejected"}:
                 return self.send_json(
                     400,
                     {
                         "ok": False,
-                        "message": "O status deve ser approved ou rejected.",
+                        "message": "Status inválido.",
                     },
                 )
 
@@ -1734,14 +1719,13 @@ class App(SimpleHTTPRequestHandler):
                 {
                     "ok": True,
                     "modified": result.modified_count,
-                    "message": (
-                        "Cadastro de voluntário aprovado."
-                        if status == "approved"
-                        else "Cadastro de voluntário recusado."
-                    ),
+                    "message": {
+                        "contacted": "Marcado como chamado no WhatsApp.",
+                        "approved": "Voluntário aprovado.",
+                        "rejected": "Voluntário recusado.",
+                    }[status],
                 },
             )
-
 
         if path.startswith("/api/event-requests/"):
 
@@ -1766,9 +1750,7 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            status = str(
-                data.get("status", "")
-            ).strip().lower()
+            status = str(data.get("status", "")).strip().lower()
 
             if status not in {"approved", "rejected"}:
                 return self.send_json(
@@ -1795,9 +1777,7 @@ class App(SimpleHTTPRequestHandler):
             if status == "approved":
                 event = db.events.find_one(
                     {
-                        "_id": object_id(
-                            request["event_id"]
-                        )
+                        "_id": object_id(request["event_id"])
                     }
                 )
 
@@ -1810,9 +1790,7 @@ class App(SimpleHTTPRequestHandler):
                         },
                     )
 
-                counts = get_event_request_counts(
-                    request["event_id"]
-                )
+                counts = get_event_request_counts(request["event_id"])
 
                 if request.get("status") != "approved":
                     if (
@@ -1863,6 +1841,78 @@ class App(SimpleHTTPRequestHandler):
                 },
             )
 
+        # ====================================================
+        # EDITAR ANIMAL (status, responsável, descrição, PCD)
+        # Só voluntários e a conta Master.
+        # ====================================================
+        if path.startswith("/api/animals/"):
+            session = get_session(self)
+
+            if not session or session.get("user_type") not in {"volunteer", "master"}:
+                return self.send_json(401, {
+                    "ok": False,
+                    "message": "Faça login para editar animais.",
+                })
+
+            animal_oid = object_id(path.rsplit("/", 1)[-1])
+
+            if not animal_oid:
+                return self.send_json(400, {"ok": False, "message": "ID de animal inválido."})
+
+            updates = {}
+            remover = {}
+
+            if "status" in data:
+                status = str(data.get("status", "")).strip().lower()
+                if status not in {"disponível", "em adoção", "adotado"}:
+                    return self.send_json(400, {"ok": False, "message": "Status inválido."})
+                updates["status"] = status
+
+                if status == "adotado":
+                    # Data da adoção (AAAA-MM-DD). Sem data, usa hoje (horário de Brasília).
+                    data_adocao = str(data.get("adopted_at", "")).strip()
+                    if data_adocao:
+                        try:
+                            datetime.strptime(data_adocao, "%Y-%m-%d")
+                        except ValueError:
+                            return self.send_json(400, {"ok": False, "message": "Data de adoção inválida."})
+                    else:
+                        data_adocao = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("%Y-%m-%d")
+                    updates["adopted_at"] = data_adocao
+                    updates["adoption_place"] = str(data.get("adoption_place", "")).strip()[:120]
+                else:
+                    # Voltou para adoção: apaga os dados da adoção
+                    remover = {"adopted_at": "", "adoption_place": ""}
+
+            for campo in ("description", "responsible_person"):
+                if campo in data:
+                    updates[campo] = str(data.get(campo, "")).strip()[:1000]
+
+            if "pcd" in data:
+                updates["pcd"] = bool(data.get("pcd"))
+
+            if not updates:
+                return self.send_json(400, {"ok": False, "message": "Nenhum dado para atualizar."})
+
+            updates["updated_at"] = now()
+
+            operacao = {"$set": updates}
+            if remover:
+                operacao["$unset"] = remover
+
+            result = db.animals.update_one({"_id": animal_oid}, operacao)
+
+            if not result.matched_count:
+                return self.send_json(404, {"ok": False, "message": "Animal não encontrado."})
+
+            animal = db.animals.find_one({"_id": animal_oid})
+
+            return self.send_json(200, {
+                "ok": True,
+                "animal": serialize(animal),
+                "message": "Animal atualizado.",
+            })
+
         return self.send_json(
             404,
             {
@@ -1870,7 +1920,6 @@ class App(SimpleHTTPRequestHandler):
                 "message": "Rota não encontrada.",
             },
         )
-
 
     # ========================================================
     # DELETE - EXCLUSÃO DE EVENTO
@@ -1976,20 +2025,27 @@ class App(SimpleHTTPRequestHandler):
             },
         )
 
-
     # ========================================================
-    # ARQUIVOS HTML/CSS/JS
+    # ARQUIVOS HTML/CSS/JS (PROTEGIDO)
+    # Bloqueia .env, código Python, banco local e arquivos
+    # fora da pasta do site.
     # ========================================================
 
     def translate_path(self, path):
-        requested = urlparse(path).path.lstrip("/")
+        requested = unquote(urlparse(path).path).lstrip("/") or "index.html"
+        destino = (ROOT / requested).resolve()
 
-        if not requested:
-            requested = "index.html"
+        # Bloqueia arquivos fora da pasta do site
+        try:
+            partes = destino.relative_to(ROOT).parts
+        except ValueError:
+            return str(ROOT / "__nao_existe__")
 
-        return str(
-            ROOT / requested
-        )
+        # Bloqueia arquivos ocultos (.env, .gitignore) e extensões privadas
+        if any(p.startswith(".") for p in partes) or destino.suffix.lower() in EXTENSOES_BLOQUEADAS:
+            return str(ROOT / "__nao_existe__")
+
+        return str(destino)
 
 
 # ============================================================

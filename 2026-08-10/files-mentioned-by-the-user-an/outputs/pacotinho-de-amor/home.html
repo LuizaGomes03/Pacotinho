@@ -1,14 +1,12 @@
 <!doctype html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pacotinho de Amor — Adoção de animais</title>
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
   <script id="tailwind-config">
@@ -109,13 +107,8 @@
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
 
-    .organic-blob {
-      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    }
-
-    .organic-blob-alt {
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
+    .organic-blob { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+    .organic-blob-alt { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
 
     .fluid-container {
       width: 100%;
@@ -124,9 +117,7 @@
       padding: 0 24px;
     }
 
-    body {
-      min-height: 100dvh;
-    }
+    body { min-height: 100dvh; }
 
     a:focus-visible,
     button:focus-visible {
@@ -140,312 +131,277 @@
 
 <body class="bg-background text-on-background antialiased font-body-md">
 
-  <!-- pb extra no celular para o menu inferior não cobrir o conteúdo -->
-  <main class="pb-24 md:pb-0">
+<!-- pb extra no celular para o menu inferior não cobrir o conteúdo -->
+<main>
 
-    <!-- ==================== TOPO ==================== -->
-    <section class="fluid-container py-lg md:py-[100px]">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-lg md:gap-xl items-center">
+  <!-- ==================== TOPO ==================== -->
+  <section class="fluid-container py-lg md:py-[100px]">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-lg md:gap-xl items-center">
 
-        <div class="flex flex-col gap-md max-w-lg">
-          <h1
-            class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-[44px] md:leading-[1.1] text-primary tracking-tight">
-            Encontre um amigo para a vida toda.
-          </h1>
+      <div class="flex flex-col gap-md max-w-lg">
+        <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-[44px] md:leading-[1.1] text-primary tracking-tight">
+          Encontre um amigo para a vida toda.
+        </h1>
 
-          <p class="font-body-lg text-body-lg text-on-surface-variant">
-            Somos um projeto independente de proteção animal em São Paulo.
-            Conectamos animais resgatados a pessoas que querem adotar com responsabilidade.
-          </p>
-
-          <div
-            class="inline-flex w-fit items-center gap-2 rounded-full bg-secondary-container px-4 py-2 font-label-md text-label-md text-on-secondary-container">
-            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1">favorite</span>
-            +1.950 animais adotados
-          </div>
-
-          <div class="flex flex-wrap gap-sm">
-            <a class="inline-flex items-center rounded-full bg-primary px-lg py-sm font-label-md text-label-md text-on-primary transition-colors hover:bg-primary-container"
-              href="animais-para-adocao.html">
-              Conheça os animais
-            </a>
-            <a class="inline-flex items-center rounded-full border-2 border-primary px-lg py-sm font-label-md text-label-md text-primary transition-colors hover:bg-surface-container-low"
-              href="quero-ajudar.html">
-              Quero ajudar
-            </a>
-          </div>
-        </div>
-
-        <div class="relative flex h-[340px] md:h-[480px] w-full items-center justify-center">
-          <div class="absolute inset-0 mx-auto h-4/5 w-4/5 self-center organic-blob bg-primary-fixed"></div>
-          <div class="relative z-10 h-3/4 w-3/4 overflow-hidden organic-blob shadow-xl">
-            <img class="h-full w-full object-cover" alt="Joe, cachorro resgatado pelo Pacotinho de Amor"
-              src="assets/joe.jpg">
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== ANIMAIS EM DESTAQUE ==================== -->
-    <section class="bg-surface-container-low py-lg md:py-xl">
-      <div class="fluid-container">
-
-        <div class="mb-md md:mb-lg flex items-end justify-between gap-md">
-          <div>
-            <h2 class="font-headline-md text-headline-md text-primary mb-xs">Esperando por você</h2>
-            <p class="font-body-md text-body-md text-on-surface-variant">Animais prontos para encontrar um lar.</p>
-          </div>
-          <a class="hidden md:inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline"
-            href="animais-para-adocao.html">
-            Ver todos <span class="material-symbols-outlined">arrow_forward</span>
-          </a>
-        </div>
-
-        <!-- Carregados do MongoDB pela API -->
-        <div id="featured-animals" class="grid grid-cols-1 md:grid-cols-3 gap-md">
-          <div class="md:col-span-2 rounded-2xl bg-surface p-md animate-pulse">
-            <div class="h-64 rounded-xl bg-surface-container-high"></div>
-          </div>
-          <div class="rounded-2xl bg-surface p-md animate-pulse">
-            <div class="h-48 rounded-xl bg-surface-container-high"></div>
-          </div>
-        </div>
-
-        <p id="featured-empty" class="hidden py-lg text-center text-on-surface-variant">
-          No momento, não há animais disponíveis para adoção.
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Somos um projeto independente de proteção animal em São Paulo.
+          Conectamos animais resgatados a pessoas que querem adotar com responsabilidade.
         </p>
 
-        <div class="mt-md text-center md:hidden">
-          <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline"
-            href="animais-para-adocao.html">
-            Ver todos os animais <span class="material-symbols-outlined">arrow_forward</span>
-          </a>
+        <div class="inline-flex w-fit items-center gap-2 rounded-full bg-secondary-container px-4 py-2 font-label-md text-label-md text-on-secondary-container">
+          <span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1">favorite</span>
+          <span id="contadorAdocoes">+1.950</span> animais adotados
         </div>
 
+        <div class="flex flex-wrap gap-sm">
+          <a class="inline-flex items-center rounded-full bg-primary px-lg py-sm font-label-md text-label-md text-on-primary transition-colors hover:bg-primary-container"
+             href="animais-para-adocao.html">
+            Conheça os animais
+          </a>
+          <a class="inline-flex items-center rounded-full border-2 border-primary px-lg py-sm font-label-md text-label-md text-primary transition-colors hover:bg-surface-container-low"
+             href="quero-ajudar.html">
+            Quero ajudar
+          </a>
+        </div>
       </div>
-    </section>
 
-    <!-- ==================== COMO ADOTAR ==================== -->
-    <section class="fluid-container py-lg md:py-xl" id="como-adotar">
-
-      <div class="mb-lg text-center">
-        <h2 class="font-headline-md text-headline-md text-primary mb-xs">Como adotar</h2>
-        <p class="mx-auto max-w-2xl font-body-md text-body-md text-on-surface-variant">
-          Um processo simples, pensado para o bem do animal e da família.
-        </p>
+      <div class="relative flex h-[340px] md:h-[480px] w-full items-center justify-center">
+        <div class="absolute inset-0 mx-auto h-4/5 w-4/5 self-center organic-blob bg-primary-fixed"></div>
+        <div class="relative z-10 h-3/4 w-3/4 overflow-hidden organic-blob shadow-xl">
+          <img class="h-full w-full object-cover"
+               alt="Joe, cachorro resgatado pelo Pacotinho de Amor"
+               src="assets/joe.jpg">
+        </div>
       </div>
 
-      <ol class="relative grid grid-cols-1 gap-md sm:grid-cols-2 md:grid-cols-4 md:gap-lg">
-        <!-- linha que liga os passos (computador) -->
-        <div class="absolute left-[12%] right-[12%] top-10 hidden h-[2px] bg-surface-variant md:block"
-          aria-hidden="true"></div>
+    </div>
+  </section>
 
-        <li class="relative flex flex-col items-center text-center">
-          <div
-            class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-            <span class="material-symbols-outlined text-4xl text-primary">search</span>
-          </div>
-          <h3 class="mb-xs font-label-md text-[17px] text-on-surface">1. Escolha um animal</h3>
-          <p class="text-sm text-on-surface-variant">Veja os perfis e a história de cada um.</p>
-        </li>
+  <!-- ==================== ANIMAIS EM DESTAQUE ==================== -->
+  <section class="bg-surface-container-low py-lg md:py-xl">
+    <div class="fluid-container">
 
-        <li class="relative flex flex-col items-center text-center">
-          <div
-            class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-            <span class="material-symbols-outlined text-4xl text-primary">edit_document</span>
-          </div>
-          <h3 class="mb-xs font-label-md text-[17px] text-on-surface">2. Preencha o formulário</h3>
-          <p class="text-sm text-on-surface-variant">Conte um pouco sobre você e sua rotina.</p>
-        </li>
-
-        <li class="relative flex flex-col items-center text-center">
-          <div
-            class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-            <span class="material-symbols-outlined text-4xl text-primary">call</span>
-          </div>
-          <h3 class="mb-xs font-label-md text-[17px] text-on-surface">3. Conversa com a equipe</h3>
-          <p class="text-sm text-on-surface-variant">Entramos em contato para a análise e a entrevista.</p>
-        </li>
-
-        <li class="relative flex flex-col items-center text-center">
-          <div
-            class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-            <span class="material-symbols-outlined text-4xl text-primary">favorite</span>
-          </div>
-          <h3 class="mb-xs font-label-md text-[17px] text-on-surface">4. Nova história</h3>
-          <p class="text-sm text-on-surface-variant">Combinamos o encontro com seu novo amigo.</p>
-        </li>
-      </ol>
-
-      <div class="mt-lg text-center">
-        <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline"
-          href="sobre.html">
-          Conheça o projeto <span class="material-symbols-outlined">arrow_forward</span>
+      <div class="mb-md md:mb-lg flex items-end justify-between gap-md">
+        <div>
+          <h2 class="font-headline-md text-headline-md text-primary mb-xs">Esperando por você</h2>
+          <p class="font-body-md text-body-md text-on-surface-variant">Animais prontos para encontrar um lar.</p>
+        </div>
+        <a class="hidden md:inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline"
+           href="animais-para-adocao.html">
+          Ver todos <span class="material-symbols-outlined">arrow_forward</span>
         </a>
       </div>
 
-    </section>
-
-    <!-- ==================== DOAÇÃO ==================== -->
-    <section class="bg-primary py-lg md:py-xl" id="ajudar">
-      <div class="fluid-container flex flex-col items-center justify-between gap-lg md:flex-row">
-
-        <div class="max-w-xl">
-          <h2
-            class="mb-sm font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary">
-            Ajude quem precisa
-          </h2>
-          <p class="mb-md font-body-lg text-body-lg text-primary-fixed">
-            O projeto é mantido com recursos próprios. Sua doação ajuda com
-            alimentação, cuidados veterinários e abrigo até a adoção.
-          </p>
-
-          <div class="flex flex-wrap gap-sm">
-            <button type="button" id="btnDoacao"
-              class="inline-flex items-center gap-xs rounded-full bg-tertiary-fixed px-lg py-sm font-label-md text-label-md text-on-tertiary-fixed transition hover:bg-tertiary-fixed-dim">
-              <span class="material-symbols-outlined">volunteer_activism</span>
-              Doar por PIX
-            </button>
-            <a href="quero-ajudar.html"
-              class="inline-flex items-center rounded-full border-2 border-primary-fixed px-lg py-sm font-label-md text-label-md text-on-primary transition hover:bg-primary-container">
-              Outras formas de ajudar
-            </a>
-          </div>
-        </div>
-
-        <div class="aspect-square w-full max-w-xs md:w-1/3 md:max-w-sm">
-          <div class="h-full w-full overflow-hidden organic-blob-alt">
-            <img class="h-full w-full object-cover" alt="Mão fazendo carinho em um filhote dormindo"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuATdHIjJDteme3NqNFg5NfFnBw7WDmiFDhgMIsL1fbAlAIr9fbrhWBBi0xdQ-6fIByyOGIEUri3L1e4T1eWL2Snb24DSFWk-RYWdBlHlnNfASF8PuDS-9c_lbExSsI2k5zjOBpwyiOoc9ucP4oXwWMMO5uXrIje1KgcKEYQmuwvcbtluD07KsbymKxDBBcfYuKZ3O9zAOuC2mETBOxqLwq6n4hZbEVVohd4-dzdPPKo_CQwC-NaFSXU">
-          </div>
-        </div>
-
+      <!-- Carregados do MongoDB pela API -->
+      <div id="featured-animals" class="grid grid-cols-1 md:grid-cols-3 gap-md">
+        <div class="rounded-2xl bg-surface p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
+        <div class="rounded-2xl bg-surface p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
+        <div class="rounded-2xl bg-surface p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
       </div>
-    </section>
 
-  </main>
-
-  <!-- ==================== MENU INFERIOR (CELULAR) ==================== -->
-  <nav
-    class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-xl bg-surface-container-lowest px-4 pb-4 pt-2 shadow-lg md:hidden"
-    aria-label="Menu principal">
-    <a class="flex flex-col items-center justify-center rounded-full bg-primary-fixed px-4 py-1 text-primary"
-      href="home.html" aria-current="page">
-      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">home</span>
-      <span class="mt-1 font-label-md text-[12px]">Início</span>
-    </a>
-    <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary"
-      href="animais-para-adocao.html">
-      <span class="material-symbols-outlined">search</span>
-      <span class="mt-1 font-label-md text-[12px]">Buscar</span>
-    </a>
-    <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary"
-      href="solicitacoes-adocao.html">
-      <span class="material-symbols-outlined">favorite</span>
-      <span class="mt-1 font-label-md text-[12px]">Favoritos</span>
-    </a>
-    <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary" href="login.html">
-      <span class="material-symbols-outlined">person</span>
-      <span class="mt-1 font-label-md text-[12px]">Conta</span>
-    </a>
-  </nav>
-
-  <!-- ==================== POP-UP PIX ==================== -->
-  <div id="pixModal" class="fixed inset-0 hidden items-center justify-center bg-black/50 px-4" style="z-index: 999999;"
-    aria-hidden="true">
-    <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl" role="dialog" aria-modal="true"
-      aria-labelledby="pixTitulo">
-
-      <button type="button" id="fecharPix" aria-label="Fechar"
-        class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-
-      <h2 id="pixTitulo" class="pr-10 text-2xl font-bold text-primary">Doar por PIX</h2>
-
-      <p class="mt-2 text-sm leading-6 text-on-surface-variant">
-        Sua doação vai para o Pacotinho de Amor e ajuda com alimentação,
-        cuidados e atendimento veterinário dos animais.
+      <p id="featured-empty" class="hidden py-lg text-center text-on-surface-variant">
+        No momento, não há animais disponíveis para adoção.
       </p>
 
-      <div class="mt-5 rounded-xl bg-surface-container-low p-4">
-        <p class="mb-1 text-xs font-semibold text-secondary">Chave PIX</p>
-        <p id="chavePix" class="break-all font-semibold text-on-surface">SUA-CHAVE-PIX-AQUI</p>
+      <div class="mt-md text-center md:hidden">
+        <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline"
+           href="animais-para-adocao.html">
+          Ver todos os animais <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
       </div>
 
-      <button type="button" id="copiarPix"
-        class="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 font-semibold text-on-primary transition hover:bg-primary-container">
-        <span class="material-symbols-outlined text-lg">content_copy</span>
-        <span id="copiarPixTexto">Copiar chave PIX</span>
-      </button>
+    </div>
+  </section>
 
-      <p class="mt-4 text-center text-xs text-on-surface-variant">
-        Obrigado por ajudar a transformar a vida de um animal.
+  <!-- ==================== PRÓXIMOS EVENTOS ==================== -->
+  <!-- Some sozinha quando não há eventos futuros -->
+  <section id="secao-eventos" class="hidden fluid-container py-lg md:py-xl">
+    <div class="mb-md md:mb-lg flex items-end justify-between gap-md">
+      <div>
+        <h2 class="font-headline-md text-headline-md text-primary mb-xs">Próximos eventos</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Venha conhecer os animais pessoalmente.</p>
+      </div>
+      <a class="hidden md:inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline" href="eventos.html">
+        Ver todos <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </div>
+    <div id="lista-eventos" class="grid grid-cols-1 md:grid-cols-3 gap-md"></div>
+    <div class="mt-md text-center md:hidden">
+      <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline" href="eventos.html">
+        Ver todos os eventos <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== COMO ADOTAR ==================== -->
+  <section class="fluid-container py-lg md:py-xl" id="como-adotar">
+
+    <div class="mb-lg text-center">
+      <h2 class="font-headline-md text-headline-md text-primary mb-xs">Como adotar</h2>
+      <p class="mx-auto max-w-2xl font-body-md text-body-md text-on-surface-variant">
+        Um processo simples, pensado para o bem do animal e da família.
       </p>
     </div>
-  </div>
 
-  <script src="shared.js"></script>
+    <ol class="relative grid grid-cols-1 gap-md sm:grid-cols-2 md:grid-cols-4 md:gap-lg">
+      <!-- linha que liga os passos (computador) -->
+      <div class="absolute left-[12%] right-[12%] top-10 hidden h-[2px] bg-surface-variant md:block" aria-hidden="true"></div>
 
-  <!-- ==================== ANIMAIS EM DESTAQUE ==================== -->
-  <script>
-      (() => {
-        const grid = document.getElementById("featured-animals");
-        const empty = document.getElementById("featured-empty");
-        if (!grid) return;
-
-        const escapeHTML = (value) =>
-          String(value ?? "").replace(/[&<>"']/g, (c) => ({
-            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-          }[c]));
-
-        function getId(animal) {
-          if (animal?._id && typeof animal._id === "object") {
-            return animal._id.$oid || animal._id.toString();
-          }
-          return animal?._id || animal?.id || "";
-        }
-
-        const imageFor = (a) => a.image || a.imagem || a.photo || a.foto || "assets/logo-footer.png";
-
-        const tag = (text) =>
-          `<span class="rounded-full bg-surface-variant px-sm py-xs text-[13px] font-semibold text-on-surface-variant">${escapeHTML(text)}</span>`;
-
-        const locationLine = (location) => location
-          ? `<p class="mt-2 flex items-center gap-1 text-sm text-on-surface-variant">
-         <span class="material-symbols-outlined text-[16px]">location_on</span>${escapeHTML(location)}
-       </p>`
-          : "";
-
-        function cardDestaque(a) {
-          return `
-      <article class="group flex flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_4px_20px_rgba(0,0,0,0.05)] md:col-span-2 md:flex-row">
-        <div class="relative h-64 w-full md:h-auto md:w-1/2">
-          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-               src="${escapeHTML(a.image)}" alt="Foto de ${escapeHTML(a.name)}"
-               onerror="this.src='assets/logo-footer.png'">
+      <li class="relative flex flex-col items-center text-center">
+        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
+          <span class="material-symbols-outlined text-4xl text-primary">search</span>
         </div>
-        <div class="flex w-full flex-col justify-between p-md md:w-1/2">
-          <div>
-            <h3 class="mb-sm font-headline-md text-headline-md text-on-surface">${escapeHTML(a.name)}</h3>
-            <div class="mb-md flex flex-wrap gap-xs">${tag(a.age)}${tag(a.size)}${tag(a.sex)}</div>
-            <p class="line-clamp-3 text-on-surface-variant">${escapeHTML(a.description)}</p>
-            ${locationLine(a.location)}
-          </div>
-          <a class="mt-md inline-flex w-full items-center justify-center rounded-full bg-primary py-sm font-label-md text-label-md text-on-primary transition-colors hover:bg-primary-container"
-             href="detalhes-animal.html?id=${encodeURIComponent(a.id)}">
-            Conheça ${escapeHTML(a.name)}
+        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">1. Escolha um animal</h3>
+        <p class="text-sm text-on-surface-variant">Veja os perfis e a história de cada um.</p>
+      </li>
+
+      <li class="relative flex flex-col items-center text-center">
+        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
+          <span class="material-symbols-outlined text-4xl text-primary">edit_document</span>
+        </div>
+        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">2. Preencha o formulário</h3>
+        <p class="text-sm text-on-surface-variant">Conte um pouco sobre você e sua rotina.</p>
+      </li>
+
+      <li class="relative flex flex-col items-center text-center">
+        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
+          <span class="material-symbols-outlined text-4xl text-primary">call</span>
+        </div>
+        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">3. Conversa com a equipe</h3>
+        <p class="text-sm text-on-surface-variant">Entramos em contato para a análise e a entrevista.</p>
+      </li>
+
+      <li class="relative flex flex-col items-center text-center">
+        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
+          <span class="material-symbols-outlined text-4xl text-primary">favorite</span>
+        </div>
+        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">4. Nova história</h3>
+        <p class="text-sm text-on-surface-variant">Combinamos o encontro com seu novo amigo.</p>
+      </li>
+    </ol>
+
+    <div class="mt-lg text-center">
+      <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline" href="sobre-o-projeto.html">
+        Conheça o projeto <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ==================== DOAÇÃO ==================== -->
+  <section class="bg-primary py-lg md:py-xl" id="ajudar">
+    <div class="fluid-container flex flex-col items-center justify-between gap-lg md:flex-row">
+
+      <div class="max-w-xl">
+        <h2 class="mb-sm font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary">
+          Ajude quem precisa
+        </h2>
+        <p class="mb-md font-body-lg text-body-lg text-primary-fixed">
+          O projeto é mantido com recursos próprios. Sua doação ajuda com
+          alimentação, cuidados veterinários e abrigo até a adoção.
+        </p>
+
+        <div class="flex flex-wrap gap-sm">
+          <button type="button" id="btnDoacao"
+                  class="inline-flex items-center gap-xs rounded-full bg-tertiary-fixed px-lg py-sm font-label-md text-label-md text-on-tertiary-fixed transition hover:bg-tertiary-fixed-dim">
+            <span class="material-symbols-outlined">volunteer_activism</span>
+            Doar por PIX
+          </button>
+          <a href="quero-ajudar.html"
+             class="inline-flex items-center rounded-full border-2 border-primary-fixed px-lg py-sm font-label-md text-label-md text-on-primary transition hover:bg-primary-container">
+            Outras formas de ajudar
           </a>
         </div>
-      </article>`;
-        }
+      </div>
 
-        function cardSimples(a) {
-          return `
+      <div class="aspect-square w-full max-w-xs md:w-1/3 md:max-w-sm">
+        <div class="h-full w-full overflow-hidden organic-blob-alt">
+          <img class="h-full w-full object-cover"
+               alt="Mão fazendo carinho em um filhote dormindo"
+               src="https://lh3.googleusercontent.com/aida-public/AB6AXuATdHIjJDteme3NqNFg5NfFnBw7WDmiFDhgMIsL1fbAlAIr9fbrhWBBi0xdQ-6fIByyOGIEUri3L1e4T1eWL2Snb24DSFWk-RYWdBlHlnNfASF8PuDS-9c_lbExSsI2k5zjOBpwyiOoc9ucP4oXwWMMO5uXrIje1KgcKEYQmuwvcbtluD07KsbymKxDBBcfYuKZ3O9zAOuC2mETBOxqLwq6n4hZbEVVohd4-dzdPPKo_CQwC-NaFSXU">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ==================== POP-UP PIX ==================== -->
+<div id="pixModal"
+     class="fixed inset-0 hidden items-center justify-center bg-black/50 px-4"
+     style="z-index: 999999;"
+     aria-hidden="true">
+  <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+       role="dialog" aria-modal="true" aria-labelledby="pixTitulo">
+
+    <button type="button" id="fecharPix" aria-label="Fechar"
+            class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+
+    <h2 id="pixTitulo" class="pr-10 text-2xl font-bold text-primary">Doar por PIX</h2>
+
+    <p class="mt-2 text-sm leading-6 text-on-surface-variant">
+      Sua doação vai para o Pacotinho de Amor e ajuda com alimentação,
+      cuidados e atendimento veterinário dos animais.
+    </p>
+
+    <div class="mt-5 rounded-xl bg-surface-container-low p-4">
+      <p class="mb-1 text-xs font-semibold text-secondary">Chave PIX</p>
+      <p id="chavePix" class="break-all font-semibold text-on-surface">SUA-CHAVE-PIX-AQUI</p>
+    </div>
+
+    <button type="button" id="copiarPix"
+            class="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 font-semibold text-on-primary transition hover:bg-primary-container">
+      <span class="material-symbols-outlined text-lg">content_copy</span>
+      <span id="copiarPixTexto">Copiar chave PIX</span>
+    </button>
+
+    <p class="mt-4 text-center text-xs text-on-surface-variant">
+      Obrigado por ajudar a transformar a vida de um animal.
+    </p>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+
+<!-- ==================== ANIMAIS EM DESTAQUE ==================== -->
+<script>
+(() => {
+  const grid = document.getElementById("featured-animals");
+  const empty = document.getElementById("featured-empty");
+  if (!grid) return;
+
+  const escapeHTML = (value) =>
+    String(value ?? "").replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+    }[c]));
+
+  function getId(animal) {
+    if (animal?._id && typeof animal._id === "object") {
+      return animal._id.$oid || animal._id.toString();
+    }
+    return animal?._id || animal?.id || "";
+  }
+
+  const imageFor = (a) => a.image || a.imagem || a.photo || a.foto || "assets/logo-footer.png";
+
+  const tag = (text) =>
+    `<span class="rounded-full bg-surface-variant px-sm py-xs text-[13px] font-semibold text-on-surface-variant">${escapeHTML(text)}</span>`;
+
+  const locationLine = (location) => location
+    ? `<p class="mt-2 flex items-center gap-1 text-sm text-on-surface-variant">
+         <span class="material-symbols-outlined text-[16px]">location_on</span>${escapeHTML(location)}
+       </p>`
+    : "";
+
+  function cardSimples(a) {
+    return `
       <article class="group flex flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-        <div class="h-48 w-full overflow-hidden">
-          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        <div class="aspect-[3/4] w-full overflow-hidden bg-surface-container-high">
+          <img class="h-full w-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-105"
                src="${escapeHTML(a.image)}" alt="Foto de ${escapeHTML(a.name)}"
                onerror="this.src='assets/logo-footer.png'">
         </div>
@@ -462,118 +418,132 @@
           </a>
         </div>
       </article>`;
-        }
+  }
 
-        function normalizar(animal) {
-          return {
-            id: getId(animal),
-            name: animal.name || "Animal",
-            age: animal.age || "Idade não informada",
-            size: animal.size || "Porte não informado",
-            sex: animal.sex || "Sexo não informado",
-            breed: animal.breed || "Sem raça definida",
-            description: animal.description || "Este animal está esperando por uma família.",
-            image: imageFor(animal),
-            location: animal.location || animal.localizacao || ""
-          };
-        }
+  function normalizar(animal) {
+    return {
+      id: getId(animal),
+      name: animal.name || "Animal",
+      age: animal.age || "Idade não informada",
+      size: animal.size || "Porte não informado",
+      sex: animal.sex || "Sexo não informado",
+      breed: animal.breed || "Sem raça definida",
+      description: animal.description || "Este animal está esperando por uma família.",
+      image: imageFor(animal),
+      location: animal.location || animal.localizacao || ""
+    };
+  }
 
-        function render(lista) {
-          const disponiveis = lista.filter((a) => {
-            const status = String(a.status || "").toLowerCase();
-            return !status || status === "disponível" || status === "disponivel";
-          });
+  function render(lista) {
+    const disponiveis = lista.filter((a) => {
+      const status = String(a.status || "").toLowerCase();
+      return !status || status === "disponível" || status === "disponivel";
+    });
 
-          if (!disponiveis.length) {
-            grid.classList.add("hidden");
-            empty.classList.remove("hidden");
-            return;
-          }
+    if (!disponiveis.length) {
+      grid.classList.add("hidden");
+      empty.classList.remove("hidden");
+      return;
+    }
 
-          empty.classList.add("hidden");
-          grid.classList.remove("hidden");
+    empty.classList.add("hidden");
+    grid.classList.remove("hidden");
 
-          grid.innerHTML = disponiveis
-            .slice(0, 3)
-            .map(normalizar)
-            .map((a, i) => (i === 0 ? cardDestaque(a) : cardSimples(a)))
-            .join("");
-        }
+    grid.innerHTML = disponiveis
+      .sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")))
+      .slice(0, 3)
+      .map(normalizar)
+      .map(cardSimples)
+      .join("");
+  }
 
-        async function carregarAnimais() {
-          try {
-            const resposta = await fetch("/api/animals", { credentials: "include" });
-            if (!resposta.ok) throw new Error("Não foi possível carregar os animais.");
+  async function carregarAnimais() {
+    try {
+      const resposta = await fetch("/api/animals", { credentials: "include" });
+      if (!resposta.ok) throw new Error("Não foi possível carregar os animais.");
 
-            const data = await resposta.json();
-            render(Array.isArray(data) ? data : (data.animals || data.data || []));
-          } catch (erro) {
-            console.error(erro);
-            grid.classList.add("hidden");
-            empty.textContent = "Não foi possível carregar os animais no momento.";
-            empty.classList.remove("hidden");
-          }
-        }
+      const data = await resposta.json();
+      const lista = Array.isArray(data) ? data : (data.animals || data.data || []);
 
-        carregarAnimais();
-      })();
-  </script>
+      // Contador: adoções anteriores ao site (1.950) + as marcadas como adotado no painel
+      const ADOCOES_ANTES_DO_SITE = 1950;
+      const adotadosNoPainel = lista.filter((a) => String(a.status || "").toLowerCase() === "adotado").length;
+      const contador = document.getElementById("contadorAdocoes");
+      if (contador) contador.textContent = "+" + (ADOCOES_ANTES_DO_SITE + adotadosNoPainel).toLocaleString("pt-BR");
 
-  <!-- ==================== POP-UP PIX ==================== -->
-  <script>
-    (() => {
-      const modal = document.getElementById("pixModal");
-      const abrir = document.getElementById("btnDoacao");
-      const fechar = document.getElementById("fecharPix");
-      const copiar = document.getElementById("copiarPix");
-      const copiarTexto = document.getElementById("copiarPixTexto");
-      const chave = document.getElementById("chavePix");
+      render(lista);
+    } catch (erro) {
+      console.error(erro);
+      grid.classList.add("hidden");
+      empty.textContent = "Não foi possível carregar os animais no momento.";
+      empty.classList.remove("hidden");
+    }
+  }
 
-      function abrirModal() {
-        modal.classList.replace("hidden", "flex");
-        modal.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-        fechar.focus();
-      }
+  carregarAnimais();
+})();
+</script>
 
-      function fecharModal() {
-        modal.classList.replace("flex", "hidden");
-        modal.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-        copiarTexto.textContent = "Copiar chave PIX";
-        abrir.focus();
-      }
+<!-- ==================== PRÓXIMOS EVENTOS ==================== -->
+<script src="eventos.js"></script>
+<script>
+  mostrarEventos({ lista: "lista-eventos", secao: "secao-eventos", limite: 3 });
+</script>
 
-      function aviso(texto) {
-        copiarTexto.textContent = texto;
-        setTimeout(() => { copiarTexto.textContent = "Copiar chave PIX"; }, 2500);
-      }
+<!-- ==================== POP-UP PIX ==================== -->
+<script>
+(() => {
+  const modal = document.getElementById("pixModal");
+  const abrir = document.getElementById("btnDoacao");
+  const fechar = document.getElementById("fecharPix");
+  const copiar = document.getElementById("copiarPix");
+  const copiarTexto = document.getElementById("copiarPixTexto");
+  const chave = document.getElementById("chavePix");
 
-      abrir.addEventListener("click", abrirModal);
-      fechar.addEventListener("click", fecharModal);
-      modal.addEventListener("click", (e) => { if (e.target === modal) fecharModal(); });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && !modal.classList.contains("hidden")) fecharModal();
-      });
+  function abrirModal() {
+    modal.classList.replace("hidden", "flex");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    fechar.focus();
+  }
 
-      copiar.addEventListener("click", async () => {
-        const pix = chave.textContent.trim();
+  function fecharModal() {
+    modal.classList.replace("flex", "hidden");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    copiarTexto.textContent = "Copiar chave PIX";
+    abrir.focus();
+  }
 
-        if (!pix || pix === "SUA-CHAVE-PIX-AQUI") {
-          aviso("Chave ainda não cadastrada");
-          return;
-        }
+  function aviso(texto) {
+    copiarTexto.textContent = texto;
+    setTimeout(() => { copiarTexto.textContent = "Copiar chave PIX"; }, 2500);
+  }
 
-        try {
-          await navigator.clipboard.writeText(pix);
-          aviso("Chave copiada!");
-        } catch {
-          aviso("Selecione a chave acima");
-        }
-      });
-    })();
-  </script>
+  abrir.addEventListener("click", abrirModal);
+  fechar.addEventListener("click", fecharModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) fecharModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) fecharModal();
+  });
+
+  copiar.addEventListener("click", async () => {
+    const pix = chave.textContent.trim();
+
+    if (!pix || pix === "SUA-CHAVE-PIX-AQUI") {
+      aviso("Chave ainda não cadastrada");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(pix);
+      aviso("Chave copiada!");
+    } catch {
+      aviso("Selecione a chave acima");
+    }
+  });
+})();
+</script>
 
 </body>
-
 </html>
