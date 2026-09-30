@@ -5,323 +5,1064 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pacotinho de Amor — Adoção de animais</title>
 
+  <!-- Mantido porque os cards gerados pelo eventos.js usam classes do Tailwind -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
   <script id="tailwind-config">
     tailwind.config = {
-      darkMode: "class",
       theme: {
         extend: {
           colors: {
             "surface-container-low": "#f8f1f9",
-            "tertiary": "#333300",
             "surface-variant": "#e7e0e8",
-            "on-secondary-fixed-variant": "#5f3961",
             "primary-fixed-dim": "#e7b5f6",
             "outline-variant": "#cfc3ce",
             "surface-bright": "#fef7ff",
-            "surface-tint": "#784e87",
-            "on-secondary-fixed": "#2f0d33",
-            "error": "#ba1a1a",
-            "inverse-primary": "#e7b5f6",
             "on-primary": "#ffffff",
-            "on-primary-container": "#d5a4e4",
-            "on-secondary": "#ffffff",
             "on-background": "#1d1a20",
             "on-surface-variant": "#4c444d",
-            "surface-dim": "#ded8e0",
-            "inverse-surface": "#322f35",
-            "on-tertiary": "#ffffff",
-            "inverse-on-surface": "#f6eef6",
             "primary-container": "#5f376e",
-            "secondary-fixed-dim": "#e7b7e6",
             "secondary-container": "#ffcdfe",
             "background": "#fef7ff",
-            "tertiary-container": "#4a4a00",
-            "surface-container-highest": "#e7e0e8",
-            "on-error-container": "#93000a",
             "tertiary-fixed": "#e9e964",
             "on-secondary-container": "#7b537c",
             "surface-container": "#f3ecf4",
-            "on-tertiary-fixed-variant": "#494900",
             "surface-container-lowest": "#ffffff",
             "primary": "#472056",
-            "on-error": "#ffffff",
-            "on-primary-fixed": "#2f073f",
             "primary-fixed": "#f9d8ff",
-            "on-primary-fixed-variant": "#5f376e",
             "secondary": "#78517a",
-            "secondary-fixed": "#ffd6fc",
-            "on-tertiary-fixed": "#1d1d00",
-            "on-tertiary-container": "#bbbb3b",
-            "error-container": "#ffdad6",
-            "tertiary-fixed-dim": "#cccc4b",
             "surface-container-high": "#ede6ee",
             "outline": "#7e747e",
             "on-surface": "#1d1a20",
             "surface": "#fef7ff"
           },
-          borderRadius: {
-            DEFAULT: "0.25rem",
-            lg: "0.5rem",
-            xl: "0.75rem",
-            full: "9999px",
-            "2xl": "1.5rem"
-          },
-          spacing: {
-            lg: "48px",
-            xs: "4px",
-            sm: "12px",
-            base: "8px",
-            md: "24px",
-            "margin-desktop": "64px",
-            gutter: "24px",
-            xl: "80px",
-            "margin-mobile": "16px"
-          },
-          fontFamily: {
-            "headline-md": ["Montserrat"],
-            "headline-lg": ["Montserrat"],
-            "label-md": ["Montserrat"],
-            "body-md": ["Montserrat"],
-            "headline-lg-mobile": ["Montserrat"],
-            "body-lg": ["Montserrat"]
-          },
-          fontSize: {
-            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
-            "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }],
-            "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.5px", fontWeight: "600" }],
-            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
-            "headline-lg-mobile": ["26px", { lineHeight: "32px", fontWeight: "700" }],
-            "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }]
-          }
+          borderRadius: { "2xl": "1.5rem" },
+          spacing: { xs: "4px", sm: "12px", base: "8px", md: "24px", lg: "48px", xl: "80px" }
         }
       }
     }
   </script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="shared.css">
+
   <style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    body {
+      background: #f6f0f7;
+      min-height: 100dvh;
     }
 
-    .organic-blob { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-    .organic-blob-alt { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    .pv {
+      --ameixa: #472056;
+      --ameixa-escura: #2e1438;
+      --ameixa-media: #6d3a80;
+      --lilas: #f6f0f7;
+      --lilas-borda: #e6d9ea;
+      --rosa: #f6cfdf;
+      --mel: #f2b84b;
+      --texto: #2a2230;
+      --texto-suave: #6b5f6e;
+      --branco: #ffffff;
 
-    .fluid-container {
-      width: 100%;
+      --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+      --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
+
+      font-family: var(--corpo);
+      color: var(--texto);
+      background: var(--lilas);
+      line-height: 1.6;
+    }
+
+    .pv *,
+    .pv *::before,
+    .pv *::after {
+      box-sizing: border-box;
+    }
+
+    .pv h1,
+    .pv h2,
+    .pv h3 {
+      font-family: var(--display);
+      color: var(--ameixa-escura);
+      letter-spacing: -.01em;
+    }
+
+    .pv p {
+      margin: 0;
+    }
+
+    .pv a:focus-visible,
+    .pv button:focus-visible {
+      outline: 3px solid var(--mel);
+      outline-offset: 3px;
+    }
+
+    .pv .hidden {
+      display: none !important;
+    }
+
+    .pv-wrap {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    body { min-height: 100dvh; }
+    /* ---------- BOTÕES ---------- */
 
-    a:focus-visible,
-    button:focus-visible {
-      outline: 3px solid #e7b5f6;
-      outline-offset: 3px;
+    .pv-botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 26px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      font-family: var(--corpo);
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+
+    .pv-botao svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .pv-botao--mel {
+      background: var(--mel);
+      color: var(--ameixa-escura);
+    }
+
+    .pv-botao--mel:hover {
+      background: #f7cb72;
+    }
+
+    .pv-botao--claro {
+      border-color: rgba(255, 255, 255, .5);
+      color: var(--branco);
+      background: transparent;
+    }
+
+    .pv-botao--claro:hover {
+      border-color: var(--branco);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .pv-botao--escuro {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-botao--escuro:hover {
+      background: var(--ameixa-media);
+    }
+
+    .pv-botao--contorno {
+      border-color: var(--ameixa);
+      color: var(--ameixa);
+      background: var(--branco);
+    }
+
+    .pv-botao--contorno:hover {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      color: var(--ameixa);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .pv-link:hover {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .pv-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .pv-hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ameixa);
+      color: var(--branco);
+      padding: 72px 0 96px;
+    }
+
+    .pv-hero__patas {
+      position: absolute;
+      left: -70px;
+      bottom: -60px;
+      width: 380px;
+      opacity: .1;
+      pointer-events: none;
+    }
+
+    .pv-hero__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .pv-hero h1 {
+      margin: 0;
+      color: var(--branco);
+      font-weight: 800;
+      font-size: clamp(44px, 6.6vw, 84px);
+      line-height: .96;
+      letter-spacing: -.035em;
+      max-width: 11ch;
+    }
+
+    .pv-hero__texto {
+      max-width: 48ch;
+      margin-top: 24px !important;
+      font-size: 19px;
+      color: rgba(255, 255, 255, .86);
+    }
+
+    .pv-hero__acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    /* Foto do Joe com o contador: o destaque da home */
+
+    .pv-foto {
+      position: relative;
+      width: min(100%, 480px);
+      aspect-ratio: 1;
+      justify-self: center;
+    }
+
+    .pv-foto__fundo {
+      position: absolute;
+      inset: 4% 0 0 6%;
+      background: var(--rosa);
+      border-radius: 42% 58% 64% 36% / 44% 48% 52% 56%;
+      transform: rotate(-6deg);
+    }
+
+    .pv-foto__img {
+      position: absolute;
+      inset: 0 6% 6% 0;
+      overflow: hidden;
+      border-radius: 58% 42% 38% 62% / 52% 44% 56% 48%;
+      background: var(--ameixa-media);
+    }
+
+    .pv-foto__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pv-selo {
+      position: absolute;
+      left: -8px;
+      bottom: 4%;
+      width: 150px;
+      height: 150px;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      border-radius: 50%;
+      background: var(--mel);
+      color: var(--ameixa-escura);
+      transform: rotate(-8deg);
+      box-shadow: 0 18px 30px -16px rgba(0, 0, 0, .5);
+    }
+
+    .pv-selo strong {
+      display: block;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: -.03em;
+    }
+
+    .pv-selo span {
+      display: block;
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* ---------- CABEÇALHO DE SEÇÃO ---------- */
+
+    .pv-secao {
+      padding: 88px 0;
+    }
+
+    .pv-cabeca {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .pv-cabeca h2 {
+      margin: 0 0 6px;
+      font-weight: 800;
+      font-size: clamp(32px, 4.4vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -.03em;
+    }
+
+    .pv-cabeca p {
+      font-size: 17px;
+      color: var(--texto-suave);
+    }
+
+    .pv-rodape-mobile {
+      display: none;
+      margin-top: 28px;
+      text-align: center;
+    }
+
+    /* ---------- CARDS DE ANIMAIS ---------- */
+
+    .pv-grade {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .pv-animal {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 28px;
+      background: var(--branco);
+      box-shadow: 0 20px 40px -28px rgba(46, 20, 56, .45);
+    }
+
+    .pv-animal__foto {
+      display: block;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: var(--lilas-borda);
+    }
+
+    .pv-animal__foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      transition: transform .5s ease;
+    }
+
+    .pv-animal:hover .pv-animal__foto img {
+      transform: scale(1.04);
+    }
+
+    .pv-animal__corpo {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      padding: 22px 24px 24px;
+    }
+
+    .pv-animal h3 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .pv-animal__raca {
+      margin-top: 4px !important;
+      color: var(--texto-suave);
+    }
+
+    .pv-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .pv-tag {
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--lilas);
+      color: var(--ameixa);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .pv-local {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px !important;
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+
+    .pv-local svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--ameixa);
+    }
+
+    .pv-animal .pv-botao {
+      margin-top: auto;
+      width: 100%;
+    }
+
+    .pv-animal__acao {
+      padding-top: 20px;
+      margin-top: auto;
+    }
+
+    .pv-esqueleto {
+      aspect-ratio: 4 / 6;
+      border-radius: 28px;
+      background:
+        linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, .7) 50%, transparent 80%)
+        var(--lilas-borda);
+      background-size: 200% 100%;
+      animation: pv-brilho 1.4s linear infinite;
+    }
+
+    @keyframes pv-brilho {
+      from { background-position: 150% 0; }
+      to   { background-position: -50% 0; }
+    }
+
+    .pv-vazio-texto {
+      padding: 40px 0;
+      text-align: center;
+      font-size: 17px;
+      color: var(--texto-suave);
+    }
+
+    /* ---------- EVENTOS ---------- */
+
+    .pv-eventos {
+      background: var(--branco);
+    }
+
+    /* ---------- COMO ADOTAR ---------- */
+
+    .pv-passos {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 32px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pv-passos::before {
+      content: "";
+      position: absolute;
+      left: 12.5%;
+      right: 12.5%;
+      top: 44px;
+      height: 2px;
+      background: var(--lilas-borda);
+    }
+
+    .pv-passos li {
+      position: relative;
+      text-align: center;
+    }
+
+    .pv-passos__icone {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--rosa);
+      color: var(--ameixa);
+      box-shadow: 0 0 0 8px var(--lilas);
+    }
+
+    .pv-passos__icone svg {
+      width: 38px;
+      height: 38px;
+    }
+
+    .pv-passos__num {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ameixa);
+      color: var(--branco);
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .pv-passos h3 {
+      margin: 0 0 6px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .pv-passos p {
+      max-width: 24ch;
+      margin: 0 auto;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-centro {
+      margin-top: 44px;
+      text-align: center;
+    }
+
+    /* ---------- DOAÇÃO ---------- */
+
+    .pv-doacao {
+      padding-bottom: 96px;
+    }
+
+    .pv-doacao__bloco {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 48px;
+      align-items: center;
+      padding: 64px;
+      border-radius: 36px;
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-doacao h2 {
+      margin: 0 0 14px;
+      color: var(--branco);
+      font-weight: 800;
+      font-size: clamp(34px, 4.6vw, 54px);
+      line-height: 1;
+      letter-spacing: -.03em;
+    }
+
+    .pv-doacao p {
+      max-width: 46ch;
+      font-size: 18px;
+      color: rgba(255, 255, 255, .86);
+    }
+
+    .pv-doacao__acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .pv-doacao__foto {
+      position: relative;
+      width: min(100%, 340px);
+      aspect-ratio: 1;
+      justify-self: center;
+    }
+
+    .pv-doacao__foto::before {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      border: 2px dashed rgba(255, 255, 255, .35);
+    }
+
+    .pv-doacao__foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+
+    /* ---------- POP-UP PIX ---------- */
+
+    #pixModal {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(46, 20, 56, .6);
+      backdrop-filter: blur(3px);
+    }
+
+    #pixModal.hidden {
+      display: none;
+    }
+
+    #pixModal.flex {
+      display: flex;
+    }
+
+    .pv-modal {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      padding: 36px 30px 28px;
+      border-radius: 28px;
+      background: var(--branco);
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .5);
+    }
+
+    .pv-modal__fechar {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: none;
+      border-radius: 50%;
+      background: var(--lilas);
+      color: var(--ameixa);
+      cursor: pointer;
+    }
+
+    .pv-modal__fechar:hover {
+      background: var(--lilas-borda);
+    }
+
+    .pv-modal__fechar svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .pv-modal__icone {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: var(--rosa);
+      color: var(--ameixa);
+    }
+
+    .pv-modal__icone svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .pv-modal h2 {
+      margin: 0;
+      font-weight: 800;
+      font-size: 30px;
+      letter-spacing: -.02em;
+    }
+
+    .pv-modal__texto {
+      margin-top: 8px !important;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-chave {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 2px dashed var(--lilas-borda);
+      background: var(--lilas);
+    }
+
+    .pv-chave small {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ameixa-media);
+    }
+
+    .pv-chave p {
+      margin-top: 2px !important;
+      word-break: break-all;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--texto);
+    }
+
+    .pv-modal .pv-botao {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .pv-modal__obrigado {
+      margin-top: 16px !important;
+      text-align: center;
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+
+    /* ---------- RESPONSIVO ---------- */
+
+    @media (max-width: 900px) {
+      .pv-hero__grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .pv-foto {
+        width: min(100%, 380px);
+      }
+
+      .pv-grade {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .pv-passos {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 44px;
+      }
+
+      .pv-passos::before {
+        display: none;
+      }
+
+      .pv-doacao__bloco {
+        grid-template-columns: 1fr;
+        padding: 48px 36px;
+      }
+
+      .pv-doacao__foto {
+        width: min(100%, 260px);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .pv-wrap {
+        padding: 0 14px;
+      }
+
+      .pv-hero {
+        padding: 48px 0 72px;
+      }
+
+      .pv-hero__texto {
+        font-size: 17px;
+      }
+
+      .pv-hero__acoes .pv-botao,
+      .pv-doacao__acoes .pv-botao {
+        width: 100%;
+      }
+
+      .pv-selo {
+        width: 120px;
+        height: 120px;
+      }
+
+      .pv-selo strong {
+        font-size: 28px;
+      }
+
+      .pv-secao {
+        padding: 64px 0;
+      }
+
+      .pv-cabeca .pv-link {
+        display: none;
+      }
+
+      .pv-rodape-mobile {
+        display: block;
+      }
+
+      .pv-grade {
+        grid-template-columns: 1fr;
+      }
+
+      .pv-passos {
+        grid-template-columns: 1fr;
+      }
+
+      .pv-doacao {
+        padding-bottom: 64px;
+      }
+
+      .pv-doacao__bloco {
+        padding: 40px 22px;
+        border-radius: 28px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv-esqueleto {
+        animation: none;
+      }
+
+      .pv *,
+      .pv *::before,
+      .pv *::after {
+        transition: none !important;
+      }
     }
   </style>
-
-  <link rel="stylesheet" href="shared.css">
 </head>
 
-<body class="bg-background text-on-background antialiased font-body-md">
+<body>
 
-<!-- pb extra no celular para o menu inferior não cobrir o conteúdo -->
+<div class="pv">
+
 <main>
 
   <!-- ==================== TOPO ==================== -->
-  <section class="fluid-container py-lg md:py-[100px]">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-lg md:gap-xl items-center">
 
-      <div class="flex flex-col gap-md max-w-lg">
-        <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-[44px] md:leading-[1.1] text-primary tracking-tight">
-          Encontre um amigo para a vida toda.
-        </h1>
+  <section class="pv-hero">
 
-        <p class="font-body-lg text-body-lg text-on-surface-variant">
+    <svg class="pv-hero__patas" viewBox="0 0 200 200" aria-hidden="true" fill="#fff">
+      <g transform="translate(40 40) rotate(-18)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(110 80) rotate(12)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(60 130) rotate(-10)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(145 165) rotate(20)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+    </svg>
+
+    <div class="pv-wrap pv-hero__grid">
+
+      <div>
+        <h1>Encontre um amigo para a vida toda.</h1>
+
+        <p class="pv-hero__texto">
           Somos um projeto independente de proteção animal em São Paulo.
-          Conectamos animais resgatados a pessoas que querem adotar com responsabilidade.
+          Conectamos animais resgatados a pessoas que querem adotar com
+          responsabilidade.
         </p>
 
-        <div class="inline-flex w-fit items-center gap-2 rounded-full bg-secondary-container px-4 py-2 font-label-md text-label-md text-on-secondary-container">
-          <span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1">favorite</span>
-          <span id="contadorAdocoes">+1.950</span> animais adotados
-        </div>
-
-        <div class="flex flex-wrap gap-sm">
-          <a class="inline-flex items-center rounded-full bg-primary px-lg py-sm font-label-md text-label-md text-on-primary transition-colors hover:bg-primary-container"
-             href="animais-para-adocao.html">
-            Conheça os animais
-          </a>
-          <a class="inline-flex items-center rounded-full border-2 border-primary px-lg py-sm font-label-md text-label-md text-primary transition-colors hover:bg-surface-container-low"
-             href="quero-ajudar.html">
-            Quero ajudar
-          </a>
+        <div class="pv-hero__acoes">
+          <a class="pv-botao pv-botao--mel" href="animais-para-adocao.html">Conheça os animais</a>
+          <a class="pv-botao pv-botao--claro" href="quero-ajudar.html">Quero ajudar</a>
         </div>
       </div>
 
-      <div class="relative flex h-[340px] md:h-[480px] w-full items-center justify-center">
-        <div class="absolute inset-0 mx-auto h-4/5 w-4/5 self-center organic-blob bg-primary-fixed"></div>
-        <div class="relative z-10 h-3/4 w-3/4 overflow-hidden organic-blob shadow-xl">
-          <img class="h-full w-full object-cover"
-               alt="Joe, cachorro resgatado pelo Pacotinho de Amor"
-               src="assets/joe.jpg">
+      <div class="pv-foto">
+        <div class="pv-foto__fundo" aria-hidden="true"></div>
+        <div class="pv-foto__img">
+          <img src="assets/joe.jpg" alt="Joe, cachorro resgatado pelo Pacotinho de Amor">
+        </div>
+        <div class="pv-selo">
+          <strong id="contadorAdocoes">+1.95</strong>
+          <span>animais<br>adotados</span>
         </div>
       </div>
 
     </div>
+
   </section>
 
-  <!-- ==================== ANIMAIS EM DESTAQUE ==================== -->
-  <section class="bg-surface-container-low py-lg md:py-xl">
-    <div class="fluid-container">
 
-      <div class="mb-md md:mb-lg flex items-end justify-between gap-md">
+  <!-- ==================== ANIMAIS EM DESTAQUE ==================== -->
+
+  <section class="pv-secao">
+    <div class="pv-wrap">
+
+      <div class="pv-cabeca">
         <div>
-          <h2 class="font-headline-md text-headline-md text-primary mb-xs">Esperando por você</h2>
-          <p class="font-body-md text-body-md text-on-surface-variant">Animais prontos para encontrar um lar.</p>
+          <h2>Esperando por você</h2>
+          <p>Animais prontos para encontrar um lar.</p>
         </div>
-        <a class="hidden md:inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline"
-           href="animais-para-adocao.html">
-          Ver todos <span class="material-symbols-outlined">arrow_forward</span>
+        <a class="pv-link" href="animais-para-adocao.html">
+          Ver todos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
 
       <!-- Carregados do MongoDB pela API -->
-      <div id="featured-animals" class="grid grid-cols-1 md:grid-cols-3 gap-md">
-        <div class="rounded-2xl bg-surface p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
-        <div class="rounded-2xl bg-surface p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
-        <div class="rounded-2xl bg-surface p-md animate-pulse"><div class="aspect-[3/4] rounded-xl bg-surface-container-high"></div></div>
+      <div id="featured-animals" class="pv-grade" aria-live="polite">
+        <div class="pv-esqueleto" aria-hidden="true"></div>
+        <div class="pv-esqueleto" aria-hidden="true"></div>
+        <div class="pv-esqueleto" aria-hidden="true"></div>
       </div>
 
-      <p id="featured-empty" class="hidden py-lg text-center text-on-surface-variant">
+      <p id="featured-empty" class="pv-vazio-texto hidden">
         No momento, não há animais disponíveis para adoção.
       </p>
 
-      <div class="mt-md text-center md:hidden">
-        <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline"
-           href="animais-para-adocao.html">
-          Ver todos os animais <span class="material-symbols-outlined">arrow_forward</span>
+      <div class="pv-rodape-mobile">
+        <a class="pv-link" href="animais-para-adocao.html">
+          Ver todos os animais
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
 
     </div>
   </section>
 
+
   <!-- ==================== PRÓXIMOS EVENTOS ==================== -->
   <!-- Some sozinha quando não há eventos futuros -->
-  <section id="secao-eventos" class="hidden fluid-container py-lg md:py-xl">
-    <div class="mb-md md:mb-lg flex items-end justify-between gap-md">
-      <div>
-        <h2 class="font-headline-md text-headline-md text-primary mb-xs">Próximos eventos</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant">Venha conhecer os animais pessoalmente.</p>
+
+  <section id="secao-eventos" class="pv-secao pv-eventos hidden">
+    <div class="pv-wrap">
+
+      <div class="pv-cabeca">
+        <div>
+          <h2>Próximos eventos</h2>
+          <p>Venha conhecer os animais pessoalmente.</p>
+        </div>
+        <a class="pv-link" href="eventos.html">
+          Ver todos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
-      <a class="hidden md:inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline" href="eventos.html">
-        Ver todos <span class="material-symbols-outlined">arrow_forward</span>
-      </a>
-    </div>
-    <div id="lista-eventos" class="grid grid-cols-1 md:grid-cols-3 gap-md"></div>
-    <div class="mt-md text-center md:hidden">
-      <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline" href="eventos.html">
-        Ver todos os eventos <span class="material-symbols-outlined">arrow_forward</span>
-      </a>
+
+      <div id="lista-eventos" class="grid grid-cols-1 md:grid-cols-3 gap-md"></div>
+
+      <div class="pv-rodape-mobile">
+        <a class="pv-link" href="eventos.html">
+          Ver todos os eventos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
     </div>
   </section>
+
 
   <!-- ==================== COMO ADOTAR ==================== -->
-  <section class="fluid-container py-lg md:py-xl" id="como-adotar">
 
-    <div class="mb-lg text-center">
-      <h2 class="font-headline-md text-headline-md text-primary mb-xs">Como adotar</h2>
-      <p class="mx-auto max-w-2xl font-body-md text-body-md text-on-surface-variant">
-        Um processo simples, pensado para o bem do animal e da família.
-      </p>
+  <section class="pv-secao" id="como-adotar">
+    <div class="pv-wrap">
+
+      <div class="pv-cabeca" style="justify-content:center;text-align:center">
+        <div>
+          <h2>Como adotar</h2>
+          <p>Um processo simples, pensado para o bem do animal e da família.</p>
+        </div>
+      </div>
+
+      <ol class="pv-passos">
+
+        <li>
+          <div class="pv-passos__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
+            <span class="pv-passos__num">1</span>
+          </div>
+          <h3>Escolha um animal</h3>
+          <p>Veja os perfis e a história de cada um.</p>
+        </li>
+
+        <li>
+          <div class="pv-passos__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.5H7A2 2 0 0 0 5 5.5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-10z"/><path d="M14 3.5v5h5"/><path d="M8.5 13h7M8.5 16.5h4.5"/></svg>
+            <span class="pv-passos__num">2</span>
+          </div>
+          <h3>Preencha o formulário</h3>
+          <p>Conte um pouco sobre você e sua rotina.</p>
+        </li>
+
+        <li>
+          <div class="pv-passos__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+            <span class="pv-passos__num">3</span>
+          </div>
+          <h3>Conversa com a equipe</h3>
+          <p>Entramos em contato para a análise e a entrevista.</p>
+        </li>
+
+        <li>
+          <div class="pv-passos__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+            <span class="pv-passos__num">4</span>
+          </div>
+          <h3>Nova história</h3>
+          <p>Combinamos o encontro com seu novo amigo.</p>
+        </li>
+
+      </ol>
+
+      <div class="pv-centro">
+        <a class="pv-link" href="sobre-o-projeto.html">
+          Conheça o projeto
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
     </div>
-
-    <ol class="relative grid grid-cols-1 gap-md sm:grid-cols-2 md:grid-cols-4 md:gap-lg">
-      <!-- linha que liga os passos (computador) -->
-      <div class="absolute left-[12%] right-[12%] top-10 hidden h-[2px] bg-surface-variant md:block" aria-hidden="true"></div>
-
-      <li class="relative flex flex-col items-center text-center">
-        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-          <span class="material-symbols-outlined text-4xl text-primary">search</span>
-        </div>
-        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">1. Escolha um animal</h3>
-        <p class="text-sm text-on-surface-variant">Veja os perfis e a história de cada um.</p>
-      </li>
-
-      <li class="relative flex flex-col items-center text-center">
-        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-          <span class="material-symbols-outlined text-4xl text-primary">edit_document</span>
-        </div>
-        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">2. Preencha o formulário</h3>
-        <p class="text-sm text-on-surface-variant">Conte um pouco sobre você e sua rotina.</p>
-      </li>
-
-      <li class="relative flex flex-col items-center text-center">
-        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-          <span class="material-symbols-outlined text-4xl text-primary">call</span>
-        </div>
-        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">3. Conversa com a equipe</h3>
-        <p class="text-sm text-on-surface-variant">Entramos em contato para a análise e a entrevista.</p>
-      </li>
-
-      <li class="relative flex flex-col items-center text-center">
-        <div class="mb-sm flex h-20 w-20 items-center justify-center rounded-full bg-surface-container-low ring-4 ring-background">
-          <span class="material-symbols-outlined text-4xl text-primary">favorite</span>
-        </div>
-        <h3 class="mb-xs font-label-md text-[17px] text-on-surface">4. Nova história</h3>
-        <p class="text-sm text-on-surface-variant">Combinamos o encontro com seu novo amigo.</p>
-      </li>
-    </ol>
-
-    <div class="mt-lg text-center">
-      <a class="inline-flex items-center gap-xs font-label-md text-label-md text-primary hover:underline" href="sobre-o-projeto.html">
-        Conheça o projeto <span class="material-symbols-outlined">arrow_forward</span>
-      </a>
-    </div>
-
   </section>
 
+
   <!-- ==================== DOAÇÃO ==================== -->
-  <section class="bg-primary py-lg md:py-xl" id="ajudar">
-    <div class="fluid-container flex flex-col items-center justify-between gap-lg md:flex-row">
 
-      <div class="max-w-xl">
-        <h2 class="mb-sm font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary">
-          Ajude quem precisa
-        </h2>
-        <p class="mb-md font-body-lg text-body-lg text-primary-fixed">
-          O projeto é mantido com recursos próprios. Sua doação ajuda com
-          alimentação, cuidados veterinários e abrigo até a adoção.
-        </p>
+  <section class="pv-doacao" id="ajudar">
+    <div class="pv-wrap">
+      <div class="pv-doacao__bloco">
 
-        <div class="flex flex-wrap gap-sm">
-          <button type="button" id="btnDoacao"
-                  class="inline-flex items-center gap-xs rounded-full bg-tertiary-fixed px-lg py-sm font-label-md text-label-md text-on-tertiary-fixed transition hover:bg-tertiary-fixed-dim">
-            <span class="material-symbols-outlined">volunteer_activism</span>
-            Doar por PIX
-          </button>
-          <a href="quero-ajudar.html"
-             class="inline-flex items-center rounded-full border-2 border-primary-fixed px-lg py-sm font-label-md text-label-md text-on-primary transition hover:bg-primary-container">
-            Outras formas de ajudar
-          </a>
+        <div>
+          <h2>Ajude quem precisa</h2>
+          <p>
+            O projeto é mantido com recursos próprios. Sua doação ajuda com
+            alimentação, cuidados veterinários e abrigo até a adoção.
+          </p>
+
+          <div class="pv-doacao__acoes">
+            <button type="button" id="btnDoacao" class="pv-botao pv-botao--mel">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+              Doar por PIX
+            </button>
+            <a href="quero-ajudar.html" class="pv-botao pv-botao--claro">Outras formas de ajudar</a>
+          </div>
         </div>
-      </div>
 
-      <div class="aspect-square w-full max-w-xs md:w-1/3 md:max-w-sm">
-        <div class="h-full w-full overflow-hidden organic-blob-alt">
-          <img class="h-full w-full object-cover"
-               alt="Mão fazendo carinho em um filhote dormindo"
-               src="https://lh3.googleusercontent.com/aida-public/AB6AXuATdHIjJDteme3NqNFg5NfFnBw7WDmiFDhgMIsL1fbAlAIr9fbrhWBBi0xdQ-6fIByyOGIEUri3L1e4T1eWL2Snb24DSFWk-RYWdBlHlnNfASF8PuDS-9c_lbExSsI2k5zjOBpwyiOoc9ucP4oXwWMMO5uXrIje1KgcKEYQmuwvcbtluD07KsbymKxDBBcfYuKZ3O9zAOuC2mETBOxqLwq6n4hZbEVVohd4-dzdPPKo_CQwC-NaFSXU">
+        <div class="pv-doacao__foto">
+          <img
+            alt="Mão fazendo carinho em um filhote dormindo"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuATdHIjJDteme3NqNFg5NfFnBw7WDmiFDhgMIsL1fbAlAIr9fbrhWBBi0xdQ-6fIByyOGIEUri3L1e4T1eWL2Snb24DSFWk-RYWdBlHlnNfASF8PuDS-9c_lbExSsI2k5zjOBpwyiOoc9ucP4oXwWMMO5uXrIje1KgcKEYQmuwvcbtluD07KsbymKxDBBcfYuKZ3O9zAOuC2mETBOxqLwq6n4hZbEVVohd4-dzdPPKo_CQwC-NaFSXU">
         </div>
-      </div>
 
+      </div>
     </div>
   </section>
 
@@ -329,40 +1070,42 @@
 
 
 <!-- ==================== POP-UP PIX ==================== -->
-<div id="pixModal"
-     class="fixed inset-0 hidden items-center justify-center bg-black/50 px-4"
-     style="z-index: 999999;"
-     aria-hidden="true">
-  <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
-       role="dialog" aria-modal="true" aria-labelledby="pixTitulo">
 
-    <button type="button" id="fecharPix" aria-label="Fechar"
-            class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container">
-      <span class="material-symbols-outlined">close</span>
+<div id="pixModal" class="hidden" aria-hidden="true">
+  <div class="pv-modal" role="dialog" aria-modal="true" aria-labelledby="pixTitulo">
+
+    <button type="button" id="fecharPix" class="pv-modal__fechar" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
 
-    <h2 id="pixTitulo" class="pr-10 text-2xl font-bold text-primary">Doar por PIX</h2>
+    <div class="pv-modal__icone" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+    </div>
 
-    <p class="mt-2 text-sm leading-6 text-on-surface-variant">
+    <h2 id="pixTitulo">Doar por PIX</h2>
+
+    <p class="pv-modal__texto">
       Sua doação vai para o Pacotinho de Amor e ajuda com alimentação,
       cuidados e atendimento veterinário dos animais.
     </p>
 
-    <div class="mt-5 rounded-xl bg-surface-container-low p-4">
-      <p class="mb-1 text-xs font-semibold text-secondary">Chave PIX</p>
-      <p id="chavePix" class="break-all font-semibold text-on-surface">SUA-CHAVE-PIX-AQUI</p>
+    <div class="pv-chave">
+      <small>Chave PIX</small>
+      <p id="chavePix">SUA-CHAVE-PIX-AQUI</p>
     </div>
 
-    <button type="button" id="copiarPix"
-            class="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 font-semibold text-on-primary transition hover:bg-primary-container">
-      <span class="material-symbols-outlined text-lg">content_copy</span>
+    <button type="button" id="copiarPix" class="pv-botao pv-botao--escuro">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.5"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg>
       <span id="copiarPixTexto">Copiar chave PIX</span>
     </button>
 
-    <p class="mt-4 text-center text-xs text-on-surface-variant">
+    <p class="pv-modal__obrigado">
       Obrigado por ajudar a transformar a vida de um animal.
     </p>
+
   </div>
+</div>
+
 </div>
 
 <script src="shared.js"></script>
@@ -388,34 +1131,33 @@
 
   const imageFor = (a) => a.image || a.imagem || a.photo || a.foto || "assets/logo-footer.png";
 
-  const tag = (text) =>
-    `<span class="rounded-full bg-surface-variant px-sm py-xs text-[13px] font-semibold text-on-surface-variant">${escapeHTML(text)}</span>`;
+  const tag = (text) => `<span class="pv-tag">${escapeHTML(text)}</span>`;
 
   const locationLine = (location) => location
-    ? `<p class="mt-2 flex items-center gap-1 text-sm text-on-surface-variant">
-         <span class="material-symbols-outlined text-[16px]">location_on</span>${escapeHTML(location)}
+    ? `<p class="pv-local">
+         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
+         ${escapeHTML(location)}
        </p>`
     : "";
 
   function cardSimples(a) {
+    const link = `detalhes-animal.html?id=${encodeURIComponent(a.id)}`;
     return `
-      <article class="group flex flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-        <div class="aspect-[3/4] w-full overflow-hidden bg-surface-container-high">
-          <img class="h-full w-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-105"
-               src="${escapeHTML(a.image)}" alt="Foto de ${escapeHTML(a.name)}"
-               onerror="this.src='assets/logo-footer.png'">
-        </div>
-        <div class="flex flex-grow flex-col justify-between p-md">
-          <div>
-            <h3 class="font-label-md text-lg text-on-surface">${escapeHTML(a.name)}</h3>
-            <p class="mb-sm text-sm text-on-surface-variant">${escapeHTML(a.breed)}</p>
-            <div class="flex flex-wrap gap-xs">${tag(a.age)}${tag(a.sex)}</div>
-            ${locationLine(a.location)}
+      <article class="pv-animal">
+        <a class="pv-animal__foto" href="${link}" tabindex="-1" aria-hidden="true">
+          <img src="${escapeHTML(a.image)}" alt="Foto de ${escapeHTML(a.name)}"
+               loading="lazy" onerror="this.src='assets/logo-footer.png'">
+        </a>
+        <div class="pv-animal__corpo">
+          <h3>${escapeHTML(a.name)}</h3>
+          <p class="pv-animal__raca">${escapeHTML(a.breed)}</p>
+          <div class="pv-tags">${tag(a.age)}${tag(a.sex)}</div>
+          ${locationLine(a.location)}
+          <div class="pv-animal__acao">
+            <a class="pv-botao pv-botao--contorno" href="${link}">
+              Conhecer ${escapeHTML(a.name)}
+            </a>
           </div>
-          <a class="mt-md inline-flex w-full items-center justify-center rounded-full border-2 border-primary py-xs font-label-md text-label-md text-primary transition-colors hover:bg-primary hover:text-on-primary"
-             href="detalhes-animal.html?id=${encodeURIComponent(a.id)}">
-            Ver perfil
-          </a>
         </div>
       </article>`;
   }

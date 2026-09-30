@@ -213,6 +213,69 @@
   </div>
 </div>
 
+<!-- ==================== MODAL CRIAR CONTA DE APOIO ==================== -->
+<div id="modalContaApoio" class="fixed inset-0 z-[220] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4 flex items-start justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold text-secondary">Nova conta</p>
+        <h2 class="text-xl font-bold text-primary">Criar conta de apoio</h2>
+      </div>
+      <button type="button" onclick="fecharModal('modalContaApoio')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <p class="mb-5 text-sm text-on-surface-variant">
+      A conta será usada pela pessoa para entrar como voluntário(a). Você deverá compartilhar o e-mail e a senha com ela.
+    </p>
+
+    <label for="apoioNome" class="rotulo">Nome</label>
+    <input id="apoioNome" class="campo mb-3" maxlength="120" placeholder="Nome da pessoa">
+
+    <label for="apoioEmail" class="rotulo">E-mail</label>
+    <input id="apoioEmail" type="email" class="campo mb-3" maxlength="160" placeholder="email@exemplo.com">
+
+    <label for="apoioSenha" class="rotulo">Senha</label>
+    <div class="mb-1 flex gap-2">
+      <input id="apoioSenha" type="text" class="campo" minlength="12" autocomplete="new-password" placeholder="Gere uma senha segura">
+      <button type="button" onclick="gerarSenhaApoio()" class="shrink-0 rounded-xl border border-primary-container px-3 font-semibold text-primary-container hover:bg-surface-low" title="Gerar senha aleatória">
+        <span class="material-symbols-outlined">autorenew</span>
+      </button>
+    </div>
+    <p class="mb-5 text-xs text-on-surface-variant">Use uma senha aleatória e temporária. Depois, a pessoa deve trocar a senha no primeiro acesso.</p>
+
+    <button type="button" id="btnCriarContaApoio" onclick="criarContaApoio()" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
+      Criar conta
+    </button>
+  </div>
+</div>
+
+<!-- ==================== DADOS DA NOVA CONTA ==================== -->
+<div id="modalDadosConta" class="fixed inset-0 z-[260] hidden items-center justify-center bg-black/50 p-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-4">
+      <p class="text-sm font-semibold text-secondary">Conta criada</p>
+      <h2 class="text-xl font-bold text-primary">Dados para enviar à pessoa</h2>
+    </div>
+
+    <p class="mb-4 text-sm text-on-surface-variant">
+      Copie o texto abaixo e envie pelo WhatsApp. Evite compartilhar esses dados em grupos.
+    </p>
+
+    <textarea id="dadosContaCopiar" readonly class="campo mb-4" rows="7"></textarea>
+
+    <div class="flex gap-2">
+      <button type="button" onclick="copiarDadosConta()" class="flex-1 rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary">
+        Copiar dados
+      </button>
+      <button type="button" onclick="fecharModal('modalDadosConta')" class="flex-1 rounded-full border border-outline-variant py-3 font-semibold text-primary">
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ==================== CONFIRMAÇÃO ==================== -->
 <div id="modalConfirmar" class="fixed inset-0 z-[250] hidden items-center justify-center bg-black/50 p-4">
   <div class="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl">
@@ -239,10 +302,11 @@ const PAGINAS = [
   { id: "adocoes",     nome: "Pedidos",      curto: "Pedidos",  icone: "family_restroom" },
   { id: "adotados",    nome: "Adotados",     curto: "Adotados", icone: "favorite" },
   { id: "voluntarios", nome: "Voluntários",  curto: "Equipe",   icone: "volunteer_activism" },
+  { id: "contas-apoio", nome: "Contas de apoio", curto: "Apoio", icone: "manage_accounts" },
   { id: "eventos",     nome: "Eventos",      curto: "Eventos",  icone: "event" }
 ];
 
-const dados = { user: null, animais: [], adocoes: [], voluntarios: [], eventos: [] };
+const dados = { user: null, animais: [], adocoes: [], voluntarios: [], eventos: [], contasApoio: [] };
 let paginaAtual = "inicio";
 
 /* ============================================================
@@ -325,14 +389,15 @@ const STATUS_ANIMAL = {
    CARREGAR DADOS
    ============================================================ */
 async function carregarTudo() {
-  const [animais, adocoes, voluntarios, eventos] = await Promise.allSettled([
-    api("/animals"), api("/applications"), api("/volunteer-requests"), api("/events")
+  const [animais, adocoes, voluntarios, eventos, contasApoio] = await Promise.allSettled([
+    api("/animals"), api("/applications"), api("/volunteer-requests"), api("/events"), api("/volunteer-accounts")
   ]);
   const lista = (r) => (r.status === "fulfilled" && Array.isArray(r.value) ? r.value : []);
   dados.animais = lista(animais);
   dados.adocoes = lista(adocoes);
   dados.voluntarios = lista(voluntarios);
   dados.eventos = lista(eventos);
+  dados.contasApoio = lista(contasApoio);
   desenhar();
 }
 
@@ -628,13 +693,62 @@ function paginaVoluntarios() {
       <div class="space-y-3">${lista.map(cartao).join("")}</div>`)
     .join("");
 
-  return titulo("Voluntários", "Chame cada pessoa no WhatsApp para a entrevista.") + `
-    <div class="flex items-start gap-3 rounded-2xl bg-primary-fixed p-4 text-sm text-primary">
-      <span class="material-symbols-outlined">schedule</span>
-      <p>Por privacidade, cada pedido é <strong>apagado automaticamente 14 dias</strong> depois de enviado.
-      Se a pessoa for aprovada, salve o contato dela no seu WhatsApp.</p>
-    </div>
-    ${secoes || `<div class="mt-6">${vazio("Nenhum pedido de voluntariado.")}</div>`}`;
+  const contas = dados.contasApoio || [];
+
+  const contasHtml = contas.length
+    ? contas.map((conta) => `
+      <article class="rounded-2xl bg-white p-5 shadow-sm">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h3 class="font-bold text-primary">${esc(conta.name || "Sem nome")}</h3>
+            <p class="text-sm text-on-surface-variant">${esc(conta.email || "")}</p>
+          </div>
+          <span class="shrink-0 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800">Conta ativa</span>
+        </div>
+
+        <div class="mt-4 rounded-xl bg-surface-low p-3 text-sm text-on-surface-variant">
+          <strong>Permissões:</strong> cadastrar/editar animais e criar eventos.
+        </div>
+
+        <button type="button"
+          onclick="excluirContaApoio('${esc(conta.id)}','${esc(conta.name || "esta pessoa")}')"
+          class="mt-4 inline-flex items-center gap-2 rounded-full border border-red-200 px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50">
+          <span class="material-symbols-outlined text-[18px]">delete_forever</span>
+          Excluir conta
+        </button>
+      </article>`).join("")
+    : `<div class="rounded-xl bg-surface-low p-6 text-center text-sm text-on-surface-variant">Nenhuma conta de apoio criada ainda.</div>`;
+
+  return titulo(
+    "Voluntários",
+    "Gerencie os pedidos e as contas de apoio.",
+    botaoPrincipal("Criar conta de apoio", "person_add", "abrirModal('modalContaApoio')")
+  ) + `
+    <section class="mb-6 rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 class="text-lg font-bold text-primary">Contas de apoio</h2>
+          <p class="mt-1 text-sm text-on-surface-variant">
+            A Master cria a conta, compartilha o e-mail e a senha com a pessoa e pode excluir o acesso quando quiser.
+            A própria pessoa também poderá excluir a conta nas configurações.
+          </p>
+        </div>
+        <span class="rounded-full bg-primary-fixed px-3 py-1 text-sm font-bold text-primary">${contas.length} ativa(s)</span>
+      </div>
+
+      <div class="mt-4 grid gap-3 md:grid-cols-2">
+        ${contasHtml}
+      </div>
+    </section>
+
+    <section>
+      <div class="flex items-start gap-3 rounded-2xl bg-primary-fixed p-4 text-sm text-primary">
+        <span class="material-symbols-outlined">schedule</span>
+        <p>Por privacidade, cada pedido é <strong>apagado automaticamente 14 dias</strong> depois de enviado.
+        Se a pessoa for aprovada, salve o contato dela no seu WhatsApp.</p>
+      </div>
+      ${secoes || `<div class="mt-6">${vazio("Nenhum pedido de voluntariado.")}</div>`}
+    </section>`;
 }
 
 // Ao clicar em "Chamar no WhatsApp", marca o pedido como "em conversa"
@@ -648,6 +762,47 @@ async function marcarChamado(id) {
   } catch (erro) {
     console.error(erro);
   }
+}
+
+function paginaContasApoio() {
+  const contas = dados.contasApoio || [];
+  const contasHtml = contas.length
+    ? contas.map((conta) => `
+      <article class="rounded-2xl bg-white p-5 shadow-sm">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h3 class="font-bold text-primary">${esc(conta.name || conta.nome || "Sem nome")}</h3>
+            <p class="text-sm text-on-surface-variant">${esc(conta.email || "")}</p>
+          </div>
+          <span class="shrink-0 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800">Conta ativa</span>
+        </div>
+        <div class="mt-4 rounded-xl bg-surface-low p-3 text-sm text-on-surface-variant">
+          <strong>Permissões:</strong> cadastrar/editar animais e criar eventos.
+        </div>
+        <button type="button" onclick="excluirContaApoio('${esc(conta.id)}','${esc(conta.name || conta.nome || "esta pessoa")}')"
+          class="mt-4 inline-flex items-center gap-2 rounded-full border border-red-200 px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50">
+          <span class="material-symbols-outlined text-[18px]">delete_forever</span> Excluir conta
+        </button>
+      </article>`).join("")
+    : `<div class="rounded-xl bg-surface-low p-8 text-center text-sm text-on-surface-variant">Nenhuma conta de apoio criada ainda.</div>`;
+
+  return titulo(
+    "Contas de apoio",
+    "Crie e gerencie contas com acesso limitado ao sistema.",
+    botaoPrincipal("Criar conta de apoio", "person_add", "abrirModal('modalContaApoio')")
+  ) + `
+    <section class="mb-6 rounded-2xl bg-white p-5 shadow-sm md:p-6">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 class="text-lg font-bold text-primary">Acesso da equipe de apoio</h2>
+          <p class="mt-1 text-sm text-on-surface-variant">
+            A conta de apoio pode cadastrar e editar animais e criar eventos, sem acesso às funções exclusivas da Master.
+          </p>
+        </div>
+        <span class="rounded-full bg-primary-fixed px-3 py-1 text-sm font-bold text-primary">${contas.length} ativa(s)</span>
+      </div>
+      <div class="mt-4 grid gap-3 md:grid-cols-2">${contasHtml}</div>
+    </section>`;
 }
 
 function paginaEventos() {
@@ -702,7 +857,7 @@ function paginaConfig() {
 
 const RENDER = {
   inicio: paginaInicio, animais: paginaAnimais, adocoes: paginaAdocoes, adotados: paginaAdotados,
-  voluntarios: paginaVoluntarios, eventos: paginaEventos, config: paginaConfig
+  voluntarios: paginaVoluntarios, "contas-apoio": paginaContasApoio, eventos: paginaEventos, config: paginaConfig
 };
 
 /* ============================================================
@@ -879,6 +1034,94 @@ async function decidirVoluntario(id, status) {
   }
 }
 
+function gerarSenhaApoio() {
+  const caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
+  const valores = new Uint32Array(16);
+  crypto.getRandomValues(valores);
+  let senha = "";
+  for (let i = 0; i < valores.length; i++) {
+    senha += caracteres[valores[i] % caracteres.length];
+  }
+  $("apoioSenha").value = senha;
+  $("apoioSenha").type = "text";
+}
+
+async function copiarDadosConta() {
+  const campo = $("dadosContaCopiar");
+  try {
+    await navigator.clipboard.writeText(campo.value);
+    aviso("Dados copiados. Agora você pode colar no WhatsApp.");
+  } catch {
+    campo.focus();
+    campo.select();
+    document.execCommand("copy");
+    aviso("Dados copiados. Agora você pode colar no WhatsApp.");
+  }
+}
+
+/* ============================================================
+   AÇÕES — CONTAS DE APOIO
+   ============================================================ */
+async function criarContaApoio() {
+  const nome = $("apoioNome").value.trim();
+  const email = $("apoioEmail").value.trim().toLowerCase();
+  const senha = $("apoioSenha").value;
+
+  if (!nome || !email || !senha) return aviso("Preencha nome, e-mail e senha.", true);
+  if (!email.includes("@")) return aviso("Informe um e-mail válido.", true);
+  if (senha.length < 8) return aviso("A senha precisa ter pelo menos 8 caracteres.", true);
+
+  const botao = $("btnCriarContaApoio");
+  botao.disabled = true;
+
+  try {
+    const r = await api("/volunteer-accounts", {
+      method: "POST",
+      body: JSON.stringify({ nome, email, senha })
+    });
+
+    dados.contasApoio.unshift(r.account);
+    const mensagem = [
+      "Olá! Seu acesso ao Pacotinho de Amor foi criado.",
+      "",
+      `Nome: ${nome}`,
+      `E-mail: ${email}`,
+      `Senha temporária: ${senha}`,
+      "",
+      "No primeiro acesso, troque a senha por uma senha pessoal e segura."
+    ].join("\n");
+
+    $("dadosContaCopiar").value = mensagem;
+    $("apoioNome").value = "";
+    $("apoioEmail").value = "";
+    $("apoioSenha").value = "";
+    fecharModal("modalContaApoio");
+    desenhar();
+    abrirModal("modalDadosConta");
+    aviso("Conta criada com sucesso.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+async function excluirContaApoio(id, nome) {
+  const ok = await confirmar(
+    `Excluir a conta de apoio de ${nome}? A pessoa perderá o acesso ao sistema imediatamente.`
+  );
+  if (!ok) return;
+
+  try {
+    await api(`/volunteer-accounts/${encodeURIComponent(id)}`, { method: "DELETE" });
+    dados.contasApoio = dados.contasApoio.filter((conta) => String(conta.id) !== String(id));
+    desenhar();
+    aviso("Conta de apoio excluída.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
 /* ============================================================
    AÇÕES — EVENTOS
    ============================================================ */
@@ -1015,11 +1258,11 @@ async function sair() {
 })();
 
 // Fecha janelas ao clicar fora ou apertar Esc
-["modalAnimal", "modalEvento", "modalAdocao"].forEach((id) =>
+["modalAnimal", "modalEvento", "modalAdocao", "modalContaApoio"].forEach((id) =>
   $(id).addEventListener("click", (e) => { if (e.target.id === id) fecharModal(id); })
 );
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") ["modalAnimal", "modalEvento", "modalAdocao"].forEach(fecharModal);
+  if (e.key === "Escape") ["modalAnimal", "modalEvento", "modalAdocao", "modalContaApoio"].forEach(fecharModal);
 });
 </script>
 

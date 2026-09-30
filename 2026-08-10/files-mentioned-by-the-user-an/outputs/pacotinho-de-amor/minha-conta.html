@@ -1,284 +1,733 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="verificando">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minha conta — Pacotinho de Amor</title>
 
-  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="shared.css">
 
   <style>
     body {
-      font-family: Montserrat, sans-serif;
-      background: #fef7ff;
-      color: #1d1a20;
+      background: #f6f0f7;
     }
 
-    a:focus-visible,
-    button:focus-visible,
-    input:focus-visible {
-      outline: 3px solid #e7b5f6;
+    /* Enquanto o login não é confirmado, a conta não aparece */
+    html.verificando .pv {
+      visibility: hidden;
+    }
+
+    .pv-verificando {
+      display: none;
+    }
+
+    html.verificando .pv-verificando {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      background: #f6f0f7;
+    }
+
+    .pv-verificando span {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 4px solid #e6d9ea;
+      border-top-color: #472056;
+      animation: pv-girar .8s linear infinite;
+    }
+
+    @keyframes pv-girar {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv-verificando span { animation-duration: 2.4s; }
+    }
+
+    .pv {
+      --ameixa: #472056;
+      --ameixa-escura: #2e1438;
+      --ameixa-media: #6d3a80;
+      --lilas: #f6f0f7;
+      --lilas-borda: #e6d9ea;
+      --rosa: #f6cfdf;
+      --mel: #f2b84b;
+      --texto: #2a2230;
+      --texto-suave: #6b5f6e;
+      --branco: #ffffff;
+      --erro: #b3261e;
+      --ok: #1e6b3a;
+
+      --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+      --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
+
+      font-family: var(--corpo);
+      color: var(--texto);
+      background: var(--lilas);
+      line-height: 1.6;
+    }
+
+    .pv *,
+    .pv *::before,
+    .pv *::after {
+      box-sizing: border-box;
+    }
+
+    .pv h1,
+    .pv h2,
+    .pv h3 {
+      margin: 0;
+      font-family: var(--display);
+      color: var(--ameixa-escura);
+      letter-spacing: -.01em;
+    }
+
+    .pv p {
+      margin: 0;
+    }
+
+    .pv a:focus-visible,
+    .pv button:focus-visible {
+      outline: 3px solid var(--mel);
       outline-offset: 3px;
     }
 
-    .conta-card {
-      width: min(92vw, 1100px);
-      margin-inline: auto;
+    .pv .hidden {
+      display: none !important;
     }
 
-    .menu-item {
-      transition: background .2s, transform .2s;
+    .pv-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .menu-item:hover {
-      transform: translateY(-1px);
+    .pv svg {
+      display: block;
     }
 
-    @media (max-width: 767px) {
-      .conta-card {
-        width: calc(100vw - 24px);
+    /* ---------- BOTÕES ---------- */
+
+    .pv-botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      font-family: var(--corpo);
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.2;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+
+    .pv-botao svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .pv-botao--escuro {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-botao--escuro:hover {
+      background: var(--ameixa-media);
+    }
+
+    .pv-botao--contorno {
+      border-color: var(--ameixa);
+      background: var(--branco);
+      color: var(--ameixa);
+    }
+
+    .pv-botao--contorno:hover {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-botao--claro {
+      border-color: rgba(255, 255, 255, .45);
+      background: transparent;
+      color: var(--branco);
+    }
+
+    .pv-botao--claro:hover {
+      border-color: var(--branco);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .pv-botao--texto {
+      padding: 12px 10px;
+      background: none;
+      color: var(--texto-suave);
+    }
+
+    .pv-botao--texto:hover {
+      color: var(--ameixa);
+    }
+
+    .pv-botao:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .pv-hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ameixa);
+      color: var(--branco);
+      padding: 52px 0 130px;
+    }
+
+    .pv-hero__patas {
+      position: absolute;
+      right: -50px;
+      top: -10px;
+      width: 340px;
+      opacity: .1;
+      pointer-events: none;
+    }
+
+    .pv-hero__linha {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .pv-avatar {
+      flex-shrink: 0;
+      width: 96px;
+      height: 96px;
+      display: grid;
+      place-items: center;
+      border-radius: 42% 58% 55% 45% / 50% 44% 56% 50%;
+      background: var(--rosa);
+      color: var(--ameixa);
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 38px;
+      letter-spacing: -.02em;
+    }
+
+    .pv-hero__texto {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pv-hero h1 {
+      color: var(--branco);
+      font-weight: 800;
+      font-size: clamp(34px, 6vw, 56px);
+      line-height: 1;
+      letter-spacing: -.03em;
+      overflow-wrap: anywhere;
+    }
+
+    #emailUsuario {
+      margin-top: 8px;
+      font-size: 17px;
+      color: rgba(255, 255, 255, .8);
+      overflow-wrap: anywhere;
+    }
+
+    /* ---------- CONTEÚDO ---------- */
+
+    .pv-conteudo {
+      position: relative;
+      margin-top: -80px;
+      padding-bottom: 80px;
+    }
+
+    /* Avisos */
+
+    #mensagem {
+      margin-bottom: 18px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 2px solid;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    #mensagem.is-ok {
+      background: #eef8f1;
+      border-color: #bfe3cb;
+      color: var(--ok);
+    }
+
+    #mensagem.is-erro {
+      background: #fdf3f2;
+      border-color: #f1c9c5;
+      color: var(--erro);
+    }
+
+    #mensagem.is-info {
+      background: var(--branco);
+      border-color: var(--lilas-borda);
+      color: var(--ameixa);
+    }
+
+    /* Opções */
+
+    .pv-opcoes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .pv-opcao {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+      padding: 22px;
+      border: 2px solid transparent;
+      border-radius: 24px;
+      background: var(--branco);
+      box-shadow: 0 20px 40px -30px rgba(46, 20, 56, .45);
+      font-family: var(--corpo);
+      text-align: left;
+      text-decoration: none;
+      color: var(--texto);
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+
+    .pv-opcao:hover,
+    .pv-opcao[aria-expanded="true"] {
+      border-color: var(--ameixa);
+    }
+
+    .pv-opcao__icone {
+      flex-shrink: 0;
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--rosa);
+      color: var(--ameixa);
+      transition: background .2s, color .2s;
+    }
+
+    .pv-opcao[aria-expanded="true"] .pv-opcao__icone {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-opcao__icone svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .pv-opcao__texto {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pv-opcao h2 {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .pv-opcao p {
+      margin-top: 4px;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-opcao__seta {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--ameixa);
+      transition: transform .2s;
+    }
+
+    .pv-opcao[aria-expanded="true"] .pv-opcao__seta {
+      transform: rotate(90deg);
+    }
+
+    /* ---------- PAINEL "MEUS DADOS" ---------- */
+
+    .pv-painel {
+      margin-top: 18px;
+      padding: 34px;
+      border-radius: 28px;
+      background: var(--branco);
+      box-shadow: 0 30px 60px -30px rgba(46, 20, 56, .35);
+    }
+
+    .pv-painel__topo {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px 20px;
+      margin-bottom: 24px;
+    }
+
+    .pv-painel h2 {
+      font-weight: 800;
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .pv-painel__sub {
+      margin-top: 6px !important;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    /* Leitura */
+
+    .pv-dados {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .pv-dado {
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: var(--lilas);
+    }
+
+    .pv-dado--inteiro {
+      grid-column: 1 / -1;
+    }
+
+    .pv-dado span {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ameixa-media);
+    }
+
+    .pv-dado strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--texto);
+      overflow-wrap: anywhere;
+    }
+
+    .pv-dado strong.is-vazio {
+      font-weight: 500;
+      color: #9d8fa1;
+    }
+
+    .pv-dado__linha {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .pv-mini {
+      flex-shrink: 0;
+      padding: 4px 10px;
+      border: none;
+      border-radius: 999px;
+      background: var(--branco);
+      font-family: var(--corpo);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ameixa);
+      cursor: pointer;
+    }
+
+    .pv-mini:hover {
+      background: var(--lilas-borda);
+    }
+
+    /* Edição */
+
+    .pv-form {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .pv-campo {
+      grid-column: span 3;
+    }
+
+    .pv-campo--inteiro { grid-column: 1 / -1; }
+    .pv-campo--2 { grid-column: span 2; }
+    .pv-campo--4 { grid-column: span 4; }
+
+    .pv-campo label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-campo input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 2px solid var(--lilas-borda);
+      border-radius: 14px;
+      background: var(--lilas);
+      font-family: var(--corpo);
+      font-size: 16px;
+      color: var(--texto);
+      transition: border-color .2s, background .2s;
+    }
+
+    .pv-campo input:focus {
+      outline: none;
+      border-color: var(--ameixa);
+      background: var(--branco);
+    }
+
+    .pv-campo input[readonly] {
+      border-style: dashed;
+      background: var(--branco);
+      color: var(--texto-suave);
+      cursor: not-allowed;
+    }
+
+    .pv-campo small {
+      display: block;
+      margin-top: 5px;
+      font-size: 13px;
+      color: var(--texto-suave);
+    }
+
+    .pv-campo.erro input {
+      border-color: var(--erro);
+      background: #fdf3f2;
+    }
+
+    .pv-form__acoes {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    /* ---------- PRIVACIDADE ---------- */
+
+    .pv-privacidade {
+      margin-top: 18px;
+      padding: 34px;
+      border-radius: 28px;
+      background: var(--branco);
+      box-shadow: 0 20px 40px -30px rgba(46, 20, 56, .45);
+      scroll-margin-top: calc(var(--pa-header-h, 80px) + 16px);
+    }
+
+    .pv-privacidade__topo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .pv-escudo {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--ameixa);
+      color: var(--mel);
+    }
+
+    .pv-escudo svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .pv-privacidade h2 {
+      font-weight: 800;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .pv-privacidade__topo p {
+      margin-top: 4px;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-garantias {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pv-garantias li {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--lilas);
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-garantias strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-privacidade__acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .pv-rodape-conta {
+      display: flex;
+      justify-content: center;
+      margin-top: 28px;
+    }
+
+    .pv-rodape-conta a {
+      font-weight: 700;
+      color: var(--ameixa);
+      text-underline-offset: 4px;
+    }
+
+    /* ---------- RESPONSIVO ---------- */
+
+    @media (max-width: 760px) {
+      .pv-garantias {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .pv-wrap {
+        padding: 0 12px;
+      }
+
+      .pv-hero {
+        padding: 36px 0 110px;
+      }
+
+      .pv-hero__linha {
+        flex-wrap: wrap;
+        gap: 18px;
+      }
+
+      .pv-avatar {
+        width: 72px;
+        height: 72px;
+        font-size: 28px;
+      }
+
+      .pv-hero__sair {
+        width: 100%;
+      }
+
+      .pv-opcoes,
+      .pv-dados {
+        grid-template-columns: 1fr;
+      }
+
+      .pv-opcao {
+        padding: 18px;
+      }
+
+      .pv-painel,
+      .pv-privacidade {
+        padding: 24px 18px;
+        border-radius: 24px;
+      }
+
+      .pv-campo,
+      .pv-campo--2,
+      .pv-campo--4 {
+        grid-column: 1 / -1;
+      }
+
+      .pv-form__acoes .pv-botao,
+      .pv-privacidade__acoes .pv-botao {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv *,
+      .pv *::before,
+      .pv *::after {
+        transition: none !important;
       }
     }
   </style>
 </head>
 
-<body class="min-h-screen bg-background font-sans text-on-surface">
+<body>
 
-<main class="min-h-[calc(100vh-160px)] px-4 py-10 md:px-8 md:py-14">
+<!-- O header e o footer são inseridos pelo shared.js -->
 
-  <section class="conta-card">
+<div class="pv-verificando" role="status" aria-label="Verificando sua conta"><span></span></div>
 
-    <!-- Cabeçalho da conta -->
-    <div class="mb-8 rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(95,55,110,0.10)] md:p-8">
+<div class="pv">
 
-      <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+  <!-- TOPO -->
 
-        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary-fixed">
-          <span class="material-symbols-outlined text-[34px] text-primary">
-            person
-          </span>
-        </div>
+  <section class="pv-hero">
 
-        <div class="min-w-0 flex-1">
-          <p class="text-sm font-semibold text-secondary">
-            Minha conta
-          </p>
+    <svg class="pv-hero__patas" viewBox="0 0 200 200" aria-hidden="true" fill="#fff">
+      <g transform="translate(40 40) rotate(-18)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(110 80) rotate(12)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(60 130) rotate(-10)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+    </svg>
 
-          <h1 id="nomeUsuario" class="mt-1 text-2xl font-bold text-primary md:text-3xl">
-            Olá!
-          </h1>
+    <div class="pv-wrap pv-hero__linha">
 
-          <p id="emailUsuario" class="mt-1 text-sm text-on-surface-variant">
-            Carregando seus dados...
-          </p>
-        </div>
-
+      <div class="pv-avatar" id="avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg>
       </div>
 
-    </div>
-
-    <!-- Mensagem de erro -->
-    <div id="mensagem" class="mb-6 hidden rounded-xl border px-4 py-3 text-sm"></div>
-
-    <!-- Opções -->
-    <div class="grid gap-5 md:grid-cols-2">
-
-      <a
-        href="solicitacoes-adocao.html"
-        class="menu-item rounded-2xl bg-white p-6 shadow-[0_4px_20px_rgba(95,55,110,0.06)]"
-      >
-        <div class="flex items-start gap-4">
-
-          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-fixed">
-            <span class="material-symbols-outlined text-primary">
-              description
-            </span>
-          </div>
-
-          <div>
-            <h2 class="font-bold text-primary">
-              Minhas solicitações
-            </h2>
-
-            <p class="mt-1 text-sm leading-6 text-on-surface-variant">
-              Acompanhe seus pedidos de adoção e solicitações de videochamada.
-            </p>
-          </div>
-
-        </div>
-      </a>
-
-      <button
-        type="button"
-        id="btnDados"
-        class="menu-item text-left rounded-2xl bg-white p-6 shadow-[0_4px_20px_rgba(95,55,110,0.06)]"
-      >
-        <div class="flex items-start gap-4">
-
-          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-fixed">
-            <span class="material-symbols-outlined text-primary">
-              person
-            </span>
-          </div>
-
-          <div>
-            <h2 class="font-bold text-primary">
-              Meus dados
-            </h2>
-
-            <p class="mt-1 text-sm leading-6 text-on-surface-variant">
-              Consulte e atualize seus dados pessoais e de contato.
-            </p>
-          </div>
-
-        </div>
-      </button>
-
-      <button
-        type="button"
-        id="btnSenha"
-        class="menu-item text-left rounded-2xl bg-white p-6 shadow-[0_4px_20px_rgba(95,55,110,0.06)]"
-      >
-        <div class="flex items-start gap-4">
-
-          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-fixed">
-            <span class="material-symbols-outlined text-primary">
-              lock
-            </span>
-          </div>
-
-          <div>
-            <h2 class="font-bold text-primary">
-              Alterar senha
-            </h2>
-
-            <p class="mt-1 text-sm leading-6 text-on-surface-variant">
-              Altere a senha usada para acessar sua conta.
-            </p>
-          </div>
-
-        </div>
-      </button>
-
-      <button
-        type="button"
-        id="btnConfiguracoes"
-        class="menu-item text-left rounded-2xl bg-white p-6 shadow-[0_4px_20px_rgba(95,55,110,0.06)]"
-      >
-        <div class="flex items-start gap-4">
-
-          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-fixed">
-            <span class="material-symbols-outlined text-primary">
-              settings
-            </span>
-          </div>
-
-          <div>
-            <h2 class="font-bold text-primary">
-              Configurações
-            </h2>
-
-            <p class="mt-1 text-sm leading-6 text-on-surface-variant">
-              Preferências e opções da sua conta.
-            </p>
-          </div>
-
-        </div>
-      </button>
-
-    </div>
-
-    <!-- Área de dados -->
-    <section id="painelDados" class="mt-6 hidden rounded-2xl bg-white p-6 shadow-[0_4px_20px_rgba(95,55,110,0.06)] md:p-8">
-
-      <div class="mb-6">
-        <h2 class="text-xl font-bold text-primary">
-          Meus dados
-        </h2>
-
-        <p class="mt-1 text-sm text-on-surface-variant">
-          Estes são os dados cadastrados na sua conta.
-        </p>
+      <div class="pv-hero__texto">
+        <h1 id="nomeUsuario">Olá!</h1>
+        <p id="emailUsuario">Carregando seus dados…</p>
       </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
-
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-secondary">
-            Nome completo
-          </p>
-          <p id="dNome" class="mt-1 font-medium"></p>
-        </div>
-
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-secondary">
-            E-mail
-          </p>
-          <p id="dEmail" class="mt-1 font-medium break-all"></p>
-        </div>
-
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-secondary">
-            Telefone
-          </p>
-          <p id="dTelefone" class="mt-1 font-medium"></p>
-        </div>
-
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-secondary">
-            CPF
-          </p>
-          <p id="dCpf" class="mt-1 font-medium"></p>
-        </div>
-
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-secondary">
-            Data de nascimento
-          </p>
-          <p id="dNascimento" class="mt-1 font-medium"></p>
-        </div>
-
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-secondary">
-            CEP
-          </p>
-          <p id="dCep" class="mt-1 font-medium"></p>
-        </div>
-
-        <div class="md:col-span-2">
-          <p class="text-xs font-semibold uppercase tracking-wide text-secondary">
-            Endereço
-          </p>
-          <p id="dEndereco" class="mt-1 font-medium"></p>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- Sair -->
-    <div class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-surface-variant pt-6 sm:flex-row">
-
-      <a
-        href="home.html"
-        class="font-semibold text-primary hover:underline"
-      >
-        Voltar para o início
-      </a>
-
-      <button
-        type="button"
-        id="btnSair"
-        class="inline-flex items-center gap-2 rounded-xl border-2 border-primary px-5 py-3 font-semibold text-primary transition hover:bg-[#f8f1f9]"
-      >
-        <span class="material-symbols-outlined text-[20px]">
-          logout
-        </span>
+      <button type="button" id="btnSair" class="pv-botao pv-botao--claro pv-hero__sair">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 16l-4-4 4-4M6 12h10"/></svg>
         Sair da conta
       </button>
 
@@ -286,7 +735,218 @@
 
   </section>
 
-</main>
+
+  <main class="pv-wrap pv-conteudo">
+
+    <div id="mensagem" class="hidden" role="status" aria-live="polite"></div>
+
+    <!-- OPÇÕES -->
+
+    <div class="pv-opcoes">
+
+      <a class="pv-opcao" href="solicitacoes-adocao.html">
+        <span class="pv-opcao__icone" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.5H7A2 2 0 0 0 5 5.5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-10z"/><path d="M14 3.5v5h5M8.5 13h7M8.5 16.5h4.5"/></svg>
+        </span>
+        <span class="pv-opcao__texto">
+          <h2>Minhas solicitações</h2>
+          <p>Acompanhe seus pedidos de adoção e de videochamada.</p>
+        </span>
+        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+
+      <button type="button" class="pv-opcao" id="btnDados" aria-expanded="false" aria-controls="painelDados">
+        <span class="pv-opcao__icone" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.2c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14.5 10h3M14.5 13.5h3"/></svg>
+        </span>
+        <span class="pv-opcao__texto">
+          <h2>Meus dados</h2>
+          <p>Veja e corrija seus dados pessoais e endereço.</p>
+        </span>
+        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+
+      <button type="button" class="pv-opcao" id="btnSenha">
+        <span class="pv-opcao__icone" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5v2"/></svg>
+        </span>
+        <span class="pv-opcao__texto">
+          <h2>Alterar senha</h2>
+          <p>Troque a senha usada para entrar na sua conta.</p>
+        </span>
+        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+
+      <button type="button" class="pv-opcao" id="btnPrivacidade">
+        <span class="pv-opcao__icone" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+        </span>
+        <span class="pv-opcao__texto">
+          <h2>Privacidade</h2>
+          <p>Como usamos seus dados e quais são seus direitos.</p>
+        </span>
+        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+
+    </div>
+
+
+    <!-- MEUS DADOS (só aparece quando a pessoa pede) -->
+
+    <section id="painelDados" class="pv-painel hidden" aria-labelledby="tituloDados">
+
+      <!-- Leitura -->
+      <div id="dadosLeitura">
+
+        <div class="pv-painel__topo">
+          <div>
+            <h2 id="tituloDados">Meus dados</h2>
+            <p class="pv-painel__sub">Estes são os dados cadastrados na sua conta.</p>
+          </div>
+          <button type="button" id="btnEditar" class="pv-botao pv-botao--escuro">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>
+            Editar dados
+          </button>
+        </div>
+
+        <div class="pv-dados">
+          <div class="pv-dado"><span>Nome completo</span><strong id="dNome"></strong></div>
+          <div class="pv-dado"><span>E-mail</span><strong id="dEmail"></strong></div>
+          <div class="pv-dado"><span>Telefone</span><strong id="dTelefone"></strong></div>
+          <div class="pv-dado">
+            <span>CPF</span>
+            <div class="pv-dado__linha">
+              <strong id="dCpf"></strong>
+              <button type="button" class="pv-mini" id="btnMostrarCpf" aria-pressed="false">Mostrar</button>
+            </div>
+          </div>
+          <div class="pv-dado"><span>Data de nascimento</span><strong id="dNascimento"></strong></div>
+          <div class="pv-dado"><span>CEP</span><strong id="dCep"></strong></div>
+          <div class="pv-dado pv-dado--inteiro"><span>Endereço</span><strong id="dEndereco"></strong></div>
+        </div>
+
+      </div>
+
+      <!-- Edição -->
+      <form id="dadosEdicao" class="hidden" novalidate>
+
+        <div class="pv-painel__topo">
+          <div>
+            <h2>Editar dados</h2>
+            <p class="pv-painel__sub">E-mail e CPF identificam sua conta. Para mudá-los, fale com a equipe.</p>
+          </div>
+        </div>
+
+        <div class="pv-form">
+
+          <div class="pv-campo pv-campo--inteiro" id="grupoNome">
+            <label for="eNome">Nome completo</label>
+            <input id="eNome" autocomplete="name">
+          </div>
+
+          <div class="pv-campo">
+            <label for="eEmail">E-mail</label>
+            <input id="eEmail" readonly tabindex="-1">
+          </div>
+
+          <div class="pv-campo" id="grupoTelefone">
+            <label for="eTelefone">Telefone</label>
+            <input id="eTelefone" type="tel" autocomplete="tel" placeholder="(11) 99999-9999">
+          </div>
+
+          <div class="pv-campo pv-campo--2" id="grupoCep">
+            <label for="eCep">CEP</label>
+            <input id="eCep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000">
+            <small>O endereço é preenchido pelo CEP.</small>
+          </div>
+
+          <div class="pv-campo pv-campo--4">
+            <label for="eEndereco">Rua</label>
+            <input id="eEndereco" autocomplete="address-line1">
+          </div>
+
+          <div class="pv-campo pv-campo--2">
+            <label for="eNumero">Número</label>
+            <input id="eNumero" autocomplete="address-line2">
+          </div>
+
+          <div class="pv-campo pv-campo--4">
+            <label for="eBairro">Bairro</label>
+            <input id="eBairro">
+          </div>
+
+          <div class="pv-campo pv-campo--4">
+            <label for="eCidade">Cidade</label>
+            <input id="eCidade" autocomplete="address-level2">
+          </div>
+
+          <div class="pv-campo pv-campo--2">
+            <label for="eEstado">Estado</label>
+            <input id="eEstado" maxlength="2" autocomplete="address-level1" placeholder="SP">
+          </div>
+
+          <div class="pv-form__acoes">
+            <button type="button" id="btnCancelar" class="pv-botao pv-botao--texto">Cancelar</button>
+            <button type="submit" id="btnSalvar" class="pv-botao pv-botao--escuro">Salvar alterações</button>
+          </div>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+    <!-- PRIVACIDADE / LGPD -->
+
+    <section id="privacidade" class="pv-privacidade" aria-labelledby="tituloPrivacidade">
+
+      <div class="pv-privacidade__topo">
+        <span class="pv-escudo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+        </span>
+        <div>
+          <h2 id="tituloPrivacidade">Seus dados e seus direitos</h2>
+          <p>Tratamos seus dados de acordo com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
+        </div>
+      </div>
+
+      <ul class="pv-garantias">
+        <li>
+          <strong>Para que usamos</strong>
+          Só para o processo de adoção: analisar seus pedidos, falar com você e combinar visitas.
+        </li>
+        <li>
+          <strong>Quem vê</strong>
+          Apenas a equipe do projeto que cuida das adoções. Não vendemos nem compartilhamos seus dados para publicidade.
+        </li>
+        <li>
+          <strong>Seus direitos</strong>
+          Você pode ver, corrigir, baixar ou pedir a exclusão dos seus dados quando quiser.
+        </li>
+      </ul>
+
+      <div class="pv-privacidade__acoes">
+        <button type="button" id="btnBaixar" class="pv-botao pv-botao--contorno">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>
+          Baixar meus dados
+        </button>
+        <a class="pv-botao pv-botao--contorno" id="linkExclusao" href="https://whats.link/projetopacotinhodeamor" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"/></svg>
+          Pedir exclusão da conta
+        </a>
+        <a class="pv-botao pv-botao--texto" href="politica-privacidade.html">Ler a Política de Privacidade</a>
+      </div>
+
+    </section>
+
+    <div class="pv-rodape-conta">
+      <a href="home.html">Voltar para o início</a>
+    </div>
+
+  </main>
+
+</div>
 
 <script src="shared.js"></script>
 
@@ -299,207 +959,329 @@
 
   const $ = (id) => document.getElementById(id);
 
-  function mostrarMensagem(texto, erro = false) {
+  let usuario = {};
+  let cpfVisivel = false;
+
+  /* ---------- avisos ---------- */
+
+  function mostrarMensagem(texto, tipo = "info") {
     const el = $("mensagem");
-
     el.textContent = texto;
-
-    el.className =
-      "mb-6 rounded-xl border px-4 py-3 text-sm " +
-      (erro
-        ? "border-red-200 bg-red-50 text-red-700"
-        : "border-green-200 bg-green-50 text-green-700");
+    el.className = `is-${tipo}`;
+    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   function esconderMensagem() {
-    $("mensagem").classList.add("hidden");
+    $("mensagem").className = "hidden";
   }
 
+  /* ---------- formatação ---------- */
+
+  const digitos = (v) => String(v || "").replace(/\D/g, "");
+
   function formatarData(data) {
-    if (!data) return "Não informado";
-
-    const partes = String(data)
-      .slice(0, 10)
-      .split("-");
-
-    if (partes.length !== 3) {
-      return data;
-    }
-
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    if (!data) return "";
+    const p = String(data).slice(0, 10).split("-");
+    return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : String(data);
   }
 
   function formatarTelefone(valor) {
-    const digits = String(valor || "").replace(/\D/g, "");
-
-    if (digits.length === 11) {
-      return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-    }
-
-    if (digits.length === 10) {
-      return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
-    }
-
-    return valor || "Não informado";
+    const d = digitos(valor);
+    if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+    return valor || "";
   }
 
-  function formatarCpf(valor) {
-    const digits = String(valor || "").replace(/\D/g, "");
+  // CPF escondido por padrão: ***.456.789-**
+  function formatarCpf(valor, mostrar) {
+    const d = digitos(valor);
+    if (d.length !== 11) return valor || "";
+    return mostrar
+      ? `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`
+      : `***.${d.slice(3, 6)}.${d.slice(6, 9)}-**`;
+  }
 
-    if (digits.length === 11) {
-      return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
-    }
+  function formatarCep(valor) {
+    const d = digitos(valor);
+    return d.length === 8 ? `${d.slice(0, 5)}-${d.slice(5)}` : (valor || "");
+  }
 
-    return valor || "Não informado";
+  function iniciais(nome) {
+    const partes = String(nome || "").trim().split(/\s+/).filter(Boolean);
+    if (!partes.length) return "";
+    const primeira = partes[0][0];
+    const ultima = partes.length > 1 ? partes[partes.length - 1][0] : "";
+    return (primeira + ultima).toUpperCase();
+  }
+
+  /* ---------- preencher a tela ---------- */
+
+  function escrever(id, valor) {
+    const el = $(id);
+    el.textContent = valor || "Não informado";
+    el.classList.toggle("is-vazio", !valor);
+  }
+
+  function preencher() {
+    const nome = usuario.name || usuario.nome || "";
+    const primeiroNome = nome.split(" ")[0];
+
+    $("nomeUsuario").textContent = primeiroNome ? `Olá, ${primeiroNome}!` : "Olá!";
+    $("emailUsuario").textContent = usuario.email || "";
+    if (iniciais(nome)) $("avatar").textContent = iniciais(nome);
+
+    escrever("dNome", nome);
+    escrever("dEmail", usuario.email);
+    escrever("dTelefone", formatarTelefone(usuario.phone || usuario.telefone));
+    escrever("dCpf", formatarCpf(usuario.cpf, cpfVisivel));
+    escrever("dNascimento", formatarData(usuario.birth_date || usuario.data_nascimento));
+    escrever("dCep", formatarCep(usuario.cep));
+
+    const endereco = [
+      [usuario.endereco, usuario.numero].filter(Boolean).join(", "),
+      usuario.bairro,
+      [usuario.cidade, usuario.estado].filter(Boolean).join(" - ")
+    ].filter(Boolean).join(" · ");
+
+    escrever("dEndereco", endereco);
+
+    $("btnMostrarCpf").classList.toggle("hidden", digitos(usuario.cpf).length !== 11);
+  }
+
+  function preencherFormulario() {
+    $("eNome").value = usuario.name || usuario.nome || "";
+    $("eEmail").value = usuario.email || "";
+    $("eTelefone").value = formatarTelefone(usuario.phone || usuario.telefone);
+    $("eCep").value = formatarCep(usuario.cep);
+    $("eEndereco").value = usuario.endereco || "";
+    $("eNumero").value = usuario.numero || "";
+    $("eBairro").value = usuario.bairro || "";
+    $("eCidade").value = usuario.cidade || "";
+    $("eEstado").value = usuario.estado || "";
+  }
+
+  /* ---------- carregar conta ---------- */
+
+  // replace: a página da conta não fica no histórico,
+  // então o "voltar" do navegador não cai de novo aqui
+  const PAINEL = {
+    master: "painel-master.html",
+    volunteer: "painel-voluntario.html"
+  };
+
+  function irParaLogin() {
+    location.replace("login.html?next=minha-conta.html");
   }
 
   async function carregarConta() {
     try {
-      const resposta = await fetch(
-        `${API}/auth/me`,
-        {
-          credentials: "include"
-        }
-      );
+      const resposta = await fetch(`${API}/auth/me`, { credentials: "include" });
+      const resultado = await resposta.json().catch(() => ({}));
 
-      const resultado =
-        await resposta.json().catch(() => ({}));
+      const tipo = String(resultado.user_type || "").toLowerCase();
 
-      if (
-        !resposta.ok ||
-        !resultado.ok ||
-        resultado.user_type !== "adopter"
-      ) {
-        location.href =
-          "login.html?next=minha-conta.html";
-
+      // Logado como voluntário(a) ou Master: vai para o próprio painel
+      if (resposta.ok && resultado.ok && PAINEL[tipo]) {
+        location.replace(PAINEL[tipo]);
         return;
       }
 
-      const usuario =
-        resultado.user || {};
+      // Não está logado: vai para o login
+      if (!resposta.ok || !resultado.ok || tipo !== "adopter") {
+        irParaLogin();
+        return;
+      }
 
-      $("nomeUsuario").textContent =
-        `Olá, ${usuario.name || usuario.nome || "usuário"}!`;
-
-      $("emailUsuario").textContent =
-        usuario.email || "";
-
-      $("dNome").textContent =
-        usuario.name ||
-        usuario.nome ||
-        "Não informado";
-
-      $("dEmail").textContent =
-        usuario.email ||
-        "Não informado";
-
-      $("dTelefone").textContent =
-        formatarTelefone(
-          usuario.phone ||
-          usuario.telefone
-        );
-
-      $("dCpf").textContent =
-        formatarCpf(
-          usuario.cpf
-        );
-
-      $("dNascimento").textContent =
-        formatarData(
-          usuario.birth_date ||
-          usuario.data_nascimento
-        );
-
-      $("dCep").textContent =
-        usuario.cep ||
-        "Não informado";
-
-      const endereco = [
-        usuario.endereco,
-        usuario.numero,
-        usuario.bairro,
-        usuario.cidade,
-        usuario.estado
-      ]
-        .filter(Boolean)
-        .join(", ");
-
-      $("dEndereco").textContent =
-        endereco ||
-        "Não informado";
+      usuario = resultado.user || {};
+      preencher();
+      document.documentElement.classList.remove("verificando");
 
     } catch (erro) {
-
       console.error(erro);
-
-      location.href =
-        "login.html?next=minha-conta.html";
+      irParaLogin();
     }
   }
 
-  $("btnDados").addEventListener(
-    "click",
-    () => {
+  /* ---------- painel de dados ---------- */
 
-      esconderMensagem();
+  function modoLeitura() {
+    $("dadosLeitura").classList.remove("hidden");
+    $("dadosEdicao").classList.add("hidden");
+  }
 
-      const painel =
-        $("painelDados");
+  function modoEdicao() {
+    preencherFormulario();
+    $("dadosLeitura").classList.add("hidden");
+    $("dadosEdicao").classList.remove("hidden");
+    $("eNome").focus();
+  }
 
-      painel.classList.toggle("hidden");
+  $("btnDados").addEventListener("click", () => {
+    esconderMensagem();
 
-      if (!painel.classList.contains("hidden")) {
-        painel.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+    const painel = $("painelDados");
+    const abrir = painel.classList.contains("hidden");
+
+    painel.classList.toggle("hidden", !abrir);
+    $("btnDados").setAttribute("aria-expanded", String(abrir));
+
+    if (abrir) {
+      modoLeitura();
+      painel.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // ao fechar, o CPF volta a ficar escondido
+      cpfVisivel = false;
+      $("btnMostrarCpf").textContent = "Mostrar";
+      $("btnMostrarCpf").setAttribute("aria-pressed", "false");
+      preencher();
+    }
+  });
+
+  $("btnMostrarCpf").addEventListener("click", () => {
+    cpfVisivel = !cpfVisivel;
+    $("btnMostrarCpf").textContent = cpfVisivel ? "Esconder" : "Mostrar";
+    $("btnMostrarCpf").setAttribute("aria-pressed", String(cpfVisivel));
+    escrever("dCpf", formatarCpf(usuario.cpf, cpfVisivel));
+  });
+
+  $("btnEditar").addEventListener("click", () => {
+    esconderMensagem();
+    modoEdicao();
+  });
+
+  $("btnCancelar").addEventListener("click", () => {
+    modoLeitura();
+    $("painelDados").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  // CEP: preenche rua, bairro, cidade e estado automaticamente
+  $("eCep").addEventListener("input", async () => {
+    const cep = digitos($("eCep").value);
+    if (cep.length !== 8) return;
+
+    $("eCep").value = formatarCep(cep);
+
+    try {
+      const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const d = await r.json();
+      if (d.erro) return;
+
+      $("eEndereco").value = d.logradouro || $("eEndereco").value;
+      $("eBairro").value = d.bairro || $("eBairro").value;
+      $("eCidade").value = d.localidade || $("eCidade").value;
+      $("eEstado").value = d.uf || $("eEstado").value;
+      $("eNumero").focus();
+    } catch (e) {
+      // sem internet ou CEP fora do ar: a pessoa preenche à mão
+    }
+  });
+
+  $("dadosEdicao").addEventListener("input", (e) => {
+    e.target.closest(".erro")?.classList.remove("erro");
+  });
+
+  $("dadosEdicao").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    esconderMensagem();
+
+    const nome = $("eNome").value.trim();
+    const tel = digitos($("eTelefone").value);
+
+    $("grupoNome").classList.toggle("erro", !nome);
+    $("grupoTelefone").classList.toggle("erro", tel.length > 0 && tel.length < 10);
+
+    if (!nome || (tel.length > 0 && tel.length < 10)) {
+      mostrarMensagem("Confira os campos marcados em vermelho.", "erro");
+      return;
+    }
+
+    const alteracoes = {
+      name: nome,
+      phone: tel,
+      cep: digitos($("eCep").value),
+      endereco: $("eEndereco").value.trim(),
+      numero: $("eNumero").value.trim(),
+      bairro: $("eBairro").value.trim(),
+      cidade: $("eCidade").value.trim(),
+      estado: $("eEstado").value.trim().toUpperCase()
+    };
+
+    const botao = $("btnSalvar");
+    botao.disabled = true;
+    botao.textContent = "Salvando…";
+
+    try {
+      const resposta = await fetch(`${API}/auth/me`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(alteracoes)
+      });
+
+      const dados = await resposta.json().catch(() => ({}));
+
+      if ([404, 405, 501].includes(resposta.status)) {
+        mostrarMensagem("A edição de dados ainda não está disponível. Para corrigir algo agora, fale com a equipe pelo WhatsApp.", "info");
+        return;
       }
-    }
-  );
 
-  $("btnSenha").addEventListener(
-    "click",
-    () => {
-
-      mostrarMensagem(
-        "A alteração de senha será disponibilizada nesta área."
-      );
-    }
-  );
-
-  $("btnConfiguracoes").addEventListener(
-    "click",
-    () => {
-
-      mostrarMensagem(
-        "As configurações da conta serão disponibilizadas nesta área."
-      );
-    }
-  );
-
-  $("btnSair").addEventListener(
-    "click",
-    async () => {
-
-      try {
-        await fetch(
-          `${API}/auth/logout`,
-          {
-            method: "POST",
-            credentials: "include"
-          }
-        );
-      } catch (erro) {
-        console.error(erro);
+      if (!resposta.ok || dados.ok === false) {
+        throw new Error(dados.message || "Não foi possível salvar suas alterações.");
       }
 
-      location.href = "login.html";
+      usuario = { ...usuario, ...alteracoes, ...(dados.user || {}) };
+      preencher();
+      modoLeitura();
+      mostrarMensagem("Dados atualizados.", "ok");
+
+    } catch (erro) {
+      mostrarMensagem(
+        erro instanceof TypeError
+          ? "Não foi possível falar com o servidor. Tente novamente em instantes."
+          : erro.message,
+        "erro"
+      );
+    } finally {
+      botao.disabled = false;
+      botao.textContent = "Salvar alterações";
     }
-  );
+  });
+
+  /* ---------- outras opções ---------- */
+
+  $("btnSenha").addEventListener("click", () => {
+    mostrarMensagem("A alteração de senha estará disponível aqui em breve.", "info");
+  });
+
+  $("btnPrivacidade").addEventListener("click", () => {
+    esconderMensagem();
+    $("privacidade").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  // Direito de acesso e portabilidade: baixa os dados da conta em um arquivo
+  $("btnBaixar").addEventListener("click", () => {
+    const seguro = Object.fromEntries(
+      Object.entries(usuario).filter(([chave]) => !/senha|password|hash|token/i.test(chave))
+    );
+
+    const arquivo = new Blob([JSON.stringify(seguro, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(arquivo);
+    link.download = "meus-dados-pacotinho-de-amor.json";
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+
+  $("btnSair").addEventListener("click", async () => {
+    try {
+      await fetch(`${API}/auth/logout`, { method: "POST", credentials: "include" });
+    } catch (erro) {
+      console.error(erro);
+    }
+    location.replace("login.html");
+  });
 
   carregarConta();
-
 })();
 </script>
 

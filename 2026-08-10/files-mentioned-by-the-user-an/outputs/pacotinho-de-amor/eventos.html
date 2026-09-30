@@ -5,57 +5,482 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Próximos eventos — Pacotinho de Amor</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: Montserrat, sans-serif; background: #fef7ff; color: #1d1a20; }
-    a:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 3px; }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <!-- Ícones usados pelo header do shared.js -->
 
   <link rel="stylesheet" href="shared.css">
+
+  <style>
+    /* Reserva o espaço da barra de rolagem: a página não "anda" para o lado
+       quando o conteúdo carrega e a barra aparece ou some */
+    html {
+      scrollbar-gutter: stable;
+    }
+
+    body {
+      background: #f6f0f7;
+    }
+
+    .pv {
+      --ameixa: #472056;
+      --ameixa-escura: #2e1438;
+      --ameixa-media: #6d3a80;
+      --lilas: #f6f0f7;
+      --lilas-borda: #e6d9ea;
+      --rosa: #f6cfdf;
+      --mel: #f2b84b;
+      --texto: #2a2230;
+      --texto-suave: #6b5f6e;
+      --branco: #ffffff;
+
+      --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+      --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
+
+      font-family: var(--corpo);
+      color: var(--texto);
+      background: var(--lilas);
+      line-height: 1.6;
+    }
+
+    .pv *,
+    .pv *::before,
+    .pv *::after {
+      box-sizing: border-box;
+    }
+
+    .pv a:focus-visible {
+      outline: 3px solid var(--mel);
+      outline-offset: 3px;
+    }
+
+    .pv-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Usado pelo eventos.js para mostrar/esconder o aviso de "sem eventos" */
+    .pv .hidden {
+      display: none !important;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .pv-hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ameixa);
+      color: var(--branco);
+      padding: 76px 0 140px;
+    }
+
+    .pv-hero__patas {
+      position: absolute;
+      right: -50px;
+      top: 10px;
+      width: 400px;
+      opacity: .12;
+      pointer-events: none;
+    }
+
+    .pv-hero__grid {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .pv-hero h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: .98;
+      letter-spacing: -.035em;
+      color: var(--branco);
+      max-width: 10ch;
+    }
+
+    .pv-hero p {
+      max-width: 50ch;
+      margin: 22px 0 0;
+      font-size: 18px;
+      color: rgba(255, 255, 255, .86);
+    }
+
+    /* Folhinha de calendário: o elemento de destaque */
+
+    .pv-folhinha {
+      flex-shrink: 0;
+      width: 168px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--branco);
+      box-shadow: 0 24px 40px -20px rgba(0, 0, 0, .45);
+      transform: rotate(6deg);
+      text-align: center;
+    }
+
+    .pv-folhinha__topo {
+      position: relative;
+      padding: 14px 0 12px;
+      background: var(--mel);
+      color: var(--ameixa-escura);
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 17px;
+    }
+
+    .pv-folhinha__topo::before,
+    .pv-folhinha__topo::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--ameixa);
+    }
+
+    .pv-folhinha__topo::before { left: 28px; }
+    .pv-folhinha__topo::after  { right: 28px; }
+
+    .pv-folhinha__corpo {
+      padding: 18px 0 22px;
+      color: var(--ameixa);
+    }
+
+    .pv-folhinha__corpo svg {
+      width: 72px;
+      height: 72px;
+    }
+
+    .pv-folhinha__corpo span {
+      display: block;
+      margin-top: 4px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+
+    /* ---------- LISTA ---------- */
+
+    .pv-lista {
+      position: relative;
+      margin-top: -84px;
+      padding-bottom: 96px;
+    }
+
+    #lista-eventos {
+      min-height: 240px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .pv-esqueleto {
+      height: 240px;
+      border-radius: 24px;
+      background:
+        linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, .7) 50%, transparent 80%)
+        var(--branco);
+      background-size: 200% 100%;
+      box-shadow: 0 20px 40px -28px rgba(46, 20, 56, .4);
+      animation: pv-brilho 1.4s linear infinite;
+    }
+
+    .pv-esqueleto::before {
+      content: "";
+      display: block;
+      margin: 24px;
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: var(--lilas);
+    }
+
+    #lista-eventos > .pv-evento,
+    #sem-eventos {
+      animation: pv-surgir .3s ease-out both;
+    }
+
+    #lista-eventos:empty {
+      min-height: 0;
+    }
+
+    @keyframes pv-surgir {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes pv-brilho {
+      from { background-position: 150% 0; }
+      to   { background-position: -50% 0; }
+    }
+
+    /* ---------- SEM EVENTOS ---------- */
+
+    .pv-vazio {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 40px;
+      border-radius: 32px;
+      background: var(--branco);
+      text-align: center;
+      box-shadow: 0 30px 60px -30px rgba(46, 20, 56, .35);
+    }
+
+    .pv-vazio__icone {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--rosa);
+      color: var(--ameixa);
+    }
+
+    .pv-vazio__icone svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .pv-vazio h2 {
+      margin: 0 0 10px;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(26px, 4vw, 36px);
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-vazio p {
+      max-width: 44ch;
+      margin: 0 auto;
+      font-size: 17px;
+      color: var(--texto-suave);
+    }
+
+    .pv-vazio__acoes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .pv-botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 26px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+
+    .pv-botao svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .pv-botao--escuro {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-botao--escuro:hover {
+      background: var(--ameixa-media);
+    }
+
+    .pv-botao--contorno {
+      border-color: var(--ameixa);
+      color: var(--ameixa);
+      background: var(--branco);
+    }
+
+    .pv-botao--contorno:hover {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    /* ---------- RESPONSIVO ---------- */
+
+    @media (max-width: 760px) {
+      .pv-hero__grid {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .pv-folhinha {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pv-wrap {
+        padding: 0 14px;
+      }
+
+      .pv-hero {
+        padding: 52px 0 120px;
+      }
+
+      .pv-hero p {
+        font-size: 16px;
+      }
+
+      #lista-eventos {
+        grid-template-columns: 1fr;
+      }
+
+      .pv-vazio {
+        padding: 40px 22px;
+        border-radius: 24px;
+      }
+
+      .pv-vazio__acoes .pv-botao {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv-esqueleto,
+      #lista-eventos > .pv-evento,
+      #sem-eventos {
+        animation: none;
+      }
+
+      .pv *,
+      .pv *::before,
+      .pv *::after {
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 
-<body class="flex min-h-screen flex-col">
+<body>
 
 <!-- O header e o footer são inseridos pelo shared.js -->
 
-<main class="mx-auto w-full max-w-[1200px] flex-grow px-6 py-12 md:py-16">
+<div class="pv">
 
-  <header class="mb-10 max-w-2xl">
-    <h1 class="text-3xl font-bold text-[#472056] md:text-4xl">Próximos eventos</h1>
-    <p class="mt-3 text-lg text-[#4c444d]">
-      Nas feirinhas de adoção você conhece os animais pessoalmente, conversa com a equipe e pode sair de lá com um novo amigo.
-    </p>
-  </header>
+  <!-- HERO -->
 
-  <div id="lista-eventos" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-    <div class="h-56 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
-    <div class="h-56 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
-    <div class="h-56 animate-pulse rounded-2xl bg-[#ede6ee]"></div>
-  </div>
+  <section class="pv-hero">
 
-  <!-- Quando não há eventos marcados -->
-  <div id="sem-eventos" class="hidden rounded-2xl bg-white p-10 text-center shadow-sm">
-    <span class="material-symbols-outlined text-5xl text-[#78517a]">event_busy</span>
-    <h2 class="mt-3 text-xl font-bold text-[#472056]">Nenhum evento marcado no momento</h2>
-    <p class="mx-auto mt-2 max-w-md text-[#4c444d]">
-      Siga o Instagram para saber em primeira mão quando for a próxima feirinha.
-    </p>
-    <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-      <a href="https://www.instagram.com/projeto.pacotinhodeamor/" target="_blank" rel="noopener"
-         class="rounded-full bg-[#472056] px-6 py-3 font-semibold text-white hover:bg-[#5f376e]">
-        Seguir no Instagram
-      </a>
-      <a href="animais-para-adocao.html"
-         class="rounded-full border-2 border-[#472056] px-6 py-2.5 font-semibold text-[#472056] hover:bg-[#f8f1f9]">
-        Ver animais para adoção
-      </a>
+    <svg class="pv-hero__patas" viewBox="0 0 200 200" aria-hidden="true" fill="#fff">
+      <g transform="translate(40 30) rotate(-18)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(110 70) rotate(12)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(60 120) rotate(-10)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(140 160) rotate(20)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+    </svg>
+
+    <div class="pv-wrap pv-hero__grid">
+
+      <div>
+        <h1>Próximos eventos</h1>
+        <p>
+          Nas feirinhas de adoção você conhece os animais pessoalmente,
+          conversa com a equipe e pode sair de lá com um novo amigo.
+        </p>
+      </div>
+
+      <div class="pv-folhinha" aria-hidden="true">
+        <div class="pv-folhinha__topo">Feirinha</div>
+        <div class="pv-folhinha__corpo">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <ellipse cx="12" cy="16" rx="4.6" ry="3.8"/>
+            <circle cx="6.3" cy="10.5" r="2"/><circle cx="9.6" cy="7" r="2"/>
+            <circle cx="14.4" cy="7" r="2"/><circle cx="17.7" cy="10.5" r="2"/>
+          </svg>
+          <span>de adoção</span>
+        </div>
+      </div>
+
     </div>
-  </div>
 
-</main>
+  </section>
+
+
+  <!-- LISTA -->
+
+  <main class="pv-wrap pv-lista">
+
+    <div id="lista-eventos" aria-live="polite">
+      <div class="pv-esqueleto" aria-hidden="true"></div>
+      <div class="pv-esqueleto" aria-hidden="true"></div>
+    </div>
+
+
+    <!-- Quando não há eventos marcados -->
+
+    <div id="sem-eventos" class="pv-vazio hidden">
+
+      <div class="pv-vazio__icone" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3.5" y="5" width="17" height="15" rx="3"/>
+          <path d="M3.5 10h17"/>
+          <path d="M8 3v4M16 3v4"/>
+          <path d="M12 17.5s-2.6-1.5-2.6-3.3c0-.8.7-1.5 1.4-1.5.5 0 .9.3 1.2.7.3-.4.7-.7 1.2-.7.7 0 1.4.7 1.4 1.5 0 1.8-2.6 3.3-2.6 3.3z"/>
+        </svg>
+      </div>
+
+      <h2>Nenhuma feirinha marcada ainda</h2>
+
+      <p>
+        Siga o Instagram para saber em primeira mão quando for a próxima.
+        Enquanto isso, você já pode conhecer os animais pelo site.
+      </p>
+
+      <div class="pv-vazio__acoes">
+        <a class="pv-botao pv-botao--escuro" href="https://www.instagram.com/projeto.pacotinhodeamor/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3.5" y="3.5" width="17" height="17" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          Seguir no Instagram
+        </a>
+        <a class="pv-botao pv-botao--contorno" href="animais-para-adocao.html">
+          Ver animais para adoção
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
 
 <script src="shared.js"></script>
 <script src="eventos.js"></script>

@@ -8,335 +8,746 @@
 
   <link rel="stylesheet" href="shared.css">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
   <style>
-    main {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 60px 20px;
-      font-family: Montserrat, sans-serif;
-      color: #1d1a20;
-    }
+    .pv {
+      --ameixa: #472056;
+      --ameixa-escura: #2e1438;
+      --ameixa-media: #6d3a80;
+      --lilas: #f6f0f7;
+      --lilas-borda: #e6d9ea;
+      --rosa: #f6cfdf;
+      --mel: #f2b84b;
+      --texto: #2a2230;
+      --texto-suave: #6b5f6e;
+      --branco: #ffffff;
+      --erro: #b3261e;
 
-    .card {
-      background: #fff;
-      border: 1px solid #e7e0e8;
-      border-radius: 20px;
-      padding: 34px;
-      box-shadow: 0 8px 28px rgba(71, 32, 86, .08);
-    }
+      --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+      --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
 
-    h1 {
-      color: #472056;
-      margin-top: 0;
-    }
-
-    h2 {
-      color: #472056;
-      font-size: 20px;
-      margin-top: 32px;
-    }
-
-    p {
+      font-family: var(--corpo);
+      color: var(--texto);
+      background: var(--lilas);
       line-height: 1.6;
-      color: #4c444d;
     }
 
-    .intro {
-      margin-bottom: 28px;
+    .pv *,
+    .pv *::before,
+    .pv *::after {
+      box-sizing: border-box;
     }
 
-    /* MODALIDADES */
+    /* ---------- HERO ---------- */
 
-    .modalidades {
+    .pv-hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ameixa);
+      color: var(--branco);
+      padding: 72px 20px 150px;
+    }
+
+    .pv-hero__patas {
+      position: absolute;
+      right: -40px;
+      top: 20px;
+      width: 420px;
+      opacity: .13;
+      pointer-events: none;
+    }
+
+    .pv-hero__inner {
+      position: relative;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .pv-selo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 22px;
+      padding: 6px 14px 6px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .pv-selo svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .pv-hero h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(42px, 8vw, 76px);
+      line-height: .98;
+      letter-spacing: -.03em;
+      max-width: 11ch;
+    }
+
+    .pv-hero p {
+      max-width: 54ch;
+      margin: 22px 0 0;
+      font-size: 18px;
+      color: rgba(255, 255, 255, .86);
+    }
+
+    /* ---------- FORMULÁRIO ---------- */
+
+    .pv-form {
+      position: relative;
+      max-width: 760px;
+      margin: -100px auto 0;
+      padding: 0 20px 80px;
+    }
+
+    .pv-painel {
+      background: var(--branco);
+      border-radius: 28px;
+      padding: 44px 44px 40px;
+      box-shadow: 0 30px 60px -30px rgba(46, 20, 56, .35);
+    }
+
+    /* Etapas: o formulário é de fato uma sequência */
+
+    .pv-etapa {
+      position: relative;
+      padding-left: 62px;
+      padding-bottom: 44px;
+    }
+
+    .pv-etapa::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 44px;
+      bottom: 4px;
+      width: 2px;
+      background: var(--lilas-borda);
+    }
+
+    .pv-etapa:last-of-type {
+      padding-bottom: 8px;
+    }
+
+    .pv-etapa:last-of-type::before {
+      display: none;
+    }
+
+    .pv-etapa__num {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--lilas);
+      color: var(--ameixa);
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 18px;
+      transition: background .25s, color .25s;
+    }
+
+    .pv-etapa.is-ok .pv-etapa__num {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-etapa h2 {
+      margin: 4px 0 6px;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -.01em;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-etapa > p {
+      margin: 0 0 20px;
+      color: var(--texto-suave);
+      max-width: 58ch;
+    }
+
+    /* ---------- MODALIDADES ---------- */
+
+    .pv-modos {
       display: grid;
       gap: 14px;
-      margin-top: 18px;
     }
 
-    .modalidade {
-      border: 1px solid #e7e0e8;
-      border-radius: 14px;
-      padding: 20px;
-      background: #faf7fb;
-      transition: .2s ease;
-    }
-
-    .modalidade:hover {
-      border-color: #d5a4e4;
-      box-shadow: 0 4px 12px rgba(71, 32, 86, .06);
-    }
-
-    .modalidade label {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
+    .pv-modo {
+      position: relative;
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 18px;
+      padding: 20px 22px;
+      border: 2px solid var(--lilas-borda);
+      border-radius: 20px;
       cursor: pointer;
+      background: var(--branco);
+      transition: border-color .2s, background .2s;
     }
 
-    .modalidade input {
-      width: 18px;
-      height: 18px;
-      margin-top: 3px;
-      accent-color: #472056;
-      flex-shrink: 0;
+    .pv-modo:hover {
+      border-color: #cdb3d5;
     }
 
-    .modalidade h3 {
-      margin: 0 0 8px;
-      color: #472056;
-      font-size: 17px;
+    .pv-modo input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .modalidade p {
-      margin: 0 0 10px;
-      font-size: 14px;
-      line-height: 1.6;
+    .pv-modo:has(input:focus-visible) {
+      outline: 3px solid var(--mel);
+      outline-offset: 3px;
     }
 
-    .modalidade p:last-child {
-      margin-bottom: 0;
+    .pv-modo:has(input:checked) {
+      border-color: var(--ameixa);
+      background: #fbf7fc;
     }
 
-    /* CAMPOS */
-
-    .campo {
-      margin-top: 18px;
+    .pv-modo__icone {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: var(--rosa);
+      color: var(--ameixa);
+      transition: background .2s, color .2s;
     }
 
-    .campo label {
+    .pv-modo:has(input:checked) .pv-modo__icone {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-modo__icone svg {
+      width: 34px;
+      height: 34px;
+    }
+
+    .pv-modo h3 {
+      margin: 2px 40px 4px 0;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-modo p {
+      margin: 0;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-modo__porque {
+      margin-top: 10px !important;
+      padding-top: 10px;
+      border-top: 1px dashed var(--lilas-borda);
+      font-size: 14px !important;
+    }
+
+    .pv-modo__porque strong {
+      color: var(--ameixa);
+      font-weight: 600;
+    }
+
+    .pv-modo__check {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--lilas-borda);
+      display: grid;
+      place-items: center;
+      transition: all .2s;
+    }
+
+    .pv-modo__check svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0;
+      transform: scale(.5);
+      transition: all .2s;
+    }
+
+    .pv-modo:has(input:checked) .pv-modo__check {
+      background: var(--mel);
+      border-color: var(--mel);
+    }
+
+    .pv-modo:has(input:checked) .pv-modo__check svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ---------- CAMPOS ---------- */
+
+    .pv-campos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .pv-campo--inteiro {
+      grid-column: 1 / -1;
+    }
+
+    .pv-campo label {
       display: block;
       margin-bottom: 7px;
       font-weight: 600;
-      color: #472056;
+      font-size: 15px;
+      color: var(--ameixa-escura);
     }
 
-    .campo input,
-    .campo textarea {
+    .pv-campo input,
+    .pv-campo textarea {
       width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-      border: 1px solid #dcd3df;
-      border-radius: 10px;
-      font-family: Montserrat, sans-serif;
-      font-size: 14px;
+      padding: 14px 16px;
+      border: 2px solid var(--lilas-borda);
+      border-radius: 14px;
+      background: var(--lilas);
+      font-family: var(--corpo);
+      font-size: 16px;
+      color: var(--texto);
+      transition: border-color .2s, background .2s;
+    }
+
+    .pv-campo input::placeholder,
+    .pv-campo textarea::placeholder {
+      color: #9d8fa1;
+    }
+
+    .pv-campo input:focus,
+    .pv-campo textarea:focus {
       outline: none;
+      border-color: var(--ameixa);
+      background: var(--branco);
     }
 
-    .campo input:focus,
-    .campo textarea:focus {
-      border-color: #78517a;
-    }
-
-    .campo textarea {
-      min-height: 100px;
+    .pv-campo textarea {
+      min-height: 110px;
       resize: vertical;
     }
 
-    /* TERMO */
+    /* ---------- TERMO ---------- */
 
-    .termo {
-      margin-top: 30px;
-      padding: 22px;
-      border-radius: 14px;
-      background: #f8f1f9;
-      border: 1px solid #e7e0e8;
-    }
-
-    .termo h3 {
-      margin-top: 0;
-      color: #472056;
-    }
-
-    .termo p {
-      font-size: 14px;
-    }
-
-    /* BOTÕES */
-
-    .action-buttons {
+    .pv-termo {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 22px;
+      border-radius: 20px;
+      background: var(--lilas);
+      margin-bottom: 16px;
     }
 
-    .action-button {
+    .pv-termo strong {
+      display: block;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--ameixa-escura);
+      line-height: 1.3;
+    }
+
+    .pv-termo span {
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+
+    .pv-botao-sec {
+      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
       padding: 12px 18px;
-      border-radius: 10px;
-      background: #472056;
-      color: #fff;
-      text-decoration: none;
-      font-family: Montserrat, sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-      border: none;
-      cursor: pointer;
-      transition: .2s ease;
-    }
-
-    .action-button:hover {
-      background: #5d2a70;
-      transform: translateY(-1px);
-    }
-
-    /* UPLOAD */
-
-    .upload {
-      margin-top: 22px;
-    }
-
-    .upload label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #472056;
-    }
-
-    .upload input {
-      width: 100%;
-      font-family: Montserrat, sans-serif;
-      font-size: 14px;
-    }
-
-    .obrigatorio {
-      color: #8a526f;
-      font-size: 13px;
-      margin-top: 6px;
-    }
-
-    /* ACEITES */
-
-    .aceites {
-      margin-top: 28px;
-    }
-
-    .check {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      margin-top: 16px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #4c444d;
-      cursor: pointer;
-    }
-
-    .check input {
-      margin-top: 4px;
-      accent-color: #472056;
-      flex-shrink: 0;
-      width: 17px;
-      height: 17px;
-    }
-
-    .check a {
-      color: #472056;
-      font-weight: 600;
-    }
-
-    /* LGPD */
-
-    .lgpd-info {
-      margin-top: 18px;
-      padding: 15px;
-      border-radius: 10px;
-      background: #faf7fb;
-      border: 1px solid #e7e0e8;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .lgpd-info p {
-      font-size: 13px;
-    }
-
-    .lgpd-info strong {
-      color: #472056;
-    }
-
-    /* CONTATO */
-
-    .contato {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 10px;
-      background: #faf7fb;
-      border: 1px solid #e7e0e8;
-    }
-
-    .contato p {
-      margin: 0;
-      font-size: 13px;
-    }
-
-    /* ENVIO */
-
-    .submit {
-      width: 100%;
-      margin-top: 28px;
-      padding: 15px;
-      border: none;
-      border-radius: 11px;
-      background: #472056;
-      color: #fff;
-      font-family: Montserrat, sans-serif;
+      border-radius: 999px;
+      border: 2px solid var(--ameixa);
+      color: var(--ameixa);
+      background: var(--branco);
+      font-weight: 700;
       font-size: 15px;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+
+    .pv-botao-sec:hover {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-botao-sec svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .pv-upload {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 22px;
+      border: 2px dashed #cdb3d5;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+
+    .pv-upload:hover,
+    .pv-upload.is-arrastando {
+      border-color: var(--ameixa);
+      background: #fbf7fc;
+    }
+
+    .pv-upload:has(input:focus-visible) {
+      outline: 3px solid var(--mel);
+      outline-offset: 3px;
+    }
+
+    .pv-upload input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .pv-upload__icone {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--rosa);
+      color: var(--ameixa);
+    }
+
+    .pv-upload__icone svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .pv-upload__titulo {
+      display: block;
+      font-weight: 700;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-upload__info {
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+
+    .pv-upload.is-ok {
+      border-style: solid;
+      border-color: var(--ameixa);
+      background: #fbf7fc;
+    }
+
+    .pv-upload.is-ok .pv-upload__icone {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    /* ---------- DECLARAÇÕES ---------- */
+
+    .pv-check {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--lilas-borda);
+      cursor: pointer;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-check:first-of-type {
+      padding-top: 0;
+    }
+
+    .pv-check input {
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      margin: 0;
+      border: 2px solid #cdb3d5;
+      border-radius: 8px;
+      background: var(--branco);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all .2s;
+    }
+
+    .pv-check input::after {
+      content: "";
+      width: 12px;
+      height: 7px;
+      border-left: 3px solid var(--branco);
+      border-bottom: 3px solid var(--branco);
+      transform: rotate(-45deg) translate(1px, -1px) scale(0);
+      transition: transform .15s;
+    }
+
+    .pv-check input:checked {
+      background: var(--ameixa);
+      border-color: var(--ameixa);
+    }
+
+    .pv-check input:checked::after {
+      transform: rotate(-45deg) translate(1px, -1px) scale(1);
+    }
+
+    .pv-check input:focus-visible {
+      outline: 3px solid var(--mel);
+      outline-offset: 2px;
+    }
+
+    .pv-check strong {
+      color: var(--texto);
+      font-weight: 600;
+    }
+
+    .pv-check a,
+    .pv-letras a {
+      color: var(--ameixa);
+      font-weight: 600;
+      text-underline-offset: 3px;
+    }
+
+    .pv-opcional {
+      display: inline-block;
+      margin-left: 4px;
+      padding: 1px 9px;
+      border-radius: 999px;
+      background: var(--lilas);
+      color: var(--ameixa);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .pv-letras {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--texto-suave);
+    }
+
+    .pv-letras summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--ameixa);
+      font-size: 14px;
+    }
+
+    .pv-letras p {
+      margin: 10px 0 0;
+    }
+
+    /* ---------- ENVIO ---------- */
+
+    .pv-rodape {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 2px solid var(--lilas);
+    }
+
+    .pv-proximos {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin: 0 0 22px;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-proximos svg {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      color: var(--ameixa);
+      margin-top: 1px;
+    }
+
+    .pv-enviar {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 999px;
+      background: var(--ameixa);
+      color: var(--branco);
+      font-family: var(--display);
+      font-size: 19px;
       font-weight: 700;
       cursor: pointer;
-      transition: .2s ease;
+      transition: background .2s, transform .2s;
     }
 
-    .submit:hover {
-      background: #5d2a70;
-      transform: translateY(-1px);
+    .pv-enviar:hover {
+      background: var(--ameixa-media);
     }
 
-    /* SUCESSO */
+    .pv-enviar:active {
+      transform: scale(.99);
+    }
 
-    .sucesso {
+    .pv-enviar:focus-visible {
+      outline: 3px solid var(--mel);
+      outline-offset: 3px;
+    }
+
+    .pv-enviar:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    /* ---------- AVISO (substitui alert) ---------- */
+
+    .pv-aviso {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 50;
+      max-width: calc(100% - 32px);
+      width: 460px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: var(--ameixa-escura);
+      color: var(--branco);
+      font-size: 15px;
+      box-shadow: 0 16px 40px -12px rgba(46, 20, 56, .5);
+      transform: translate(-50%, 140%);
+      transition: transform .3s ease;
+    }
+
+    .pv-aviso.is-visivel {
+      transform: translate(-50%, 0);
+    }
+
+    /* ---------- SUCESSO ---------- */
+
+    .pv-sucesso {
       display: none;
-      margin-top: 24px;
-      padding: 18px;
-      border-radius: 12px;
-      background: #f8f1f9;
-      border: 1px solid #d5a4e4;
+      text-align: center;
+      padding: 20px 10px;
     }
 
-    .sucesso.active {
+    .pv-sucesso.active {
       display: block;
     }
 
-    .sucesso h3 {
-      margin: 0 0 8px;
-      color: #472056;
+    .pv-sucesso__icone {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--rosa);
+      color: var(--ameixa);
     }
 
-    .sucesso p {
-      margin: 0;
-      font-size: 14px;
+    .pv-sucesso__icone svg {
+      width: 50px;
+      height: 50px;
     }
 
-    /* RESPONSIVO */
+    .pv-sucesso h3 {
+      margin: 0 0 12px;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 34px;
+      letter-spacing: -.02em;
+      color: var(--ameixa-escura);
+    }
 
-    @media (max-width: 600px) {
-      main {
-        padding: 35px 14px;
+    .pv-sucesso p {
+      max-width: 50ch;
+      margin: 0 auto;
+      color: var(--texto-suave);
+    }
+
+    .pv-painel.is-enviado .pv-conteudo {
+      display: none;
+    }
+
+    /* ---------- RESPONSIVO ---------- */
+
+    @media (max-width: 640px) {
+      .pv-hero {
+        padding: 52px 18px 130px;
       }
 
-      .card {
-        padding: 24px 18px;
+      .pv-hero p {
+        font-size: 16px;
       }
 
-      .action-button {
-        width: 100%;
+      .pv-form {
+        padding: 0 12px 56px;
+      }
+
+      .pv-painel {
+        padding: 28px 20px 26px;
+        border-radius: 22px;
+      }
+
+      .pv-etapa {
+        padding-left: 0;
+      }
+
+      .pv-etapa::before {
+        display: none;
+      }
+
+      .pv-etapa__num {
+        position: static;
+        margin-bottom: 12px;
+      }
+
+      .pv-modo {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .pv-campos {
+        grid-template-columns: 1fr;
+      }
+
+      .pv-termo {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv *,
+      .pv *::before,
+      .pv *::after {
+        transition: none !important;
       }
     }
   </style>
@@ -344,457 +755,369 @@
 
 <body>
 
-  <main>
+  <div class="pv">
 
-    <div class="card">
+    <!-- HERO -->
 
-      <p style="font-weight:700;color:#78517a">
-        PROJETO INDEPENDENTE
-      </p>
+    <section class="pv-hero">
 
-      <h1>Seja voluntário(a)</h1>
+      <svg class="pv-hero__patas" viewBox="0 0 200 200" aria-hidden="true" fill="#fff">
+        <g transform="translate(40 30) rotate(-18)">
+          <ellipse cx="0" cy="18" rx="14" ry="12"/>
+          <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+          <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+        </g>
+        <g transform="translate(110 70) rotate(12)">
+          <ellipse cx="0" cy="18" rx="14" ry="12"/>
+          <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+          <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+        </g>
+        <g transform="translate(60 120) rotate(-10)">
+          <ellipse cx="0" cy="18" rx="14" ry="12"/>
+          <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+          <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+        </g>
+        <g transform="translate(140 160) rotate(20)">
+          <ellipse cx="0" cy="18" rx="14" ry="12"/>
+          <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+          <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+        </g>
+      </svg>
 
-      <div class="intro">
+      <div class="pv-hero__inner">
 
-        <p>
-          Ser voluntário(a) no Pacotinho de Amor é dedicar parte
-          do seu tempo para ajudar diretamente no bem-estar dos
-          animais e nas ações que aumentam suas chances de
-          encontrar uma família.
+        <p class="pv-selo">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/>
+          </svg>
+          Projeto independente
         </p>
 
+        <h1>Seja voluntário(a)</h1>
+
         <p>
-          Você pode escolher uma ou mais formas de voluntariado.
-          Para participar, é necessário informar os dias e horários
-          em que possui disponibilidade.
+          Doe um pouco do seu tempo para cuidar dos animais e aumentar
+          as chances de cada um encontrar uma família. Você escolhe
+          como e quando quer ajudar.
         </p>
 
       </div>
 
-
-      <!-- MODALIDADES -->
-
-      <h2>Como você gostaria de ajudar?</h2>
-
-      <p>
-        Selecione uma ou mais opções:
-      </p>
+    </section>
 
 
-      <div class="modalidades">
+    <!-- FORMULÁRIO -->
 
+    <main class="pv-form">
 
-        <!-- FEIRINHA -->
+      <div class="pv-painel" id="painel">
 
-        <div class="modalidade">
+        <div class="pv-conteudo">
 
-          <label>
+          <!-- ETAPA 1: MODALIDADES -->
 
-            <input
-              type="checkbox"
-              name="modalidades"
-              value="Feirinha de adoção"
-            >
+          <section class="pv-etapa" data-etapa="modalidades">
 
-            <div>
+            <span class="pv-etapa__num" aria-hidden="true">1</span>
 
-              <h3>Feirinha de adoção</h3>
+            <h2>Como você gostaria de ajudar?</h2>
+            <p>Escolha uma ou mais formas de voluntariado.</p>
 
-              <p>
-                Participe das feirinhas de adoção, ajudando na
-                organização, nos cuidados com os animais e no
-                atendimento às pessoas interessadas em adotar.
-              </p>
+            <div class="pv-modos">
 
-              <p>
-                <strong>Por que é importante?</strong>
-                As feirinhas aproximam os animais de possíveis
-                famílias, aumentando suas chances de serem
-                conhecidos e adotados.
-              </p>
+              <label class="pv-modo">
+                <input type="checkbox" name="modalidades" value="Feirinha de adoção">
+                <span class="pv-modo__icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l1.5-5h15L21 9"/>
+                    <path d="M3 9c0 1.4 1.1 2.5 2.5 2.5S8 10.4 8 9c0 1.4 1.1 2.5 2.5 2.5h3C14.9 11.5 16 10.4 16 9c0 1.4 1.1 2.5 2.5 2.5S21 10.4 21 9"/>
+                    <path d="M5 11.5V20h14v-8.5"/>
+                    <path d="M10 20v-4.5h4V20"/>
+                  </svg>
+                </span>
+                <span>
+                  <h3>Feirinha de adoção</h3>
+                  <p>
+                    Ajude na organização, nos cuidados com os animais e no
+                    atendimento às pessoas interessadas em adotar.
+                  </p>
+                  <p class="pv-modo__porque">
+                    <strong>Por que importa:</strong> as feirinhas aproximam
+                    os animais de possíveis famílias.
+                  </p>
+                </span>
+                <span class="pv-modo__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#2e1438" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                </span>
+              </label>
+
+              <label class="pv-modo">
+                <input type="checkbox" name="modalidades" value="Táxi Dog">
+                <span class="pv-modo__icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 16H3.5v-4.2l2-5A1.5 1.5 0 0 1 6.9 6h10.2a1.5 1.5 0 0 1 1.4.9l2 4.9V16H19"/>
+                    <path d="M9 16h6"/>
+                    <circle cx="7" cy="16.5" r="2"/>
+                    <circle cx="17" cy="16.5" r="2"/>
+                    <path d="M3.5 11.5h17"/>
+                  </svg>
+                </span>
+                <span>
+                  <h3>Táxi Dog</h3>
+                  <p>
+                    Leve os animais a consultas veterinárias, feirinhas e
+                    visitas de possíveis adotantes.
+                  </p>
+                  <p class="pv-modo__porque">
+                    <strong>Por que importa:</strong> sem transporte, muitos
+                    compromissos simplesmente não acontecem.
+                  </p>
+                </span>
+                <span class="pv-modo__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#2e1438" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                </span>
+              </label>
+
+              <label class="pv-modo">
+                <input type="checkbox" name="modalidades" value="Passeador(a)">
+                <span class="pv-modo__icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <ellipse cx="12" cy="16" rx="4.6" ry="3.8"/>
+                    <circle cx="6.3" cy="10.5" r="2"/>
+                    <circle cx="9.6" cy="7" r="2"/>
+                    <circle cx="14.4" cy="7" r="2"/>
+                    <circle cx="17.7" cy="10.5" r="2"/>
+                  </svg>
+                </span>
+                <span>
+                  <h3>Passeador(a)</h3>
+                  <p>
+                    Ofereça passeios e momentos de lazer para uma rotina
+                    mais ativa e estimulante.
+                  </p>
+                  <p class="pv-modo__porque">
+                    <strong>Por que importa:</strong> passear reduz o estresse
+                    e ajuda na socialização dos animais.
+                  </p>
+                </span>
+                <span class="pv-modo__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#2e1438" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                </span>
+              </label>
 
             </div>
 
-          </label>
-
-        </div>
+          </section>
 
 
-        <!-- TAXI DOG -->
+          <!-- ETAPA 2: DISPONIBILIDADE -->
 
-        <div class="modalidade">
+          <section class="pv-etapa" data-etapa="disponibilidade">
 
-          <label>
+            <span class="pv-etapa__num" aria-hidden="true">2</span>
 
-            <input
-              type="checkbox"
-              name="modalidades"
-              value="Táxi Dog"
-            >
+            <h2>Quando você pode ajudar?</h2>
+            <p>A equipe usa essas informações para organizar as atividades.</p>
 
-            <div>
+            <div class="pv-campo">
+              <label for="disponibilidade">Dias e horários disponíveis</label>
+              <textarea
+                id="disponibilidade"
+                name="disponibilidade"
+                placeholder="Ex.: terças e quintas das 14h às 18h, sábados das 9h às 13h."
+                required
+              ></textarea>
+            </div>
 
-              <h3>Táxi Dog</h3>
+          </section>
 
-              <p>
-                Ajude no transporte dos animais para consultas
-                veterinárias, feirinhas, visitas de possíveis
-                adotantes ou outros compromissos importantes.
-              </p>
 
-              <p>
-                <strong>Por que é importante?</strong>
-                O transporte permite que os animais cheguem
-                com segurança a consultas, eventos e encontros
-                com possíveis famílias.
-              </p>
+          <!-- ETAPA 3: DADOS -->
+
+          <section class="pv-etapa" data-etapa="dados">
+
+            <span class="pv-etapa__num" aria-hidden="true">3</span>
+
+            <h2>Seus dados</h2>
+            <p>Vamos entrar em contato pelo telefone informado.</p>
+
+            <div class="pv-campos">
+
+              <div class="pv-campo pv-campo--inteiro">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" autocomplete="name" placeholder="Como está no seu documento" required>
+              </div>
+
+              <div class="pv-campo">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="voce@email.com" required>
+              </div>
+
+              <div class="pv-campo">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" autocomplete="tel" placeholder="(11) 99999-9999" required>
+              </div>
 
             </div>
 
-          </label>
-
-        </div>
+          </section>
 
 
-        <!-- PASSEADOR -->
+          <!-- ETAPA 4: TERMO -->
 
-        <div class="modalidade">
+          <section class="pv-etapa" data-etapa="termo">
 
-          <label>
+            <span class="pv-etapa__num" aria-hidden="true">4</span>
 
-            <input
-              type="checkbox"
-              name="modalidades"
-              value="Passeador(a)"
-            >
+            <h2>Termo de voluntariado</h2>
+            <p>
+              Baixe, leia, assine e envie o termo. Ele descreve as
+              responsabilidades do voluntário, o cuidado com os animais,
+              as regras de segurança, a confidencialidade e a natureza
+              não empregatícia da atividade.
+            </p>
 
-            <div>
-
-              <h3>Passeador(a)</h3>
-
-              <p>
-                Ajude os animais com passeios e momentos de lazer,
-                proporcionando uma rotina mais ativa e estimulante.
-              </p>
-
-              <p>
-                <strong>Por que é importante?</strong>
-                Os passeios contribuem para o bem-estar físico
-                e emocional, ajudam na socialização e diminuem
-                o estresse dos animais.
-              </p>
-
+            <div class="pv-termo">
+              <div>
+                <strong>Termo de Adesão, Compromisso e Responsabilidade</strong>
+                <span>Documento em PDF</span>
+              </div>
+              <a class="pv-botao-sec" href="termo-voluntariado-pacotinho-de-amor.pdf" download>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10.5l5 5 5-5"/><path d="M5 20h14"/></svg>
+                Baixar termo
+              </a>
             </div>
 
-          </label>
+            <label class="pv-upload" id="uploadBox" for="termo">
+              <input type="file" id="termo" name="termo" accept=".pdf,.jpg,.jpeg,.png" required>
+              <span class="pv-upload__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V5"/><path d="M7 9.5l5-5 5 5"/><path d="M5 20h14"/></svg>
+              </span>
+              <span>
+                <span class="pv-upload__titulo" id="uploadTitulo">Enviar termo assinado</span>
+                <span class="pv-upload__info" id="uploadInfo">Clique ou arraste o arquivo aqui. PDF, JPG ou PNG.</span>
+              </span>
+            </label>
 
-        </div>
-
-      </div>
-
-
-      <!-- DISPONIBILIDADE -->
-
-      <h2>Disponibilidade</h2>
-
-      <p>
-        Informe os dias e horários em que você poderá ajudar.
-        Essas informações serão utilizadas pela equipe para
-        organizar as atividades.
-      </p>
-
-      <div class="campo">
-
-        <label for="disponibilidade">
-          Dias e horários disponíveis
-        </label>
-
-        <textarea
-          id="disponibilidade"
-          name="disponibilidade"
-          placeholder="Ex.: Terças e quintas das 14h às 18h. Sábados das 9h às 13h."
-          required
-        ></textarea>
-
-      </div>
+          </section>
 
 
-      <!-- DADOS -->
+          <!-- ETAPA 5: DECLARAÇÕES -->
 
-      <h2>Seus dados</h2>
+          <section class="pv-etapa" data-etapa="declaracoes">
 
-      <div class="campo">
+            <span class="pv-etapa__num" aria-hidden="true">5</span>
 
-        <label for="nome">
-          Nome completo
-        </label>
+            <h2>Declarações e privacidade</h2>
+            <p>As duas primeiras são obrigatórias.</p>
 
-        <input
-          type="text"
-          id="nome"
-          name="nome"
-          placeholder="Digite seu nome completo"
-          required
-        >
+            <label class="pv-check">
+              <input type="checkbox" id="aceiteTermo" name="aceiteTermo">
+              <span>
+                Li, compreendi e concordo com o
+                <strong>Termo de Adesão, Compromisso e Responsabilidade para
+                Voluntariado do Projeto Pacotinho de Amor</strong>, incluindo o
+                objeto e as condições das atividades voluntárias.
+              </span>
+            </label>
 
-      </div>
+            <label class="pv-check">
+              <input type="checkbox" id="aceiteLGPD" name="aceiteLGPD">
+              <span>
+                Estou ciente de que meus dados pessoais (nome, e-mail, telefone,
+                disponibilidade e demais informações necessárias) poderão ser
+                tratados pelo Pacotinho de Amor para o cadastro, análise da
+                participação, organização das atividades e comunicação comigo,
+                conforme a <a href="politica-privacidade.html">Política de Privacidade</a>
+                e a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong>.
+              </span>
+            </label>
 
+            <label class="pv-check">
+              <input type="checkbox" id="aceiteImagem" name="aceiteImagem">
+              <span>
+                Autorizo o uso da minha imagem em fotos e vídeos feitos durante
+                as atividades do projeto, exclusivamente para divulgação
+                institucional. <span class="pv-opcional">Opcional</span>
+              </span>
+            </label>
 
-      <div class="campo">
+            <details class="pv-letras">
+              <summary>Como seus dados são usados</summary>
+              <p>
+                Os dados deste formulário serão tratados para o cadastro e a
+                participação no voluntariado, análise da participação,
+                organização das atividades e comunicação com você, além de
+                outras finalidades previstas na Política de Privacidade, de
+                acordo com a LGPD (Lei nº 13.709/2018) e demais normas aplicáveis.
+              </p>
+              <p>
+                Você pode exercer os direitos previstos na LGPD, observadas as
+                hipóteses e limitações da legislação. Para saber quais dados são
+                coletados, por que, por quanto tempo e quando podem ser
+                compartilhados, consulte a
+                <a href="politica-privacidade.html">Política de Privacidade</a>.
+              </p>
+              <p>
+                O uso do site também está sujeito aos
+                <a href="termos-uso.html">Termos de Uso</a>, que são regras gerais
+                da plataforma e não substituem o Termo de Adesão ao voluntariado.
+              </p>
+            </details>
 
-        <label for="email">
-          E-mail
-        </label>
-
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Digite seu e-mail"
-          required
-        >
-
-      </div>
-
-
-      <div class="campo">
-
-        <label for="telefone">
-          Número de telefone
-        </label>
-
-        <input
-          type="tel"
-          id="telefone"
-          name="telefone"
-          placeholder="(11) 99999-9999"
-          required
-        >
-
-      </div>
-
-
-      <!-- CONTATO -->
-
-      <div class="contato">
-
-        <p>
-          <strong>Como funciona depois do cadastro?</strong>
-          Após o envio das informações e do termo assinado,
-          a equipe do Pacotinho de Amor analisará o cadastro
-          e entrará em contato pelo número de telefone informado
-          para confirmar sua participação e combinar os próximos passos.
-        </p>
-
-      </div>
+          </section>
 
 
-      <!-- TERMO -->
+          <!-- ENVIO -->
 
-      <div class="termo">
+          <div class="pv-rodape">
 
-        <h3>Termo de Adesão, Compromisso e Responsabilidade para Voluntariado</h3>
+            <p class="pv-proximos">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+              <span>
+                Depois do envio, a equipe analisa seu cadastro e liga para
+                confirmar sua participação e combinar os próximos passos.
+              </span>
+            </p>
 
-        <p>
-          Para participar como voluntário(a), é necessário ler,
-          preencher e assinar o Termo de Adesão, Compromisso e
-          Responsabilidade para Voluntariado do Projeto Pacotinho de Amor.
-        </p>
+            <button type="button" class="pv-enviar" id="botaoEnviar" onclick="enviarCadastro()">
+              Enviar cadastro
+            </button>
 
-        <p>
-          O documento apresenta o objeto e as condições da atividade
-          voluntária, incluindo as responsabilidades do voluntário,
-          o cuidado com os animais, as regras de segurança,
-          a confidencialidade e a natureza não empregatícia do voluntariado.
-        </p>
-
-        <div class="action-buttons">
-
-          <a
-            class="action-button"
-            href="termo-voluntariado-pacotinho-de-amor.pdf"
-            download
-          >
-            Baixar termo de voluntariado
-          </a>
+          </div>
 
         </div>
 
 
-        <!-- UPLOAD -->
+        <!-- SUCESSO -->
 
-        <div class="upload">
+        <div id="sucesso" class="pv-sucesso" role="status">
 
-          <label for="termo">
-            Envie o termo assinado
-          </label>
+          <div class="pv-sucesso__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/>
+            </svg>
+          </div>
 
-          <input
-            type="file"
-            id="termo"
-            name="termo"
-            accept=".pdf,.jpg,.jpeg,.png"
-            required
-          >
+          <h3>Cadastro enviado!</h3>
 
-          <p class="obrigatorio">
-            Formatos aceitos: PDF, JPG ou PNG.
+          <p>
+            Obrigado por querer fazer parte do Pacotinho de Amor. Recebemos
+            seu cadastro e o termo assinado. A equipe vai analisar suas
+            informações e ligar para o número informado para conversar sobre
+            sua disponibilidade e os próximos passos. O envio não representa
+            aprovação automática como voluntário(a).
           </p>
 
         </div>
 
       </div>
 
+    </main>
 
-      <!-- ACEITES -->
+    <div class="pv-aviso" id="aviso" role="alert" aria-live="assertive"></div>
 
-      <div class="aceites">
-
-        <h2>Declarações e privacidade</h2>
-
-
-        <!-- ACEITE DO TERMO -->
-
-        <label class="check">
-
-          <input
-            type="checkbox"
-            id="aceiteTermo"
-            name="aceiteTermo"
-          >
-
-          <span>
-            Declaro que li, compreendi e concordo com o
-            <strong>
-              Termo de Adesão, Compromisso e Responsabilidade para Voluntariado
-              para Voluntariado do Projeto Pacotinho de Amor
-            </strong>,
-            incluindo o objeto e as condições para realização
-            das atividades voluntárias.
-          </span>
-
-        </label>
-
-
-        <!-- LGPD -->
-
-        <label class="check">
-
-          <input
-            type="checkbox"
-            id="aceiteLGPD"
-            name="aceiteLGPD"
-          >
-
-          <span>
-            Declaro estar ciente de que os dados pessoais fornecidos
-            neste cadastro, incluindo nome, e-mail, telefone,
-            disponibilidade e demais informações necessárias,
-            poderão ser tratados pelo Pacotinho de Amor para
-            finalidades relacionadas ao cadastro, análise da
-            participação, organização das atividades voluntárias
-            e comunicação comigo, conforme a
-            <a href="politica-privacidade.html">
-              Política de Privacidade
-            </a>
-            e a legislação aplicável, incluindo a
-            <strong>Lei Geral de Proteção de Dados Pessoais
-            (Lei nº 13.709/2018)</strong>.
-          </span>
-
-        </label>
-
-
-        <!-- USO DE IMAGEM -->
-
-        <label class="check">
-
-          <input
-            type="checkbox"
-            id="aceiteImagem"
-            name="aceiteImagem"
-          >
-
-          <span>
-            Autorizo, de forma opcional, o uso da minha imagem
-            em fotografias e vídeos realizados durante atividades
-            do Projeto Pacotinho de Amor, exclusivamente para
-            divulgação institucional e das ações do projeto.
-            Esta autorização não é obrigatória para participar
-            como voluntário(a).
-          </span>
-
-        </label>
-
-
-        <!-- INFORMAÇÃO LGPD -->
-
-        <div class="lgpd-info">
-
-          <strong>Sobre seus dados:</strong>
-
-        <p>
-          Os dados pessoais fornecidos neste formulário serão tratados
-          para finalidades relacionadas ao cadastro e participação no
-          voluntariado, análise da participação, organização das
-          atividades e comunicação com você, além de outras finalidades
-          previstas em nossa Política de Privacidade.
-        </p>
-
-        <p>
-          O tratamento dos dados será realizado de acordo com a
-          Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018)
-          e demais normas aplicáveis.
-        </p>
-
-        <p>
-          Você poderá exercer os direitos previstos na LGPD, observadas
-          as hipóteses e limitações estabelecidas pela legislação.
-        </p>
-
-        <p>
-          Para saber quais dados são coletados, por que são utilizados,
-          por quanto tempo podem ser mantidos e em quais situações
-          podem ser compartilhados, consulte nossa
-          <a href="politica-privacidade.html">Política de Privacidade</a>.
-        </p>        A utilização da plataforma também está sujeita aos        <a href="termos-uso.html">Termos de Uso</a>, que são as regras gerais       aplicáveis ao site e não substituem o Termo de Adesão específico para o voluntariado.     </p>
-
-
-      <!-- BOTÃO ENVIAR -->
-
-      <button
-        type="button"
-        class="submit"
-        onclick="enviarCadastro()"
-      >
-        Enviar cadastro
-      </button>
-
-
-      <!-- SUCESSO -->
-
-      <div
-        id="sucesso"
-        class="sucesso"
-      >
-
-        <h3>Cadastro recebido!</h3>
-
-        <p>
-          Obrigado por querer fazer parte do Pacotinho de Amor.
-          Recebemos seu cadastro e os documentos enviados.
-          A equipe analisará suas informações e entrará em contato
-          pelo número de telefone informado para conversar sobre
-          sua disponibilidade, sua participação e os próximos passos.
-          O envio do cadastro não representa aprovação automática
-          como voluntário(a).
-        </p>
-
-      </div>
-
-    </div>
-
-  </main>
+  </div>
 
 
   <!-- O shared.js INSERE AUTOMATICAMENTE O HEADER E O FOOTER -->
@@ -804,160 +1127,151 @@
 
   <script>
 
-    async function enviarCadastro() {
+    /* ---------- AVISO (no lugar do alert) ---------- */
 
-      /* MODALIDADES */
+    let avisoTimer;
+
+    function avisar(mensagem, focarEm) {
+      const aviso = document.getElementById('aviso');
+      aviso.textContent = mensagem;
+      aviso.classList.add('is-visivel');
+      clearTimeout(avisoTimer);
+      avisoTimer = setTimeout(() => aviso.classList.remove('is-visivel'), 4500);
+
+      if (focarEm) {
+        focarEm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => focarEm.focus({ preventScroll: true }), 300);
+      }
+    }
+
+
+    /* ---------- PROGRESSO DAS ETAPAS ---------- */
+
+    function atualizarEtapas() {
+      const estado = {
+        modalidades: document.querySelectorAll('input[name="modalidades"]:checked').length > 0,
+        disponibilidade: document.getElementById('disponibilidade').value.trim() !== '',
+        dados: ['nome', 'email', 'telefone'].every(
+          (id) => document.getElementById(id).value.trim() !== ''
+        ),
+        termo: document.getElementById('termo').files.length > 0,
+        declaracoes: document.getElementById('aceiteTermo').checked &&
+                     document.getElementById('aceiteLGPD').checked
+      };
+
+      document.querySelectorAll('.pv-etapa').forEach((etapa) => {
+        etapa.classList.toggle('is-ok', !!estado[etapa.dataset.etapa]);
+      });
+    }
+
+    document.querySelector('.pv-conteudo').addEventListener('input', atualizarEtapas);
+    document.querySelector('.pv-conteudo').addEventListener('change', atualizarEtapas);
+
+
+    /* ---------- UPLOAD ---------- */
+
+    const inputTermo = document.getElementById('termo');
+    const uploadBox = document.getElementById('uploadBox');
+
+    inputTermo.addEventListener('change', () => {
+      const arquivo = inputTermo.files[0];
+
+      if (arquivo) {
+        const kb = arquivo.size / 1024;
+        const tamanho = kb > 1024 ? (kb / 1024).toFixed(1) + ' MB' : Math.round(kb) + ' KB';
+        document.getElementById('uploadTitulo').textContent = arquivo.name;
+        document.getElementById('uploadInfo').textContent = tamanho + ' · clique para trocar';
+        uploadBox.classList.add('is-ok');
+      } else {
+        document.getElementById('uploadTitulo').textContent = 'Enviar termo assinado';
+        document.getElementById('uploadInfo').textContent = 'Clique ou arraste o arquivo aqui. PDF, JPG ou PNG.';
+        uploadBox.classList.remove('is-ok');
+      }
+    });
+
+    ['dragenter', 'dragover'].forEach((ev) =>
+      uploadBox.addEventListener(ev, () => uploadBox.classList.add('is-arrastando'))
+    );
+    ['dragleave', 'drop'].forEach((ev) =>
+      uploadBox.addEventListener(ev, () => uploadBox.classList.remove('is-arrastando'))
+    );
+
+
+    /* ---------- ENVIO ---------- */
+
+    async function enviarCadastro() {
 
       const modalidadesSelecionadas = Array.from(
         document.querySelectorAll('input[name="modalidades"]:checked')
       ).map((checkbox) => checkbox.value);
 
-      const modalidades = document.querySelectorAll(
-        'input[name="modalidades"]:checked'
-      );
-
-      if (modalidades.length === 0) {
-
-        alert(
-          'Selecione pelo menos uma forma de voluntariado.'
-        );
-
+      if (modalidadesSelecionadas.length === 0) {
+        avisar('Selecione pelo menos uma forma de voluntariado.',
+          document.querySelector('input[name="modalidades"]'));
         return;
       }
 
-
-      /* DISPONIBILIDADE */
-
-      const disponibilidade =
-        document
-          .getElementById('disponibilidade')
-          .value
-          .trim();
-
+      const campoDisp = document.getElementById('disponibilidade');
+      const disponibilidade = campoDisp.value.trim();
       if (!disponibilidade) {
-
-        alert(
-          'Informe seus dias e horários disponíveis.'
-        );
-
+        avisar('Informe seus dias e horários disponíveis.', campoDisp);
         return;
       }
 
-
-      /* NOME */
-
-      const nome =
-        document
-          .getElementById('nome')
-          .value
-          .trim();
-
+      const campoNome = document.getElementById('nome');
+      const nome = campoNome.value.trim();
       if (!nome) {
-
-        alert(
-          'Informe seu nome completo.'
-        );
-
+        avisar('Informe seu nome completo.', campoNome);
         return;
       }
 
-
-      /* E-MAIL */
-
-      const email =
-        document
-          .getElementById('email')
-          .value
-          .trim();
-
+      const campoEmail = document.getElementById('email');
+      const email = campoEmail.value.trim();
       if (!email) {
-
-        alert(
-          'Informe seu e-mail.'
-        );
-
+        avisar('Informe seu e-mail.', campoEmail);
         return;
       }
 
-
-      /* TELEFONE */
-
-      const telefone =
-        document
-          .getElementById('telefone')
-          .value
-          .trim();
-
+      const campoTel = document.getElementById('telefone');
+      const telefone = campoTel.value.trim();
       if (!telefone) {
-
-        alert(
-          'Informe seu número de telefone.'
-        );
-
+        avisar('Informe seu número de telefone.', campoTel);
         return;
       }
 
-
-      /* TERMO ASSINADO */
-
-      const termo =
-        document
-          .getElementById('termo')
-          .files
-          .length;
-
-      if (!termo) {
-
-        alert(
-          'Envie o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado assinado.'
-        );
-
+      if (!inputTermo.files.length) {
+        avisar('Envie o termo de voluntariado assinado.', inputTermo);
         return;
       }
 
-
-      /* ACEITE DO TERMO */
-
-      const aceiteTermo =
-        document
-          .getElementById('aceiteTermo')
-          .checked;
-
+      const campoAceite = document.getElementById('aceiteTermo');
+      const aceiteTermo = campoAceite.checked;
       if (!aceiteTermo) {
-
-        alert(
-          'É necessário declarar que você leu e concorda com o Termo de Adesão, Compromisso e Responsabilidade para Voluntariado.'
-        );
-
+        avisar('Confirme que leu e concorda com o Termo de Adesão.', campoAceite);
         return;
       }
 
-
-      /* CIÊNCIA SOBRE LGPD */
-
-      const aceiteLGPD =
-        document
-          .getElementById('aceiteLGPD')
-          .checked;
-
+      const campoLGPD = document.getElementById('aceiteLGPD');
+      const aceiteLGPD = campoLGPD.checked;
       if (!aceiteLGPD) {
-
-        alert(
-          'É necessário confirmar a ciência sobre o tratamento dos seus dados pessoais e consultar a Política de Privacidade.'
-        );
-
+        avisar('Confirme a ciência sobre o tratamento dos seus dados pessoais.', campoLGPD);
         return;
       }
 
 
       /* ENVIA PARA O BACKEND */
+
       const API =
         location.port === "8000"
           ? "/api"
           : "http://127.0.0.1:8000/api";
 
+      const botao = document.getElementById('botaoEnviar');
+      botao.disabled = true;
+      botao.textContent = 'Enviando…';
+
       try {
-        const arquivoTermo = document.getElementById('termo').files[0];
+        const arquivoTermo = inputTermo.files[0];
 
         const termoArquivo = await new Promise((resolve, reject) => {
           const leitor = new FileReader();
@@ -1003,21 +1317,18 @@
         }
 
         /* MOSTRA SUCESSO */
-        document
-          .getElementById('sucesso')
-          .classList
-          .add('active');
+        document.getElementById('painel').classList.add('is-enviado');
+        document.getElementById('sucesso').classList.add('active');
+        document.getElementById('painel').scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
 
-        /* ROLA ATÉ A MENSAGEM */
-        document
-          .getElementById('sucesso')
-          .scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          });
       } catch (erro) {
         console.error("Erro ao enviar cadastro de voluntário:", erro);
-        alert(erro.message || "Não foi possível enviar seu cadastro.");
+        avisar(erro.message || "Não foi possível enviar seu cadastro. Tente novamente.");
+        botao.disabled = false;
+        botao.textContent = 'Enviar cadastro';
       }
 
     }

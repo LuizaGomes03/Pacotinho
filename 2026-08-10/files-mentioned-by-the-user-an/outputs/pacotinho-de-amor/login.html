@@ -3,458 +3,653 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Área voluntária — Pacotinho de Amor</title>
-
-  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet"
-  >
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#472056",
-            "primary-container": "#5f376e",
-            "primary-fixed": "#f9d8ff",
-            secondary: "#78517a",
-            background: "#fef7ff",
-            "on-surface": "#1d1a20",
-            "on-surface-variant": "#4c444d",
-            outline: "#7e747e",
-            "outline-variant": "#cfc3ce",
-            "surface-variant": "#e7e0e8"
-          },
-          fontFamily: {
-            sans: ["Montserrat", "sans-serif"]
-          }
-        }
-      }
-    };
-  </script>
-
-  <style>
-    a:focus-visible,
-    button:focus-visible {
-      outline: 3px solid #e7b5f6;
-      outline-offset: 3px;
-    }
-  </style>
+  <title>Entrar — Pacotinho de Amor</title>
 
   <link rel="stylesheet" href="shared.css">
+
+  <style>
+    body {
+      background: #f6f0f7;
+    }
+
+    .pv {
+      --ameixa: #472056;
+      --ameixa-escura: #2e1438;
+      --ameixa-media: #6d3a80;
+      --lilas: #f6f0f7;
+      --lilas-borda: #e6d9ea;
+      --rosa: #f6cfdf;
+      --mel: #f2b84b;
+      --texto: #2a2230;
+      --texto-suave: #6b5f6e;
+      --branco: #ffffff;
+      --erro: #b3261e;
+
+      --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+      --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
+
+      min-height: calc(100vh - var(--pa-header-h, 80px));
+      font-family: var(--corpo);
+      color: var(--texto);
+      background: var(--lilas);
+      line-height: 1.6;
+    }
+
+    .pv *,
+    .pv *::before,
+    .pv *::after {
+      box-sizing: border-box;
+    }
+
+    .pv h1,
+    .pv h2 {
+      margin: 0;
+      font-family: var(--display);
+      letter-spacing: -.01em;
+    }
+
+    .pv p {
+      margin: 0;
+    }
+
+    .pv svg {
+      display: block;
+    }
+
+    .pv a:focus-visible,
+    .pv button:focus-visible {
+      outline: 3px solid var(--mel);
+      outline-offset: 3px;
+    }
+
+    .pv .hidden {
+      display: none !important;
+    }
+
+    /* ---------- FAIXA ROXA ---------- */
+
+    .pv-hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ameixa);
+      color: var(--branco);
+      padding: 56px 20px 150px;
+      text-align: center;
+    }
+
+    .pv-hero__patas {
+      position: absolute;
+      left: 50%;
+      top: -20px;
+      width: 420px;
+      transform: translateX(-10%);
+      opacity: .1;
+      pointer-events: none;
+    }
+
+    .pv-hero h1 {
+      position: relative;
+      color: var(--branco);
+      font-weight: 800;
+      font-size: clamp(38px, 6vw, 60px);
+      line-height: 1;
+      letter-spacing: -.03em;
+    }
+
+    .pv-hero p {
+      position: relative;
+      max-width: 40ch;
+      margin: 14px auto 0;
+      font-size: 18px;
+      color: rgba(255, 255, 255, .85);
+    }
+
+    /* ---------- CARTÃO ---------- */
+
+    .pv-cartao {
+      position: relative;
+      width: calc(100% - 24px);
+      max-width: 460px;
+      margin: -100px auto 0;
+      padding: 36px 36px 30px;
+      border-radius: 32px;
+      background: var(--branco);
+      box-shadow: 0 30px 60px -30px rgba(46, 20, 56, .4);
+    }
+
+    .pv-cartao__icone {
+      width: 72px;
+      height: 72px;
+      margin: -72px auto 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 42% 58% 55% 45% / 50% 44% 56% 50%;
+      background: var(--mel);
+      color: var(--ameixa-escura);
+      box-shadow: 0 0 0 8px var(--branco);
+    }
+
+    .pv-cartao__icone svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    #loginForm {
+      display: grid;
+      gap: 18px;
+    }
+
+    .pv-campo label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-campo__linha {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .pv-campo__linha a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ameixa-media);
+      text-underline-offset: 3px;
+    }
+
+    .pv-entrada {
+      position: relative;
+    }
+
+    .pv-entrada > svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      transform: translateY(-50%);
+      color: var(--ameixa-media);
+      pointer-events: none;
+    }
+
+    .pv-entrada input {
+      width: 100%;
+      padding: 15px 16px 15px 48px;
+      border: 2px solid var(--lilas-borda);
+      border-radius: 16px;
+      background: var(--lilas);
+      font-family: var(--corpo);
+      font-size: 16px;
+      color: var(--texto);
+      transition: border-color .2s, background .2s;
+    }
+
+    .pv-entrada input::placeholder {
+      color: #9d8fa1;
+    }
+
+    .pv-entrada input:focus {
+      outline: none;
+      border-color: var(--ameixa);
+      background: var(--branco);
+    }
+
+    #password {
+      padding-right: 54px;
+    }
+
+    #mostrarSenha {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      transform: translateY(-50%);
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ameixa-media);
+      cursor: pointer;
+    }
+
+    #mostrarSenha:hover {
+      background: var(--lilas-borda);
+    }
+
+    #mostrarSenha svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    #loginMessage {
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 2px solid #f1c9c5;
+      background: #fdf3f2;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--erro);
+    }
+
+    #loginButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 4px;
+      padding: 17px;
+      border: none;
+      border-radius: 999px;
+      background: var(--ameixa);
+      color: var(--branco);
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 19px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    #loginButton:hover {
+      background: var(--ameixa-media);
+    }
+
+    #loginButton:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    #loginButton svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .pv-rodape {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 2px solid var(--lilas);
+      text-align: center;
+      font-size: 15px;
+      color: var(--texto-suave);
+    }
+
+    .pv-rodape a {
+      font-weight: 700;
+      color: var(--ameixa);
+      text-underline-offset: 3px;
+    }
+
+    .pv-rodape p + p {
+      margin-top: 8px;
+    }
+
+    .pv-voltar {
+      display: block;
+      width: max-content;
+      margin: 28px auto 0;
+      padding-bottom: 56px;
+      font-weight: 700;
+      color: var(--ameixa);
+      text-underline-offset: 4px;
+    }
+
+    @media (max-width: 520px) {
+      .pv-hero {
+        padding: 32px 16px 118px;
+      }
+
+      .pv-hero h1 {
+        font-size: 36px;
+      }
+
+      .pv-hero p {
+        font-size: 16px;
+      }
+
+      .pv-hero__patas {
+        width: 300px;
+      }
+
+      .pv-cartao {
+        width: calc(100% - 20px);
+        margin-top: -90px;
+        padding: 26px 18px 22px;
+        border-radius: 24px;
+      }
+
+      .pv-cartao__icone {
+        width: 60px;
+        height: 60px;
+        margin-top: -56px;
+      }
+
+      .pv-cartao__icone svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      #loginButton {
+        padding: 15px;
+        font-size: 18px;
+      }
+
+      .pv-rodape {
+        font-size: 14px;
+      }
+
+      .pv-voltar {
+        padding-bottom: 40px;
+      }
+    }
+
+    /* Celular deitado ou telas baixas: faixa roxa menor */
+    @media (max-height: 560px) {
+      .pv-hero {
+        padding-top: 24px;
+        padding-bottom: 100px;
+      }
+
+      .pv-hero p {
+        display: none;
+      }
+
+      .pv-cartao {
+        margin-top: -76px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv *,
+      .pv *::before,
+      .pv *::after {
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 
-<body class="min-h-screen bg-background font-sans text-on-surface">
+<body>
 
-  <main class="flex min-h-[calc(100vh-160px)] w-full items-center justify-center px-4 py-10 md:px-8">
+<!-- O header é inserido pelo shared.js (o footer não aparece no login) -->
 
-    <section class="w-full max-w-[440px] rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(95,55,110,0.10)] md:p-8">
+<div class="pv">
 
-      <div class="mb-6 text-center">
+  <section class="pv-hero">
 
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary-fixed">
-          <span class="material-symbols-outlined text-[28px] text-primary">
-            volunteer_activism
-          </span>
-        </div>
+    <svg class="pv-hero__patas" viewBox="0 0 200 200" aria-hidden="true" fill="#fff">
+      <g transform="translate(40 40) rotate(-18)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(110 80) rotate(12)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+      <g transform="translate(60 130) rotate(-10)">
+        <ellipse cx="0" cy="18" rx="14" ry="12"/>
+        <circle cx="-14" cy="0" r="5.5"/><circle cx="-5" cy="-8" r="5.5"/>
+        <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
+      </g>
+    </svg>
 
-        <h1 class="text-2xl font-bold text-primary">
-          Área voluntária
-        </h1>
+    <h1>Entrar</h1>
+    <p>Acesse sua conta para acompanhar adoções, eventos e atividades do projeto.</p>
 
-        <p class="mt-1 text-sm text-on-surface-variant">
-          Entre com o e-mail e a senha da sua conta de voluntário(a).
-        </p>
+  </section>
 
+
+  <main>
+
+    <section class="pv-cartao" aria-labelledby="tituloLogin">
+
+      <div class="pv-cartao__icone" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <ellipse cx="12" cy="16" rx="4.6" ry="3.8"/>
+          <circle cx="6.3" cy="10.5" r="2"/><circle cx="9.6" cy="7" r="2"/>
+          <circle cx="14.4" cy="7" r="2"/><circle cx="17.7" cy="10.5" r="2"/>
+        </svg>
       </div>
 
-      <form id="loginForm" class="space-y-4" novalidate>
+      <h2 id="tituloLogin" class="hidden">Entrar na sua conta</h2>
 
-        <div>
-          <label for="email" class="mb-1.5 block text-sm font-semibold">
-            E-mail
-          </label>
+      <form id="loginForm" novalidate>
 
-          <div class="relative">
-            <span
-              aria-hidden="true"
-              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline"
-            >
-              mail
-            </span>
-
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
-              placeholder="seuemail@exemplo.com"
-              class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-4 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15"
-            >
+        <div class="pv-campo">
+          <label for="email">E-mail</label>
+          <div class="pv-entrada">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M4 7.5l8 6 8-6"/></svg>
+            <input id="email" name="email" type="email" autocomplete="email" required placeholder="seuemail@exemplo.com">
           </div>
         </div>
 
-        <div>
-
-          <div class="mb-1.5 flex items-center justify-between">
-            <label for="password" class="block text-sm font-semibold">
-              Senha
-            </label>
-
-            <a
-              href="recuperar-senha-voluntario.html"
-              class="text-xs font-semibold text-secondary hover:text-primary hover:underline"
-            >
-              Esqueci minha senha
-            </a>
+        <div class="pv-campo">
+          <div class="pv-campo__linha">
+            <label for="password">Senha</label>
+            <a href="recuperar-senha-voluntario.html">Esqueci minha senha</a>
           </div>
-
-          <div class="relative">
-
-            <span
-              aria-hidden="true"
-              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline"
-            >
-              lock
-            </span>
-
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required
-              placeholder="Digite sua senha"
-              class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-11 pr-12 text-base focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/15"
-            >
-
-            <button
-              type="button"
-              id="mostrarSenha"
-              aria-label="Mostrar senha"
-              class="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-outline hover:bg-background"
-            >
-              <span class="material-symbols-outlined text-[20px]">
-                visibility
-              </span>
+          <div class="pv-entrada">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+            <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Digite sua senha">
+            <button type="button" id="mostrarSenha" aria-label="Mostrar senha" aria-pressed="false">
+              <svg id="iconeOlho" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
-
           </div>
         </div>
 
-        <div
-          id="loginMessage"
-          role="alert"
-          aria-live="polite"
-          class="hidden"
-        ></div>
+        <div id="loginMessage" class="hidden" role="alert" aria-live="polite"></div>
 
-        <button
-          id="loginButton"
-          type="submit"
-          class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-container px-4 py-3.5 font-semibold text-white transition hover:bg-primary disabled:opacity-60"
-        >
+        <button id="loginButton" type="submit">
           <span id="loginButtonText">Entrar</span>
-
-          <span class="material-symbols-outlined text-[20px]">
-            arrow_forward
-          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
 
       </form>
 
-      <div class="mt-6 space-y-2 border-t border-surface-variant pt-5 text-center text-sm">
-
-        <p class="text-on-surface-variant">
-          Ainda não tem uma conta?
-
-          <a
-            href="cadastro.html"
-            class="font-semibold text-primary hover:underline"
-          >
-            Cadastre-se
-          </a>
-        </p>
-
-        <a
-          href="home.html"
-          class="inline-block font-semibold text-primary hover:underline"
-        >
-          Voltar para o início
-        </a>
-
+      <div class="pv-rodape">
+        <p>Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+        <p>Quer ajudar o projeto? <a href="voluntario.html">Seja voluntário(a)</a></p>
       </div>
 
     </section>
 
+    <a class="pv-voltar" href="home.html">Voltar para o início</a>
+
   </main>
 
-  <script src="shared.js"></script>
+</div>
 
-  <script>
-    (() => {
+<script src="shared.js"></script>
+
+<script>
+(() => {
+
+  /*
+   * O mesmo login funciona pelo servidor Python na porta 8000
+   * ou pelo Live Server.
+   */
+  const API =
+    location.port === "8000"
+      ? "/api"
+      : "http://127.0.0.1:8000/api";
+
+  const form = document.getElementById("loginForm");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const message = document.getElementById("loginMessage");
+  const button = document.getElementById("loginButton");
+  const buttonText = document.getElementById("loginButtonText");
+  const toggle = document.getElementById("mostrarSenha");
+  const olho = document.getElementById("iconeOlho");
+
+  const OLHO_ABERTO = '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>';
+  const OLHO_FECHADO = '<path d="M4 4l16 16"/><path d="M10.6 5.6A9.8 9.8 0 0 1 12 5.5C18 5.5 21.5 12 21.5 12a17 17 0 0 1-3.2 3.9M6.4 7.4A16.6 16.6 0 0 0 2.5 12S6 18.5 12 18.5a9.4 9.4 0 0 0 4-.9"/><path d="M9.9 10a3 3 0 0 0 4.1 4.1"/>';
+
+  /*
+   * Página inicial de cada tipo de conta
+   */
+  const INICIO = {
+    master: "painel-master.html",
+    volunteer: "painel-voluntario.html",
+    adopter: "minha-conta.html"
+  };
+
+  // Páginas que só fazem sentido para adotantes
+  const PAGINAS_ADOTANTE = /^(minha-conta|solicitacoes-adocao)\.html/;
+
+  /*
+   * Decide para onde ir depois do login.
+   * O "next" só é usado se for uma página do próprio site
+   * e combinar com o tipo de conta (evita mandar um voluntário
+   * para a área do adotante e vice-versa).
+   */
+  function destino(tipo) {
+    const padrao = INICIO[tipo];
+    const next = new URLSearchParams(location.search).get("next") || "";
+
+    const doSite = /^[\w-]+\.html(?:\?[\w=&%.-]*)?$/.test(next);
+    if (!doSite) return padrao;
+
+    const paginaDeAdotante = PAGINAS_ADOTANTE.test(next);
+    const paginaDePainel = /^painel-/.test(next);
+
+    if (tipo === "adopter" && paginaDePainel) return padrao;
+    if (tipo !== "adopter" && paginaDeAdotante) return padrao;
+
+    return next;
+  }
+
+  function mostrarErro(texto) {
+    message.textContent = texto;
+    message.classList.remove("hidden");
+  }
+
+  function limparErro() {
+    message.textContent = "";
+    message.classList.add("hidden");
+  }
+
+  toggle.addEventListener("click", () => {
+    const visivel = password.type === "text";
+    password.type = visivel ? "password" : "text";
+    toggle.setAttribute("aria-label", visivel ? "Mostrar senha" : "Ocultar senha");
+    toggle.setAttribute("aria-pressed", String(!visivel));
+    olho.innerHTML = visivel ? OLHO_ABERTO : OLHO_FECHADO;
+  });
+
+  [email, password].forEach((campo) => {
+    campo.addEventListener("input", limparErro);
+  });
+
+  /*
+   * Tenta entrar em um endpoint.
+   * Retorna { ok: true } ou { ok: false, message }.
+   */
+  async function tentarLogin(rota, credenciais) {
+    const resposta = await fetch(`${API}${rota}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(credenciais)
+    });
+
+    const dados = await resposta.json().catch(() => ({}));
+
+    return {
+      ok: resposta.ok && dados.ok !== false,
+      message: dados.message,
+      user: dados.user
+    };
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    limparErro();
+
+    const credenciais = {
+      email: email.value.trim().toLowerCase(),
+      password: password.value
+    };
+
+    if (!credenciais.email || !credenciais.password) {
+      mostrarErro("Preencha o e-mail e a senha.");
+      (credenciais.email ? password : email).focus();
+      return;
+    }
+
+    button.disabled = true;
+    buttonText.textContent = "Entrando…";
+
+    try {
 
       /*
-       * O mesmo login funciona pelo servidor Python na porta 8000
-       * ou pelo Live Server.
+       * Um login para todos:
+       * 1. tenta como Master/voluntário(a)  -> /api/auth/login
+       * 2. se não der, tenta como adotante  -> /api/auth/adopter-login
        */
-      const API =
-        location.port === "8000"
-          ? "/api"
-          : "http://127.0.0.1:8000/api";
+      let login = await tentarLogin("/auth/login", credenciais);
 
-      const form = document.getElementById("loginForm");
-      const email = document.getElementById("email");
-      const password = document.getElementById("password");
-      const message = document.getElementById("loginMessage");
-      const button = document.getElementById("loginButton");
-      const buttonText = document.getElementById("loginButtonText");
-      const toggle = document.getElementById("mostrarSenha");
+      if (!login.ok) {
+        login = await tentarLogin("/auth/adopter-login", credenciais);
+      }
+
+      if (!login.ok) {
+        throw new Error("E-mail ou senha incorretos.");
+      }
 
       /*
-       * Permite voltar para uma página interna depois do login.
-       * Exemplo:
-       * login.html?next=painel-voluntario.html
+       * Confirma com o servidor qual conta entrou.
        */
-      function destinoSeguro(padrao) {
+      const me = await fetch(`${API}/auth/me`, { credentials: "include" });
+      const sessao = await me.json().catch(() => ({}));
 
-        const next =
-          new URLSearchParams(location.search).get("next") || "";
-
-        /*
-         * Aceita somente páginas HTML do próprio projeto.
-         * Não permite URLs externas.
-         */
-        const permitido =
-          /^[\w-]+\.html(?:\?[\w=&%.-]*)?$/.test(next);
-
-        return permitido ? next : padrao;
+      if (!me.ok || !sessao.ok) {
+        throw new Error("Não foi possível confirmar sua sessão. Tente novamente.");
       }
 
-      function mostrarErro(texto) {
+      const tipo = String(sessao.user_type || "").toLowerCase();
+      const user = sessao.user || login.user || {};
 
-        message.textContent = texto;
-
-        message.className =
-          "rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700";
+      if (!INICIO[tipo]) {
+        throw new Error("Não reconhecemos o tipo desta conta. Fale com a equipe.");
       }
 
-      function limparErro() {
-
-        message.textContent = "";
-        message.className = "hidden";
+      /*
+       * Master e voluntário(a): mantém os dados que os painéis já usam.
+       */
+      if (tipo === "master" || tipo === "volunteer") {
+        const prefixo = tipo === "master" ? "master" : "volunteer";
+        localStorage.setItem(`${prefixo}_name`, user.name || user.nome || "");
+        localStorage.setItem(`${prefixo}_email`, user.email || "");
+        localStorage.setItem(`${prefixo}_id`, user.id || "");
       }
 
-      toggle.addEventListener("click", () => {
+      location.replace(destino(tipo));
 
-        const visivel =
-          password.type === "text";
+    } catch (erro) {
+      console.error("Erro no login:", erro);
 
-        password.type =
-          visivel ? "password" : "text";
+      mostrarErro(
+        erro instanceof TypeError
+          ? "Não foi possível falar com o servidor. Verifique se o servidor Python está rodando na porta 8000."
+          : (erro.message || "Não foi possível entrar.")
+      );
 
-        toggle.setAttribute(
-          "aria-label",
-          visivel ? "Mostrar senha" : "Ocultar senha"
-        );
+      button.disabled = false;
+      buttonText.textContent = "Entrar";
+    }
+  });
 
-        toggle.querySelector("span").textContent =
-          visivel ? "visibility" : "visibility_off";
-      });
-
-      [email, password].forEach((campo) => {
-        campo.addEventListener("input", limparErro);
-      });
-
-      form.addEventListener("submit", async (event) => {
-
-        event.preventDefault();
-        limparErro();
-
-        const emailValor =
-          email.value.trim().toLowerCase();
-
-        const senhaValor =
-          password.value;
-
-        if (!emailValor || !senhaValor) {
-
-          mostrarErro(
-            "Preencha o e-mail e a senha."
-          );
-
-          (emailValor ? password : email).focus();
-
-          return;
-        }
-
-        button.disabled = true;
-        buttonText.textContent = "Entrando...";
-
-        try {
-
-          /*
-           * MASTER e VOLUNTÁRIO
-           *
-           * O backend atual usa /api/auth/login para os dois.
-           */
-          const resposta = await fetch(
-            `${API}/auth/login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              credentials: "include",
-              body: JSON.stringify({
-                email: emailValor,
-                password: senhaValor
-              })
-            }
-          );
-
-          const dados =
-            await resposta.json().catch(() => ({}));
-
-          if (!resposta.ok || !dados.ok) {
-
-            throw new Error(
-              dados.message ||
-              "E-mail ou senha inválidos."
-            );
-          }
-
-          /*
-           * Confirma com o servidor qual conta entrou.
-           */
-          const me =
-            await fetch(
-              `${API}/auth/me`,
-              {
-                credentials: "include"
-              }
-            );
-
-          const sessao =
-            await me.json().catch(() => ({}));
-
-          if (!me.ok || !sessao.ok) {
-
-            throw new Error(
-              "Não foi possível confirmar sua sessão."
-            );
-          }
-
-          const tipo =
-            String(
-              sessao.user_type || ""
-            ).toLowerCase();
-
-          const user =
-            sessao.user ||
-            dados.user ||
-            {};
-
-          /*
-           * CONTA MASTER
-           */
-          if (tipo === "master") {
-
-            localStorage.setItem(
-              "master_name",
-              user.name || user.nome || ""
-            );
-
-            localStorage.setItem(
-              "master_email",
-              user.email || ""
-            );
-
-            localStorage.setItem(
-              "master_id",
-              user.id || ""
-            );
-
-            location.href =
-              destinoSeguro("painel-master.html");
-
-            return;
-          }
-
-          /*
-           * CONTA VOLUNTÁRIO
-           */
-          if (tipo === "volunteer") {
-
-            localStorage.setItem(
-              "volunteer_name",
-              user.name || user.nome || ""
-            );
-
-            localStorage.setItem(
-              "volunteer_email",
-              user.email || ""
-            );
-
-            localStorage.setItem(
-              "volunteer_id",
-              user.id || ""
-            );
-
-            location.href =
-              destinoSeguro("painel-voluntario.html");
-
-            return;
-          }
-
-          /*
-           * O cadastro de adotante possui outro login:
-           * /api/auth/adopter-login.
-           *
-           * Portanto, esta página continua sendo exclusivamente
-           * para Master e voluntário(a).
-           */
-          throw new Error(
-            "Esta página é destinada ao acesso de voluntários e da conta Master."
-          );
-
-        } catch (erro) {
-
-          console.error(
-            "Erro no login:",
-            erro
-          );
-
-          const semServidor =
-            erro instanceof TypeError;
-
-          mostrarErro(
-            semServidor
-              ? "Não foi possível falar com o servidor. Verifique se o servidor Python está rodando na porta 8000."
-              : (
-                  erro.message ||
-                  "Não foi possível entrar."
-                )
-          );
-
-          button.disabled = false;
-          buttonText.textContent = "Entrar";
-        }
-
-      });
-
-    })();
-  </script>
+})();
+</script>
 
 </body>
 </html>

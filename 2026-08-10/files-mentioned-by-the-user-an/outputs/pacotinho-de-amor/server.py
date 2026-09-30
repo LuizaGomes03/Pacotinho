@@ -284,7 +284,7 @@ def get_master_from_session(handler):
 
 
 def is_master(handler):
-    """Somente a conta com role MASTER pode administrar eventos."""
+    """Retorna se a sessão pertence à conta MASTER."""
     master = get_master_from_session(handler)
 
     if not master:
@@ -631,6 +631,28 @@ class App(SimpleHTTPRequestHandler):
             )
 
         # ----------------------------------------------------
+        # CONTAS DE APOIO - MASTER
+        # ----------------------------------------------------
+        if path == "/api/volunteer-accounts":
+            if not is_master(self):
+                return self.send_json(
+                    403,
+                    {
+                        "ok": False,
+                        "message": "Somente a conta Master pode consultar as contas de apoio.",
+                    },
+                )
+
+            accounts = db.volunteers.find(
+                {"account_type": "support"}
+            ).sort("created_at", -1)
+
+            return self.send_json(
+                200,
+                [serialize(account) for account in accounts],
+            )
+
+        # ----------------------------------------------------
         # SOLICITAÇÕES DE CADASTRO DE VOLUNTÁRIOS - MASTER
         # ----------------------------------------------------
 
@@ -792,6 +814,114 @@ class App(SimpleHTTPRequestHandler):
     def do_POST(self):
         path = urlparse(self.path).path
         data = self.body()
+
+        # ----------------------------------------------------
+        # CRIAÇÃO DE CONTA DE APOIO - MASTER
+        # ----------------------------------------------------
+        if path == "/api/volunteer-accounts":
+            master = get_master_from_session(self)
+
+            if not master or str(master.get("role", "")).upper() != "MASTER":
+                return self.send_json(
+                    403,
+                    {
+                        "ok": False,
+                        "message": "Somente a conta Master pode criar contas de apoio.",
+                    },
+                )
+
+            nome = str(data.get("nome", "")).strip()
+            email = str(data.get("email", "")).strip().lower()
+            senha = str(data.get("senha", ""))
+
+            if not nome or not email or not senha:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "Preencha nome, e-mail e senha.",
+                    },
+                )
+
+            if "@" not in email:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "Informe um e-mail válido.",
+                    },
+                )
+
+            if len(senha) < 8:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "A senha deve ter pelo menos 8 caracteres.",
+                    },
+                )
+
+            # O mesmo e-mail não pode ser usado por outra conta Master,
+            # adotante ou voluntário.
+            if db.accounts.find_one({"email": email}):
+                return self.send_json(
+                    409,
+                    {
+                        "ok": False,
+                        "message": "Este e-mail já está em uso.",
+                    },
+                )
+
+            if db.adopters.find_one({"email": email}):
+                return self.send_json(
+                    409,
+                    {
+                        "ok": False,
+                        "message": "Este e-mail já está em uso.",
+                    },
+                )
+
+            if db.volunteers.find_one({"email": email}):
+                return self.send_json(
+                    409,
+                    {
+                        "ok": False,
+                        "message": "Este e-mail já está em uso.",
+                    },
+                )
+
+            volunteer = {
+                "name": nome,
+                "email": email,
+                "password_hash": hash_password(senha),
+                "account_type": "support",
+                "created_by": str(master["_id"]),
+                "created_at": now(),
+            }
+
+            try:
+                result = db.volunteers.insert_one(volunteer)
+            except Exception as error:
+                if "duplicate key" in str(error).lower():
+                    return self.send_json(
+                        409,
+                        {
+                            "ok": False,
+                            "message": "Já existe uma conta com este e-mail.",
+                        },
+                    )
+                raise
+
+            volunteer["_id"] = result.inserted_id
+
+            return self.send_json(
+                201,
+                {
+                    "ok": True,
+                    "account": serialize(volunteer),
+                    "message": "Conta de apoio criada com sucesso.",
+                },
+            )
 
         # ----------------------------------------------------
         # CADASTRO DE VOLUNTÁRIO - PÚBLICO
@@ -1238,12 +1368,14 @@ class App(SimpleHTTPRequestHandler):
 
         if path == "/api/events":
 
-            if not is_master(self):
+            session = get_session(self)
+
+            if not session or session.get("user_type") not in {"master", "volunteer"}:
                 return self.send_json(
                     403,
                     {
                         "ok": False,
-                        "message": "Somente a conta Master pode criar eventos.",
+                        "message": "Somente a conta Master ou uma conta de voluntário pode criar eventos.",
                     },
                 )
 
@@ -1927,6 +2059,128 @@ class App(SimpleHTTPRequestHandler):
 
     def do_DELETE(self):
         path = urlparse(self.path).path
+
+        # ====================================================
+        # EXCLUSÃO DE CONTA DE APOIO PELA MASTER
+        # ====================================================
+        if path.startswith("/api/volunteer-accounts/"):
+            if not is_master(self):
+                return self.send_json(
+                    403,
+                    {
+                        "ok": False,
+                        "message": "Somente a conta Master pode excluir contas de apoio.",
+                    },
+                )
+
+            volunteer_id = path.rsplit("/", 1)[-1]
+            volunteer_object_id = object_id(volunteer_id)
+
+            if not volunteer_object_id:
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "ID de conta inválido.",
+                    },
+                )
+
+            volunteer = db.volunteers.find_one(
+                {
+                    "_id": volunteer_object_id,
+                    "account_type": "support",
+                }
+            )
+
+            if not volunteer:
+                return self.send_json(
+                    404,
+                    {
+                        "ok": False,
+                        "message": "Conta de apoio não encontrada.",
+                    },
+                )
+
+            # Remove apenas a conta de acesso. Os animais/eventos já publicados
+            # continuam registrados no sistema.
+            db.volunteers.delete_one({"_id": volunteer_object_id})
+
+            # Invalida qualquer sessão ativa dessa conta.
+            tokens = [
+                token
+                for token, sessao in SESSIONS.items()
+                if sessao.get("user_type") == "volunteer"
+                and str(sessao.get("user_id")) == str(volunteer_object_id)
+            ]
+            for token in tokens:
+                SESSIONS.pop(token, None)
+
+            return self.send_json(
+                200,
+                {
+                    "ok": True,
+                    "message": "Conta de apoio excluída com sucesso.",
+                },
+            )
+
+        # ====================================================
+        # EXCLUSÃO DA CONTA DO PRÓPRIO VOLUNTÁRIO
+        # ====================================================
+        if path == "/api/auth/volunteer-account":
+            volunteer = get_volunteer_from_session(self)
+
+            if not volunteer:
+                return self.send_json(
+                    401,
+                    {
+                        "ok": False,
+                        "message": "Você precisa estar conectado como voluntário.",
+                    },
+                )
+
+            data = self.body()
+            senha_atual = str(data.get("senhaAtual", ""))
+            confirmacao = str(data.get("confirmacao", ""))
+
+            if confirmacao != "EXCLUIR":
+                return self.send_json(
+                    400,
+                    {
+                        "ok": False,
+                        "message": "Confirmação inválida.",
+                    },
+                )
+
+            if not senha_atual or not verify_password(
+                senha_atual,
+                volunteer.get("password_hash"),
+            ):
+                return self.send_json(
+                    401,
+                    {
+                        "ok": False,
+                        "message": "Senha atual incorreta.",
+                    },
+                )
+
+            # A própria pessoa só pode excluir a própria conta.
+            db.volunteers.delete_one({"_id": volunteer["_id"]})
+            delete_session(self)
+
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.clear_session_cookie()
+            self.end_headers()
+            self.wfile.write(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "message": "Sua conta foi excluída com sucesso.",
+                    },
+                    ensure_ascii=False,
+                ).encode("utf-8")
+            )
+            return
 
         # ====================================================
         # EXCLUSÃO DA CONTA MASTER
