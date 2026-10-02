@@ -35,14 +35,14 @@
 
     <div class="pa-header-actions">
 
-      <a class="pa-account" href="minha-conta.html" aria-label="Minha conta" ${atual('minha-conta.html')}>
+      <a class="pa-account" href="minha-conta.html" aria-label="Conta" ${atual('minha-conta.html')}>
         <span class="pa-account-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/>
           </svg>
         </span>
-        <span class="pa-account-label">Minha conta</span>
+        <span class="pa-account-label">Conta</span>
       </a>
 
       <button type="button" class="pa-menu-toggle" aria-label="Abrir menu" aria-expanded="false" data-no-demo>
@@ -161,15 +161,14 @@
     };
 
     const botaoConta = cabecalho.querySelector('.pa-account');
-
-    botaoConta.addEventListener('click', async (e) => {
-
-      // Ctrl/Cmd + clique ou botão do meio: deixa abrir em nova aba normalmente
-      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
-
-      e.preventDefault();
-      botaoConta.setAttribute('aria-busy', 'true');
-
+    const rotuloConta = cabecalho.querySelector('.pa-account-label');
+    localStorage.removeItem('pa_account_name');
+    /*
+     * Atualiza o cabeçalho sem depender do localStorage.
+     * A sessão do servidor é a fonte de verdade para evitar exibir
+     * o nome de uma pessoa que já saiu ou de outra conta.
+     */
+    async function consultarSessao() {
       try {
         const controle = new AbortController();
         const limite = setTimeout(() => controle.abort(), 4000);
@@ -182,18 +181,70 @@
         clearTimeout(limite);
 
         const sessao = await resposta.json().catch(() => ({}));
-        const tipo = String(sessao.user_type || '').toLowerCase();
+        return resposta.ok && sessao.ok ? sessao : null;
+      } catch {
+        return null;
+      }
+    }
 
-        if (resposta.ok && sessao.ok && PAGINA_DA_CONTA[tipo]) {
-          location.href = PAGINA_DA_CONTA[tipo];
-        } else {
-          location.href = 'login.html?next=minha-conta.html';
+    const sessaoPronta = consultarSessao();
+    let sessaoAtual;
+    sessaoPronta.then((sessao) => {
+      sessaoAtual = sessao || null;
+    });
+
+    async function atualizarContaLogada() {
+      try {
+        const sessao = await sessaoPronta;
+        if (!sessao) {
+          localStorage.removeItem('pa_account_name');
+          rotuloConta.textContent = 'Conta';
+          rotuloConta.removeAttribute('title');
+          botaoConta.setAttribute('aria-label', 'Conta');
+          delete botaoConta.dataset.logged;
+          return;
         }
 
-      } catch (erro) {
-        // servidor fora do ar ou lento: segue o link normal
-        location.href = botaoConta.href;
+        const usuario = sessao.user || {};
+        const nome = String(usuario.name || usuario.nome || '').trim();
+
+        if (!nome) {
+          localStorage.removeItem('pa_account_name');
+          return;
+        }
+
+        const primeiroNome = nome.split(/\s+/)[0];
+        rotuloConta.textContent = `Olá, ${primeiroNome}`;
+        rotuloConta.title = nome;
+        botaoConta.setAttribute('aria-label', `Abrir conta de ${nome}`);
+        botaoConta.dataset.logged = 'true';
+        localStorage.setItem('pa_account_name', nome);
+      } catch {
+        localStorage.removeItem('pa_account_name');
+        rotuloConta.textContent = 'Conta';
+        rotuloConta.removeAttribute('title');
+        botaoConta.setAttribute('aria-label', 'Conta');
+        delete botaoConta.dataset.logged;
       }
+    }
+
+    atualizarContaLogada();
+
+    botaoConta.addEventListener('click', (e) => {
+
+      // Ctrl/Cmd + clique ou botão do meio: deixa abrir em nova aba normalmente
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+
+      /*
+       * Só intercepta quando a consulta em segundo plano já terminou.
+       * Se ainda estiver pendente, o navegador navega imediatamente para
+       * minha-conta.html, sem deixar o header travado esperando a API.
+       */
+      if (typeof sessaoAtual === 'undefined') return;
+
+      e.preventDefault();
+      const tipo = String(sessaoAtual?.user_type || '').toLowerCase();
+      location.href = PAGINA_DA_CONTA[tipo] || 'login.html?next=minha-conta.html';
 
     });
 
@@ -282,11 +333,11 @@
     }
 
     if (/continuar para a entrevista/.test(text)) {
-      return 'entrevista-adocao-luna.html';
+      return 'entrevista_adocao.html';
     }
 
     if (/quero adotar/.test(text)) {
-      return 'quero-adotar-luna.html';
+      return 'processo_adocao.html';
     }
 
     if (/adicionar animal|cadastrar animal/.test(text)) {

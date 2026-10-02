@@ -4,7 +4,9 @@ import hashlib
 import json
 import os
 import secrets
+import smtplib
 from datetime import datetime, timedelta, timezone
+from email.message import EmailMessage
 from http.cookies import SimpleCookie
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -43,6 +45,47 @@ def load_env():
 
 load_env()
 
+
+def send_adoption_confirmation(application):
+    """Envia a confirmação somente quando o SMTP de produção estiver configurado."""
+    required = ("SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD")
+    if not all(os.getenv(name) for name in required):
+        return "not_configured"
+
+    recipient = str(application.get("email", "")).strip()
+    if not recipient or "@" not in recipient:
+        return "invalid_recipient"
+
+    animal = str(application.get("animal_name", "animal selecionado"))
+    interview = application.get("adoption_interview") or {}
+    message = EmailMessage()
+    message["Subject"] = f"Recebemos seu processo de adoção de {animal}"
+    message["From"] = os.getenv("SMTP_FROM", os.getenv("SMTP_USER"))
+    message["To"] = recipient
+    message.set_content(
+        f"Olá, {application.get('applicant_name', '')}!\n\n"
+        f"Recebemos seu formulário para adoção de {animal}. O processo está em análise "
+        "e a equipe entrará em contato pelo WhatsApp para os próximos passos.\n\n"
+        "O preenchimento não garante a aprovação. A contribuição mínima é de R$ 250 "
+        "e a sugerida é de R$ 350, conforme as orientações do projeto.\n\n"
+        "Resumo enviado:\n"
+        f"- WhatsApp: {application.get('phone', '')}\n"
+        f"- Moradia: {interview.get('moradia', '')}\n"
+        f"- Arquivos do lar: {len(interview.get('fotos_lar', []))}\n\n"
+        "Pacotinho de Amor"
+    )
+
+    try:
+        port = int(os.getenv("SMTP_PORT", "587"))
+        with smtplib.SMTP(os.environ["SMTP_HOST"], port, timeout=20) as smtp:
+            if os.getenv("SMTP_TLS", "true").lower() != "false":
+                smtp.starttls()
+            smtp.login(os.environ["SMTP_USER"], os.environ["SMTP_PASSWORD"])
+            smtp.send_message(message)
+    except (OSError, smtplib.SMTPException):
+        return "failed"
+    return "sent"
+
 MONGODB_URI = os.getenv("MONGODB_URI")
 
 if not MONGODB_URI:
@@ -69,6 +112,8 @@ ALLOWED_ORIGINS = {
     "http://localhost:5500",
     "http://127.0.0.1:8000",
     "http://localhost:8000",
+    "http://127.0.0.1:8765",
+    "http://localhost:8765",
 }
 
 # Arquivos que o servidor NUNCA deve entregar ao navegador.
@@ -369,30 +414,12 @@ def init_event_indexes():
         name="volunteer_request_created_at",
     )
 
-    # Apaga cada pedido automaticamente quando chega a data em "expires_at".
-    db.volunteer_requests.create_index(
-        "expires_at",
-        expireAfterSeconds=0,
-        name="volunteer_request_ttl",
-    )
-
-    # Pedidos antigos (de antes dessa regra) ganham a data de expiração
-    # contada a partir do dia em que foram enviados.
-    for pedido in db.volunteer_requests.find(
-        {"expires_at": {"$exists": False}},
-        {"created_at": 1},
-    ):
-        try:
-            enviado = datetime.fromisoformat(str(pedido.get("created_at")))
-            if enviado.tzinfo is None:
-                enviado = enviado.replace(tzinfo=timezone.utc)
-        except ValueError:
-            enviado = datetime.now(timezone.utc)
-
-        db.volunteer_requests.update_one(
-            {"_id": pedido["_id"]},
-            {"$set": {"expires_at": enviado + timedelta(days=DIAS_GUARDAR_VOLUNTARIOS)}},
-        )
+    # Os pedidos de voluntariado fazem parte do histórico permanente.
+    # Remova o TTL legado caso ele tenha sido criado em uma instalação anterior.
+    try:
+        db.volunteer_requests.drop_index("volunteer_request_ttl")
+    except Exception:
+        pass
 
 
 def init_db():
@@ -413,6 +440,12 @@ def init_db():
         "cpf",
         unique=True,
         name="unique_adopter_cpf",
+    )
+
+    db.volunteers.create_index(
+        "email",
+        unique=True,
+        name="unique_volunteer_email",
     )
 
     init_event_indexes()
@@ -552,9 +585,14 @@ class App(SimpleHTTPRequestHandler):
             )
 
         if path == "/api/animals":
-            animals = db.animals.find().sort(
-                "created_at",
-                -1,
+            animals = list(db.animals.find())
+            agora = datetime.now(timezone.utc)
+            animals.sort(
+                key=lambda animal: (
+                    0 if animal.get("status") != "adotado" and str(animal.get("featured_until", "")) > agora.isoformat() else 1,
+                    str(animal.get("created_at", "")),
+                ),
+                reverse=False,
             )
 
             return self.send_json(
@@ -681,6 +719,16 @@ class App(SimpleHTTPRequestHandler):
         # ----------------------------------------------------
 
         if path == "/api/events":
+            limite_evento = datetime.now(timezone.utc) - timedelta(days=7)
+            antigos = list(db.events.find({"date": {"$lt": limite_evento.date().isoformat()}}))
+            for antigo in antigos:
+                relatorio = dict(antigo)
+                relatorio.pop("_id", None)
+                relatorio["event_id"] = str(antigo["_id"])
+                relatorio["closed_at"] = relatorio.get("closed_at") or now()
+                db.event_reports.update_one({"event_id": relatorio["event_id"]}, {"$set": relatorio}, upsert=True)
+            if antigos:
+                db.events.delete_many({"_id": {"$in": [item["_id"] for item in antigos]}})
             events = db.events.find().sort(
                 [
                     ("date", 1),
@@ -695,6 +743,12 @@ class App(SimpleHTTPRequestHandler):
                     for event in events
                 ],
             )
+
+        if path == "/api/event-reports":
+            session = get_session(self)
+            if not session or session.get("user_type") not in {"master", "volunteer"}:
+                return self.send_json(403, {"ok": False, "message": "Acesso não permitido."})
+            return self.send_json(200, serialize_list(db.event_reports.find().sort("closed_at", -1)))
 
         if path == "/api/event-requests":
             query = parse_qs(
@@ -720,21 +774,19 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            if session.get("user_type") != "volunteer":
+            if session.get("user_type") not in {"volunteer", "master"}:
                 return self.send_json(
                     403,
                     {
                         "ok": False,
-                        "message": "Apenas voluntários podem acessar solicitações de eventos.",
+                        "message": "Apenas a equipe autorizada pode acessar solicitações de eventos.",
                     },
                 )
 
-            current_volunteer_id = str(
-                session["user_id"]
-            )
+            current_volunteer_id = str(session["user_id"])
 
             # O voluntário só pode consultar as próprias solicitações.
-            if volunteer_id and volunteer_id != current_volunteer_id:
+            if session.get("user_type") == "volunteer" and volunteer_id and volunteer_id != current_volunteer_id:
                 return self.send_json(
                     403,
                     {
@@ -743,9 +795,7 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            request_filter = {
-                "volunteer_id": current_volunteer_id
-            }
+            request_filter = {} if session.get("user_type") == "master" else {"volunteer_id": current_volunteer_id}
 
             if event_id:
                 request_filter["event_id"] = event_id
@@ -955,10 +1005,10 @@ class App(SimpleHTTPRequestHandler):
                     "message": "Uma ou mais formas de voluntariado são inválidas.",
                 })
 
-            if not nome or not email or not telefone or not disponibilidade:
+            if not nome or len(nome.split()) < 2 or not email or len("".join(c for c in telefone if c.isdigit())) < 10 or not disponibilidade:
                 return self.send_json(400, {
                     "ok": False,
-                    "message": "Preencha nome, e-mail, telefone e disponibilidade.",
+                    "message": "Informe nome completo, e-mail, WhatsApp válido e disponibilidade.",
                 })
 
             if not modalidades:
@@ -996,14 +1046,26 @@ class App(SimpleHTTPRequestHandler):
                 "phone": telefone,
                 "modalidades": modalidades,
                 "disponibilidade": disponibilidade,
+                "tipoDisponibilidade": str(data.get("tipoDisponibilidade", "")).strip()[:80],
+                "detalhesDisponibilidade": str(data.get("detalhesDisponibilidade", "")).strip()[:1000],
                 "aceiteTermo": True,
                 "aceiteLGPD": True,
                 "aceiteImagem": bool(data.get("aceiteImagem")),
                 "termoEnviado": bool(data.get("termoEnviado")),
+                "documento_assinado": str(
+                    data.get("documento_assinado")
+                    or data.get("document_url")
+                    or data.get("termo_url")
+                    or (data.get("termoArquivo") or {}).get("data", "")
+                    or ""
+                ).strip()[:1_500_000],
                 "status": "pending",
                 "created_at": now(),
-                "expires_at": datetime.now(timezone.utc) + timedelta(days=DIAS_GUARDAR_VOLUNTARIOS),
             }
+
+            session = get_session(self)
+            if session and session.get("user_type") == "adopter":
+                request["adopter_id"] = session["user_id"]
 
             result = db.volunteer_requests.insert_one(request)
 
@@ -1370,12 +1432,12 @@ class App(SimpleHTTPRequestHandler):
 
             session = get_session(self)
 
-            if not session or session.get("user_type") not in {"master", "volunteer"}:
+            if not session or session.get("user_type") != "master":
                 return self.send_json(
                     403,
                     {
                         "ok": False,
-                        "message": "Somente a conta Master ou uma conta de voluntário pode criar eventos.",
+                        "message": "Somente a conta Master pode criar eventos.",
                     },
                 )
 
@@ -1600,14 +1662,47 @@ class App(SimpleHTTPRequestHandler):
             if (
                 not data.get("applicant_name")
                 or not data.get("email")
+                or not str(data.get("phone", "")).strip()
             ):
                 return self.send_json(
                     400,
                     {
                         "ok": False,
-                        "message": "Nome e e-mail são obrigatórios.",
+                        "message": "Nome, e-mail e WhatsApp são obrigatórios para contato.",
                     },
                 )
+
+            if str(data.get("contact_type", "")).lower() == "adocao":
+                entrevista = data.get("adoption_interview")
+                campos_obrigatorios = (
+                    "cpf", "data_nascimento", "estado_civil", "profissao",
+                    "empresa", "endereco", "adultos", "criancas",
+                    "zona_moradia",
+                    "acordo_casa", "alergias", "motivo",
+                    "tratamento", "atividade", "responsavel", "horas_fora",
+                    "moradia", "estrutura", "quintal_compartilhado", "moradores",
+                    "areas", "periodos", "dormir", "varanda_noite",
+                )
+                if not isinstance(entrevista, dict) or any(
+                    not str(entrevista.get(campo, "")).strip()
+                    for campo in campos_obrigatorios
+                ):
+                    return self.send_json(
+                        400,
+                        {
+                            "ok": False,
+                            "message": "Preencha todas as respostas obrigatórias da entrevista de adoção.",
+                        },
+                    )
+                if not isinstance(entrevista.get("documentos"), list) or not entrevista["documentos"]:
+                    return self.send_json(400, {"ok": False, "message": "Envie o documento com foto e o comprovante de endereço."})
+                if not isinstance(entrevista.get("fotos_lar"), list) or not entrevista["fotos_lar"] or len(entrevista["fotos_lar"]) > 10:
+                    return self.send_json(400, {"ok": False, "message": "Envie de 1 a 10 fotos ou vídeos do lar."})
+                if entrevista.get("zona_moradia") not in {"ZL", "ZS", "ZO", "ZE"}:
+                    return self.send_json(400, {"ok": False, "message": "Selecione uma zona válida: ZL, ZS, ZO ou ZE."})
+                arquivos = entrevista["documentos"] + entrevista["fotos_lar"]
+                if sum(int(arquivo.get("tamanho", 0)) for arquivo in arquivos if isinstance(arquivo, dict)) > 12 * 1024 * 1024:
+                    return self.send_json(400, {"ok": False, "message": "O tamanho total dos arquivos deve ser de até 12 MB."})
 
             session = get_session(self)
 
@@ -1617,6 +1712,22 @@ class App(SimpleHTTPRequestHandler):
             ):
                 data["adopter_id"] = session["user_id"]
 
+            if str(data.get("contact_type", "")).lower() == "adocao":
+                animal_id = str(data.get("animal_id", "")).strip()
+                if animal_id:
+                    animal = db.animals.find_one({"_id": object_id(animal_id)})
+                    if animal:
+                        data["animal_name"] = animal.get("name", "")
+                        data["animal_snapshot"] = {
+                            "name": animal.get("name", ""),
+                            "species": animal.get("species", ""),
+                            "breed": animal.get("breed", ""),
+                            "sex": animal.get("sex", ""),
+                            "age": animal.get("age", ""),
+                            "size": animal.get("size", ""),
+                            "image": animal.get("image", ""),
+                        }
+
             data.update(
                 {
                     "status": "em análise",
@@ -1625,6 +1736,8 @@ class App(SimpleHTTPRequestHandler):
             )
 
             result = db.applications.insert_one(data)
+            email_status = send_adoption_confirmation(data) if str(data.get("contact_type", "")).lower() == "adocao" else "not_applicable"
+            db.applications.update_one({"_id": result.inserted_id}, {"$set": {"email_status": email_status}})
 
             return self.send_json(
                 201,
@@ -1632,6 +1745,7 @@ class App(SimpleHTTPRequestHandler):
                     "ok": True,
                     "id": str(result.inserted_id),
                     "message": "Solicitação registrada.",
+                    "email_status": email_status,
                 },
             )
 
@@ -1721,6 +1835,92 @@ class App(SimpleHTTPRequestHandler):
         path = urlparse(self.path).path
         data = self.body()
 
+        if path.startswith("/api/events/"):
+            session = get_session(self)
+            if not session or session.get("user_type") not in {"master", "volunteer"}:
+                return self.send_json(403, {"ok": False, "message": "Acesso não permitido."})
+            event_id = object_id(path.rsplit("/", 1)[-1])
+            if not event_id:
+                return self.send_json(400, {"ok": False, "message": "ID de evento inválido."})
+            stats = data.get("results") or {}
+            try:
+                results = {
+                    "animals_adopted": max(0, int(stats.get("animals_adopted", 0))),
+                    "puppies": max(0, int(stats.get("puppies", 0))),
+                    "adults": max(0, int(stats.get("adults", 0))),
+                    "dogs": max(0, int(stats.get("dogs", 0))),
+                    "cats": max(0, int(stats.get("cats", 0))),
+                }
+            except (TypeError, ValueError):
+                return self.send_json(400, {"ok": False, "message": "Informe números válidos para o fechamento."})
+            event = db.events.find_one({"_id": event_id})
+            if not event:
+                return self.send_json(404, {"ok": False, "message": "Evento não encontrado."})
+            db.events.update_one({"_id": event_id}, {"$set": {"results": results, "closed": True, "closed_at": now()}})
+            event.update({"results": results, "closed": True, "closed_at": now()})
+            return self.send_json(200, {"ok": True, "event": serialize(event)})
+
+        # ====================================================
+        # PERFIL DA CONTA NORMAL/ADOTANTE
+        # ====================================================
+        if path == "/api/auth/adopter-profile":
+            adopter = get_adopter_from_session(self)
+            if not adopter:
+                return self.send_json(401, {
+                    "ok": False,
+                    "message": "Você precisa estar conectado como usuário.",
+                })
+
+            updates = {}
+            campos = {
+                "name": "name",
+                "phone": "phone",
+                "cep": "cep",
+                "endereco": "endereco",
+                "numero": "numero",
+                "bairro": "bairro",
+                "cidade": "cidade",
+                "estado": "estado",
+            }
+
+            for entrada, destino in campos.items():
+                if entrada in data:
+                    updates[destino] = str(data.get(entrada, "")).strip()[:200]
+
+            if "name" in updates and not updates["name"]:
+                return self.send_json(400, {"ok": False, "message": "Informe seu nome."})
+
+            if "senhaAtual" in data or "novaSenha" in data:
+                senha_atual = str(data.get("senhaAtual", ""))
+                nova_senha = str(data.get("novaSenha", ""))
+                if not senha_atual or not nova_senha:
+                    return self.send_json(400, {
+                        "ok": False,
+                        "message": "Informe a senha atual e a nova senha.",
+                    })
+                if len(nova_senha) < 8:
+                    return self.send_json(400, {
+                        "ok": False,
+                        "message": "A nova senha deve ter pelo menos 8 caracteres.",
+                    })
+                if not verify_password(senha_atual, adopter.get("password_hash")):
+                    return self.send_json(401, {
+                        "ok": False,
+                        "message": "A senha atual está incorreta.",
+                    })
+                updates["password_hash"] = hash_password(nova_senha)
+
+            if not updates:
+                return self.send_json(400, {"ok": False, "message": "Nenhum dado para atualizar."})
+
+            db.adopters.update_one({"_id": adopter["_id"]}, {"$set": updates})
+            atualizado = db.adopters.find_one({"_id": adopter["_id"]})
+            return self.send_json(200, {
+                "ok": True,
+                "user": serialize(atualizado),
+                "message": "Dados atualizados com sucesso.",
+            })
+
         # ====================================================
         # PERFIL DA CONTA MASTER
         # ====================================================
@@ -1787,8 +1987,104 @@ class App(SimpleHTTPRequestHandler):
             })
 
         # ====================================================
+        # PERFIL DA CONTA DE APOIO
+        # ====================================================
+        if path == "/api/auth/volunteer-profile":
+            volunteer = get_volunteer_from_session(self)
+            if not volunteer:
+                return self.send_json(401, {
+                    "ok": False,
+                    "message": "Você precisa estar conectado como voluntário.",
+                })
+
+            updates = {}
+
+            if "nome" in data:
+                nome = str(data.get("nome", "")).strip()
+                if not nome:
+                    return self.send_json(400, {"ok": False, "message": "Informe seu nome."})
+                updates["name"] = nome
+
+            if "email" in data:
+                email = str(data.get("email", "")).strip().lower()
+                if not email or "@" not in email:
+                    return self.send_json(400, {"ok": False, "message": "Informe um e-mail válido."})
+                duplicado = (
+                    db.volunteers.find_one({"email": email, "_id": {"$ne": volunteer["_id"]}})
+                    or db.accounts.find_one({"email": email})
+                    or db.adopters.find_one({"email": email})
+                )
+                if duplicado:
+                    return self.send_json(409, {"ok": False, "message": "Este e-mail já está em uso."})
+                updates["email"] = email
+
+            if "profile_photo" in data:
+                foto = data.get("profile_photo")
+                if foto is not None:
+                    foto = str(foto)
+                    if not foto.startswith("data:image/"):
+                        return self.send_json(400, {"ok": False, "message": "A foto enviada não é válida."})
+                    if len(foto) > 2_000_000:
+                        return self.send_json(400, {"ok": False, "message": "A foto é muito grande. Escolha uma imagem menor."})
+                updates["profile_photo"] = foto
+
+            if "senhaAtual" in data or "novaSenha" in data:
+                senha_atual = str(data.get("senhaAtual", ""))
+                nova_senha = str(data.get("novaSenha", ""))
+                if not senha_atual or not nova_senha:
+                    return self.send_json(400, {"ok": False, "message": "Informe a senha atual e a nova senha."})
+                if len(nova_senha) < 8:
+                    return self.send_json(400, {"ok": False, "message": "A nova senha deve ter pelo menos 8 caracteres."})
+                if not verify_password(senha_atual, volunteer.get("password_hash")):
+                    return self.send_json(401, {"ok": False, "message": "A senha atual está incorreta."})
+                updates["password_hash"] = hash_password(nova_senha)
+
+            if not updates:
+                return self.send_json(400, {"ok": False, "message": "Nenhum dado para atualizar."})
+
+            db.volunteers.update_one({"_id": volunteer["_id"]}, {"$set": updates})
+            atualizado = db.volunteers.find_one({"_id": volunteer["_id"]})
+            return self.send_json(200, {
+                "ok": True,
+                "user": serialize(atualizado),
+                "message": "Perfil atualizado com sucesso.",
+            })
+
+        # ====================================================
         # APROVAÇÃO/RECUSA DE CADASTRO DE VOLUNTÁRIO
         # ====================================================
+        if path.startswith("/api/applications/"):
+            session = get_session(self)
+            if not session or session.get("user_type") not in {"master", "volunteer"}:
+                return self.send_json(403, {"ok": False, "message": "Apenas a Master e as contas de apoio podem atualizar pedidos."})
+
+            request_object_id = object_id(path.rsplit("/", 1)[-1])
+            if not request_object_id:
+                return self.send_json(400, {"ok": False, "message": "ID de pedido inválido."})
+
+            updates = {}
+            if "adoption_interview" in data:
+                if not isinstance(data["adoption_interview"], dict):
+                    return self.send_json(400, {"ok": False, "message": "O formulário de adoção precisa ser um objeto válido."})
+                updates["adoption_interview"] = data["adoption_interview"]
+
+            status = str(data.get("status", "")).strip().lower()
+            if status:
+                if status != "resolvido":
+                    return self.send_json(400, {"ok": False, "message": "O status permitido é resolvido."})
+                updates.update({"status": "resolvido", "resolved_at": now(), "resolved_by": session["user_id"]})
+
+            if not updates:
+                return self.send_json(400, {"ok": False, "message": "Nenhuma alteração informada."})
+
+            result = db.applications.update_one(
+                {"_id": request_object_id},
+                {"$set": updates},
+            )
+            if not result.matched_count:
+                return self.send_json(404, {"ok": False, "message": "Pedido de adoção não encontrado."})
+            return self.send_json(200, {"ok": True, "message": "Pedido marcado como resolvido."})
+
         if path.startswith("/api/volunteer-requests/"):
             if not is_master(self):
                 return self.send_json(
@@ -1813,7 +2109,7 @@ class App(SimpleHTTPRequestHandler):
 
             status = str(data.get("status", "")).strip().lower()
 
-            if status not in {"contacted", "approved", "rejected"}:
+            if status not in {"contacted", "approved", "rejected", "resolvido"}:
                 return self.send_json(
                     400,
                     {
@@ -1855,6 +2151,7 @@ class App(SimpleHTTPRequestHandler):
                         "contacted": "Marcado como chamado no WhatsApp.",
                         "approved": "Voluntário aprovado.",
                         "rejected": "Voluntário recusado.",
+                        "resolvido": "Solicitação marcada como resolvida.",
                     }[status],
                 },
             )
@@ -1991,6 +2288,9 @@ class App(SimpleHTTPRequestHandler):
             if not animal_oid:
                 return self.send_json(400, {"ok": False, "message": "ID de animal inválido."})
 
+            animal_existente = db.animals.find_one({"_id": animal_oid})
+            if not animal_existente:
+                return self.send_json(404, {"ok": False, "message": "Animal não encontrado."})
             updates = {}
             remover = {}
 
@@ -2012,11 +2312,55 @@ class App(SimpleHTTPRequestHandler):
                         data_adocao = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("%Y-%m-%d")
                     updates["adopted_at"] = data_adocao
                     updates["adoption_place"] = str(data.get("adoption_place", "")).strip()[:120]
+                    updates["adopter_name"] = str(data.get("adopter_name", "")).strip()[:120]
+                    updates["adopter_email"] = str(data.get("adopter_email", "")).strip().lower()[:160]
+                    updates["adopter_phone"] = str(data.get("adopter_phone", "")).strip()[:30]
                 else:
                     # Voltou para adoção: apaga os dados da adoção
-                    remover = {"adopted_at": "", "adoption_place": ""}
+                    remover = {
+                        "adopted_at": "",
+                        "adoption_place": "",
+                        "adopter_name": "",
+                        "adopter_email": "",
+                        "adopter_phone": "",
+                    }
 
-            for campo in ("description", "responsible_person"):
+            if any(campo in data for campo in ("adopted_at", "adoption_place", "adopter_name", "adopter_email", "adopter_phone")):
+                data_adocao = str(data.get("adopted_at", "")).strip()
+                if data_adocao:
+                    try:
+                        datetime.strptime(data_adocao, "%Y-%m-%d")
+                    except ValueError:
+                        return self.send_json(400, {"ok": False, "message": "Data de adoção inválida."})
+                    updates["adopted_at"] = data_adocao
+                elif "adopted_at" in data:
+                    remover["adopted_at"] = ""
+
+                if "adoption_place" in data:
+                    updates["adoption_place"] = str(data.get("adoption_place", "")).strip()[:120]
+                if "adopter_name" in data:
+                    updates["adopter_name"] = str(data.get("adopter_name", "")).strip()[:120]
+                if "adopter_email" in data:
+                    email_adotante = str(data.get("adopter_email", "")).strip().lower()[:160]
+                    if email_adotante and "@" not in email_adotante:
+                        return self.send_json(400, {"ok": False, "message": "E-mail do adotante inválido."})
+                    updates["adopter_email"] = email_adotante
+                if "adopter_phone" in data:
+                    updates["adopter_phone"] = str(data.get("adopter_phone", "")).strip()[:30]
+
+            for campo in (
+                "name",
+                "species",
+                "breed",
+                "age",
+                "size",
+                "sex",
+                "location",
+                "description",
+                "responsible_person",
+                "republication_reason",
+                "featured_until",
+            ):
                 if campo in data:
                     updates[campo] = str(data.get(campo, "")).strip()[:1000]
 
@@ -2054,11 +2398,72 @@ class App(SimpleHTTPRequestHandler):
         )
 
     # ========================================================
-    # DELETE - EXCLUSÃO DE EVENTO
+    # DELETE - EXCLUSÃO DE ANIMAL/EVENTO
     # ========================================================
 
     def do_DELETE(self):
         path = urlparse(self.path).path
+        if path == "/api/account/me":
+            session = get_session(self)
+            if not session:
+                return self.send_json(401, {"ok": False, "message": "Você precisa estar conectado."})
+            if session.get("user_type") == "master":
+                return self.send_json(403, {"ok": False, "message": "A conta Master não pode ser excluída."})
+
+            user_id = object_id(session.get("user_id"))
+            if session.get("user_type") == "adopter":
+                adopter = db.adopters.find_one({"_id": user_id}) if user_id else None
+                if adopter:
+                    db.applications.delete_many({
+                        "$or": [
+                            {"adopter_id": session.get("user_id")},
+                            {"email": adopter.get("email")},
+                        ]
+                    })
+                    db.adopters.delete_one({"_id": adopter["_id"]})
+            elif session.get("user_type") == "volunteer":
+                volunteer = db.volunteers.find_one({"_id": user_id}) if user_id else None
+                if volunteer:
+                    volunteer_id = str(volunteer["_id"])
+                    email = volunteer.get("email")
+                    db.volunteer_requests.delete_many({"email": email})
+                    db.event_requests.delete_many({"volunteer_id": volunteer_id})
+                    db.volunteers.delete_one({"_id": volunteer["_id"]})
+            else:
+                return self.send_json(403, {"ok": False, "message": "Este tipo de conta não pode ser excluído por esta rota."})
+
+            delete_session(self)
+            return self.send_json(200, {"ok": True, "message": "Todos os dados da conta foram removidos."})
+
+        if path.startswith("/api/animals/"):
+            session = get_session(self)
+            if not session or session.get("user_type") not in {"volunteer", "master"}:
+                return self.send_json(401, {
+                    "ok": False,
+                    "message": "Faça login para remover animais.",
+                })
+
+            animal_oid = object_id(path.rsplit("/", 1)[-1])
+            if not animal_oid:
+                return self.send_json(400, {"ok": False, "message": "ID de animal inválido."})
+
+            animal = db.animals.find_one({"_id": animal_oid})
+            if not animal:
+                return self.send_json(404, {"ok": False, "message": "Animal não encontrado."})
+            if (
+                session.get("user_type") == "volunteer"
+                and str(animal.get("created_by")) != str(session.get("user_id"))
+            ):
+                return self.send_json(403, {
+                    "ok": False,
+                    "message": "Você só pode remover os animais cadastrados pela sua conta.",
+                })
+
+            db.animals.delete_one({"_id": animal_oid})
+            return self.send_json(200, {
+                "ok": True,
+                "message": "Animal removido com sucesso.",
+            })
 
         # ====================================================
         # EXCLUSÃO DE CONTA DE APOIO PELA MASTER
@@ -2246,6 +2651,7 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
+            event = db.events.find_one({"_id": event_object_id}) or {}
             result = db.events.delete_one(
                 {"_id": event_object_id}
             )
@@ -2259,6 +2665,12 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
+            if event:
+                report = dict(event)
+                report.pop("_id", None)
+                report["event_id"] = event_id
+                report["closed_at"] = report.get("closed_at") or now()
+                db.event_reports.update_one({"event_id": event_id}, {"$set": report}, upsert=True)
             db.event_requests.delete_many(
                 {"event_id": event_id}
             )

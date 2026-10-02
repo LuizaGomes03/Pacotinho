@@ -50,6 +50,27 @@ body {
   color: var(--pa-ink);
   font-family: var(--pa-corpo);
   overflow-x: hidden;
+  line-height: 1.5;
+}
+
+@media (min-width: 1025px) {
+  html {
+    font-size: 18px;
+  }
+
+  body {
+    line-height: 1.55;
+  }
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #8f4fa3;
+  outline-offset: 3px;
+}
+
+:where(input, select, textarea)::placeholder {
+  color: #625963;
+  opacity: 1;
 }
 
 body.pa-page-painel-voluntario {
@@ -104,6 +125,7 @@ body.pa-page-painel-voluntario {
 /* ---------- Marca ---------- */
 
 .pa-brand {
+  min-width: 0;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
@@ -124,6 +146,7 @@ body.pa-page-painel-voluntario {
 
 .pa-brand span {
   display: block;
+  min-width: 0;
   font-family: var(--pa-display);
   font-weight: 800;
   font-size: 21px;
@@ -183,10 +206,31 @@ body.pa-page-painel-voluntario {
   margin-left: auto;
 }
 
+:root {
+  view-transition-name: none;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+.pa-header {
+  view-transition-name: pa-header;
+}
+
+::view-transition-old(pa-header),
+::view-transition-new(pa-header) {
+  animation-duration: .22s;
+  animation-timing-function: ease;
+}
+
 .pa-account {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  width: 116px;
+  min-width: 116px;
+  height: 46px;
   padding: 6px 18px 6px 6px;
   border-radius: 999px;
 
@@ -200,6 +244,16 @@ body.pa-page-painel-voluntario {
   white-space: nowrap;
 
   transition: background .15s ease;
+}
+
+.pa-account-label {
+  display: inline-block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+  transition: opacity .18s ease;
 }
 
 .pa-account:hover {
@@ -290,7 +344,7 @@ body.pa-page-painel-voluntario {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  min-width: 280px;
+  min-width: min(280px, 100%);
   flex: 1 1 420px;
 }
 
@@ -332,7 +386,7 @@ body.pa-page-painel-voluntario {
   color: #fff;
   font-weight: 600;
   text-decoration: none;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .pa-footer a:hover {
@@ -406,6 +460,12 @@ body.pa-page-painel-voluntario .pa-footer {
     font-size: 16px;
   }
 
+  .pa-account {
+    width: 116px;
+    min-width: 0;
+    flex: 0 1 116px;
+  }
+
 }
 
 
@@ -468,6 +528,74 @@ body.pa-page-painel-voluntario .pa-footer {
     --pa-header-h: 64px;
   }
 
+  /* Proteções comuns para páginas legadas e componentes carregados por API. */
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    max-width: 100%;
+  }
+
+  pre,
+  code {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  @media (max-width: 640px) {
+    main,
+    section,
+    article,
+    form,
+    dialog {
+      min-width: 0;
+    }
+
+    .pa-footer-inner,
+    .pa-footer-brand,
+    .pa-footer nav {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .pa-footer nav {
+      gap: 10px 16px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .pa-header {
+      padding-inline: 10px;
+      gap: 8px;
+    }
+
+    .pa-brand {
+      gap: 6px;
+    }
+
+    .pa-brand span {
+      max-width: 112px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pa-account {
+      max-width: 124px;
+      padding-right: 8px;
+    }
+
+    .pa-account-label {
+      max-width: 68px;
+    }
+  }
+
   .pa-header {
     gap: 12px;
   }
@@ -486,11 +614,19 @@ body.pa-page-painel-voluntario .pa-footer {
   }
 
   .pa-account {
-    padding: 4px;
+    max-width: 116px;
+    width: auto;
+    min-width: 0;
+    height: 42px;
+    padding: 4px 10px 4px 4px;
   }
 
   .pa-account-label {
-    display: none;
+    max-width: 85px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
   }
 
   .pa-menu-toggle {

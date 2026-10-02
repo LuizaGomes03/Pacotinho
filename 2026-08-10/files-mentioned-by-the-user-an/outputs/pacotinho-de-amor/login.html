@@ -632,6 +632,8 @@
         localStorage.setItem(`${prefixo}_id`, user.id || "");
       }
 
+      localStorage.setItem("pa_account_name", user.name || user.nome || "");
+
       location.replace(destino(tipo));
 
     } catch (erro) {

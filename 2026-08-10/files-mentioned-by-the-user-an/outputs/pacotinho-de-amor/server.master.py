@@ -4,7 +4,9 @@ import hashlib
 import json
 import os
 import secrets
+import smtplib
 from datetime import datetime, timedelta, timezone
+from email.message import EmailMessage
 from http.cookies import SimpleCookie
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -44,6 +46,38 @@ def load_env():
 
 load_env()
 
+
+def send_adoption_confirmation(application):
+    if not all(os.getenv(name) for name in ("SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD")):
+        return "not_configured"
+    recipient = str(application.get("email", "")).strip()
+    if not recipient or "@" not in recipient:
+        return "invalid_recipient"
+    interview = application.get("adoption_interview") or {}
+    message = EmailMessage()
+    message["Subject"] = f"Recebemos seu processo de adoção de {application.get('animal_name', 'animal selecionado')}"
+    message["From"] = os.getenv("SMTP_FROM", os.getenv("SMTP_USER"))
+    message["To"] = recipient
+    message.set_content(
+        f"Olá, {application.get('applicant_name', '')}!\n\n"
+        f"Recebemos seu formulário para adoção de {application.get('animal_name', 'animal selecionado')}. "
+        "O processo está em análise e a equipe entrará em contato pelo WhatsApp.\n\n"
+        "O preenchimento não garante a aprovação. A contribuição mínima é de R$ 250 e a sugerida é de R$ 350.\n\n"
+        f"WhatsApp: {application.get('phone', '')}\n"
+        f"Moradia: {interview.get('moradia', '')}\n"
+        f"Arquivos do lar: {len(interview.get('fotos_lar', []))}\n\n"
+        "Pacotinho de Amor"
+    )
+    try:
+        with smtplib.SMTP(os.environ["SMTP_HOST"], int(os.getenv("SMTP_PORT", "587")), timeout=20) as smtp:
+            if os.getenv("SMTP_TLS", "true").lower() != "false":
+                smtp.starttls()
+            smtp.login(os.environ["SMTP_USER"], os.environ["SMTP_PASSWORD"])
+            smtp.send_message(message)
+    except (OSError, smtplib.SMTPException):
+        return "failed"
+    return "sent"
+
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
 WHATSAPP_ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN", "").strip()
 WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID", "").strip()
@@ -79,6 +113,8 @@ ALLOWED_ORIGINS = {
     "http://localhost:5500",
     "http://127.0.0.1:8000",
     "http://localhost:8000",
+    "http://127.0.0.1:8765",
+    "http://localhost:8765",
 }
 
 
@@ -731,6 +767,16 @@ class App(SimpleHTTPRequestHandler):
         # ----------------------------------------------------
 
         if path == "/api/events":
+            cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+            old_events = list(db.events.find({"date": {"$lt": cutoff.date().isoformat()}}))
+            for old_event in old_events:
+                report = dict(old_event)
+                report.pop("_id", None)
+                report["event_id"] = str(old_event["_id"])
+                report["closed_at"] = report.get("closed_at") or datetime.now(timezone.utc)
+                db.event_reports.update_one({"event_id": report["event_id"]}, {"$set": report}, upsert=True)
+            if old_events:
+                db.events.delete_many({"_id": {"$in": [item["_id"] for item in old_events]}})
             events = db.events.find().sort(
                 [
                     ("date", 1),
@@ -745,6 +791,11 @@ class App(SimpleHTTPRequestHandler):
                     for event in events
                 ],
             )
+
+        if path == "/api/event-reports":
+            if not get_session(self):
+                return self.send_json(401, {"ok": False, "message": "Faça login para consultar os relatórios."})
+            return self.send_json(200, serialize_list(db.event_reports.find().sort("date", -1)))
 
 
         if path == "/api/event-requests":
@@ -771,12 +822,12 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            if session.get("user_type") != "volunteer":
+            if session.get("user_type") not in {"volunteer", "master"}:
                 return self.send_json(
                     403,
                     {
                         "ok": False,
-                        "message": "Apenas voluntários podem acessar solicitações de eventos.",
+                        "message": "Apenas a equipe autorizada pode acessar solicitações de eventos.",
                     },
                 )
 
@@ -785,7 +836,7 @@ class App(SimpleHTTPRequestHandler):
             )
 
             # O voluntário só pode consultar as próprias solicitações.
-            if volunteer_id and volunteer_id != current_volunteer_id:
+            if session.get("user_type") == "volunteer" and volunteer_id and volunteer_id != current_volunteer_id:
                 return self.send_json(
                     403,
                     {
@@ -794,9 +845,7 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            request_filter = {
-                "volunteer_id": current_volunteer_id
-            }
+            request_filter = {} if session.get("user_type") == "master" else {"volunteer_id": current_volunteer_id}
 
             if event_id:
                 request_filter["event_id"] = event_id
@@ -987,12 +1036,12 @@ class App(SimpleHTTPRequestHandler):
                     },
                 )
 
-            if not nome or not email or not telefone or not disponibilidade:
+            if not nome or len(nome.split()) < 2 or not email or len("".join(c for c in telefone if c.isdigit())) < 10 or not disponibilidade:
                 return self.send_json(
                     400,
                     {
                         "ok": False,
-                        "message": "Preencha nome, e-mail, telefone e disponibilidade.",
+                        "message": "Informe nome completo, e-mail, WhatsApp válido e disponibilidade.",
                     },
                 )
 
@@ -1047,6 +1096,8 @@ class App(SimpleHTTPRequestHandler):
                 "phone": telefone,
                 "modalidades": modalidades,
                 "disponibilidade": disponibilidade,
+                "tipoDisponibilidade": str(data.get("tipoDisponibilidade", "")).strip()[:80],
+                "detalhesDisponibilidade": str(data.get("detalhesDisponibilidade", "")).strip()[:1000],
                 "aceiteTermo": True,
                 "aceiteLGPD": True,
                 "aceiteImagem": bool(
@@ -1055,6 +1106,13 @@ class App(SimpleHTTPRequestHandler):
                 "termoEnviado": bool(
                     data.get("termoEnviado")
                 ),
+                "documento_assinado": str(
+                    data.get("documento_assinado")
+                    or data.get("document_url")
+                    or data.get("termo_url")
+                    or (data.get("termoArquivo") or {}).get("data", "")
+                    or ""
+                ).strip()[:1_500_000],
                 "status": "pending",
                 "created_at": now(),
             }
@@ -1749,16 +1807,46 @@ class App(SimpleHTTPRequestHandler):
             if (
                 not data.get("applicant_name")
                 or not data.get("email")
+                or not str(data.get("phone", "")).strip()
             ):
                 return self.send_json(
                     400,
                     {
                         "ok": False,
                         "message": (
-                            "Nome e e-mail são obrigatórios."
+                            "Nome, e-mail e WhatsApp são obrigatórios para contato."
                         ),
                     },
                 )
+
+            if str(data.get("contact_type", "")).lower() == "adocao":
+                entrevista = data.get("adoption_interview")
+                campos_obrigatorios = (
+                    "cpf", "data_nascimento", "estado_civil", "profissao",
+                    "empresa", "endereco", "adultos", "criancas",
+                    "acordo_casa", "alergias", "motivo",
+                    "tratamento", "atividade", "responsavel", "horas_fora",
+                    "moradia", "estrutura", "quintal_compartilhado", "moradores",
+                    "areas", "periodos", "dormir", "varanda_noite",
+                )
+                if not isinstance(entrevista, dict) or any(
+                    not str(entrevista.get(campo, "")).strip()
+                    for campo in campos_obrigatorios
+                ):
+                    return self.send_json(
+                        400,
+                        {
+                            "ok": False,
+                            "message": "Preencha todas as respostas obrigatórias da entrevista de adoção.",
+                        },
+                    )
+                if not isinstance(entrevista.get("documentos"), list) or not entrevista["documentos"]:
+                    return self.send_json(400, {"ok": False, "message": "Envie o documento com foto e o comprovante de endereço."})
+                if not isinstance(entrevista.get("fotos_lar"), list) or not entrevista["fotos_lar"] or len(entrevista["fotos_lar"]) > 10:
+                    return self.send_json(400, {"ok": False, "message": "Envie de 1 a 10 fotos ou vídeos do lar."})
+                arquivos = entrevista["documentos"] + entrevista["fotos_lar"]
+                if sum(int(arquivo.get("tamanho", 0)) for arquivo in arquivos if isinstance(arquivo, dict)) > 12 * 1024 * 1024:
+                    return self.send_json(400, {"ok": False, "message": "O tamanho total dos arquivos deve ser de até 12 MB."})
 
 
             session = get_session(self)
@@ -1771,6 +1859,21 @@ class App(SimpleHTTPRequestHandler):
                     "user_id"
                 ]
 
+            if str(data.get("contact_type", "")).lower() == "adocao":
+                animal_id = str(data.get("animal_id", "")).strip()
+                if animal_id:
+                    animal = db.animals.find_one({"_id": object_id(animal_id)})
+                    if animal:
+                        data["animal_name"] = animal.get("name", "")
+                        data["animal_snapshot"] = {
+                            "name": animal.get("name", ""),
+                            "species": animal.get("species", ""),
+                            "breed": animal.get("breed", ""),
+                            "sex": animal.get("sex", ""),
+                            "age": animal.get("age", ""),
+                            "size": animal.get("size", ""),
+                            "image": animal.get("image", ""),
+                        }
 
             data.update(
                 {
@@ -1783,6 +1886,8 @@ class App(SimpleHTTPRequestHandler):
             result = db.applications.insert_one(
                 data
             )
+            email_status = send_adoption_confirmation(data) if str(data.get("contact_type", "")).lower() == "adocao" else "not_applicable"
+            db.applications.update_one({"_id": result.inserted_id}, {"$set": {"email_status": email_status}})
 
 
             return self.send_json(
@@ -1795,6 +1900,7 @@ class App(SimpleHTTPRequestHandler):
                     "message": (
                         "Solicitação registrada."
                     ),
+                    "email_status": email_status,
                 },
             )
 
@@ -1861,6 +1967,33 @@ class App(SimpleHTTPRequestHandler):
     def do_PUT(self):
         path = urlparse(self.path).path
         data = self.body()
+
+        if path.startswith("/api/applications/"):
+            session = get_session(self)
+            if not session or session.get("user_type") not in {"master", "volunteer"}:
+                return self.send_json(403, {"ok": False, "message": "Apenas a Master e as contas de apoio podem atualizar pedidos."})
+            request_object_id = object_id(path.rsplit("/", 1)[-1])
+            if not request_object_id:
+                return self.send_json(400, {"ok": False, "message": "ID de pedido inválido."})
+            updates = {}
+            if "adoption_interview" in data:
+                if not isinstance(data["adoption_interview"], dict):
+                    return self.send_json(400, {"ok": False, "message": "O formulário de adoção precisa ser um objeto válido."})
+                updates["adoption_interview"] = data["adoption_interview"]
+            status = str(data.get("status", "")).strip().lower()
+            if status:
+                if status not in {"resolvido", "resolved"}:
+                    return self.send_json(400, {"ok": False, "message": "Status inválido."})
+                updates.update({"status": "resolvido", "resolved_at": now(), "resolved_by": session["user_id"]})
+            if not updates:
+                return self.send_json(400, {"ok": False, "message": "Nenhuma alteração informada."})
+            result = db.applications.update_one(
+                {"_id": request_object_id},
+                {"$set": updates},
+            )
+            if not result.matched_count:
+                return self.send_json(404, {"ok": False, "message": "Pedido não encontrado."})
+            return self.send_json(200, {"ok": True, "message": "Pedido marcado como resolvido."})
 
         # ====================================================
         # APROVAR / RECUSAR CADASTRO DE VOLUNTÁRIO - MASTER
@@ -2153,6 +2286,29 @@ class App(SimpleHTTPRequestHandler):
 
     def do_DELETE(self):
         path = urlparse(self.path).path
+        if path == "/api/account/me":
+            session = get_session(self)
+            if not session:
+                return self.send_json(401, {"ok": False, "message": "Você precisa estar conectado."})
+            if session.get("user_type") == "master":
+                return self.send_json(403, {"ok": False, "message": "A conta Master não pode ser excluída."})
+            user_id = object_id(session.get("user_id"))
+            if session.get("user_type") == "adopter":
+                adopter = db.adopters.find_one({"_id": user_id}) if user_id else None
+                if adopter:
+                    db.applications.delete_many({"$or": [{"adopter_id": session.get("user_id")}, {"email": adopter.get("email")}]})
+                    db.adopters.delete_one({"_id": adopter["_id"]})
+            elif session.get("user_type") == "volunteer":
+                volunteer = db.volunteers.find_one({"_id": user_id}) if user_id else None
+                if volunteer:
+                    volunteer_id = str(volunteer["_id"])
+                    db.volunteer_requests.delete_many({"email": volunteer.get("email")})
+                    db.event_requests.delete_many({"volunteer_id": volunteer_id})
+                    db.volunteers.delete_one({"_id": volunteer["_id"]})
+            else:
+                return self.send_json(403, {"ok": False, "message": "Este tipo de conta não pode ser excluído por esta rota."})
+            delete_session(self)
+            return self.send_json(200, {"ok": True, "message": "Todos os dados da conta foram removidos."})
 
         # ====================================================
         # EXCLUSÃO DA CONTA MASTER
@@ -2194,6 +2350,33 @@ class App(SimpleHTTPRequestHandler):
                 "message": "Conta Master excluída com sucesso."
             }, ensure_ascii=False).encode("utf-8"))
             return
+
+        if path.startswith("/api/animals/"):
+            session = get_session(self)
+            if not session or session.get("user_type") not in {"volunteer", "master"}:
+                return self.send_json(401, {
+                    "ok": False,
+                    "message": "Faça login para remover animais.",
+                })
+
+            animal_oid = object_id(path.rsplit("/", 1)[-1])
+            if not animal_oid:
+                return self.send_json(400, {"ok": False, "message": "ID de animal inválido."})
+
+            animal = db.animals.find_one({"_id": animal_oid})
+            if not animal:
+                return self.send_json(404, {"ok": False, "message": "Animal não encontrado."})
+            if session.get("user_type") == "volunteer" and str(animal.get("created_by")) != str(session.get("user_id")):
+                return self.send_json(403, {
+                    "ok": False,
+                    "message": "Você só pode remover os animais cadastrados pela sua conta.",
+                })
+
+            db.animals.delete_one({"_id": animal_oid})
+            return self.send_json(200, {
+                "ok": True,
+                "message": "Animal removido com sucesso.",
+            })
 
         if path.startswith("/api/events/"):
 

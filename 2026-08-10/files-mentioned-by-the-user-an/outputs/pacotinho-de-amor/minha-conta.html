@@ -10,9 +10,17 @@
   <style>
     body {
       background: #f6f0f7;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    /* Enquanto o login não é confirmado, a conta não aparece */
+    body > .pv {
+      flex: 1;
+    }
+
+    /* ---------- Enquanto o login não é confirmado, a conta não aparece ---------- */
+
     html.verificando .pv {
       visibility: hidden;
     }
@@ -43,9 +51,7 @@
       to { transform: rotate(360deg); }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .pv-verificando span { animation-duration: 2.4s; }
-    }
+    /* ---------- BASE ---------- */
 
     .pv {
       --ameixa: #472056;
@@ -89,8 +95,13 @@
       margin: 0;
     }
 
+    .pv svg {
+      display: block;
+    }
+
     .pv a:focus-visible,
-    .pv button:focus-visible {
+    .pv button:focus-visible,
+    .pv summary:focus-visible {
       outline: 3px solid var(--mel);
       outline-offset: 3px;
     }
@@ -100,13 +111,9 @@
     }
 
     .pv-wrap {
-      max-width: 960px;
+      max-width: 1040px;
       margin: 0 auto;
       padding: 0 20px;
-    }
-
-    .pv svg {
-      display: block;
     }
 
     /* ---------- BOTÕES ---------- */
@@ -154,17 +161,6 @@
       color: var(--branco);
     }
 
-    .pv-botao--claro {
-      border-color: rgba(255, 255, 255, .45);
-      background: transparent;
-      color: var(--branco);
-    }
-
-    .pv-botao--claro:hover {
-      border-color: var(--branco);
-      background: rgba(255, 255, 255, .1);
-    }
-
     .pv-botao--texto {
       padding: 12px 10px;
       background: none;
@@ -180,36 +176,71 @@
       cursor: wait;
     }
 
-    /* ---------- HERO ---------- */
+    /* ---------- TOPO ---------- */
 
     .pv-hero {
       position: relative;
       overflow: hidden;
       background: var(--ameixa);
       color: var(--branco);
-      padding: 52px 0 130px;
+      padding: 52px 0 120px;
     }
 
     .pv-hero__patas {
       position: absolute;
       right: -50px;
       top: -10px;
-      width: 340px;
+      width: 320px;
       opacity: .1;
       pointer-events: none;
     }
 
-    .pv-hero__linha {
+    .pv-hero__wrap {
       position: relative;
-      display: flex;
-      align-items: center;
-      gap: 24px;
+    }
+
+    .pv-hero h1 {
+      color: var(--branco);
+      font-weight: 800;
+      font-size: clamp(36px, 6vw, 60px);
+      line-height: 1;
+      letter-spacing: -.03em;
+      overflow-wrap: anywhere;
+    }
+
+    .pv-hero p {
+      margin-top: 10px;
+      font-size: 18px;
+      color: rgba(255, 255, 255, .82);
+    }
+
+    /* ---------- GRADE: perfil à esquerda, opções à direita ---------- */
+
+    .pv-conteudo {
+      position: relative;
+      margin-top: -76px;
+      padding-bottom: 72px;
+    }
+
+    .pv-grade {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .pv-perfil {
+      padding: 30px 26px 26px;
+      border-radius: 28px;
+      background: var(--branco);
+      box-shadow: 0 30px 60px -30px rgba(46, 20, 56, .35);
+      text-align: center;
     }
 
     .pv-avatar {
-      flex-shrink: 0;
-      width: 96px;
-      height: 96px;
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 16px;
       display: grid;
       place-items: center;
       border-radius: 42% 58% 55% 45% / 50% 44% 56% 50%;
@@ -217,192 +248,310 @@
       color: var(--ameixa);
       font-family: var(--display);
       font-weight: 800;
-      font-size: 38px;
-      letter-spacing: -.02em;
+      font-size: 42px;
     }
 
-    .pv-hero__texto {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .pv-hero h1 {
-      color: var(--branco);
-      font-weight: 800;
-      font-size: clamp(34px, 6vw, 56px);
-      line-height: 1;
-      letter-spacing: -.03em;
+    #nomeCompleto {
+      display: block;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.2;
+      color: var(--ameixa-escura);
       overflow-wrap: anywhere;
     }
 
-    #emailUsuario {
-      margin-top: 8px;
-      font-size: 17px;
-      color: rgba(255, 255, 255, .8);
-      overflow-wrap: anywhere;
+    .pv-perfil hr {
+      height: 2px;
+      margin: 22px 0 18px;
+      border: none;
+      background: var(--lilas);
     }
 
-    /* ---------- CONTEÚDO ---------- */
-
-    .pv-conteudo {
-      position: relative;
-      margin-top: -80px;
-      padding-bottom: 80px;
+    .pv-perfil .pv-botao {
+      width: 100%;
     }
 
-    /* Avisos */
-
-    #mensagem {
-      margin-bottom: 18px;
-      padding: 14px 18px;
-      border-radius: 16px;
-      border: 2px solid;
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    #mensagem.is-ok {
-      background: #eef8f1;
-      border-color: #bfe3cb;
-      color: var(--ok);
-    }
-
-    #mensagem.is-erro {
-      background: #fdf3f2;
-      border-color: #f1c9c5;
-      color: var(--erro);
-    }
-
-    #mensagem.is-info {
-      background: var(--branco);
-      border-color: var(--lilas-borda);
-      color: var(--ameixa);
-    }
-
-    /* Opções */
-
-    .pv-opcoes {
+    .pv-coluna {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      gap: 20px;
     }
 
-    .pv-opcao {
+    /* ---------- CONVITE ---------- */
+
+    .pv-convite {
       display: flex;
       align-items: center;
       gap: 18px;
-      width: 100%;
-      padding: 22px;
-      border: 2px solid transparent;
-      border-radius: 24px;
-      background: var(--branco);
-      box-shadow: 0 20px 40px -30px rgba(46, 20, 56, .45);
-      font-family: var(--corpo);
-      text-align: left;
+      padding: 24px 26px;
+      border-radius: 28px;
+      background: var(--rosa);
+      color: var(--ameixa-escura);
       text-decoration: none;
-      color: var(--texto);
-      cursor: pointer;
-      transition: border-color .2s;
+      transition: background .2s;
     }
 
-    .pv-opcao:hover,
-    .pv-opcao[aria-expanded="true"] {
-      border-color: var(--ameixa);
+    .pv-convite:hover {
+      background: #f2bfd3;
     }
 
-    .pv-opcao__icone {
+    .pv-convite__pata {
       flex-shrink: 0;
-      width: 54px;
-      height: 54px;
+      width: 56px;
+      height: 56px;
       display: grid;
       place-items: center;
-      border-radius: 18px;
-      background: var(--rosa);
-      color: var(--ameixa);
-      transition: background .2s, color .2s;
+      border-radius: 50%;
+      background: var(--mel);
+      transform: rotate(-10deg);
     }
 
-    .pv-opcao[aria-expanded="true"] .pv-opcao__icone {
-      background: var(--ameixa);
-      color: var(--branco);
+    .pv-convite__pata svg {
+      width: 28px;
+      height: 28px;
     }
 
-    .pv-opcao__icone svg {
-      width: 26px;
-      height: 26px;
-    }
-
-    .pv-opcao__texto {
+    .pv-convite__texto {
       flex: 1;
       min-width: 0;
     }
 
-    .pv-opcao h2 {
+    .pv-convite strong {
+      display: block;
+      font-family: var(--display);
       font-weight: 700;
-      font-size: 20px;
+      font-size: 21px;
       line-height: 1.2;
     }
 
-    .pv-opcao p {
-      margin-top: 4px;
+    .pv-convite small {
+      display: block;
+      margin-top: 2px;
       font-size: 15px;
-      color: var(--texto-suave);
-    }
-
-    .pv-opcao__seta {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
       color: var(--ameixa);
-      transition: transform .2s;
     }
 
-    .pv-opcao[aria-expanded="true"] .pv-opcao__seta {
-      transform: rotate(90deg);
+    .pv-convite > svg {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
     }
 
-    /* ---------- PAINEL "MEUS DADOS" ---------- */
+    /* ---------- PAINEL ---------- */
 
     .pv-painel {
-      margin-top: 18px;
-      padding: 34px;
+      overflow: hidden;
       border-radius: 28px;
       background: var(--branco);
       box-shadow: 0 30px 60px -30px rgba(46, 20, 56, .35);
     }
 
-    .pv-painel__topo {
+    #mensagem {
+      margin: 18px 18px 0;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 2px solid;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    #mensagem.is-ok   { background: #eef8f1; border-color: #bfe3cb; color: var(--ok); }
+    #mensagem.is-erro { background: #fdf3f2; border-color: #f1c9c5; color: var(--erro); }
+    #mensagem.is-info { background: var(--lilas); border-color: var(--lilas-borda); color: var(--ameixa); }
+
+    /* Cada linha do painel: ícone, título, descrição e seta */
+
+    .pv-item + .pv-item {
+      border-top: 2px solid var(--lilas);
+    }
+
+    .pv-linha {
       display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 14px 20px;
-      margin-bottom: 24px;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 22px 26px;
+      border: none;
+      background: var(--branco);
+      font-family: var(--corpo);
+      text-align: left;
+      text-decoration: none;
+      color: var(--texto);
+      cursor: pointer;
+      transition: background .2s;
     }
 
-    .pv-painel h2 {
-      font-weight: 800;
-      font-size: 28px;
-      line-height: 1.1;
+    .pv-linha:hover {
+      background: #fbf7fc;
     }
 
-    .pv-painel__sub {
-      margin-top: 6px !important;
+    .pv-linha:focus-visible {
+      outline-offset: -3px;
+    }
+
+    .pv-linha__icone {
+      flex-shrink: 0;
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--rosa);
+      color: var(--ameixa);
+      transition: background .2s, color .2s;
+    }
+
+    .pv-linha[aria-expanded="true"] .pv-linha__icone {
+      background: var(--ameixa);
+      color: var(--branco);
+    }
+
+    .pv-linha__icone svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .pv-linha__texto {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pv-linha strong {
+      display: block;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 1.2;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-linha small {
+      display: block;
+      margin-top: 2px;
       font-size: 15px;
       color: var(--texto-suave);
     }
 
-    /* Leitura */
+    .pv-linha__seta {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      color: var(--ameixa);
+      transition: transform .2s;
+    }
+
+    .pv-linha[aria-expanded="true"] .pv-linha__seta {
+      transform: rotate(90deg);
+    }
+
+    /* Conteúdo que abre embaixo da linha */
+
+    .pv-abre {
+      padding: 4px 26px 28px 92px;
+    }
+
+    /* ---------- SOLICITAÇÕES ---------- */
+
+    .pv-solicitacoes__estado {
+      padding: 22px;
+      border-radius: 18px;
+      background: var(--lilas);
+      color: var(--texto-suave);
+      text-align: center;
+    }
+
+    .pv-solicitacoes__lista {
+      display: grid;
+      gap: 12px;
+    }
+
+    .pv-solicitacoes__texto {
+      margin-top: 12px !important;
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+
+    .pv-solicitacao {
+      display: flex;
+      gap: 14px;
+      padding: 14px;
+      border: 2px solid var(--lilas);
+      border-radius: 18px;
+      background: var(--branco);
+    }
+
+    .pv-solicitacao img {
+      width: 82px;
+      height: 82px;
+      flex: 0 0 82px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: var(--lilas);
+    }
+
+    .pv-solicitacao__conteudo {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .pv-solicitacao__topo {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .pv-solicitacao__tipo {
+      color: var(--ameixa-media);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .pv-solicitacao h3 {
+      margin-top: 2px;
+      font-size: 18px;
+    }
+
+    .pv-solicitacao__status {
+      flex: 0 0 auto;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pv-solicitacao__status--analise    { background: #fff3cd; color: #856404; }
+    .pv-solicitacao__status--entrevista { background: #dbeafe; color: #1e40af; }
+    .pv-solicitacao__status--aprovada   { background: #dcfce7; color: #166534; }
+    .pv-solicitacao__status--recusada   { background: #fee2e2; color: #991b1b; }
+    .pv-solicitacao__status--concluida  { background: var(--lilas); color: var(--texto-suave); }
+
+    .pv-solicitacao__texto,
+    .pv-solicitacao__data {
+      margin-top: 5px !important;
+      color: var(--texto-suave);
+      font-size: 13px;
+    }
+
+    .pv-solicitacao__link {
+      display: inline-block;
+      margin-top: 7px;
+      color: var(--ameixa);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* ---------- MEUS DADOS ---------- */
 
     .pv-dados {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
 
     .pv-dado {
-      padding: 14px 18px;
-      border-radius: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
       background: var(--lilas);
     }
 
@@ -419,10 +568,9 @@
 
     .pv-dado strong {
       display: block;
-      margin-top: 2px;
-      font-size: 17px;
+      margin-top: 1px;
+      font-size: 16px;
       font-weight: 600;
-      color: var(--texto);
       overflow-wrap: anywhere;
     }
 
@@ -440,7 +588,7 @@
 
     .pv-mini {
       flex-shrink: 0;
-      padding: 4px 10px;
+      padding: 3px 10px;
       border: none;
       border-radius: 999px;
       background: var(--branco);
@@ -451,44 +599,47 @@
       cursor: pointer;
     }
 
-    .pv-mini:hover {
-      background: var(--lilas-borda);
+    .pv-acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
     }
-
-    /* Edição */
 
     .pv-form {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 16px;
+      gap: 14px;
     }
 
-    .pv-campo {
-      grid-column: span 3;
+    .pv-form__aviso {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      color: var(--texto-suave);
     }
 
-    .pv-campo--inteiro { grid-column: 1 / -1; }
-    .pv-campo--2 { grid-column: span 2; }
-    .pv-campo--4 { grid-column: span 4; }
+    .pv-campo           { grid-column: span 3; }
+    .pv-campo--inteiro  { grid-column: 1 / -1; }
+    .pv-campo--2        { grid-column: span 2; }
+    .pv-campo--4        { grid-column: span 4; }
 
     .pv-campo label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       color: var(--ameixa-escura);
     }
 
     .pv-campo input {
       width: 100%;
-      padding: 13px 15px;
+      padding: 12px 14px;
       border: 2px solid var(--lilas-borda);
       border-radius: 14px;
       background: var(--lilas);
       font-family: var(--corpo);
       font-size: 16px;
       color: var(--texto);
-      transition: border-color .2s, background .2s;
     }
 
     .pv-campo input:focus {
@@ -497,129 +648,159 @@
       background: var(--branco);
     }
 
-    .pv-campo input[readonly] {
-      border-style: dashed;
-      background: var(--branco);
-      color: var(--texto-suave);
-      cursor: not-allowed;
-    }
-
-    .pv-campo small {
-      display: block;
-      margin-top: 5px;
-      font-size: 13px;
-      color: var(--texto-suave);
-    }
-
     .pv-campo.erro input {
       border-color: var(--erro);
       background: #fdf3f2;
     }
 
-    .pv-form__acoes {
+    .pv-form .pv-acoes {
       grid-column: 1 / -1;
-      display: flex;
-      flex-wrap: wrap;
       justify-content: flex-end;
-      gap: 10px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     /* ---------- PRIVACIDADE ---------- */
 
-    .pv-privacidade {
-      margin-top: 18px;
-      padding: 34px;
-      border-radius: 28px;
-      background: var(--branco);
-      box-shadow: 0 20px 40px -30px rgba(46, 20, 56, .45);
-      scroll-margin-top: calc(var(--pa-header-h, 80px) + 16px);
-    }
-
-    .pv-privacidade__topo {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-
-    .pv-escudo {
-      flex-shrink: 0;
-      width: 56px;
-      height: 56px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      background: var(--ameixa);
-      color: var(--mel);
-    }
-
-    .pv-escudo svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    .pv-privacidade h2 {
-      font-weight: 800;
-      font-size: 26px;
-      line-height: 1.1;
-    }
-
-    .pv-privacidade__topo p {
-      margin-top: 4px;
+    .pv-privacidade p {
       font-size: 15px;
       color: var(--texto-suave);
     }
 
-    .pv-garantias {
+    .pv-privacidade p + p {
+      margin-top: 10px;
+    }
+
+    .pv-privacidade strong {
+      color: var(--texto);
+    }
+
+    /* ---------- CENTRAL DE AJUDA: perguntas que abrem ---------- */
+
+    .pv-faq {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin: 0;
-      padding: 0;
+      gap: 8px;
+    }
+
+    .pv-faq details {
+      border-radius: 16px;
+      background: var(--lilas);
+      transition: background .2s;
+    }
+
+    .pv-faq details[open] {
+      background: var(--branco);
+      box-shadow: inset 0 0 0 2px var(--lilas-borda);
+    }
+
+    .pv-faq summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.35;
+      color: var(--ameixa-escura);
+      cursor: pointer;
       list-style: none;
     }
 
-    .pv-garantias li {
-      padding: 18px;
-      border-radius: 18px;
-      background: var(--lilas);
+    .pv-faq summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .pv-faq summary::after {
+      content: "";
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23472056' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")
+        no-repeat center / 16px,
+        var(--branco);
+      transition: transform .2s;
+    }
+
+    .pv-faq details[open] summary::after {
+      transform: rotate(180deg);
+      background-color: var(--lilas);
+    }
+
+    .pv-faq__resposta {
+      padding: 0 16px 16px;
       font-size: 15px;
       color: var(--texto-suave);
     }
 
-    .pv-garantias strong {
-      display: block;
-      margin-bottom: 4px;
-      font-family: var(--display);
+    .pv-faq__resposta p + p,
+    .pv-faq__resposta p + ul {
+      margin-top: 8px;
+    }
+
+    .pv-faq__resposta ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .pv-faq__resposta li + li {
+      margin-top: 4px;
+    }
+
+    .pv-faq__resposta strong {
+      color: var(--texto);
+    }
+
+    .pv-faq__resposta a {
+      color: var(--ameixa);
       font-weight: 700;
-      font-size: 17px;
+      text-underline-offset: 3px;
+    }
+
+    .pv-faq__resposta button {
+      padding: 0;
+      border: none;
+      background: none;
+      font: inherit;
+      font-weight: 700;
+      color: var(--ameixa);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .pv-ajuda__contato {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: var(--rosa);
+    }
+
+    .pv-ajuda__contato p {
+      font-size: 15px;
       color: var(--ameixa-escura);
     }
 
-    .pv-privacidade__acoes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 22px;
+    .pv-ajuda__contato strong {
+      display: block;
+      font-family: var(--display);
+      font-size: 17px;
     }
 
-    .pv-rodape-conta {
-      display: flex;
-      justify-content: center;
-      margin-top: 28px;
-    }
-
-    .pv-rodape-conta a {
-      font-weight: 700;
-      color: var(--ameixa);
-      text-underline-offset: 4px;
+    .pv-ajuda__contato .pv-botao {
+      flex-shrink: 0;
     }
 
     /* ---------- RESPONSIVO ---------- */
 
-    @media (max-width: 760px) {
-      .pv-garantias {
+    @media (max-width: 860px) {
+      .pv-grade {
         grid-template-columns: 1fr;
       }
     }
@@ -630,37 +811,49 @@
       }
 
       .pv-hero {
-        padding: 36px 0 110px;
+        padding: 32px 0 104px;
       }
 
-      .pv-hero__linha {
-        flex-wrap: wrap;
-        gap: 18px;
+      .pv-hero p {
+        font-size: 16px;
+      }
+
+      .pv-perfil {
+        padding: 22px 18px 18px;
+        border-radius: 22px;
       }
 
       .pv-avatar {
-        width: 72px;
-        height: 72px;
-        font-size: 28px;
+        width: 76px;
+        height: 76px;
+        font-size: 30px;
       }
 
-      .pv-hero__sair {
-        width: 100%;
+      .pv-convite {
+        padding: 20px 18px;
+        border-radius: 22px;
       }
 
-      .pv-opcoes,
+      .pv-painel {
+        border-radius: 22px;
+      }
+
+      .pv-linha {
+        padding: 18px;
+        gap: 14px;
+      }
+
+      .pv-linha__icone {
+        width: 44px;
+        height: 44px;
+      }
+
+      .pv-abre {
+        padding: 0 18px 22px;
+      }
+
       .pv-dados {
         grid-template-columns: 1fr;
-      }
-
-      .pv-opcao {
-        padding: 18px;
-      }
-
-      .pv-painel,
-      .pv-privacidade {
-        padding: 24px 18px;
-        border-radius: 24px;
       }
 
       .pv-campo,
@@ -669,13 +862,32 @@
         grid-column: 1 / -1;
       }
 
-      .pv-form__acoes .pv-botao,
-      .pv-privacidade__acoes .pv-botao {
+      .pv-acoes .pv-botao {
+        width: 100%;
+      }
+
+      .pv-solicitacao__topo {
+        display: block;
+      }
+
+      .pv-solicitacao__status {
+        display: inline-block;
+        margin-top: 6px;
+      }
+
+      .pv-ajuda__contato {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .pv-ajuda__contato .pv-botao {
         width: 100%;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
+      .pv-verificando span { animation-duration: 2.4s; }
+
       .pv *,
       .pv *::before,
       .pv *::after {
@@ -715,22 +927,9 @@
       </g>
     </svg>
 
-    <div class="pv-wrap pv-hero__linha">
-
-      <div class="pv-avatar" id="avatar" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg>
-      </div>
-
-      <div class="pv-hero__texto">
-        <h1 id="nomeUsuario">Olá!</h1>
-        <p id="emailUsuario">Carregando seus dados…</p>
-      </div>
-
-      <button type="button" id="btnSair" class="pv-botao pv-botao--claro pv-hero__sair">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 16l-4-4 4-4M6 12h10"/></svg>
-        Sair da conta
-      </button>
-
+    <div class="pv-wrap pv-hero__wrap">
+      <h1 id="nomeUsuario">Olá!</h1>
+      <p>Aqui você acompanha seus pedidos e cuida dos seus dados.</p>
     </div>
 
   </section>
@@ -738,210 +937,340 @@
 
   <main class="pv-wrap pv-conteudo">
 
-    <div id="mensagem" class="hidden" role="status" aria-live="polite"></div>
+    <div class="pv-grade">
 
-    <!-- OPÇÕES -->
+      <!-- PERFIL -->
 
-    <div class="pv-opcoes">
-
-      <a class="pv-opcao" href="solicitacoes-adocao.html">
-        <span class="pv-opcao__icone" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.5H7A2 2 0 0 0 5 5.5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-10z"/><path d="M14 3.5v5h5M8.5 13h7M8.5 16.5h4.5"/></svg>
-        </span>
-        <span class="pv-opcao__texto">
-          <h2>Minhas solicitações</h2>
-          <p>Acompanhe seus pedidos de adoção e de videochamada.</p>
-        </span>
-        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-      </a>
-
-      <button type="button" class="pv-opcao" id="btnDados" aria-expanded="false" aria-controls="painelDados">
-        <span class="pv-opcao__icone" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.2c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14.5 10h3M14.5 13.5h3"/></svg>
-        </span>
-        <span class="pv-opcao__texto">
-          <h2>Meus dados</h2>
-          <p>Veja e corrija seus dados pessoais e endereço.</p>
-        </span>
-        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-
-      <button type="button" class="pv-opcao" id="btnSenha">
-        <span class="pv-opcao__icone" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5v2"/></svg>
-        </span>
-        <span class="pv-opcao__texto">
-          <h2>Alterar senha</h2>
-          <p>Troque a senha usada para entrar na sua conta.</p>
-        </span>
-        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-
-      <button type="button" class="pv-opcao" id="btnPrivacidade">
-        <span class="pv-opcao__icone" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
-        </span>
-        <span class="pv-opcao__texto">
-          <h2>Privacidade</h2>
-          <p>Como usamos seus dados e quais são seus direitos.</p>
-        </span>
-        <svg class="pv-opcao__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-
-    </div>
-
-
-    <!-- MEUS DADOS (só aparece quando a pessoa pede) -->
-
-    <section id="painelDados" class="pv-painel hidden" aria-labelledby="tituloDados">
-
-      <!-- Leitura -->
-      <div id="dadosLeitura">
-
-        <div class="pv-painel__topo">
-          <div>
-            <h2 id="tituloDados">Meus dados</h2>
-            <p class="pv-painel__sub">Estes são os dados cadastrados na sua conta.</p>
-          </div>
-          <button type="button" id="btnEditar" class="pv-botao pv-botao--escuro">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>
-            Editar dados
-          </button>
+      <aside class="pv-perfil" aria-label="Seu perfil">
+        <div class="pv-avatar" id="avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg>
         </div>
-
-        <div class="pv-dados">
-          <div class="pv-dado"><span>Nome completo</span><strong id="dNome"></strong></div>
-          <div class="pv-dado"><span>E-mail</span><strong id="dEmail"></strong></div>
-          <div class="pv-dado"><span>Telefone</span><strong id="dTelefone"></strong></div>
-          <div class="pv-dado">
-            <span>CPF</span>
-            <div class="pv-dado__linha">
-              <strong id="dCpf"></strong>
-              <button type="button" class="pv-mini" id="btnMostrarCpf" aria-pressed="false">Mostrar</button>
-            </div>
-          </div>
-          <div class="pv-dado"><span>Data de nascimento</span><strong id="dNascimento"></strong></div>
-          <div class="pv-dado"><span>CEP</span><strong id="dCep"></strong></div>
-          <div class="pv-dado pv-dado--inteiro"><span>Endereço</span><strong id="dEndereco"></strong></div>
-        </div>
-
-      </div>
-
-      <!-- Edição -->
-      <form id="dadosEdicao" class="hidden" novalidate>
-
-        <div class="pv-painel__topo">
-          <div>
-            <h2>Editar dados</h2>
-            <p class="pv-painel__sub">E-mail e CPF identificam sua conta. Para mudá-los, fale com a equipe.</p>
-          </div>
-        </div>
-
-        <div class="pv-form">
-
-          <div class="pv-campo pv-campo--inteiro" id="grupoNome">
-            <label for="eNome">Nome completo</label>
-            <input id="eNome" autocomplete="name">
-          </div>
-
-          <div class="pv-campo">
-            <label for="eEmail">E-mail</label>
-            <input id="eEmail" readonly tabindex="-1">
-          </div>
-
-          <div class="pv-campo" id="grupoTelefone">
-            <label for="eTelefone">Telefone</label>
-            <input id="eTelefone" type="tel" autocomplete="tel" placeholder="(11) 99999-9999">
-          </div>
-
-          <div class="pv-campo pv-campo--2" id="grupoCep">
-            <label for="eCep">CEP</label>
-            <input id="eCep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000">
-            <small>O endereço é preenchido pelo CEP.</small>
-          </div>
-
-          <div class="pv-campo pv-campo--4">
-            <label for="eEndereco">Rua</label>
-            <input id="eEndereco" autocomplete="address-line1">
-          </div>
-
-          <div class="pv-campo pv-campo--2">
-            <label for="eNumero">Número</label>
-            <input id="eNumero" autocomplete="address-line2">
-          </div>
-
-          <div class="pv-campo pv-campo--4">
-            <label for="eBairro">Bairro</label>
-            <input id="eBairro">
-          </div>
-
-          <div class="pv-campo pv-campo--4">
-            <label for="eCidade">Cidade</label>
-            <input id="eCidade" autocomplete="address-level2">
-          </div>
-
-          <div class="pv-campo pv-campo--2">
-            <label for="eEstado">Estado</label>
-            <input id="eEstado" maxlength="2" autocomplete="address-level1" placeholder="SP">
-          </div>
-
-          <div class="pv-form__acoes">
-            <button type="button" id="btnCancelar" class="pv-botao pv-botao--texto">Cancelar</button>
-            <button type="submit" id="btnSalvar" class="pv-botao pv-botao--escuro">Salvar alterações</button>
-          </div>
-
-        </div>
-
-      </form>
-
-    </section>
-
-
-    <!-- PRIVACIDADE / LGPD -->
-
-    <section id="privacidade" class="pv-privacidade" aria-labelledby="tituloPrivacidade">
-
-      <div class="pv-privacidade__topo">
-        <span class="pv-escudo" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
-        </span>
-        <div>
-          <h2 id="tituloPrivacidade">Seus dados e seus direitos</h2>
-          <p>Tratamos seus dados de acordo com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
-        </div>
-      </div>
-
-      <ul class="pv-garantias">
-        <li>
-          <strong>Para que usamos</strong>
-          Só para o processo de adoção: analisar seus pedidos, falar com você e combinar visitas.
-        </li>
-        <li>
-          <strong>Quem vê</strong>
-          Apenas a equipe do projeto que cuida das adoções. Não vendemos nem compartilhamos seus dados para publicidade.
-        </li>
-        <li>
-          <strong>Seus direitos</strong>
-          Você pode ver, corrigir, baixar ou pedir a exclusão dos seus dados quando quiser.
-        </li>
-      </ul>
-
-      <div class="pv-privacidade__acoes">
-        <button type="button" id="btnBaixar" class="pv-botao pv-botao--contorno">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>
-          Baixar meus dados
+        <strong id="nomeCompleto"></strong>
+        <hr>
+        <button type="button" id="btnSair" class="pv-botao pv-botao--contorno">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 16l-4-4 4-4M6 12h10"/></svg>
+          Sair da conta
         </button>
-        <a class="pv-botao pv-botao--contorno" id="linkExclusao" href="https://whats.link/projetopacotinhodeamor" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"/></svg>
-          Pedir exclusão da conta
+        <button type="button" id="btnExcluirConta" class="pv-botao pv-botao--contorno" style="color:#a51d2d;border-color:#e9a3ad;margin-top:8px">
+          Excluir minha conta e meus dados
+        </button>
+      </aside>
+
+
+      <div class="pv-coluna">
+
+        <div class="pv-painel">
+
+          <div id="mensagem" class="hidden" role="status" aria-live="polite"></div>
+
+
+          <!-- 1. MINHAS SOLICITAÇÕES -->
+
+          <div class="pv-item">
+
+            <button type="button" class="pv-linha" id="btnSolicitacoes" aria-expanded="false" aria-controls="painelSolicitacoes">
+              <span class="pv-linha__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+              </span>
+              <span class="pv-linha__texto">
+                <strong>Minhas solicitações</strong>
+                <small>Acompanhe seus pedidos de adoção e de videochamada</small>
+              </span>
+              <svg class="pv-linha__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+
+            <div id="painelSolicitacoes" class="pv-abre hidden">
+              <div id="solicitacoesCarregando" class="pv-solicitacoes__estado">Carregando suas solicitações…</div>
+              <div id="solicitacoesSemPedidos" class="pv-solicitacoes__estado hidden">
+                Você ainda não fez nenhum pedido.
+                <a class="pv-solicitacao__link" href="animais-para-adocao.html">Conhecer os animais</a>
+              </div>
+              <div id="solicitacoesLista" class="pv-solicitacoes__lista hidden"></div>
+              <p id="solicitacoesAjuda" class="pv-solicitacoes__texto hidden">A equipe entra em contato pelo WhatsApp para os próximos passos.</p>
+            </div>
+
+          </div>
+
+
+          <!-- 2. MEUS DADOS -->
+
+          <div class="pv-item">
+
+            <button type="button" class="pv-linha" id="btnDados" aria-expanded="false" aria-controls="painelDados">
+              <span class="pv-linha__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg>
+              </span>
+              <span class="pv-linha__texto">
+                <strong>Meus dados</strong>
+                <small>Veja ou corrija seu nome, telefone e endereço</small>
+              </span>
+              <svg class="pv-linha__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+
+            <div id="painelDados" class="pv-abre hidden">
+
+              <!-- Leitura -->
+              <div id="dadosLeitura">
+                <div class="pv-dados">
+                  <div class="pv-dado"><span>Nome</span><strong id="dNome"></strong></div>
+                  <div class="pv-dado"><span>Telefone</span><strong id="dTelefone"></strong></div>
+                  <div class="pv-dado"><span>E-mail</span><strong id="dEmail"></strong></div>
+                  <div class="pv-dado">
+                    <span>CPF</span>
+                    <div class="pv-dado__linha">
+                      <strong id="dCpf"></strong>
+                      <button type="button" class="pv-mini" id="btnMostrarCpf" aria-pressed="false">Mostrar</button>
+                    </div>
+                  </div>
+                  <div class="pv-dado"><span>Nascimento</span><strong id="dNascimento"></strong></div>
+                  <div class="pv-dado"><span>CEP</span><strong id="dCep"></strong></div>
+                  <div class="pv-dado pv-dado--inteiro"><span>Endereço</span><strong id="dEndereco"></strong></div>
+                </div>
+
+                <div class="pv-acoes">
+                  <button type="button" id="btnEditar" class="pv-botao pv-botao--escuro">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>
+                    Editar dados
+                  </button>
+                </div>
+              </div>
+
+              <!-- Edição -->
+              <form id="dadosEdicao" class="pv-form hidden" novalidate>
+
+                <p class="pv-form__aviso">E-mail, CPF e data de nascimento não podem ser alterados por aqui. Se algum estiver errado, fale com a equipe pela Central de ajuda.</p>
+
+                <div class="pv-campo pv-campo--inteiro" id="grupoNome">
+                  <label for="eNome">Nome completo</label>
+                  <input id="eNome" autocomplete="name">
+                </div>
+
+                <div class="pv-campo" id="grupoTelefone">
+                  <label for="eTelefone">Telefone</label>
+                  <input id="eTelefone" type="tel" autocomplete="tel" placeholder="(11) 99999-9999">
+                </div>
+
+                <div class="pv-campo">
+                  <label for="eCep">CEP</label>
+                  <input id="eCep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000">
+                </div>
+
+                <div class="pv-campo pv-campo--4">
+                  <label for="eEndereco">Rua</label>
+                  <input id="eEndereco" autocomplete="address-line1">
+                </div>
+
+                <div class="pv-campo pv-campo--2">
+                  <label for="eNumero">Número</label>
+                  <input id="eNumero" autocomplete="address-line2">
+                </div>
+
+                <div class="pv-campo pv-campo--2">
+                  <label for="eBairro">Bairro</label>
+                  <input id="eBairro">
+                </div>
+
+                <div class="pv-campo pv-campo--2">
+                  <label for="eCidade">Cidade</label>
+                  <input id="eCidade" autocomplete="address-level2">
+                </div>
+
+                <div class="pv-campo pv-campo--2">
+                  <label for="eEstado">Estado</label>
+                  <input id="eEstado" maxlength="2" autocomplete="address-level1" placeholder="SP">
+                </div>
+
+                <div class="pv-acoes">
+                  <button type="button" id="btnCancelar" class="pv-botao pv-botao--texto">Cancelar</button>
+                  <button type="submit" id="btnSalvar" class="pv-botao pv-botao--escuro">Salvar</button>
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3. PRIVACIDADE -->
+
+          <div class="pv-item">
+
+            <button type="button" class="pv-linha" id="btnPrivacidade" aria-expanded="false" aria-controls="painelPrivacidade">
+              <span class="pv-linha__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+              </span>
+              <span class="pv-linha__texto">
+                <strong>Privacidade</strong>
+                <small>Como usamos seus dados, baixar ou excluir</small>
+              </span>
+              <svg class="pv-linha__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+
+            <div id="painelPrivacidade" class="pv-abre pv-privacidade hidden">
+
+              <p>
+                Usamos seus dados <strong>só para o processo de adoção</strong>:
+                analisar seus pedidos, falar com você e combinar visitas.
+                Apenas a equipe do projeto tem acesso, e eles não são vendidos
+                nem usados para publicidade.
+              </p>
+
+              <p>
+                Pela Lei Geral de Proteção de Dados (Lei nº 13.709/2018), você pode
+                ver, corrigir, baixar ou pedir a exclusão dos seus dados quando quiser.
+              </p>
+
+              <div class="pv-acoes">
+                <button type="button" id="btnBaixar" class="pv-botao pv-botao--contorno">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>
+                  Baixar meus dados
+                </button>
+                <a class="pv-botao pv-botao--contorno" href="https://whats.link/projetopacotinhodeamor" target="_blank" rel="noopener">
+                  Pedir exclusão da conta
+                </a>
+                <a class="pv-botao pv-botao--texto" href="politica-privacidade.html">Política de Privacidade</a>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4. CENTRAL DE AJUDA -->
+
+          <div class="pv-item">
+
+            <button type="button" class="pv-linha" id="btnAjuda" aria-expanded="false" aria-controls="painelAjuda">
+              <span class="pv-linha__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.4 1.7c-1.2 1.1-2 1.6-2 3"/><path d="M12 17h.01"/></svg>
+              </span>
+              <span class="pv-linha__texto">
+                <strong>Central de ajuda</strong>
+                <small>Perguntas frequentes e contato com a equipe</small>
+              </span>
+              <svg class="pv-linha__seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+
+            <div id="painelAjuda" class="pv-abre hidden">
+
+              <div class="pv-faq">
+
+                <details>
+                  <summary>Como acompanho meu pedido de adoção?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Abra <button type="button" data-abrir="btnSolicitacoes">Minhas solicitações</button>, aqui mesmo nesta página. Lá aparecem todos os seus pedidos, com o status de cada um.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>O que significa cada status do pedido?</summary>
+                  <div class="pv-faq__resposta">
+                    <ul>
+                      <li><strong>Em análise:</strong> a equipe recebeu e está avaliando seu pedido.</li>
+                      <li><strong>Entrevista:</strong> vamos conversar com você para conhecer sua rotina.</li>
+                      <li><strong>Aprovada:</strong> deu tudo certo! A equipe vai combinar o encontro com você.</li>
+                      <li><strong>Não aprovada:</strong> desta vez o pedido não seguiu adiante.</li>
+                      <li><strong>Adoção concluída:</strong> o animal já está com a nova família.</li>
+                    </ul>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Quanto tempo demora para me responderem?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Não existe um prazo fixo, porque o projeto é mantido por voluntários. Assim que seu pedido for analisado, a equipe entra em contato pelo WhatsApp que você cadastrou. Por isso, mantenha seu telefone sempre atualizado em Meus dados.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Como funciona a videochamada?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Na página do animal, escolha "Conhecer por videochamada" e informe o melhor dia e período para você. A equipe chama você no WhatsApp para confirmar o horário, e vocês fazem uma chamada rápida para conhecer o animal antes de seguir com a adoção.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Meu pedido não foi aprovado. Posso tentar de novo?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Você pode conhecer os outros <a href="animais-para-adocao.html">animais para adoção</a> e fazer um novo pedido. Se quiser entender o motivo, fale com a equipe pelo botão no fim desta seção.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Como altero meu telefone ou endereço?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Abra <button type="button" data-abrir="btnDados">Meus dados</button> e clique em "Editar dados". Ao digitar o CEP, a rua, o bairro e a cidade são preenchidos sozinhos.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Preciso corrigir meu e-mail, CPF ou data de nascimento.</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Esses dados identificam sua conta e, por segurança, só a equipe pode alterá-los. Envie uma mensagem pelo botão no fim desta seção dizendo qual dado está errado e o valor correto.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Esqueci minha senha. O que faço?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Na tela de entrar, clique em "Esqueci minha senha" e siga as instruções. Se não conseguir, fale com a equipe.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Como excluo minha conta?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Abra <button type="button" data-abrir="btnPrivacidade">Privacidade</button> e clique em "Pedir exclusão da conta". Antes, se quiser, você pode baixar uma cópia dos seus dados por ali.</p>
+                  </div>
+                </details>
+
+                <details>
+                  <summary>Como posso ajudar o projeto sem adotar?</summary>
+                  <div class="pv-faq__resposta">
+                    <p>Você pode <a href="voluntario.html">ser voluntário(a)</a> nas feirinhas, no transporte ou nos passeios, doar por PIX ou com ração, itens e lacres de alumínio, ou seguir e compartilhar o Instagram do projeto. Veja tudo em <a href="sobre-o-projeto.html">Quem somos</a>.</p>
+                  </div>
+                </details>
+
+              </div>
+
+              <div class="pv-ajuda__contato">
+                <p>
+                  <strong>Não encontrou o que precisava?</strong>
+                  Mande uma mensagem que a equipe responde.
+                </p>
+                <a id="btnEnviarAjuda" class="pv-botao pv-botao--escuro" href="#">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M4 7.5l8 6 8-6"/></svg>
+                  Enviar e-mail
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- CONVITE -->
+
+        <a class="pv-convite" href="animais-para-adocao.html">
+          <span class="pv-convite__pata" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <ellipse cx="12" cy="16" rx="4.6" ry="3.8"/>
+              <circle cx="6.3" cy="10.5" r="2"/><circle cx="9.6" cy="7" r="2"/>
+              <circle cx="14.4" cy="7" r="2"/><circle cx="17.7" cy="10.5" r="2"/>
+            </svg>
+          </span>
+          <span class="pv-convite__texto">
+            <strong>Procurando um novo amigo?</strong>
+            <small>Veja os animais que estão esperando por uma família</small>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="pv-botao pv-botao--texto" href="politica-privacidade.html">Ler a Política de Privacidade</a>
+
       </div>
 
-    </section>
-
-    <div class="pv-rodape-conta">
-      <a href="home.html">Voltar para o início</a>
     </div>
 
   </main>
@@ -957,6 +1286,9 @@
       ? "/api"
       : "http://127.0.0.1:8000/api";
 
+  // E-mail que recebe as mensagens da Central de ajuda (não aparece na tela)
+  const EMAIL_AJUDA = "luizaignacio13@gmail.com";
+
   const $ = (id) => document.getElementById(id);
 
   let usuario = {};
@@ -968,7 +1300,6 @@
     const el = $("mensagem");
     el.textContent = texto;
     el.className = `is-${tipo}`;
-    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   function esconderMensagem() {
@@ -978,6 +1309,10 @@
   /* ---------- formatação ---------- */
 
   const digitos = (v) => String(v || "").replace(/\D/g, "");
+
+  const esc = (valor) => String(valor ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[c]));
 
   function formatarData(data) {
     if (!data) return "";
@@ -1009,9 +1344,97 @@
   function iniciais(nome) {
     const partes = String(nome || "").trim().split(/\s+/).filter(Boolean);
     if (!partes.length) return "";
-    const primeira = partes[0][0];
-    const ultima = partes.length > 1 ? partes[partes.length - 1][0] : "";
-    return (primeira + ultima).toUpperCase();
+    return (partes[0][0] + (partes.length > 1 ? partes[partes.length - 1][0] : "")).toUpperCase();
+  }
+
+  /* ---------- solicitações ---------- */
+
+  const STATUS_SOLICITACAO = {
+    "em análise": ["Em análise", "analise", "A equipe está avaliando seu pedido."],
+    "entrevista": ["Entrevista", "entrevista", "Vamos conversar para conhecer você melhor."],
+    "aprovada": ["Aprovada", "aprovada", "Seu pedido foi aprovado!"],
+    "recusada": ["Não aprovada", "recusada", "Desta vez o pedido não foi aprovado."],
+    "concluída": ["Adoção concluída", "concluida", "Obrigado por adotar!"]
+  };
+
+  function cartaoSolicitacao(pedido, animais) {
+    const animal = animais.find((item) => String(item.id) === String(pedido.animal_id)) || {};
+    const nome = animal.name || pedido.animal_name || "Animal";
+    const foto = animal.image || "assets/logo-footer.png";
+    const video = pedido.contact_type === "videochamada";
+    const status = STATUS_SOLICITACAO[String(pedido.status || "em análise").toLowerCase()]
+      || STATUS_SOLICITACAO["em análise"];
+
+    const preferencia = video && pedido.preferred_date
+      ? `. Preferência: ${formatarData(pedido.preferred_date)}${pedido.preferred_period ? ` (${esc(pedido.preferred_period)})` : ""}`
+      : "";
+    const entrevista = pedido.adoption_interview || {};
+    const resumoAdocao = !video && pedido.contact_type === "adocao"
+      ? `<details class="mt-3 rounded-lg bg-surface-container-low px-3 py-2">
+          <summary class="cursor-pointer font-semibold">Ver dados enviados</summary>
+          <p class="mt-2 text-sm">WhatsApp: ${esc(pedido.phone || "não informado")}</p>
+          <p class="text-sm">Moradia: ${esc(entrevista.moradia || "não informado")}</p>
+          <p class="text-sm">Arquivos do lar: ${Array.isArray(entrevista.fotos_lar) ? entrevista.fotos_lar.length : 0}</p>
+        </details>`
+      : "";
+
+    return `
+      <article class="pv-solicitacao">
+        <img src="${esc(foto)}" alt="Foto de ${esc(nome)}" onerror="this.src='assets/logo-footer.png'">
+        <div class="pv-solicitacao__conteudo">
+          <div class="pv-solicitacao__topo">
+            <div>
+              <p class="pv-solicitacao__tipo">${video ? "Videochamada" : "Pedido de adoção"}</p>
+              <h3>${esc(nome)}</h3>
+            </div>
+            <span class="pv-solicitacao__status pv-solicitacao__status--${status[1]}">${status[0]}</span>
+          </div>
+          <p class="pv-solicitacao__texto">${status[2]}</p>
+          <p class="pv-solicitacao__data">Enviado em ${formatarData(pedido.created_at)}${preferencia}</p>
+          ${resumoAdocao}
+          ${animal.id
+            ? `<a class="pv-solicitacao__link" href="detalhes-animal.html?id=${encodeURIComponent(animal.id)}">Ver perfil de ${esc(nome)}</a>`
+            : ""}
+        </div>
+      </article>`;
+  }
+
+  let solicitacoesCarregadas = false;
+
+  async function carregarSolicitacoes() {
+    if (solicitacoesCarregadas) return;
+
+    const carregando = $("solicitacoesCarregando");
+
+    try {
+      const [pedidosResposta, animaisResposta] = await Promise.all([
+        fetch(`${API}/applications`, { credentials: "include" }),
+        fetch(`${API}/animals`)
+      ]);
+
+      const pedidos = pedidosResposta.ok ? await pedidosResposta.json() : [];
+      const animais = animaisResposta.ok ? await animaisResposta.json() : [];
+
+      carregando.classList.add("hidden");
+
+      if (!Array.isArray(pedidos) || !pedidos.length) {
+        $("solicitacoesSemPedidos").classList.remove("hidden");
+        solicitacoesCarregadas = true;
+        return;
+      }
+
+      $("solicitacoesLista").innerHTML = pedidos
+        .map((pedido) => cartaoSolicitacao(pedido, Array.isArray(animais) ? animais : []))
+        .join("");
+
+      $("solicitacoesLista").classList.remove("hidden");
+      $("solicitacoesAjuda").classList.remove("hidden");
+      solicitacoesCarregadas = true;
+
+    } catch (erro) {
+      console.error(erro);
+      carregando.textContent = "Não foi possível carregar suas solicitações. Tente novamente.";
+    }
   }
 
   /* ---------- preencher a tela ---------- */
@@ -1027,8 +1450,17 @@
     const primeiroNome = nome.split(" ")[0];
 
     $("nomeUsuario").textContent = primeiroNome ? `Olá, ${primeiroNome}!` : "Olá!";
-    $("emailUsuario").textContent = usuario.email || "";
+    $("nomeCompleto").textContent = nome;
     if (iniciais(nome)) $("avatar").textContent = iniciais(nome);
+
+    // E-mail da Central de ajuda já com assunto e identificação da pessoa
+    const assunto = encodeURIComponent("Ajuda com minha conta - Pacotinho de Amor");
+    const corpo = encodeURIComponent(
+      `Olá, equipe!\n\nMeu nome é ${nome || "usuário(a) do Pacotinho de Amor"}`
+      + `${usuario.email ? ` e meu e-mail de cadastro é ${usuario.email}` : ""}.\n\n`
+      + "Preciso de ajuda com:\n"
+    );
+    $("btnEnviarAjuda").href = `mailto:${EMAIL_AJUDA}?subject=${assunto}&body=${corpo}`;
 
     escrever("dNome", nome);
     escrever("dEmail", usuario.email);
@@ -1041,7 +1473,7 @@
       [usuario.endereco, usuario.numero].filter(Boolean).join(", "),
       usuario.bairro,
       [usuario.cidade, usuario.estado].filter(Boolean).join(" - ")
-    ].filter(Boolean).join(" · ");
+    ].filter(Boolean).join(", ");
 
     escrever("dEndereco", endereco);
 
@@ -1050,7 +1482,6 @@
 
   function preencherFormulario() {
     $("eNome").value = usuario.name || usuario.nome || "";
-    $("eEmail").value = usuario.email || "";
     $("eTelefone").value = formatarTelefone(usuario.phone || usuario.telefone);
     $("eCep").value = formatarCep(usuario.cep);
     $("eEndereco").value = usuario.endereco || "";
@@ -1062,13 +1493,13 @@
 
   /* ---------- carregar conta ---------- */
 
-  // replace: a página da conta não fica no histórico,
-  // então o "voltar" do navegador não cai de novo aqui
   const PAINEL = {
     master: "painel-master.html",
     volunteer: "painel-voluntario.html"
   };
 
+  // replace: a página da conta não fica no histórico,
+  // então o "voltar" do navegador não cai de novo aqui
   function irParaLogin() {
     location.replace("login.html?next=minha-conta.html");
   }
@@ -1077,7 +1508,6 @@
     try {
       const resposta = await fetch(`${API}/auth/me`, { credentials: "include" });
       const resultado = await resposta.json().catch(() => ({}));
-
       const tipo = String(resultado.user_type || "").toLowerCase();
 
       // Logado como voluntário(a) ou Master: vai para o próprio painel
@@ -1096,39 +1526,37 @@
       preencher();
       document.documentElement.classList.remove("verificando");
 
+      if (location.hash === "#solicitacoes") {
+        $("btnSolicitacoes").click();
+      }
+
     } catch (erro) {
       console.error(erro);
       irParaLogin();
     }
   }
 
-  /* ---------- painel de dados ---------- */
+  /* ---------- abrir e fechar as seções ---------- */
 
-  function modoLeitura() {
-    $("dadosLeitura").classList.remove("hidden");
-    $("dadosEdicao").classList.add("hidden");
+  function alternar(botao, painel, forcarAbrir = false) {
+    const abrir = forcarAbrir || painel.classList.contains("hidden");
+    painel.classList.toggle("hidden", !abrir);
+    botao.setAttribute("aria-expanded", String(abrir));
+    return abrir;
   }
 
-  function modoEdicao() {
-    preencherFormulario();
-    $("dadosLeitura").classList.add("hidden");
-    $("dadosEdicao").classList.remove("hidden");
-    $("eNome").focus();
-  }
+  $("btnSolicitacoes").addEventListener("click", () => {
+    esconderMensagem();
+    if (alternar($("btnSolicitacoes"), $("painelSolicitacoes"))) carregarSolicitacoes();
+  });
 
   $("btnDados").addEventListener("click", () => {
     esconderMensagem();
+    const abriu = alternar($("btnDados"), $("painelDados"));
 
-    const painel = $("painelDados");
-    const abrir = painel.classList.contains("hidden");
+    modoLeitura();
 
-    painel.classList.toggle("hidden", !abrir);
-    $("btnDados").setAttribute("aria-expanded", String(abrir));
-
-    if (abrir) {
-      modoLeitura();
-      painel.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
+    if (!abriu) {
       // ao fechar, o CPF volta a ficar escondido
       cpfVisivel = false;
       $("btnMostrarCpf").textContent = "Mostrar";
@@ -1136,6 +1564,35 @@
       preencher();
     }
   });
+
+  $("btnPrivacidade").addEventListener("click", () => {
+    esconderMensagem();
+    alternar($("btnPrivacidade"), $("painelPrivacidade"));
+  });
+
+  $("btnAjuda").addEventListener("click", () => {
+    esconderMensagem();
+    alternar($("btnAjuda"), $("painelAjuda"));
+  });
+
+  // Links dentro das respostas que abrem outra seção da página
+  document.querySelectorAll("[data-abrir]").forEach((link) => {
+    link.addEventListener("click", () => {
+      const botao = $(link.dataset.abrir);
+      const painel = $(botao.getAttribute("aria-controls"));
+
+      if (painel.classList.contains("hidden")) botao.click();
+      botao.scrollIntoView({ behavior: "smooth", block: "start" });
+      botao.focus({ preventScroll: true });
+    });
+  });
+
+  /* ---------- meus dados ---------- */
+
+  function modoLeitura() {
+    $("dadosLeitura").classList.remove("hidden");
+    $("dadosEdicao").classList.add("hidden");
+  }
 
   $("btnMostrarCpf").addEventListener("click", () => {
     cpfVisivel = !cpfVisivel;
@@ -1146,13 +1603,13 @@
 
   $("btnEditar").addEventListener("click", () => {
     esconderMensagem();
-    modoEdicao();
+    preencherFormulario();
+    $("dadosLeitura").classList.add("hidden");
+    $("dadosEdicao").classList.remove("hidden");
+    $("eNome").focus();
   });
 
-  $("btnCancelar").addEventListener("click", () => {
-    modoLeitura();
-    $("painelDados").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+  $("btnCancelar").addEventListener("click", modoLeitura);
 
   // CEP: preenche rua, bairro, cidade e estado automaticamente
   $("eCep").addEventListener("input", async () => {
@@ -1172,7 +1629,7 @@
       $("eEstado").value = d.uf || $("eEstado").value;
       $("eNumero").focus();
     } catch (e) {
-      // sem internet ou CEP fora do ar: a pessoa preenche à mão
+      // sem internet ou serviço fora do ar: a pessoa preenche à mão
     }
   });
 
@@ -1186,11 +1643,12 @@
 
     const nome = $("eNome").value.trim();
     const tel = digitos($("eTelefone").value);
+    const telInvalido = tel.length > 0 && tel.length < 10;
 
     $("grupoNome").classList.toggle("erro", !nome);
-    $("grupoTelefone").classList.toggle("erro", tel.length > 0 && tel.length < 10);
+    $("grupoTelefone").classList.toggle("erro", telInvalido);
 
-    if (!nome || (tel.length > 0 && tel.length < 10)) {
+    if (!nome || telInvalido) {
       mostrarMensagem("Confira os campos marcados em vermelho.", "erro");
       return;
     }
@@ -1221,7 +1679,7 @@
       const dados = await resposta.json().catch(() => ({}));
 
       if ([404, 405, 501].includes(resposta.status)) {
-        mostrarMensagem("A edição de dados ainda não está disponível. Para corrigir algo agora, fale com a equipe pelo WhatsApp.", "info");
+        mostrarMensagem("A edição de dados ainda não está disponível. Para corrigir algo agora, fale com a equipe pela Central de ajuda.", "info");
         return;
       }
 
@@ -1243,20 +1701,11 @@
       );
     } finally {
       botao.disabled = false;
-      botao.textContent = "Salvar alterações";
+      botao.textContent = "Salvar";
     }
   });
 
-  /* ---------- outras opções ---------- */
-
-  $("btnSenha").addEventListener("click", () => {
-    mostrarMensagem("A alteração de senha estará disponível aqui em breve.", "info");
-  });
-
-  $("btnPrivacidade").addEventListener("click", () => {
-    esconderMensagem();
-    $("privacidade").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+  /* ---------- privacidade ---------- */
 
   // Direito de acesso e portabilidade: baixa os dados da conta em um arquivo
   $("btnBaixar").addEventListener("click", () => {
@@ -1272,12 +1721,26 @@
     URL.revokeObjectURL(link.href);
   });
 
+  /* ---------- sair ---------- */
+
   $("btnSair").addEventListener("click", async () => {
     try {
       await fetch(`${API}/auth/logout`, { method: "POST", credentials: "include" });
     } catch (erro) {
       console.error(erro);
     }
+    location.replace("login.html");
+  });
+
+  $("btnExcluirConta").addEventListener("click", async () => {
+    if (!window.confirm("Excluir sua conta e todos os seus dados? Esta ação não pode ser desfeita.")) return;
+    const resposta = await fetch(`${API}/account/me`, { method: "DELETE", credentials: "include" });
+    const dadosExclusao = await resposta.json().catch(() => ({}));
+    if (!resposta.ok) {
+      mostrarMensagem(dadosExclusao.message || "Não foi possível excluir a conta.", "erro");
+      return;
+    }
+    localStorage.removeItem("pa_account_name");
     location.replace("login.html");
   });
 

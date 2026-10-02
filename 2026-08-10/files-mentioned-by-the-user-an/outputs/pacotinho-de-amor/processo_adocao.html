@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="utf-8">
+<meta charset="utf-8">`r`n  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Pacotinho de Amor - Quero adotar a Luna</title>
+<title>Processo de adoção — Pacotinho de Amor</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
@@ -121,9 +121,9 @@
 <div class="w-full max-w-2xl bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(95,55,110,0.06)] overflow-hidden flex flex-col">
 <!-- Hero Image Section -->
 <div class="relative w-full h-64 md:h-80 bg-surface-container overflow-hidden">
-<img alt="Foto da Luna" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeMFxNWXF5Gqx5rqDtfD-pHkhm-fwkLpte6rrdWQQFfacJxhXac53plVbLNINp3N8yVXD_PKpJxm3zRJCej0V7SFP0WRVoW5kVBpZebhlHsdm1nF6j4KDXC8NrxKCYawk4Mbc8wQfQR0yKke1Xj1jvzzgOE_XJQB8OjQaTgEGkYA07ntnvj4aj4DgFH20CJjs9uzyu970OUVPpQs7blUow46jO4TeJn0dozVSz6LUZ6reV-jyMkY-Q">
+<img id="animal-foto" alt="Foto do animal para adoção" class="w-full h-full object-cover" src="assets/logo-footer.png">
 <div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end p-md">
-<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background drop-shadow-sm">Quero adotar a Luna</h2>
+<h2 id="animal-nome" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background drop-shadow-sm">Quero adotar</h2>
 </div>
 </div>
 <!-- Content Section -->
@@ -141,12 +141,32 @@
                         </p>
 </div>
 </div>
+<!-- Processo obrigatório -->
+<div class="rounded-xl border border-primary/20 bg-primary/5 p-md md:p-lg">
+<h3 class="font-headline-md text-headline-md text-primary mb-sm">Etapas obrigatórias da adoção</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">
+                        Para seguir com a análise, será necessário concluir todas as etapas abaixo:
+                    </p>
+<ul class="space-y-2 font-body-md text-body-md text-on-surface">
+<li class="flex gap-2"><span class="font-bold text-primary" aria-hidden="true">✔</span><span>Enviar fotos e/ou vídeos do lar. Para gatos, o lar precisa ser 100% telado, sem exceção.</span></li>
+<li class="flex gap-2"><span class="font-bold text-primary" aria-hidden="true">✔</span><span>Enviar documento com foto e comprovante de endereço.</span></li>
+<li class="flex gap-2"><span class="font-bold text-primary" aria-hidden="true">✔</span><span>Informar se os outros animais da residência são castrados e vacinados.</span></li>
+<li class="flex gap-2"><span class="font-bold text-primary" aria-hidden="true">✔</span><span>Responder ao questionário e participar da entrevista.</span></li>
+</ul>
+<div class="mt-md rounded-lg bg-secondary-fixed/40 p-sm md:p-md">
+<p class="font-label-md text-label-md text-primary">Taxa de adoção</p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            O valor mínimo é <strong>R$ 250</strong> e o valor sugerido é <strong>R$ 350</strong>.
+                            A taxa é informada antes da conclusão da adoção.
+                        </p>
+</div>
+</div>
 <!-- Actions -->
 <div class="flex flex-col gap-sm mt-md">
-<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-sm px-md rounded-full shadow-md hover:shadow-lg hover:bg-on-primary-fixed-variant transition-all active:scale-95 flex items-center justify-center gap-xs">
+<a id="continuar-entrevista" href="entrevista_adocao.html" class="w-full bg-primary text-on-primary font-label-md text-label-md py-sm px-md rounded-full shadow-md hover:shadow-lg hover:bg-on-primary-fixed-variant transition-all active:scale-95 flex items-center justify-center gap-xs">
                         Continuar para a entrevista
                         <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
-</button>
+</a>
 <button class="w-full bg-transparent border-2 border-secondary-fixed text-primary font-label-md text-label-md py-sm px-md rounded-full hover:bg-secondary-fixed/20 transition-all active:scale-95 text-center">
                         Voltar
                     </button>
@@ -155,4 +175,31 @@
 </div>
 </main>
 <script src="shared.js"></script>
+<script>
+  const API_URL = location.port === "8000" ? "/api" : "http://127.0.0.1:8000/api";
+  const idAnimal = new URLSearchParams(window.location.search).get("id");
+  const idDoAnimal = (animal) => String(animal?.id || animal?._id?.$oid || animal?._id || "");
+  (async () => {
+    if (!idAnimal) return;
+    try {
+      const resposta = await fetch(`${API_URL}/animals`, { credentials: "include" });
+      if (!resposta.ok) throw new Error("Não foi possível carregar o animal.");
+      const retorno = await resposta.json();
+      const lista = Array.isArray(retorno) ? retorno : (retorno.animals || retorno.data || []);
+      const animal = lista.find((item) => idDoAnimal(item) === String(idAnimal));
+      if (!animal) throw new Error("Animal não encontrado.");
+      const nome = animal.name || "Animal para adoção";
+      const imagem = animal.image || animal.imagem || animal.photo || animal.foto || "assets/logo-footer.png";
+      document.getElementById("animal-nome").textContent = `Quero adotar ${nome}`;
+      document.getElementById("animal-foto").src = imagem;
+      document.getElementById("animal-foto").alt = `Foto de ${nome}`;
+      document.title = `Processo de adoção de ${nome} — Pacotinho de Amor`;
+      document.getElementById("continuar-entrevista").href =
+        `entrevista_adocao.html?id=${encodeURIComponent(idAnimal)}&animal_name=${encodeURIComponent(nome)}`;
+    } catch (erro) {
+      document.getElementById("animal-nome").textContent = "Animal não encontrado";
+      document.getElementById("continuar-entrevista").classList.add("pointer-events-none", "opacity-50");
+    }
+  })();
+</script>
 </body></html>

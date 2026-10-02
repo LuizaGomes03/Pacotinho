@@ -34,12 +34,21 @@
 
   <style>
     body { font-family: Montserrat, sans-serif; }
-    a:focus-visible, button:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 2px; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 2px; }
     .campo { width: 100%; border: 1px solid #cfc3ce; border-radius: .6rem; padding: .7rem .9rem; font-size: 15px; background: #fff; }
     .campo:focus { border-color: #5f376e; box-shadow: 0 0 0 2px rgba(95,55,110,.15); outline: none; }
     .rotulo { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #1d1a20; }
     #toast { transition: opacity .2s, transform .2s; }
     #toast.oculto { opacity: 0; transform: translateY(10px); pointer-events: none; }
+
+    /* Campos de número sem as setinhas do navegador (usamos botões − e +) */
+    .sem-setas::-webkit-inner-spin-button,
+    .sem-setas::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    .sem-setas { -moz-appearance: textfield; }
+
+    /* Seta dos blocos que abrem e fecham */
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .gira { transform: rotate(180deg); }
   </style>
 </head>
 
@@ -95,15 +104,15 @@
 
 <!-- ==================== CONTEÚDO ==================== -->
 <main class="min-h-screen pb-24 md:ml-64 md:pb-8">
-  <div id="conteudo" class="mx-auto w-full max-w-5xl p-4 md:p-8"></div>
+  <div id="conteudo" class="mx-auto w-full max-w-6xl p-4 md:p-8"></div>
 </main>
 
 <!-- ==================== MENU INFERIOR (CELULAR) ==================== -->
-<nav id="menuInferior" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-surface-variant bg-white px-1 pb-[calc(6px+env(safe-area-inset-bottom))] pt-1.5 md:hidden"></nav>
+<nav id="menuInferior" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-8 border-t border-surface-variant bg-white px-1 pb-[calc(6px+env(safe-area-inset-bottom))] pt-1.5 md:hidden"></nav>
 
 <!-- ==================== MODAL EDITAR ANIMAL ==================== -->
 <div id="modalAnimal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
-  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
     <div class="mb-4 flex items-start justify-between gap-3">
       <div>
         <p class="text-sm font-semibold text-secondary">Editar animal</p>
@@ -116,33 +125,34 @@
 
     <input id="animalId" type="hidden">
 
-    <label for="animalStatus" class="rotulo">Situação</label>
-    <select id="animalStatus" class="campo mb-1">
+    <label for="animalStatus" class="text-base font-semibold text-primary">Situação</label>
+    <select id="animalStatus" class="campo mb-1 text-base">
       <option value="disponível">Disponível para adoção</option>
       <option value="em adoção">Em processo de adoção</option>
     </select>
     <p class="mb-4 text-xs text-on-surface-variant">Só animais "disponíveis" aparecem no site. Para registrar uma adoção, use o botão <strong>Marcar como adotado</strong>.</p>
 
-    <label for="animalResponsavel" class="rotulo">Responsável</label>
-    <input id="animalResponsavel" class="campo mb-4" maxlength="120" placeholder="Ex.: Bárbara">
+    <label for="animalResponsavel" class="text-base font-semibold text-primary">Responsável</label>
+    <input id="animalResponsavel" class="campo mb-4 text-base" maxlength="120" placeholder="Ex.: Bárbara">
 
-    <label for="animalDescricao" class="rotulo">Descrição</label>
-    <textarea id="animalDescricao" class="campo mb-4" rows="4" maxlength="1000"></textarea>
+    <label for="animalDescricao" class="text-base font-semibold text-primary">Descrição</label>
+    <textarea id="animalDescricao" class="campo mb-4 text-base" rows="5" maxlength="1000"></textarea>
 
     <label class="mb-5 flex items-center gap-3 rounded-xl border border-surface-variant p-3">
       <input id="animalPcd" type="checkbox" class="h-5 w-5 rounded text-primary-container focus:ring-primary-container">
       <span class="text-sm"><strong>Animal PCD</strong> (com alguma deficiência)</span>
     </label>
 
-    <button type="button" id="btnSalvarAnimal" onclick="salvarAnimal()" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
-      Salvar
-    </button>
+    <div class="grid gap-3 sm:grid-cols-2">
+      <button type="button" id="btnSalvarAnimal" onclick="salvarAnimal()" class="w-full rounded-full bg-primary-container py-3.5 text-base font-semibold text-white hover:bg-primary disabled:opacity-60">Salvar alterações</button>
+      <button type="button" onclick="removerAnimal(document.getElementById('animalId').value)" class="w-full rounded-full border border-red-200 py-3.5 text-base font-semibold text-red-700 hover:bg-red-50">Deletar perfil</button>
+    </div>
   </div>
 </div>
 
 <!-- ==================== MODAL MARCAR COMO ADOTADO ==================== -->
 <div id="modalAdocao" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
-  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
     <div class="mb-4 flex items-start justify-between gap-3">
       <div>
         <p class="text-sm font-semibold text-green-700">Marcar como adotado 💜</p>
@@ -189,7 +199,7 @@
     <label for="evDescricao" class="rotulo">Descrição</label>
     <textarea id="evDescricao" class="campo mb-3" rows="3" maxlength="1000"></textarea>
 
-    <div class="mb-3 grid grid-cols-3 gap-3">
+    <div class="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
       <div><label for="evData" class="rotulo">Data</label><input id="evData" type="date" class="campo"></div>
       <div><label for="evInicio" class="rotulo">Início</label><input id="evInicio" type="time" class="campo"></div>
       <div><label for="evFim" class="rotulo">Fim</label><input id="evFim" type="time" class="campo"></div>
@@ -201,7 +211,7 @@
     <label for="evEspaco" class="rotulo">Sobre o espaço</label>
     <textarea id="evEspaco" class="campo mb-3" rows="2" maxlength="600" placeholder="Estrutura, regras, área coberta..."></textarea>
 
-    <div class="mb-5 grid grid-cols-3 gap-3">
+    <div class="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
       <div><label for="evAnimais" class="rotulo">Máx. animais</label><input id="evAnimais" type="number" min="1" value="10" class="campo"></div>
       <div><label for="evVoluntarios" class="rotulo">Máx. voluntários</label><input id="evVoluntarios" type="number" min="1" value="6" class="campo"></div>
       <div><label for="evCapacidade" class="rotulo">Capacidade</label><input id="evCapacidade" type="number" min="1" value="16" class="campo"></div>
@@ -215,7 +225,7 @@
 
 <!-- ==================== MODAL CRIAR CONTA DE APOIO ==================== -->
 <div id="modalContaApoio" class="fixed inset-0 z-[220] hidden items-center justify-center bg-black/50 p-4">
-  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
     <div class="mb-4 flex items-start justify-between gap-3">
       <div>
         <p class="text-sm font-semibold text-secondary">Nova conta</p>
@@ -226,34 +236,37 @@
       </button>
     </div>
 
-    <p class="mb-5 text-sm text-on-surface-variant">
-      A conta será usada pela pessoa para entrar como voluntário(a). Você deverá compartilhar o e-mail e a senha com ela.
-    </p>
+    <form id="formContaApoio">
+      <p id="erroContaApoio" class="mb-4 hidden rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700" role="alert"></p>
+      <p class="mb-5 text-sm text-on-surface-variant">
+        A conta será usada pela pessoa para entrar como voluntário(a). Você deverá compartilhar o e-mail e a senha com ela.
+      </p>
 
-    <label for="apoioNome" class="rotulo">Nome</label>
-    <input id="apoioNome" class="campo mb-3" maxlength="120" placeholder="Nome da pessoa">
+      <label for="apoioNome" class="rotulo">Nome</label>
+      <input id="apoioNome" class="campo mb-3" maxlength="120" autocomplete="name" required placeholder="Nome da pessoa">
 
-    <label for="apoioEmail" class="rotulo">E-mail</label>
-    <input id="apoioEmail" type="email" class="campo mb-3" maxlength="160" placeholder="email@exemplo.com">
+      <label for="apoioEmail" class="rotulo">E-mail</label>
+      <input id="apoioEmail" type="email" class="campo mb-3" maxlength="160" autocomplete="email" required placeholder="email@exemplo.com">
 
-    <label for="apoioSenha" class="rotulo">Senha</label>
-    <div class="mb-1 flex gap-2">
-      <input id="apoioSenha" type="text" class="campo" minlength="12" autocomplete="new-password" placeholder="Gere uma senha segura">
-      <button type="button" onclick="gerarSenhaApoio()" class="shrink-0 rounded-xl border border-primary-container px-3 font-semibold text-primary-container hover:bg-surface-low" title="Gerar senha aleatória">
-        <span class="material-symbols-outlined">autorenew</span>
+      <label for="apoioSenha" class="rotulo">Senha</label>
+      <div class="mb-1 flex gap-2">
+        <input id="apoioSenha" type="text" class="campo" minlength="8" autocomplete="new-password" required placeholder="Gere uma senha segura">
+        <button type="button" onclick="gerarSenhaApoio()" class="shrink-0 rounded-xl border border-primary-container px-3 font-semibold text-primary-container hover:bg-surface-low" title="Gerar senha aleatória">
+          <span class="material-symbols-outlined">autorenew</span>
+        </button>
+      </div>
+      <p class="mb-5 text-xs text-on-surface-variant">Use uma senha aleatória e temporária. Depois, a pessoa deve trocar a senha no primeiro acesso.</p>
+
+      <button type="submit" id="btnCriarContaApoio" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
+        Criar conta
       </button>
-    </div>
-    <p class="mb-5 text-xs text-on-surface-variant">Use uma senha aleatória e temporária. Depois, a pessoa deve trocar a senha no primeiro acesso.</p>
-
-    <button type="button" id="btnCriarContaApoio" onclick="criarContaApoio()" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary disabled:opacity-60">
-      Criar conta
-    </button>
+    </form>
   </div>
 </div>
 
 <!-- ==================== DADOS DA NOVA CONTA ==================== -->
 <div id="modalDadosConta" class="fixed inset-0 z-[260] hidden items-center justify-center bg-black/50 p-4">
-  <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
     <div class="mb-4">
       <p class="text-sm font-semibold text-secondary">Conta criada</p>
       <h2 class="text-xl font-bold text-primary">Dados para enviar à pessoa</h2>
@@ -276,9 +289,82 @@
   </div>
 </div>
 
+<!-- ==================== INFORMAÇÕES DA ADOÇÃO ==================== -->
+<div id="modalInfoAdocao" class="fixed inset-0 z-[240] hidden items-center justify-center bg-black/50 p-4">
+  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-5 flex items-start justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold text-secondary">Histórico da adoção</p>
+        <h2 id="infoAdocaoTitulo" class="text-xl font-bold text-primary"></h2>
+      </div>
+      <button type="button" onclick="fecharModal('modalInfoAdocao')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="grid gap-3">
+      <label class="rotulo">Data da adoção
+        <input id="infoAdocaoData" type="date" class="campo mt-1">
+      </label>
+      <label class="rotulo">Local/canal
+        <input id="infoAdocaoLocal" class="campo mt-1" maxlength="120" placeholder="Ex.: Pelo site, Instagram, feirinha">
+      </label>
+      <label class="rotulo">Nome de quem adotou
+        <input id="infoAdocaoNome" class="campo mt-1" maxlength="120">
+      </label>
+      <label class="rotulo">E-mail
+        <input id="infoAdocaoEmail" type="email" class="campo mt-1" maxlength="160">
+      </label>
+      <label class="rotulo">Telefone
+        <input id="infoAdocaoTelefone" type="tel" class="campo mt-1" maxlength="30">
+      </label>
+    </div>
+    <p id="infoAdocaoErro" class="mt-3 hidden rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700"></p>
+    <div class="mt-6 flex flex-col gap-2 sm:flex-row">
+      <button type="button" id="btnSalvarInfoAdocao" class="flex-1 rounded-full bg-primary-container py-3 font-semibold text-white">
+        Salvar informações
+      </button>
+      <button type="button" id="btnColocarNovamente" class="flex-1 rounded-full border border-primary-container py-3 font-semibold text-primary">
+        Colocar para adoção novamente
+      </button>
+      <button type="button" onclick="fecharModal('modalInfoAdocao')" class="flex-1 rounded-full border border-outline-variant py-3 font-semibold text-primary">
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== COLOCAR PARA ADOÇÃO NOVAMENTE ==================== -->
+<!-- Fica fora do modal de informações: se ficasse dentro, sumiria junto quando ele fecha -->
+<div id="modalRepublicarAnimal" class="fixed inset-0 z-[245] hidden items-center justify-center bg-black/50 p-4">
+  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+    <div class="mb-5 flex items-start justify-between gap-3">
+      <div>
+        <p class="text-sm font-semibold text-secondary">Nova publicação</p>
+        <h2 id="republicarTitulo" class="text-xl font-bold text-primary"></h2>
+      </div>
+      <button type="button" onclick="fecharModal('modalRepublicarAnimal')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <p class="mb-4 rounded-xl bg-primary-fixed p-3 text-sm text-primary">Revise os dados antes de publicar. Este animal terá destaque por 14 dias.</p>
+    <input id="republicarId" type="hidden">
+    <label class="rotulo">Nome<input id="republicarNome" class="campo mb-3 mt-1"></label>
+    <label class="rotulo">Espécie<input id="republicarEspecie" class="campo mb-3 mt-1"></label>
+    <label class="rotulo">Raça<input id="republicarRaca" class="campo mb-3 mt-1"></label>
+    <label class="rotulo">Idade<input id="republicarIdade" class="campo mb-3 mt-1"></label>
+    <label class="rotulo">Porte<input id="republicarPorte" class="campo mb-3 mt-1"></label>
+    <label class="rotulo">Sexo<input id="republicarSexo" class="campo mb-3 mt-1"></label>
+    <label class="rotulo">Localização<input id="republicarLocalizacao" class="campo mb-3 mt-1"></label>
+    <label class="rotulo">Descrição<textarea id="republicarDescricao" class="campo mb-3 mt-1" rows="4"></textarea></label>
+    <label class="rotulo">Motivo da volta para adoção<textarea id="republicarMotivo" class="campo mb-4 mt-1" rows="3" required></textarea></label>
+    <p id="republicarErro" class="mb-3 hidden rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700"></p>
+    <button type="button" id="btnRepublicarSalvar" class="w-full rounded-full bg-primary-container py-3 font-semibold text-white hover:bg-primary">Publicar novamente</button>
+  </div>
+</div>
+
 <!-- ==================== CONFIRMAÇÃO ==================== -->
 <div id="modalConfirmar" class="fixed inset-0 z-[250] hidden items-center justify-center bg-black/50 p-4">
-  <div class="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl">
+  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-sm overflow-y-auto rounded-2xl bg-white p-6 text-center shadow-2xl">
     <p id="confirmarTexto" class="mb-5 text-on-surface"></p>
     <div class="flex gap-2">
       <button type="button" id="confirmarNao" class="flex-1 rounded-full border border-outline-variant py-2.5 font-semibold text-primary">Cancelar</button>
@@ -297,16 +383,22 @@
 const API = "/api";
 
 const PAGINAS = [
-  { id: "inicio",      nome: "Visão geral",  curto: "Início",   icone: "dashboard" },
-  { id: "animais",     nome: "Animais",      curto: "Animais",  icone: "pets" },
-  { id: "adocoes",     nome: "Pedidos",      curto: "Pedidos",  icone: "family_restroom" },
-  { id: "adotados",    nome: "Adotados",     curto: "Adotados", icone: "favorite" },
-  { id: "voluntarios", nome: "Voluntários",  curto: "Equipe",   icone: "volunteer_activism" },
-  { id: "contas-apoio", nome: "Contas de apoio", curto: "Apoio", icone: "manage_accounts" },
-  { id: "eventos",     nome: "Eventos",      curto: "Eventos",  icone: "event" }
+  { id: "inicio",       nome: "Visão geral",     curto: "Início",       icone: "dashboard" },
+  { id: "animais",      nome: "Animais",         curto: "Animais",      icone: "pets" },
+  { id: "adocoes",      nome: "Solicitações",    curto: "Pedidos",      icone: "family_restroom" },
+  { id: "adotados",     nome: "Adotados",        curto: "Adotados",     icone: "favorite" },
+  { id: "voluntarios",  nome: "Voluntários",     curto: "Equipe",       icone: "volunteer_activism" },
+  { id: "contas-apoio", nome: "Contas de apoio", curto: "Apoio",        icone: "manage_accounts" },
+  { id: "eventos",      nome: "Eventos",         curto: "Eventos",      icone: "event" },
+  { id: "relatorios",   nome: "Relatórios",      curto: "Relatórios",   icone: "analytics" }
 ];
 
-const dados = { user: null, animais: [], adocoes: [], voluntarios: [], eventos: [], contasApoio: [] };
+const dados = { user: null, animais: [], adocoes: [], voluntarios: [], eventos: [], contasApoio: [], solicitacoesEventos: [], relatoriosEventos: [] };
+const filtrosRelatorio = { inicio: "", fim: "", especie: "", local: "" };
+let filtroPedidos = "pendentes";
+let buscaAnimais = "";
+let buscaVoluntarios = "";
+let filtroVoluntarios = "todos";
 let paginaAtual = "inicio";
 
 /* ============================================================
@@ -363,7 +455,7 @@ async function api(caminho, opcoes = {}) {
 }
 
 function vazio(texto) {
-  return `<div class="rounded-xl bg-white p-8 text-center text-on-surface-variant">
+  return `<div class="rounded-2xl bg-white p-8 text-center text-on-surface-variant">
     <span class="material-symbols-outlined text-4xl text-secondary">inbox</span>
     <p class="mt-2 font-semibold">${esc(texto)}</p></div>`;
 }
@@ -385,12 +477,19 @@ const STATUS_ANIMAL = {
   "adotado":    ["Adotado", "bg-surface-variant text-on-surface-variant"]
 };
 
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+const hojeISO = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+const adotados = () => dados.animais.filter((a) => a.status === "adotado");
+const adotadosDoMes = () => adotados().filter((a) => (a.adopted_at || "").slice(0, 7) === hojeISO().slice(0, 7));
+
 /* ============================================================
    CARREGAR DADOS
    ============================================================ */
 async function carregarTudo() {
-  const [animais, adocoes, voluntarios, eventos, contasApoio] = await Promise.allSettled([
-    api("/animals"), api("/applications"), api("/volunteer-requests"), api("/events"), api("/volunteer-accounts")
+  const [animais, adocoes, voluntarios, eventos, contasApoio, solicitacoesEventos, relatoriosEventos] = await Promise.allSettled([
+    api("/animals"), api("/applications"), api("/volunteer-requests"), api("/events"), api("/volunteer-accounts"), api("/event-requests"), api("/event-reports")
   ]);
   const lista = (r) => (r.status === "fulfilled" && Array.isArray(r.value) ? r.value : []);
   dados.animais = lista(animais);
@@ -398,16 +497,18 @@ async function carregarTudo() {
   dados.voluntarios = lista(voluntarios);
   dados.eventos = lista(eventos);
   dados.contasApoio = lista(contasApoio);
+  dados.solicitacoesEventos = lista(solicitacoesEventos);
+  dados.relatoriosEventos = lista(relatoriosEventos);
   desenhar();
 }
 
 /* ============================================================
-   PÁGINAS
+   PÁGINA — VISÃO GERAL
    ============================================================ */
 function paginaInicio() {
   const pendentes = dados.voluntarios.filter((v) => v.status === "pending").length;
   const disponiveis = dados.animais.filter((a) => (a.status || "disponível") === "disponível").length;
-  const proximos = dados.eventos.filter((e) => (e.date || "") >= new Date().toISOString().slice(0, 10));
+  const proximos = dados.eventos.filter((e) => (e.date || "") >= hojeISO());
 
   const card = (pagina, numero, texto, icone, destaque = false) => `
     <button type="button" data-ir="${pagina}" class="rounded-2xl p-5 text-left shadow-sm transition hover:shadow-md ${destaque ? "bg-primary-container text-white" : "bg-white"}">
@@ -437,6 +538,9 @@ function paginaInicio() {
     </section>`;
 }
 
+/* ============================================================
+   PÁGINA — ANIMAIS
+   ============================================================ */
 function paginaAnimais() {
   const botao = `<a href="adicionar-animal.html" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 font-semibold text-white hover:bg-primary">
     <span class="material-symbols-outlined">add</span>Cadastrar animal</a>`;
@@ -444,42 +548,83 @@ function paginaAnimais() {
   const ativos = dados.animais.filter((a) => a.status !== "adotado");
   const qtdAdotados = dados.animais.length - ativos.length;
   const sub = `${ativos.length} para adoção` + (qtdAdotados ? ` • ${qtdAdotados} já adotado(s)` : "");
-
-  if (!ativos.length) return titulo("Animais", sub, botao) + vazio("Nenhum animal para adoção no momento.");
+  const termo = buscaAnimais.trim().toLocaleLowerCase("pt-BR");
+  const filtrados = ativos.filter((a) => String(a.name || "").toLocaleLowerCase("pt-BR").includes(termo));
 
   return titulo("Animais", sub, botao) + `
-    <div class="grid gap-3 md:grid-cols-2">
-      ${ativos.map((a) => {
-        const [rotulo, cor] = STATUS_ANIMAL[a.status] || STATUS_ANIMAL["disponível"];
-        return `<article class="flex gap-4 rounded-2xl bg-white p-4 shadow-sm">
-          <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-20 w-20 shrink-0 rounded-xl bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
-          <div class="min-w-0 flex-1">
-            <div class="flex items-start justify-between gap-2">
-              <h3 class="truncate font-bold text-primary">${esc(a.name || "Sem nome")}</h3>
-              <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
-            </div>
-            <p class="text-sm text-on-surface-variant">${esc([a.species, a.age, a.sex].filter(Boolean).join(" • "))}</p>
-            ${a.responsible_person ? `<p class="mt-1 text-sm">Responsável: <strong>${esc(a.responsible_person)}</strong></p>` : ""}
-            <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm font-semibold">
-              <button type="button" onclick="abrirAdocao('${esc(a.id)}')" class="text-green-700 hover:underline">Marcar como adotado</button>
-              <button type="button" onclick="editarAnimal('${esc(a.id)}')" class="text-primary hover:underline">Editar</button>
-              <a href="detalhes-animal.html?id=${encodeURIComponent(a.id)}" target="_blank" class="text-secondary hover:underline">Ver no site</a>
-            </div>
-          </div>
-        </article>`;
-      }).join("")}
+    <div class="mb-6 rounded-2xl bg-white p-4 shadow-sm">
+      <label for="buscaAnimais" class="mb-2 block font-semibold text-primary">Buscar animal pelo nome</label>
+      <div class="relative">
+        <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" aria-hidden="true">search</span>
+        <input id="buscaAnimais" type="search" value="${esc(buscaAnimais)}" oninput="atualizarBuscaAnimais(this.value)"
+          class="campo w-full pl-11 text-base" placeholder="Digite o nome do animal" autocomplete="off">
+      </div>
+      <p class="mt-2 text-sm text-on-surface-variant">${filtrados.length} resultado(s) encontrado(s)</p>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      ${filtrados.length
+        ? filtrados.map(cartaoAnimal).join("")
+        : `<div class="sm:col-span-2 xl:col-span-3">${vazio(ativos.length ? "Nenhum animal encontrado com esse nome." : "Nenhum animal para adoção no momento.")}</div>`}
     </div>`;
 }
 
-/* ============================================================
-   ADOTADOS — números para saber quando e onde mais se adota
-   ============================================================ */
-const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
-const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+// Card grande: foto em cima, informações e botões embaixo
+function cartaoAnimal(a) {
+  const id = esc(a.id);
+  const temFoto = Boolean(a.image);
+  const emAdocao = a.status === "em adoção";
 
-const hojeISO = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
-const adotados = () => dados.animais.filter((a) => a.status === "adotado");
-const adotadosDoMes = () => adotados().filter((a) => (a.adopted_at || "").slice(0, 7) === hojeISO().slice(0, 7));
+  return `
+  <article class="flex flex-col overflow-hidden rounded-3xl border border-surface-variant bg-white shadow-sm transition hover:shadow-md">
+    <div class="relative aspect-[4/3] bg-surface-low">
+      <img src="${esc(a.image || "assets/logo-footer.png")}" alt="Foto de ${esc(a.name || "animal")}"
+        class="h-full w-full ${temFoto ? "object-cover" : "object-contain p-10"}"
+        onerror="this.onerror=null;this.src='assets/logo-footer.png';this.className='h-full w-full object-contain p-10'">
+      ${emAdocao ? `<span class="absolute left-3 top-3 rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-800 shadow-sm">Em processo de adoção</span>` : ""}
+    </div>
+
+    <div class="flex flex-1 flex-col p-5">
+      <h3 class="text-2xl font-bold leading-tight text-primary">${esc(a.name || "Sem nome")}</h3>
+      <p class="mt-1 text-base text-on-surface-variant">${esc([a.species, a.age, a.sex].filter(Boolean).join(" • "))}</p>
+      ${a.responsible_person
+        ? `<p class="mt-3 flex items-center gap-2 text-base"><span class="material-symbols-outlined text-[20px] text-secondary">person</span>Responsável: <strong>${esc(a.responsible_person)}</strong></p>`
+        : ""}
+
+      <div class="mt-auto grid grid-cols-2 gap-2 pt-5">
+        <button type="button" onclick="abrirAdocao('${id}')"
+          class="col-span-2 inline-flex items-center justify-center gap-2 rounded-full bg-green-700 py-3 text-base font-semibold text-white hover:bg-green-800">
+          <span class="material-symbols-outlined text-[20px]">favorite</span>Marcar como adotado
+        </button>
+        <button type="button" onclick="editarAnimal('${id}')"
+          class="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary-fixed py-2.5 font-semibold text-primary hover:bg-secondary-container">
+          <span class="material-symbols-outlined text-[18px]">edit</span>Editar
+        </button>
+        <a href="detalhes-animal.html?id=${encodeURIComponent(a.id)}" target="_blank"
+          class="inline-flex items-center justify-center gap-1.5 rounded-full border border-secondary py-2.5 font-semibold text-secondary hover:bg-surface-low">
+          <span class="material-symbols-outlined text-[18px]">open_in_new</span>Ver no site
+        </a>
+        <button type="button" onclick="removerAnimal('${id}')"
+          class="col-span-2 mt-1 inline-flex items-center justify-center gap-1.5 rounded-full py-2 text-sm font-semibold text-red-700 hover:bg-red-50">
+          <span class="material-symbols-outlined text-[18px]">delete</span>Deletar perfil
+        </button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function atualizarBuscaAnimais(valor) {
+  buscaAnimais = valor;
+  desenhar();
+  const campo = $("buscaAnimais");
+  if (campo) {
+    campo.focus();
+    campo.setSelectionRange(valor.length, valor.length);
+  }
+}
+
+/* ============================================================
+   PÁGINA — ADOTADOS
+   ============================================================ */
 
 // Barras horizontais simples: [["rótulo", número], ...]
 function barras(lista, vazioTexto = "Sem dados ainda.") {
@@ -497,28 +642,8 @@ function barras(lista, vazioTexto = "Sem dados ainda.") {
 
 function paginaAdotados() {
   const lista = adotados();
-  const comData = lista.filter((a) => /^\d{4}-\d{2}-\d{2}$/.test(a.adopted_at || ""));
   const caes = lista.filter((a) => /^c/i.test(a.species || "")).length;
   const gatos = lista.filter((a) => /^g/i.test(a.species || "")).length;
-
-  // Últimos 12 meses
-  const hoje = new Date(`${hojeISO()}T12:00:00`);
-  const porMes = [];
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
-    const chave = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    porMes.push([`${MESES[d.getMonth()]}/${String(d.getFullYear()).slice(2)}`, comData.filter((a) => a.adopted_at.startsWith(chave)).length]);
-  }
-
-  // Dia da semana (segunda a domingo)
-  const contaDia = [0, 0, 0, 0, 0, 0, 0];
-  comData.forEach((a) => contaDia[new Date(`${a.adopted_at}T12:00:00`).getDay()]++);
-  const porDia = [1, 2, 3, 4, 5, 6, 0].map((i) => [DIAS[i], contaDia[i]]);
-
-  // Onde
-  const contaLocal = {};
-  lista.forEach((a) => { const l = (a.adoption_place || "Não informado").trim() || "Não informado"; contaLocal[l] = (contaLocal[l] || 0) + 1; });
-  const porLocal = Object.entries(contaLocal).sort((x, y) => y[1] - x[1]);
 
   const numero = (valor, texto, destaque = false) => `
     <div class="rounded-2xl p-5 shadow-sm ${destaque ? "bg-primary-container text-white" : "bg-white"}">
@@ -526,14 +651,27 @@ function paginaAdotados() {
       <p class="text-sm ${destaque ? "text-white/80" : "text-on-surface-variant"}">${texto}</p>
     </div>`;
 
-  const bloco = (tituloBloco, conteudo) => `
-    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
-      <h2 class="mb-4 font-bold text-primary">${tituloBloco}</h2>${conteudo}
-    </section>`;
-
   const recentes = [...lista].sort((a, b) => String(b.adopted_at || "").localeCompare(String(a.adopted_at || "")));
+  const adotantePorAnimal = new Map();
+  dados.adocoes
+    .filter((p) => p.animal_id || p.animalId)
+    .sort((a, b) => String(b.updated_at || b.created_at || "").localeCompare(String(a.updated_at || a.created_at || "")))
+    .forEach((p) => {
+      const id = String(p.animal_id || p.animalId);
+      if (!adotantePorAnimal.has(id)) adotantePorAnimal.set(id, p);
+    });
 
-  return titulo("Adotados", "Cada animal marcado como adotado entra aqui.") + `
+  const nomeAdotante = (a) => {
+    const pedido = adotantePorAnimal.get(String(a.id));
+    return a.adopter_name || pedido?.applicant_name || pedido?.name || pedido?.nome || "";
+  };
+  const emailAdotante = (a) => a.adopter_email || adotantePorAnimal.get(String(a.id))?.email || "";
+  const telefoneAdotante = (a) => a.adopter_phone || adotantePorAnimal.get(String(a.id))?.phone || "";
+
+  return titulo("Adotados", "Cada animal marcado como adotado entra aqui.",
+    `<button type="button" onclick="gerarRelatorioAdotados()" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 font-semibold text-white hover:bg-primary">
+      <span class="material-symbols-outlined">download</span>Gerar relatório
+    </button>`) + `
     <section class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
       ${numero(lista.length, "adotados pelo painel", true)}
       ${numero(adotadosDoMes().length, "neste mês")}
@@ -541,28 +679,211 @@ function paginaAdotados() {
       ${numero(gatos, "gatos")}
     </section>
 
-    <div class="grid gap-4 lg:grid-cols-2">
-      ${bloco("Adoções por mês", barras(porMes))}
-      ${bloco("Dia da semana", barras(porDia))}
-      <div class="lg:col-span-2">${bloco("Onde foram adotados", barras(porLocal, "Ainda não há locais registrados."))}</div>
-    </div>
-
     <h2 class="mb-3 mt-8 text-lg font-bold text-primary">Histórico</h2>
+    <label class="mb-3 block">
+      <span class="sr-only">Buscar animal ou adotante</span>
+      <input id="buscaAdotados" type="search" placeholder="Buscar por animal, adotante ou e-mail..."
+        class="campo w-full rounded-xl border border-outline-variant bg-white px-4 py-3"
+        oninput="filtrarAdotados(this.value)">
+    </label>
+    <p id="semResultadoAdotados" class="mb-3 hidden rounded-xl bg-white p-4 text-sm text-on-surface-variant">Nenhum adotado encontrado.</p>
     ${recentes.length ? `<div class="divide-y divide-surface-variant rounded-2xl bg-white shadow-sm">
       ${recentes.map((a) => `
-        <div class="flex items-center gap-3 p-4">
+        <div class="historico-adotado flex items-center gap-3 p-4" data-busca="${esc([a.name, nomeAdotante(a), emailAdotante(a)].join(" ").toLowerCase())}">
           <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-12 w-12 shrink-0 rounded-full bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
           <div class="min-w-0 flex-1">
             <p class="truncate font-semibold">${esc(a.name)}</p>
             <p class="truncate text-sm text-on-surface-variant">${a.adopted_at ? `${dataBR(a.adopted_at)} (${DIAS[new Date(a.adopted_at + "T12:00:00").getDay()].toLowerCase()})` : "Data não informada"}${a.adoption_place ? " • " + esc(a.adoption_place) : ""}</p>
+            ${nomeAdotante(a) || emailAdotante(a) || telefoneAdotante(a)
+              ? `<p class="mt-1 truncate text-sm text-on-surface-variant">Adotante: ${esc(nomeAdotante(a) || "Não informado")}${emailAdotante(a) ? ` • ${esc(emailAdotante(a))}` : ""}${telefoneAdotante(a) ? ` • ${esc(telefoneAdotante(a))}` : ""}</p>`
+              : `<p class="mt-1 text-sm text-on-surface-variant">Dados do adotante não vinculados a este animal.</p>`}
           </div>
-          <button type="button" onclick="desfazerAdocao('${esc(a.id)}')" class="shrink-0 text-sm font-semibold text-secondary hover:underline">Desfazer</button>
+          <button type="button" onclick="mostrarInformacoesAdocao('${esc(a.id)}')" class="shrink-0 text-sm font-semibold text-secondary hover:underline">Informações</button>
         </div>`).join("")}
     </div>` : vazio("Nenhum animal marcado como adotado ainda.")}`;
 }
 
+function filtrarAdotados(valor) {
+  const busca = String(valor || "").trim().toLowerCase();
+  let encontrados = 0;
+  document.querySelectorAll(".historico-adotado").forEach((item) => {
+    const visivel = !busca || item.dataset.busca.includes(busca);
+    item.classList.toggle("hidden", !visivel);
+    if (visivel) encontrados++;
+  });
+  $("semResultadoAdotados")?.classList.toggle("hidden", encontrados > 0);
+}
+
+function mostrarInformacoesAdocao(id) {
+  const animal = adotados().find((item) => String(item.id) === String(id));
+  if (!animal) return;
+  const pedido = dados.adocoes
+    .filter((item) => String(item.animal_id || item.animalId) === String(id))
+    .sort((a, b) => String(b.updated_at || b.created_at || "").localeCompare(String(a.updated_at || a.created_at || "")))[0];
+  $("infoAdocaoTitulo").textContent = animal.name || "Animal adotado";
+  $("infoAdocaoData").value = animal.adopted_at || "";
+  $("infoAdocaoLocal").value = animal.adoption_place || "";
+  $("infoAdocaoNome").value = animal.adopter_name || pedido?.applicant_name || pedido?.name || pedido?.nome || "";
+  $("infoAdocaoEmail").value = animal.adopter_email || pedido?.email || "";
+  $("infoAdocaoTelefone").value = animal.adopter_phone || pedido?.phone || "";
+  $("infoAdocaoErro").classList.add("hidden");
+  $("btnSalvarInfoAdocao").onclick = () => salvarInformacoesAdocao(id);
+  $("btnColocarNovamente").onclick = () => iniciarRepublicacao(id);
+  abrirModal("modalInfoAdocao");
+}
+
+function iniciarRepublicacao(id) {
+  const animal = dados.animais.find((item) => String(item.id) === String(id));
+  if (!animal) return;
+  const motivo = window.prompt("Por que este animal voltou para adoção?");
+  if (motivo === null) return;
+  if (!motivo.trim()) return aviso("Informe o motivo para continuar.", true);
+  $("republicarId").value = id;
+  $("republicarTitulo").textContent = animal.name || "Animal";
+  $("republicarNome").value = animal.name || "";
+  $("republicarEspecie").value = animal.species || "";
+  $("republicarRaca").value = animal.breed || "";
+  $("republicarIdade").value = animal.age || "";
+  $("republicarPorte").value = animal.size || "";
+  $("republicarSexo").value = animal.sex || "";
+  $("republicarLocalizacao").value = animal.location || "";
+  $("republicarDescricao").value = animal.description || "";
+  $("republicarMotivo").value = motivo.trim();
+  $("republicarErro").classList.add("hidden");
+  fecharModal("modalInfoAdocao");
+  if (window.confirm("Deseja atualizar os dados do animal antes de colocá-lo para adoção novamente?")) {
+    abrirModal("modalRepublicarAnimal");
+  } else {
+    salvarRepublicacao();
+  }
+}
+
+async function salvarRepublicacao() {
+  const id = $("republicarId").value;
+  const motivo = $("republicarMotivo").value.trim();
+  if (!motivo) {
+    $("republicarErro").textContent = "Informe o motivo para publicar novamente.";
+    $("republicarErro").classList.remove("hidden");
+    return;
+  }
+  const botao = $("btnRepublicarSalvar");
+  botao.disabled = true;
+  try {
+    const destaqueAte = new Date();
+    destaqueAte.setDate(destaqueAte.getDate() + 14);
+    const r = await api(`/animals/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        status: "disponível",
+        name: $("republicarNome").value.trim(),
+        species: $("republicarEspecie").value.trim(),
+        breed: $("republicarRaca").value.trim(),
+        age: $("republicarIdade").value.trim(),
+        size: $("republicarPorte").value.trim(),
+        sex: $("republicarSexo").value.trim(),
+        location: $("republicarLocalizacao").value.trim(),
+        description: $("republicarDescricao").value.trim(),
+        republication_reason: motivo,
+        featured_until: destaqueAte.toISOString()
+      })
+    });
+    const index = dados.animais.findIndex((item) => String(item.id) === String(id));
+    if (index >= 0) dados.animais[index] = r.animal;
+    fecharModal("modalRepublicarAnimal");
+    desenhar();
+    aviso("Animal publicado novamente com destaque por 14 dias.");
+  } catch (e) {
+    $("republicarErro").textContent = e.message || "Não foi possível publicar novamente.";
+    $("republicarErro").classList.remove("hidden");
+    abrirModal("modalRepublicarAnimal");
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+async function salvarInformacoesAdocao(id) {
+  const botao = $("btnSalvarInfoAdocao");
+  const erro = $("infoAdocaoErro");
+  const data = $("infoAdocaoData").value;
+  const email = $("infoAdocaoEmail").value.trim();
+  erro.classList.add("hidden");
+  if (email && !email.includes("@")) {
+    erro.textContent = "Informe um e-mail válido.";
+    erro.classList.remove("hidden");
+    return;
+  }
+  botao.disabled = true;
+  try {
+    const r = await api(`/animals/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        adopted_at: data,
+        adoption_place: $("infoAdocaoLocal").value.trim(),
+        adopter_name: $("infoAdocaoNome").value.trim(),
+        adopter_email: email,
+        adopter_phone: $("infoAdocaoTelefone").value.trim()
+      })
+    });
+    const index = dados.animais.findIndex((item) => String(item.id) === String(id));
+    if (index >= 0) dados.animais[index] = r.animal;
+    fecharModal("modalInfoAdocao");
+    desenhar();
+    aviso("Informações da adoção salvas.");
+  } catch (e) {
+    erro.textContent = e.message || "Não foi possível salvar as informações.";
+    erro.classList.remove("hidden");
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+function gerarRelatorioAdotados() {
+  const lista = adotados();
+  const comData = lista.filter((a) => /^\d{4}-\d{2}-\d{2}$/.test(a.adopted_at || ""));
+
+  const tabela = [...lista]
+    .sort((a, b) => String(b.adopted_at || "").localeCompare(String(a.adopted_at || "")))
+    .map((a) => {
+      const pedido = dados.adocoes.find((item) => String(item.animal_id || item.animalId) === String(a.id));
+      return `<tr>
+        <td>${esc(a.name || "Sem nome")}</td>
+        <td>${esc(a.species || "Não informado")}</td>
+        <td>${esc(a.breed || "Não informado")}</td>
+        <td>${esc(a.adopted_at ? dataBR(a.adopted_at) : "Não informada")}</td>
+        <td>${esc(a.adoption_place || "Não informado")}</td>
+        <td>${esc(a.adopter_name || pedido?.applicant_name || "Não informado")}</td>
+        <td>${esc(a.adopter_email || pedido?.email || "Não informado")}</td>
+        <td>${esc(a.adopter_phone || pedido?.phone || "Não informado")}</td>
+      </tr>`;
+    }).join("");
+
+  const relatorio = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório de adoções</title><style>
+    body{font:14px Arial,sans-serif;color:#2e1438;padding:32px}h1{margin:0 0 6px}p{color:#6b5f6e}table{border-collapse:collapse;width:100%;margin-top:24px}th,td{border:1px solid #d8c9dc;padding:9px;text-align:left}th{background:#f3ecf4}@media print{button{display:none}}
+  </style></head><body><h1>Relatório de adoções</h1><p>Pacotinho de Amor • Gerado em ${esc(new Date().toLocaleString("pt-BR"))}</p>
+  <p><strong>Total:</strong> ${lista.length} &nbsp; <strong>Este mês:</strong> ${adotadosDoMes().length} &nbsp; <strong>Com data:</strong> ${comData.length}</p>
+  <button onclick="window.print()">Imprimir / Salvar em PDF</button><table><thead><tr><th>Animal</th><th>Espécie</th><th>Raça</th><th>Data</th><th>Local/canal</th><th>Adotante</th><th>E-mail</th><th>Telefone</th></tr></thead><tbody>${tabela}</tbody></table></body></html>`;
+
+  const janela = window.open();
+  if (!janela) {
+    const blob = new Blob([relatorio], { type: "text/html;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `relatorio-adocoes-${hojeISO()}.html`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    return aviso("O pop-up foi bloqueado. O relatório HTML foi baixado; abra-o e escolha Imprimir > Salvar como PDF.", true);
+  }
+  janela.document.write(relatorio);
+  janela.document.close();
+  janela.focus();
+  janela.onload = () => janela.print();
+}
+
+/* ============================================================
+   PÁGINA — SOLICITAÇÕES
+   ============================================================ */
 function paginaAdocoes() {
-  if (!dados.adocoes.length) return titulo("Pedidos de adoção") + vazio("Nenhum pedido ainda.");
+  if (!dados.adocoes.length) return titulo("Solicitações de adoção") + vazio("Nenhuma solicitação ainda.");
 
   const nomeAnimal = (p) => {
     const id = p.animal_id || p.animalId;
@@ -576,38 +897,107 @@ function paginaAdocoes() {
     const nome = String(p.applicant_name || "").split(" ")[0];
     const bicho = nomeAnimal(p);
     const texto = p.contact_type === "videochamada"
-      ? `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos seu pedido de videochamada para conhecer ${bicho === "—" ? "nosso animal" : "o(a) " + bicho}. Podemos combinar o horário?`
+      ? `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos sua solicitação de videochamada para conhecer ${bicho === "—" ? "nosso animal" : "o(a) " + bicho}. Podemos combinar o horário?`
       : `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos seu interesse em adotar ${bicho === "—" ? "um de nossos animais" : "o(a) " + bicho}. Podemos conversar?`;
     return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
   };
 
-  return titulo("Pedidos de adoção", `${dados.adocoes.length} pedido(s).`) + `
-    <div class="space-y-3">
-      ${dados.adocoes.map((p) => {
+  const entrevista = (p) => {
+    const e = p.adoption_interview || {};
+    const campo = (nome, valor) => valor ? `<div><dt class="font-semibold text-primary">${nome}</dt><dd>${esc(valor)}</dd></div>` : "";
+    const arquivos = (lista) => Array.isArray(lista) && lista.length
+      ? `<div class="md:col-span-2"><dt class="font-semibold text-primary">Arquivos enviados</dt><dd class="mt-2 flex flex-wrap gap-2">${lista.map((a) => {
+          const nome = esc(a.nome || a.name || "Arquivo");
+          const tipo = String(a.tipo || a.type || "");
+          const url = typeof a.data === "string" && /^(data:image\/|data:application\/pdf)/.test(a.data) ? a.data : "";
+          if (!url) return `<span class="rounded-lg bg-white px-3 py-2 text-sm">${nome} <span class="text-on-surface-variant">(metadado salvo)</span></span>`;
+          return tipo.startsWith("image/")
+            ? `<a href="${url}" target="_blank" rel="noopener" title="Abrir ${nome}"><img src="${url}" alt="${nome}" class="h-24 w-24 rounded-lg object-cover ring-1 ring-primary/20"></a>`
+            : `<a href="${url}" target="_blank" rel="noopener" class="rounded-lg bg-primary-container px-3 py-2 text-sm font-semibold text-white">Abrir ${nome}</a>`;
+        }).join("")}</dd></div>`
+      : "";
+    if (!Object.keys(e).length) return "";
+    return `<details class="mt-3 rounded-xl border border-primary/15 bg-surface-low p-3">
+      <summary class="cursor-pointer font-semibold text-primary">Ver formulário completo da entrevista</summary>
+      <dl class="mt-3 grid gap-3 text-sm md:grid-cols-2">
+        ${campo("Data de nascimento", e.data_nascimento)}${campo("Estado civil", e.estado_civil)}
+        ${campo("Profissão", e.profissao)}${campo("Empresa", e.empresa)}
+        ${campo("Endereço", e.endereco)}${campo("Zona de moradia", e.zona_moradia)}
+        ${campo("Adultos na casa", e.adultos)}${campo("Crianças e idades", e.criancas)}
+        ${campo("Todos concordam", e.acordo_casa)}${campo("Alergias ou restrições", e.alergias)}
+        ${campo("Motivo da adoção", e.motivo)}
+        ${campo("Informações de saúde para adaptação", e.tratamento)}
+        ${campo("Atividade principal", e.atividade)}${campo("Responsável principal", e.responsavel)}
+        ${campo("Horas sem pessoas", e.horas_fora)}${campo("Moradia", e.moradia)}
+        ${campo("Permissão do proprietário", e.permissao_proprietario)}${campo("Estrutura", e.estrutura)}
+        ${campo("Quintal compartilhado", e.quintal_compartilhado)}${campo("Moradores", e.moradores)}
+        ${campo("Áreas de acesso", e.areas)}${campo("Períodos de acesso", e.periodos)}
+        ${campo("Onde dormirá", e.dormir)}${campo("Acesso à casa durante a noite", e.varanda_noite)}
+        ${arquivos(e.documentos)}${arquivos(e.fotos_lar)}
+      </dl>
+    </details>`;
+  };
+
+  const pendentes = dados.adocoes.filter((p) => String(p.status || "").toLowerCase() !== "resolvido");
+  const resolvidos = dados.adocoes.length - pendentes.length;
+  const totalAdocoes = pendentes.filter((p) => p.contact_type !== "videochamada").length;
+  const totalVideochamadas = pendentes.filter((p) => p.contact_type === "videochamada").length;
+  const pedidosFiltrados = dados.adocoes.filter((p) => {
+    const resolvido = String(p.status || "").toLowerCase() === "resolvido";
+    if (filtroPedidos === "resolvidos") return resolvido;
+    if (resolvido) return false;
+    if (filtroPedidos === "adocao") return p.contact_type !== "videochamada";
+    if (filtroPedidos === "video") return p.contact_type === "videochamada";
+    return true;
+  });
+
+  const filtro = `
+    <div class="mb-5 flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+      <label for="filtroPedidos" class="font-semibold text-primary">Filtrar solicitações</label>
+      <select id="filtroPedidos" class="campo max-w-sm" onchange="filtroPedidos=this.value; desenhar()">
+        <option value="pendentes" ${filtroPedidos === "pendentes" ? "selected" : ""}>Pendentes</option>
+        <option value="adocao" ${filtroPedidos === "adocao" ? "selected" : ""}>Adoção</option>
+        <option value="video" ${filtroPedidos === "video" ? "selected" : ""}>Videochamada</option>
+        <option value="resolvidos" ${filtroPedidos === "resolvidos" ? "selected" : ""}>Resolvidos</option>
+      </select>
+    </div>`;
+
+  const lista = pedidosFiltrados.length
+    ? pedidosFiltrados.map((p) => {
         const video = p.contact_type === "videochamada";
         const whats = whatsPedido(p);
+        const resolvido = String(p.status || "").toLowerCase() === "resolvido";
         return `
-        <article class="rounded-2xl bg-white p-4 shadow-sm">
+        <article class="rounded-2xl bg-white p-5 shadow-sm">
           <div class="flex flex-wrap items-start justify-between gap-2">
             <div>
-              <h3 class="font-bold text-primary">${esc(p.applicant_name || "Sem nome")}</h3>
+              <span class="mb-2 inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${video ? "bg-blue-100 text-blue-800" : "bg-secondary-container text-primary"}">
+                ${video ? "VIDEOCHAMADA" : "ADOÇÃO"}
+              </span>
+              <h3 class="text-lg font-bold text-primary">${esc(p.applicant_name || "Sem nome")}</h3>
               <p class="text-sm text-on-surface-variant">${video ? "Quer conhecer por vídeo" : "Quer adotar"}: <strong>${esc(nomeAnimal(p))}</strong></p>
             </div>
             <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold ${video ? "bg-blue-100 text-blue-800" : "bg-secondary-container text-primary"}">
-              ${video ? "Videochamada" : esc(p.status || "em análise")}</span>
+              ${resolvido ? "RESOLVIDO" : (video ? "Aguardando contato" : "Aguardando análise")}</span>
           </div>
-          ${video ? `<p class="mt-2 flex items-center gap-1 text-sm font-semibold text-primary">
-            <span class="material-symbols-outlined text-base">event</span>Prefere ${dataBR(p.preferred_date)} • ${esc(p.preferred_period || "")}</p>` : ""}
+          ${video ? `<p class="mt-2 flex items-center gap-1 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-base">event</span>Prefere ${dataBR(p.preferred_date)} • ${esc(p.preferred_period || "")}</p>` : ""}
           <p class="mt-2 text-sm">${esc(p.email || "")}${p.phone ? " • " + esc(p.phone) : ""}</p>
           ${p.notes ? `<p class="mt-2 rounded-lg bg-surface-low p-2 text-sm">${esc(p.notes)}</p>` : ""}
+          ${!video ? entrevista(p) : ""}
           <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
             <p class="text-xs text-on-surface-variant">Enviado em ${dataBR(p.created_at)}</p>
-            ${whats ? `<a href="${esc(whats)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1ebe5b]">
-              <span class="material-symbols-outlined text-[18px]">chat</span>Chamar no WhatsApp</a>` : ""}
+            <div class="flex flex-wrap gap-2">
+              ${whats ? `<a href="${esc(whats)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1ebe5b]"><span class="material-symbols-outlined text-[18px]">chat</span>Chamar no WhatsApp</a>` : ""}
+              ${!video && p.adoption_interview ? `<button type="button" onclick="editarFormularioAdocao('${esc(p.id)}')" class="rounded-full border border-primary-container px-4 py-2 text-sm font-semibold text-primary hover:bg-surface-low">Editar formulário</button>` : ""}
+              ${!resolvido ? `<button type="button" onclick="marcarPedidoResolvido('${esc(p.id)}')" class="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Marcar resolvido</button>` : ""}
+            </div>
           </div>
         </article>`;
-      }).join("")}
-    </div>`;
+      }).join("")
+    : vazio(filtroPedidos === "resolvidos" ? "Nenhuma solicitação resolvida." : "Nenhuma solicitação nesta categoria.");
+
+  return titulo("Solicitações", `${totalAdocoes} adoção(ões) • ${totalVideochamadas} videochamada(s) • ${resolvidos} resolvida(s).`) + filtro + `
+    <div class="space-y-3">${lista}</div>`;
 }
 
 // Transforma "(11) 99999-9999" em "5511999999999" para o link do WhatsApp
@@ -617,11 +1007,35 @@ function numeroWhatsApp(telefone) {
   return n.length >= 12 ? n : "";
 }
 
+async function editarFormularioAdocao(id) {
+  const pedido = dados.adocoes.find((item) => String(item.id) === String(id));
+  if (!pedido || !pedido.adoption_interview) return;
+  const texto = window.prompt("Edite o formulário completo em JSON. Não remova os nomes dos campos.", JSON.stringify(pedido.adoption_interview, null, 2));
+  if (texto === null) return;
+  let adoption_interview;
+  try {
+    adoption_interview = JSON.parse(texto);
+  } catch {
+    window.alert("O formulário não foi salvo porque o JSON está inválido.");
+    return;
+  }
+  try {
+    await api(`/applications/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ adoption_interview }) });
+    pedido.adoption_interview = adoption_interview;
+    desenhar();
+  } catch (erro) {
+    window.alert(erro.message || "Não foi possível salvar o formulário.");
+  }
+}
+
+/* ============================================================
+   PÁGINA — VOLUNTÁRIOS
+   ============================================================ */
 function linkWhatsApp(v) {
   const numero = numeroWhatsApp(v.phone);
   if (!numero) return "";
   const primeiroNome = String(v.name || "").split(" ")[0];
-  const quemFala = String(dados.user?.name || dados.user?.nome || "").split(" ")[0];
+  const quemFala = "Bárbara";
   const ajudas = (v.modalidades || []).join(", ").toLowerCase();
   const texto =
     `Olá, ${primeiroNome}! Aqui é ${quemFala ? "a " + quemFala + ", do" : "do"} Pacotinho de Amor 💜 ` +
@@ -630,25 +1044,26 @@ function linkWhatsApp(v) {
   return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
 }
 
-function diasParaApagar(v) {
-  if (!v.expires_at) return "";
-  const dias = Math.ceil((new Date(v.expires_at) - new Date()) / 86400000);
-  if (dias <= 0) return "Será apagado hoje";
-  return dias === 1 ? "Apagado amanhã" : `Apagado em ${dias} dias`;
-}
-
 const STATUS_VOLUNTARIO = {
   pending:   ["Novo", "bg-amber-100 text-amber-800"],
   contacted: ["Chamado no WhatsApp", "bg-blue-100 text-blue-800"],
   approved:  ["Aprovado", "bg-green-100 text-green-800"],
-  rejected:  ["Recusado", "bg-red-100 text-red-800"]
+  rejected:  ["Recusado", "bg-red-100 text-red-800"],
+  resolvido: ["RESOLVIDO", "bg-slate-100 text-slate-700"]
 };
 
 function paginaVoluntarios() {
+  const termoVoluntario = buscaVoluntarios.trim().toLocaleLowerCase("pt-BR");
+  const voluntariosFiltrados = dados.voluntarios.filter((v) => {
+    const texto = `${v.name || ""} ${v.email || ""} ${v.phone || ""}`.toLocaleLowerCase("pt-BR");
+    const modalidades = (v.modalidades || []).map((item) => String(item));
+    return texto.includes(termoVoluntario) &&
+      (filtroVoluntarios === "todos" || modalidades.includes(filtroVoluntarios));
+  });
   const grupos = [
-    ["Novos pedidos", dados.voluntarios.filter((v) => v.status === "pending")],
-    ["Em conversa", dados.voluntarios.filter((v) => v.status === "contacted")],
-    ["Já respondidos", dados.voluntarios.filter((v) => v.status === "approved" || v.status === "rejected")]
+    ["Novas solicitações", voluntariosFiltrados.filter((v) => v.status === "pending")],
+    ["Em conversa", voluntariosFiltrados.filter((v) => v.status === "contacted")],
+    ["Já respondidos", voluntariosFiltrados.filter((v) => v.status === "approved" || v.status === "rejected" || v.status === "resolvido")]
   ];
 
   const cartao = (v) => {
@@ -660,7 +1075,8 @@ function paginaVoluntarios() {
     <article class="rounded-2xl bg-white p-5 shadow-sm">
       <div class="flex flex-wrap items-start justify-between gap-2">
         <div class="min-w-0">
-          <h3 class="font-bold text-primary">${esc(v.name || "Sem nome")}</h3>
+          <span class="mb-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-800">VOLUNTARIADO</span>
+          <h3 class="text-lg font-bold text-primary">${esc(v.name || "Sem nome")}</h3>
           <p class="text-sm text-on-surface-variant">${esc(v.phone || "Sem telefone")} • ${esc(v.email || "")}</p>
         </div>
         <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
@@ -668,10 +1084,23 @@ function paginaVoluntarios() {
 
       <div class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
         <p class="rounded-lg bg-surface-low p-2"><strong>Quer ajudar com:</strong><br>${esc((v.modalidades || []).join(", ") || "—")}</p>
-        <p class="rounded-lg bg-surface-low p-2"><strong>Disponibilidade:</strong><br>${esc(v.disponibilidade || "—")}</p>
+        <p class="rounded-lg bg-surface-low p-2"><strong>Disponibilidade:</strong><br>${esc(v.tipoDisponibilidade || "")}${v.disponibilidade ? `<br>${esc(v.disponibilidade)}` : ""}${v.detalhesDisponibilidade ? `<br><strong>Detalhes:</strong> ${esc(v.detalhesDisponibilidade)}` : ""}</p>
       </div>
+      <details class="mt-3 rounded-xl border border-primary/15 bg-surface-low p-3">
+        <summary class="cursor-pointer font-semibold text-primary">Ver dados completos da solicitação</summary>
+        <dl class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+          <div><dt class="font-semibold">Termo aceito</dt><dd>${v.aceiteTermo ? "Sim" : "Não"}</dd></div>
+          <div><dt class="font-semibold">LGPD compreendida</dt><dd>${v.aceiteLGPD ? "Sim" : "Não"}</dd></div>
+          <div><dt class="font-semibold">Uso de imagem</dt><dd>${v.aceiteImagem ? "Autorizado" : "Não autorizado"}</dd></div>
+          <div><dt class="font-semibold">Termo enviado</dt><dd>${v.termoEnviado ? "Sim" : "Não"}</dd></div>
+          <div class="sm:col-span-2"><dt class="font-semibold">Detalhes da disponibilidade</dt><dd>${esc(v.detalhesDisponibilidade || "—")}</dd></div>
+        </dl>
+      </details>
 
-      <p class="mt-2 text-xs text-on-surface-variant">Enviado em ${dataBR(v.created_at)} • ${diasParaApagar(v)}</p>
+      <p class="mt-2 text-xs text-on-surface-variant">Enviado em ${dataBR(v.created_at)} • Registro permanente</p>
+      ${v.documento_assinado || v.document_url || v.termo_url
+        ? `<a href="${esc(v.documento_assinado || v.document_url || v.termo_url)}" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 rounded-full border border-primary-container px-4 py-2 text-sm font-semibold text-primary-container hover:bg-primary-fixed"><span class="material-symbols-outlined text-[18px]">description</span>Ver documento assinado</a>`
+        : `<p class="mt-3 text-sm text-on-surface-variant">Documento assinado não anexado.</p>`}
 
       <div class="mt-4 flex flex-col gap-2 sm:flex-row">
         ${whats
@@ -681,7 +1110,8 @@ function paginaVoluntarios() {
           : `<p class="flex-1 rounded-full bg-surface-low py-2.5 text-center text-sm text-on-surface-variant">Telefone inválido</p>`}
         ${aberto ? `
           <button type="button" onclick="decidirVoluntario('${esc(v.id)}','approved')" class="flex-1 rounded-full bg-primary-container py-2.5 font-semibold text-white hover:bg-primary">Aprovar</button>
-          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','rejected')" class="flex-1 rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">Recusar</button>` : ""}
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','rejected')" class="flex-1 rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">Recusar</button>
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','resolvido')" class="flex-1 rounded-full border border-slate-300 py-2.5 font-semibold text-slate-700 hover:bg-slate-50">Marcar resolvido</button>` : ""}
       </div>
     </article>`;
   };
@@ -693,65 +1123,37 @@ function paginaVoluntarios() {
       <div class="space-y-3">${lista.map(cartao).join("")}</div>`)
     .join("");
 
-  const contas = dados.contasApoio || [];
-
-  const contasHtml = contas.length
-    ? contas.map((conta) => `
-      <article class="rounded-2xl bg-white p-5 shadow-sm">
-        <div class="flex flex-wrap items-start justify-between gap-3">
-          <div class="min-w-0">
-            <h3 class="font-bold text-primary">${esc(conta.name || "Sem nome")}</h3>
-            <p class="text-sm text-on-surface-variant">${esc(conta.email || "")}</p>
-          </div>
-          <span class="shrink-0 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800">Conta ativa</span>
-        </div>
-
-        <div class="mt-4 rounded-xl bg-surface-low p-3 text-sm text-on-surface-variant">
-          <strong>Permissões:</strong> cadastrar/editar animais e criar eventos.
-        </div>
-
-        <button type="button"
-          onclick="excluirContaApoio('${esc(conta.id)}','${esc(conta.name || "esta pessoa")}')"
-          class="mt-4 inline-flex items-center gap-2 rounded-full border border-red-200 px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50">
-          <span class="material-symbols-outlined text-[18px]">delete_forever</span>
-          Excluir conta
-        </button>
-      </article>`).join("")
-    : `<div class="rounded-xl bg-surface-low p-6 text-center text-sm text-on-surface-variant">Nenhuma conta de apoio criada ainda.</div>`;
-
-  return titulo(
-    "Voluntários",
-    "Gerencie os pedidos e as contas de apoio.",
-    botaoPrincipal("Criar conta de apoio", "person_add", "abrirModal('modalContaApoio')")
-  ) + `
-    <section class="mb-6 rounded-2xl bg-white p-5 shadow-sm md:p-6">
-      <div class="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 class="text-lg font-bold text-primary">Contas de apoio</h2>
-          <p class="mt-1 text-sm text-on-surface-variant">
-            A Master cria a conta, compartilha o e-mail e a senha com a pessoa e pode excluir o acesso quando quiser.
-            A própria pessoa também poderá excluir a conta nas configurações.
-          </p>
-        </div>
-        <span class="rounded-full bg-primary-fixed px-3 py-1 text-sm font-bold text-primary">${contas.length} ativa(s)</span>
-      </div>
-
-      <div class="mt-4 grid gap-3 md:grid-cols-2">
-        ${contasHtml}
-      </div>
-    </section>
-
+  return titulo("Voluntários", "Gerencie as solicitações de pessoas interessadas em ajudar.") + `
     <section>
-      <div class="flex items-start gap-3 rounded-2xl bg-primary-fixed p-4 text-sm text-primary">
-        <span class="material-symbols-outlined">schedule</span>
-        <p>Por privacidade, cada pedido é <strong>apagado automaticamente 14 dias</strong> depois de enviado.
-        Se a pessoa for aprovada, salve o contato dela no seu WhatsApp.</p>
+      <div class="mb-5 grid gap-3 rounded-2xl bg-white p-4 shadow-sm md:grid-cols-[1fr_auto]">
+        <label class="relative">
+          <span class="sr-only">Buscar voluntário</span>
+          <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+          <input id="buscaVoluntarios" class="campo pl-11" type="search" value="${esc(buscaVoluntarios)}" oninput="atualizarBuscaVoluntarios(this.value)" placeholder="Buscar por nome, e-mail ou telefone">
+        </label>
+        <select class="campo" aria-label="Filtrar modalidade de voluntariado" onchange="filtroVoluntarios=this.value; desenhar()">
+          <option value="todos" ${filtroVoluntarios === "todos" ? "selected" : ""}>Todas as modalidades</option>
+          <option value="Táxi Dog" ${filtroVoluntarios === "Táxi Dog" ? "selected" : ""}>Táxi Dog</option>
+          <option value="Feirinha de adoção" ${filtroVoluntarios === "Feirinha de adoção" ? "selected" : ""}>Feirinha de adoção</option>
+          <option value="Passeador(a)" ${filtroVoluntarios === "Passeador(a)" ? "selected" : ""}>Passeador(a)</option>
+        </select>
       </div>
-      ${secoes || `<div class="mt-6">${vazio("Nenhum pedido de voluntariado.")}</div>`}
+      <p class="mb-4 text-sm text-on-surface-variant">${voluntariosFiltrados.length} registro(s) encontrado(s). As solicitações ficam registradas permanentemente.</p>
+      ${secoes || vazio("Nenhum voluntário encontrado com esses filtros.")}
     </section>`;
 }
 
-// Ao clicar em "Chamar no WhatsApp", marca o pedido como "em conversa"
+function atualizarBuscaVoluntarios(valor) {
+  buscaVoluntarios = valor;
+  desenhar();
+  const campo = $("buscaVoluntarios");
+  if (campo) {
+    campo.focus();
+    campo.setSelectionRange(valor.length, valor.length);
+  }
+}
+
+// Ao clicar em "Chamar no WhatsApp", marca a solicitação como "em conversa"
 async function marcarChamado(id) {
   const v = dados.voluntarios.find((x) => String(x.id) === String(id));
   if (!v || v.status !== "pending") return;
@@ -764,13 +1166,17 @@ async function marcarChamado(id) {
   }
 }
 
+/* ============================================================
+   PÁGINA — CONTAS DE APOIO
+   ============================================================ */
 function paginaContasApoio() {
   const contas = dados.contasApoio || [];
   const contasHtml = contas.length
     ? contas.map((conta) => `
-      <article class="rounded-2xl bg-white p-5 shadow-sm">
+      <article class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-surface-variant">
         <div class="flex flex-wrap items-start justify-between gap-3">
           <div class="min-w-0">
+            <span class="mb-2 inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-violet-800">CONTA DE APOIO</span>
             <h3 class="font-bold text-primary">${esc(conta.name || conta.nome || "Sem nome")}</h3>
             <p class="text-sm text-on-surface-variant">${esc(conta.email || "")}</p>
           </div>
@@ -784,7 +1190,7 @@ function paginaContasApoio() {
           <span class="material-symbols-outlined text-[18px]">delete_forever</span> Excluir conta
         </button>
       </article>`).join("")
-    : `<div class="rounded-xl bg-surface-low p-8 text-center text-sm text-on-surface-variant">Nenhuma conta de apoio criada ainda.</div>`;
+    : `<div class="rounded-xl bg-surface-low p-8 text-center text-sm text-on-surface-variant md:col-span-2">Nenhuma conta de apoio criada ainda.</div>`;
 
   return titulo(
     "Contas de apoio",
@@ -805,24 +1211,333 @@ function paginaContasApoio() {
     </section>`;
 }
 
+/* ============================================================
+   PÁGINA — RELATÓRIOS
+   ============================================================ */
+function paginaRelatorios() {
+  const dataValida = (valor) => /^\d{4}-\d{2}-\d{2}/.test(String(valor || ""));
+  const dentroDoPeriodo = (valor) => {
+    const data = String(valor || "").slice(0, 10);
+    return (!filtrosRelatorio.inicio || data >= filtrosRelatorio.inicio)
+      && (!filtrosRelatorio.fim || data <= filtrosRelatorio.fim);
+  };
+  const zonaPorAnimal = dados.adocoes.reduce((acc, pedido) => {
+    if (pedido.animal_id && pedido.adoption_interview?.zona_moradia) acc[String(pedido.animal_id)] = pedido.adoption_interview.zona_moradia;
+    return acc;
+  }, {});
+  const adocoesPeriodo = dados.animais.filter((a) =>
+    a.status === "adotado"
+    && dentroDoPeriodo(a.adopted_at)
+    && (!filtrosRelatorio.especie || String(a.species || "") === filtrosRelatorio.especie)
+    && (!filtrosRelatorio.local || zonaPorAnimal[String(a.id)] === filtrosRelatorio.local)
+  );
+  const disponiveis = dados.animais.filter((a) => a.status !== "adotado");
+  const solicitacoesPeriodo = dados.adocoes.filter((p) => dentroDoPeriodo(p.created_at)
+    && (!filtrosRelatorio.local || p.adoption_interview?.zona_moradia === filtrosRelatorio.local));
+  const resolvidos = solicitacoesPeriodo.filter((p) => String(p.status || "").toLowerCase() === "resolvido").length;
+  const cards = [
+    ["Animais cadastrados", dados.animais.length, "pets"],
+    ["Animais disponíveis", disponiveis.length, "pets"],
+    ["Adoções no período", adocoesPeriodo.length, "favorite"],
+    ["Solicitações no período", solicitacoesPeriodo.length, "assignment"],
+    ["Voluntários cadastrados", dados.voluntarios.length, "volunteer_activism"],
+    ["Solicitações resolvidas", resolvidos, "task_alt"]
+  ];
+  const contar = (itens, chave) => Object.entries(itens.reduce((acc, item) => {
+    const valor = chave(item) || "Não informado";
+    acc[valor] = (acc[valor] || 0) + 1;
+    return acc;
+  }, {})).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const solicitacoesAdocao = solicitacoesPeriodo.filter((p) => p.contact_type === "adocao");
+  const porZona = contar(solicitacoesAdocao, (p) => p.adoption_interview?.zona_moradia);
+  const porZonaAdocoes = contar(adocoesPeriodo, (a) => zonaPorAnimal[String(a.id)]);
+  const porEspecie = contar(adocoesPeriodo, (a) => a.species);
+  const porMes = contar(adocoesPeriodo.filter((a) => dataValida(a.adopted_at)), (a) => a.adopted_at.slice(0, 7));
+
+  const eventosAnalise = [...dados.relatoriosEventos, ...dados.eventos];
+  const sucessoEventos = eventosAnalise.map((evento) => {
+    const pedidos = dados.solicitacoesEventos.filter((pedido) => String(pedido.event_id) === String(evento.id));
+    const aprovados = pedidos.filter((pedido) => ["approved", "aprovado", "confirmed", "confirmado"].includes(String(pedido.status || "").toLowerCase())).length;
+    return [`${evento.title || "Evento"} — ${evento.location || "local não informado"}`, Number(evento.results?.animals_adopted || aprovados), evento.results || {}];
+  }).sort((a, b) => b[1] - a[1]).slice(0, 6);
+
+  const somaEventos = (campo) => eventosAnalise.reduce((total, evento) => total + Number(evento.results?.[campo] || 0), 0);
+  const totalAnimaisEventos = somaEventos("animals_adopted");
+
+  const destaque = porZona[0] ? `A maior concentração de solicitações de adoção no período foi na <strong>${esc(porZona[0][0])}</strong>, com ${porZona[0][1]} registro(s).` : "Ainda não há solicitações com zona de moradia registrada no período.";
+  const pedidosAdocao = solicitacoesPeriodo.filter((p) => p.contact_type !== "videochamada").length;
+  const conversao = pedidosAdocao ? Math.round((adocoesPeriodo.length / pedidosAdocao) * 100) : 0;
+  const opcoesEspecie = [...new Set(dados.animais.map((a) => a.species).filter(Boolean))].sort();
+  const opcoesLocal = ["ZL", "ZS", "ZO", "ZE"];
+  const seletor = (id, chave, valor, opcoes) => `<select id="${id}" class="campo mt-1" onchange="filtrosRelatorio.${chave}=this.value; desenhar()"><option value="">Todos</option>${opcoes.map((op) => `<option value="${esc(op)}" ${valor === op ? "selected" : ""}>${esc(op)}</option>`).join("")}</select>`;
+
+  const quadro = (emoji, texto, n) => `
+    <div class="rounded-xl bg-surface-low p-3">
+      <span class="text-on-surface-variant">${emoji} ${texto}</span>
+      <strong class="mt-1 block text-2xl text-primary">${n}</strong>
+    </div>`;
+
+  return titulo("Relatórios", "Dados reais do sistema para orientar decisões e próximos passos.", `<button type="button" onclick="window.print()" class="rounded-full border border-primary-container px-4 py-2 font-semibold text-primary">Imprimir / PDF</button>`) + `
+    <section class="mb-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="font-bold text-primary">Filtros da análise</h2>
+      <div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <label class="text-sm font-semibold text-on-surface-variant">Data inicial<input id="relatorioInicio" type="date" class="campo mt-1" value="${esc(filtrosRelatorio.inicio)}" onchange="filtrosRelatorio.inicio=this.value; desenhar()"></label>
+        <label class="text-sm font-semibold text-on-surface-variant">Data final<input id="relatorioFim" type="date" class="campo mt-1" value="${esc(filtrosRelatorio.fim)}" onchange="filtrosRelatorio.fim=this.value; desenhar()"></label>
+        <label class="text-sm font-semibold text-on-surface-variant">Espécie${seletor("relatorioEspecie", "especie", filtrosRelatorio.especie, opcoesEspecie)}</label>
+        <label class="text-sm font-semibold text-on-surface-variant">Zona / local${seletor("relatorioLocal", "local", filtrosRelatorio.local, opcoesLocal)}</label>
+      </div>
+    </section>
+
+    <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      ${cards.map(([nome, valor, icone]) => `<article class="rounded-2xl bg-white p-5 shadow-sm"><span class="material-symbols-outlined text-secondary">${icone}</span><p class="mt-2 text-3xl font-bold text-primary">${valor}</p><p class="font-semibold text-on-surface-variant">${nome}</p></article>`).join("")}
+    </section>
+
+    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="text-lg font-bold text-primary">Insights para ação</h2>
+      <p class="mt-3 text-sm text-on-surface-variant">${destaque}</p>
+      <p class="mt-2 text-sm text-on-surface-variant">Conversão aproximada de solicitações de adoção em adoções: <strong>${conversao}%</strong>. Use o período e a zona para decidir onde reforçar divulgação e eventos.</p>
+      <dl class="mt-3 space-y-2 text-on-surface-variant">
+        <div class="flex justify-between"><dt>Solicitações abertas</dt><dd class="font-bold text-primary">${solicitacoesPeriodo.length - resolvidos}</dd></div>
+        <div class="flex justify-between"><dt>Voluntários novos</dt><dd class="font-bold text-primary">${dados.voluntarios.filter((v) => v.status === "pending").length}</dd></div>
+        <div class="flex justify-between"><dt>Eventos cadastrados</dt><dd class="font-bold text-primary">${dados.eventos.length}</dd></div>
+      </dl>
+    </section>
+
+    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="text-lg font-bold text-primary">Adoções nos eventos</h2>
+      <p class="mt-1 text-sm text-on-surface-variant">${eventosAnalise.length} evento(s) registrados • <strong>${totalAnimaisEventos}</strong> animal(is) adotado(s) no total.</p>
+      <div class="mt-3 grid grid-cols-2 gap-3 text-sm lg:grid-cols-4">
+        ${quadro("🐶", "Filhotes de cachorro", somaEventos("puppies_dogs"))}
+        ${quadro("🐱", "Filhotes de gato", somaEventos("puppies_cats"))}
+        ${quadro("🐶", "Cachorros adultos", somaEventos("adult_dogs"))}
+        ${quadro("🐱", "Gatos adultos", somaEventos("adult_cats"))}
+      </div>
+      <p class="mt-3 text-xs text-on-surface-variant">Adotantes e voluntários aparecem somente em contagens agrupadas, sem nomes ou contatos.</p>
+    </section>
+
+    <section class="mt-5 grid gap-5 lg:grid-cols-3">
+      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por zona de moradia</h2>${barras(porZonaAdocoes, "Sem zonas registradas.")}<h3 class="mt-5 border-t border-surface-variant pt-4 text-sm font-bold text-primary">Solicitações recebidas</h3>${barras(porZona, "Sem solicitações registradas.")}</article>
+      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por mês</h2>${barras(porMes, "Sem datas de adoção no período.")}</article>
+      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por espécie</h2>${barras(porEspecie, "Sem espécie registrada.")}</article>
+    </section>
+
+    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="font-bold text-primary">Eventos com maior sucesso</h2>
+      <p class="mt-1 text-sm text-on-surface-variant">Ranking pelo número de adoções registradas ao fechar cada evento.</p>
+      <div class="mt-3 space-y-2">${sucessoEventos.length ? sucessoEventos.map(([nome, animais, r]) => `
+        <div class="border-b border-surface-variant py-2 text-sm">
+          <div class="flex justify-between gap-3"><span class="truncate">${esc(nome)}</span><strong class="shrink-0 text-primary">${animais} animal(is) adotado(s)</strong></div>
+          <p class="mt-1 text-xs text-on-surface-variant">🐶 ${Number(r.puppies_dogs || 0)} filhote(s) e ${Number(r.adult_dogs || 0)} adulto(s) • 🐱 ${Number(r.puppies_cats || 0)} filhote(s) e ${Number(r.adult_cats || 0)} adulto(s)</p>
+        </div>`).join("") : `<p class="text-sm text-on-surface-variant">Ainda não há resultados de eventos registrados.</p>`}</div>
+    </section>`;
+}
+
+/* ============================================================
+   PÁGINA — EVENTOS
+   Resultados: filhotes e adultos, cães e gatos
+   ============================================================ */
+function contagensEvento(e) {
+  const r = e.results || {};
+  const n = (v) => Math.max(0, Math.floor(Number(v) || 0));
+  return {
+    puppies_dogs: n(r.puppies_dogs),
+    puppies_cats: n(r.puppies_cats),
+    adult_dogs: n(r.adult_dogs),
+    adult_cats: n(r.adult_cats)
+  };
+}
+
+const somaContagens = (c) => c.puppies_dogs + c.puppies_cats + c.adult_dogs + c.adult_cats;
+
+function lerResultados(id) {
+  const v = (chave) => Math.max(0, Math.floor(Number($(`evento-${id}-${chave}`)?.value) || 0));
+  return {
+    puppies_dogs: v("puppies_dogs"),
+    puppies_cats: v("puppies_cats"),
+    adult_dogs: v("adult_dogs"),
+    adult_cats: v("adult_cats")
+  };
+}
+
+function atualizarTotalEvento(id) {
+  $(`evento-${id}-total`).textContent = somaContagens(lerResultados(id));
+}
+
+function ajustarResultado(id, chave, passo) {
+  const campo = $(`evento-${id}-${chave}`);
+  campo.value = Math.max(0, (Number(campo.value) || 0) + passo);
+  atualizarTotalEvento(id);
+}
+
+function formularioResultados(e) {
+  const id = esc(e.id);
+  const c = contagensEvento(e);
+
+  const contador = (chave, nome) => `
+    <div class="flex items-center justify-between rounded-xl bg-white p-1.5 ring-1 ring-surface-variant">
+      <button type="button" onclick="ajustarResultado('${id}','${chave}',-1)" aria-label="Diminuir ${nome}"
+        class="grid h-10 w-10 place-items-center rounded-lg text-primary hover:bg-surface-low">
+        <span class="material-symbols-outlined">remove</span>
+      </button>
+      <input id="evento-${id}-${chave}" type="number" min="0" inputmode="numeric" value="${c[chave]}"
+        oninput="atualizarTotalEvento('${id}')" aria-label="${nome}"
+        class="sem-setas w-12 border-0 bg-transparent p-0 text-center text-xl font-bold text-primary focus:ring-0">
+      <button type="button" onclick="ajustarResultado('${id}','${chave}',1)" aria-label="Aumentar ${nome}"
+        class="grid h-10 w-10 place-items-center rounded-lg text-primary hover:bg-surface-low">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+    </div>`;
+
+  return `
+    <details class="mt-5 rounded-2xl bg-surface-low">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-3 p-4 font-semibold text-primary">
+        <span class="flex items-center gap-2"><span class="material-symbols-outlined">task_alt</span>Fechar evento e registrar adoções</span>
+        <span class="material-symbols-outlined gira transition">expand_more</span>
+      </summary>
+      <div class="px-4 pb-4">
+        <p class="mb-3 text-sm text-on-surface-variant">Quantos animais de cada tipo foram adotados neste evento?</p>
+
+        <div class="grid grid-cols-[auto_1fr_1fr] items-center gap-2">
+          <span></span>
+          <span class="text-center font-bold text-primary">🐶 Cães</span>
+          <span class="text-center font-bold text-primary">🐱 Gatos</span>
+
+          <span class="pr-2 font-semibold text-on-surface-variant">Filhotes</span>
+          ${contador("puppies_dogs", "filhotes de cachorro")}
+          ${contador("puppies_cats", "filhotes de gato")}
+
+          <span class="pr-2 font-semibold text-on-surface-variant">Adultos</span>
+          ${contador("adult_dogs", "cachorros adultos")}
+          ${contador("adult_cats", "gatos adultos")}
+        </div>
+
+        <div class="mt-4 flex items-center justify-between rounded-xl bg-primary-container px-4 py-3 text-white">
+          <span class="font-semibold">Total adotado</span>
+          <strong id="evento-${id}-total" class="text-2xl">${somaContagens(c)}</strong>
+        </div>
+
+        <button type="button" onclick="finalizarEvento('${id}')"
+          class="mt-3 w-full rounded-full bg-green-700 py-3 text-base font-semibold text-white hover:bg-green-800">
+          Salvar e fechar evento
+        </button>
+      </div>
+    </details>`;
+}
+
+function resumoEventoFechado(e) {
+  const c = contagensEvento(e);
+  const detalhado = somaContagens(c) > 0;
+  const total = detalhado ? somaContagens(c) : Number(e.results?.animals_adopted || 0);
+
+  const item = (emoji, texto, n) => `
+    <div class="flex items-center justify-between rounded-xl bg-white px-3 py-2">
+      <span>${emoji} ${texto}</span><strong class="text-lg text-primary">${n}</strong>
+    </div>`;
+
+  return `
+    <div class="mt-5 rounded-2xl bg-green-50 p-4">
+      <p class="flex items-center gap-2 font-semibold text-green-800">
+        <span class="material-symbols-outlined">check_circle</span>Evento fechado: ${total} adoção(ões)
+      </p>
+      ${detalhado ? `
+        <div class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+          ${item("🐶", "Filhotes de cachorro", c.puppies_dogs)}
+          ${item("🐱", "Filhotes de gato", c.puppies_cats)}
+          ${item("🐶", "Cachorros adultos", c.adult_dogs)}
+          ${item("🐱", "Gatos adultos", c.adult_cats)}
+        </div>` : ""}
+    </div>`;
+}
+
 function paginaEventos() {
   const botao = botaoPrincipal("Criar evento", "add", "abrirModal('modalEvento')");
   if (!dados.eventos.length) return titulo("Eventos", "", botao) + vazio("Nenhum evento cadastrado.");
 
-  return titulo("Eventos", `${dados.eventos.length} evento(s).`, botao) + `
-    <div class="grid gap-3 md:grid-cols-2">
-      ${dados.eventos.map((e) => `
-        <article class="rounded-2xl bg-white p-5 shadow-sm">
-          <p class="text-sm font-semibold text-secondary">${dataBR(e.date)} • ${esc(e.startTime || "")}–${esc(e.endTime || "")}</p>
-          <h3 class="mt-1 font-bold text-primary">${esc(e.title || "Evento")}</h3>
-          <p class="mt-1 flex items-center gap-1 text-sm text-on-surface-variant"><span class="material-symbols-outlined text-base">location_on</span>${esc(e.location || "")}</p>
-          ${e.description ? `<p class="mt-2 text-sm">${esc(e.description)}</p>` : ""}
-          <p class="mt-3 text-xs text-on-surface-variant">Até ${esc(e.animalLimit)} animais • ${esc(e.volunteerLimit)} voluntários • ${esc(e.spaceLimit)} pessoas</p>
-          <button type="button" onclick="excluirEvento('${esc(e.id)}')" class="mt-3 text-sm font-semibold text-red-700 hover:underline">Excluir</button>
-        </article>`).join("")}
-    </div>`;
+  const hoje = hojeISO();
+  const futuros = dados.eventos.filter((e) => (e.date || "") >= hoje);
+  const encerrados = dados.eventos.filter((e) => (e.date || "") < hoje);
+
+  const card = (e) => {
+    const [, mes, dia] = String(e.date || "").split("-");
+    const chip = (icone, texto) => `
+      <span class="inline-flex items-center gap-1 rounded-full bg-surface-low px-3 py-1.5">
+        <span class="material-symbols-outlined text-[18px] text-secondary">${icone}</span>${texto}
+      </span>`;
+
+    return `
+      <article class="flex flex-col rounded-3xl bg-white p-6 shadow-sm">
+        <div class="flex items-start gap-4">
+          <div class="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-primary-container text-white">
+            <span class="text-2xl font-bold leading-none">${esc(dia || "")}</span>
+            <span class="text-xs font-semibold uppercase">${mes ? MESES[Number(mes) - 1] : ""}</span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="text-xl font-bold leading-tight text-primary">${esc(e.title || "Evento")}</h3>
+            <p class="mt-1 flex items-center gap-1.5 text-base text-on-surface-variant">
+              <span class="material-symbols-outlined text-[18px]">schedule</span>${esc(e.startTime || "")}–${esc(e.endTime || "")}
+            </p>
+            <p class="mt-1 flex items-start gap-1.5 text-base text-on-surface-variant">
+              <span class="material-symbols-outlined text-[18px]">location_on</span>${esc(e.location || "")}
+            </p>
+          </div>
+        </div>
+
+        ${e.description ? `<p class="mt-4 text-base">${esc(e.description)}</p>` : ""}
+
+        <div class="mt-4 flex flex-wrap gap-2 text-sm">
+          ${chip("pets", `Até ${esc(e.animalLimit)} animais`)}
+          ${chip("volunteer_activism", `${esc(e.volunteerLimit)} voluntários`)}
+          ${chip("groups", `${esc(e.spaceLimit)} pessoas`)}
+        </div>
+
+        ${e.closed ? resumoEventoFechado(e) : formularioResultados(e)}
+
+        <button type="button" onclick="excluirEvento('${esc(e.id)}')"
+          class="mt-4 inline-flex items-center gap-1 self-start text-sm font-semibold text-red-700 hover:underline">
+          <span class="material-symbols-outlined text-[18px]">delete</span>Excluir evento
+        </button>
+      </article>`;
+  };
+
+  const grupo = (tituloGrupo, itens) => itens.length
+    ? `<section class="mb-8"><h2 class="mb-4 text-lg font-bold text-primary">${tituloGrupo}</h2>
+         <div class="grid gap-5 lg:grid-cols-2">${itens.map(card).join("")}</div></section>`
+    : "";
+
+  return titulo("Eventos", `${dados.eventos.length} evento(s).`, botao)
+    + grupo("Próximos eventos", futuros)
+    + grupo("Eventos encerrados", encerrados);
 }
 
+async function finalizarEvento(id) {
+  const c = lerResultados(id);
+
+  // Guarda o detalhe e também os totais que os Relatórios já usavam
+  const results = {
+    ...c,
+    puppies: c.puppies_dogs + c.puppies_cats,
+    adults: c.adult_dogs + c.adult_cats,
+    dogs: c.puppies_dogs + c.adult_dogs,
+    cats: c.puppies_cats + c.adult_cats
+  };
+  results.animals_adopted = results.dogs + results.cats;
+
+  if (!(await confirmar(`Fechar o evento com ${results.animals_adopted} adoção(ões)?`))) return;
+
+  try {
+    const r = await api(`/events/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ results }) });
+    const evento = dados.eventos.find((item) => String(item.id) === String(id));
+    if (evento) Object.assign(evento, r.event || { results });
+    desenhar();
+    aviso("Evento fechado. Os resultados já entram nos relatórios.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+/* ============================================================
+   PÁGINA — CONFIGURAÇÕES
+   ============================================================ */
 function paginaConfig() {
   const u = dados.user || {};
   return titulo("Configurações", "Seu perfil e sua senha.") + `
@@ -857,7 +1572,8 @@ function paginaConfig() {
 
 const RENDER = {
   inicio: paginaInicio, animais: paginaAnimais, adocoes: paginaAdocoes, adotados: paginaAdotados,
-  voluntarios: paginaVoluntarios, "contas-apoio": paginaContasApoio, eventos: paginaEventos, config: paginaConfig
+  voluntarios: paginaVoluntarios, "contas-apoio": paginaContasApoio, eventos: paginaEventos,
+  relatorios: paginaRelatorios, config: paginaConfig
 };
 
 /* ============================================================
@@ -957,6 +1673,20 @@ async function salvarAnimal() {
   }
 }
 
+async function removerAnimal(id) {
+  const animal = dados.animais.find((item) => String(item.id) === String(id));
+  if (!animal || !(await confirmar(`Deletar o perfil de ${animal.name || "este animal"}? Esta ação não pode ser desfeita.`))) return;
+  try {
+    await api(`/animals/${encodeURIComponent(id)}`, { method: "DELETE" });
+    dados.animais = dados.animais.filter((item) => String(item.id) !== String(id));
+    fecharModal("modalAnimal");
+    desenhar();
+    aviso("Perfil do animal deletado.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
 /* ============================================================
    AÇÕES — ADOÇÃO
    ============================================================ */
@@ -1001,39 +1731,52 @@ async function confirmarAdocao() {
   }
 }
 
-async function desfazerAdocao(id) {
-  const a = dados.animais.find((x) => String(x.id) === String(id));
-  if (!(await confirmar(`Desfazer a adoção de ${a?.name || "este animal"}? Ele volta a aparecer no site.`))) return;
-  try {
-    const r = await api(`/animals/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status: "disponível" }) });
-    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
-    if (i >= 0) dados.animais[i] = r.animal;
-    desenhar();
-    aviso("Adoção desfeita. O animal voltou para o site.");
-  } catch (erro) {
-    aviso(erro.message, true);
-  }
-}
-
 /* ============================================================
-   AÇÕES — VOLUNTÁRIOS
+   AÇÕES — VOLUNTÁRIOS E SOLICITAÇÕES
    ============================================================ */
 async function decidirVoluntario(id, status) {
   const v = dados.voluntarios.find((x) => String(x.id) === String(id));
   const nome = v?.name || "esta pessoa";
-  const texto = status === "approved" ? `Aprovar ${nome} como voluntário(a)?` : `Recusar o pedido de ${nome}?`;
+  const texto = status === "approved"
+    ? `Aprovar ${nome} como voluntário(a)?`
+    : status === "resolvido"
+      ? `Marcar a solicitação de voluntariado de ${nome} como RESOLVIDA?`
+      : `Recusar a solicitação de ${nome}?`;
   if (!(await confirmar(texto))) return;
 
   try {
     await api(`/volunteer-requests/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status }) });
     if (v) v.status = status;
     desenhar();
-    aviso(status === "approved" ? `${nome} foi aprovado(a). Salve o contato no WhatsApp.` : `${nome} foi recusado(a).`);
+    aviso(status === "approved"
+      ? `${nome} foi aprovado(a). Salve o contato no WhatsApp.`
+      : status === "resolvido"
+        ? "Pedido de voluntariado marcado como RESOLVIDO."
+        : `${nome} foi recusado(a).`);
   } catch (erro) {
     aviso(erro.message, true);
   }
 }
 
+async function marcarPedidoResolvido(id) {
+  const pedido = dados.adocoes.find((item) => String(item.id) === String(id));
+  if (!pedido || !(await confirmar("Marcar esta solicitação como RESOLVIDA?"))) return;
+  try {
+    await api(`/applications/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify({ status: "resolvido" })
+    });
+    pedido.status = "resolvido";
+    desenhar();
+    aviso("Pedido marcado como RESOLVIDO.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+/* ============================================================
+   AÇÕES — CONTAS DE APOIO
+   ============================================================ */
 function gerarSenhaApoio() {
   const caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
   const valores = new Uint32Array(16);
@@ -1050,26 +1793,29 @@ async function copiarDadosConta() {
   const campo = $("dadosContaCopiar");
   try {
     await navigator.clipboard.writeText(campo.value);
-    aviso("Dados copiados. Agora você pode colar no WhatsApp.");
   } catch {
     campo.focus();
     campo.select();
     document.execCommand("copy");
-    aviso("Dados copiados. Agora você pode colar no WhatsApp.");
   }
+  aviso("Dados copiados. Agora você pode colar no WhatsApp.");
 }
 
-/* ============================================================
-   AÇÕES — CONTAS DE APOIO
-   ============================================================ */
 async function criarContaApoio() {
   const nome = $("apoioNome").value.trim();
   const email = $("apoioEmail").value.trim().toLowerCase();
   const senha = $("apoioSenha").value;
 
-  if (!nome || !email || !senha) return aviso("Preencha nome, e-mail e senha.", true);
-  if (!email.includes("@")) return aviso("Informe um e-mail válido.", true);
-  if (senha.length < 8) return aviso("A senha precisa ter pelo menos 8 caracteres.", true);
+  const erro = $("erroContaApoio");
+  const mostrarErroConta = (mensagem) => {
+    erro.textContent = mensagem;
+    erro.classList.remove("hidden");
+  };
+  erro.classList.add("hidden");
+
+  if (!nome || !email || !senha) return mostrarErroConta("Preencha nome, e-mail e senha.");
+  if (!email.includes("@")) return mostrarErroConta("Informe um e-mail válido.");
+  if (senha.length < 8) return mostrarErroConta("A senha precisa ter pelo menos 8 caracteres.");
 
   const botao = $("btnCriarContaApoio");
   botao.disabled = true;
@@ -1079,6 +1825,10 @@ async function criarContaApoio() {
       method: "POST",
       body: JSON.stringify({ nome, email, senha })
     });
+
+    if (!r.ok || !r.account?.id) {
+      throw new Error(r.message || "O banco não confirmou a criação da conta.");
+    }
 
     dados.contasApoio.unshift(r.account);
     const mensagem = [
@@ -1100,6 +1850,7 @@ async function criarContaApoio() {
     abrirModal("modalDadosConta");
     aviso("Conta criada com sucesso.");
   } catch (erro) {
+    mostrarErroConta(erro.message || "Não foi possível criar a conta.");
     aviso(erro.message, true);
   } finally {
     botao.disabled = false;
@@ -1107,9 +1858,7 @@ async function criarContaApoio() {
 }
 
 async function excluirContaApoio(id, nome) {
-  const ok = await confirmar(
-    `Excluir a conta de apoio de ${nome}? A pessoa perderá o acesso ao sistema imediatamente.`
-  );
+  const ok = await confirmar(`Excluir a conta de apoio de ${nome}? A pessoa perderá o acesso ao sistema imediatamente.`);
   if (!ok) return;
 
   try {
@@ -1236,8 +1985,33 @@ async function removerFoto() {
 
 async function sair() {
   try { await fetch(API + "/auth/logout", { method: "POST", credentials: "same-origin" }); } catch {}
+  localStorage.removeItem("pa_account_name");
+  localStorage.removeItem("master_name");
+  localStorage.removeItem("master_email");
+  localStorage.removeItem("master_id");
   location.href = "login.html";
 }
+
+/* ============================================================
+   EVENTOS DOS FORMULÁRIOS
+   ============================================================ */
+$("formContaApoio").addEventListener("submit", (event) => {
+  event.preventDefault();
+  criarContaApoio();
+});
+
+$("btnRepublicarSalvar").addEventListener("click", salvarRepublicacao);
+
+// Fecha janelas ao clicar fora ou apertar Esc
+const MODAIS = ["modalAnimal", "modalEvento", "modalAdocao", "modalContaApoio", "modalInfoAdocao", "modalRepublicarAnimal"];
+
+MODAIS.forEach((id) =>
+  $(id).addEventListener("click", (e) => { if (e.target.id === id) fecharModal(id); })
+);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") MODAIS.forEach(fecharModal);
+});
 
 /* ============================================================
    INÍCIO — confere se quem abriu é a conta Master
@@ -1256,14 +2030,6 @@ async function sair() {
   desenhar();
   carregarTudo();
 })();
-
-// Fecha janelas ao clicar fora ou apertar Esc
-["modalAnimal", "modalEvento", "modalAdocao", "modalContaApoio"].forEach((id) =>
-  $(id).addEventListener("click", (e) => { if (e.target.id === id) fecharModal(id); })
-);
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") ["modalAnimal", "modalEvento", "modalAdocao", "modalContaApoio"].forEach(fecharModal);
-});
 </script>
 
 </body>
