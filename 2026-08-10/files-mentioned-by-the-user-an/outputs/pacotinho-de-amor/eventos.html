@@ -59,9 +59,9 @@
     }
 
     .pv-wrap {
-      max-width: 1200px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 clamp(24px, 4vw, 56px);
     }
 
     /* Usado pelo eventos.js para mostrar/esconder o aviso de "sem eventos" */
@@ -76,7 +76,7 @@
       overflow: hidden;
       background: var(--ameixa);
       color: var(--branco);
-      padding: 76px 0 140px;
+      padding: 84px 0 152px;
     }
 
     .pv-hero__patas {
@@ -173,15 +173,16 @@
 
     .pv-lista {
       position: relative;
-      margin-top: -84px;
-      padding-bottom: 96px;
+      margin-top: 64px;
+      padding-bottom: 128px;
     }
 
     #lista-eventos {
-      min-height: 240px;
+      min-height: 260px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+      gap: 32px;
+      width: 100%;
     }
 
     .pv-esqueleto {
@@ -327,15 +328,19 @@
       .pv-folhinha {
         display: none;
       }
+
+      .pv-lista {
+        margin-top: 48px;
+      }
     }
 
     @media (max-width: 600px) {
       .pv-wrap {
-        padding: 0 14px;
+        padding: 0 18px;
       }
 
       .pv-hero {
-        padding: 52px 0 120px;
+        padding: 56px 0 124px;
       }
 
       .pv-hero p {
@@ -344,6 +349,7 @@
 
       #lista-eventos {
         grid-template-columns: 1fr;
+        gap: 20px;
       }
 
       .pv-vazio {

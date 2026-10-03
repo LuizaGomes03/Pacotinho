@@ -128,10 +128,12 @@
 
         display: flex;
         flex-direction: column;
-        padding: 26px;
+        min-height: 100%;
+        padding: 32px;
+        border: 1px solid #e6d9ea;
         border-radius: 28px;
         background: #fff;
-        box-shadow: 0 20px 40px -28px rgba(46, 20, 56, .45);
+        box-shadow: 0 24px 44px -30px rgba(46, 20, 56, .5);
         font-family: "Figtree", "Segoe UI", system-ui, sans-serif;
         color: #2a2230;
         line-height: 1.5;
@@ -142,15 +144,15 @@
 
       .pv-evento__topo {
         display: flex;
-        gap: 18px;
+        gap: 22px;
         align-items: flex-start;
       }
 
       .pv-evento__folhinha {
         flex-shrink: 0;
-        width: 74px;
+        width: 84px;
         overflow: hidden;
-        border-radius: 18px;
+        border-radius: 20px;
         background: var(--ev-lilas);
         text-align: center;
         transform: rotate(-4deg);
@@ -158,29 +160,29 @@
 
       .pv-evento__mes {
         display: block;
-        padding: 5px 0 4px;
+        padding: 7px 0 5px;
         background: var(--ev-mel);
         color: var(--ev-ameixa-escura);
         font-weight: 700;
-        font-size: 14px;
+        font-size: 16px;
         text-transform: capitalize;
       }
 
       .pv-evento__dia {
         display: block;
-        padding: 6px 0 10px;
+        padding: 8px 0 12px;
         font-family: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
         font-weight: 800;
-        font-size: 34px;
+        font-size: 40px;
         line-height: 1;
         color: var(--ev-ameixa);
       }
 
       .pv-evento h3 {
-        margin: 2px 0 8px;
+        margin: 2px 0 10px;
         font-family: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
         font-weight: 700;
-        font-size: 22px;
+        font-size: 26px;
         line-height: 1.15;
         letter-spacing: -.01em;
         color: var(--ev-ameixa-escura);
@@ -189,17 +191,17 @@
       .pv-evento__info {
         display: flex;
         align-items: flex-start;
-        gap: 7px;
-        margin: 4px 0 0;
-        font-size: 15px;
+        gap: 9px;
+        margin: 6px 0 0;
+        font-size: 18px;
         color: var(--ev-suave);
       }
 
       .pv-evento__info svg {
         flex-shrink: 0;
-        width: 17px;
-        height: 17px;
-        margin-top: 2px;
+        width: 20px;
+        height: 20px;
+        margin-top: 3px;
         color: var(--ev-ameixa);
       }
 
@@ -208,9 +210,9 @@
       }
 
       .pv-evento__local {
-        margin-top: 18px;
-        padding: 12px 14px;
-        border-radius: 14px;
+        margin-top: 24px;
+        padding: 15px 18px;
+        border-radius: 16px;
         background: var(--ev-lilas);
       }
 
@@ -221,8 +223,8 @@
       }
 
       .pv-evento__desc {
-        margin: 14px 0 0;
-        font-size: 15px;
+        margin: 18px 0 0;
+        font-size: 18px;
         color: var(--ev-suave);
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -233,9 +235,9 @@
       .pv-evento__acoes {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
         margin-top: auto;
-        padding-top: 22px;
+        padding-top: 28px;
       }
 
       .pv-evento__botao {
@@ -244,18 +246,19 @@
         align-items: center;
         justify-content: center;
         gap: 7px;
-        padding: 12px 16px;
+        min-height: 52px;
+        padding: 14px 18px;
         border-radius: 999px;
         border: 2px solid var(--ev-ameixa);
         font-weight: 700;
-        font-size: 15px;
+        font-size: 17px;
         text-decoration: none;
         transition: background .2s, color .2s;
       }
 
       .pv-evento__botao svg {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
       }
 
       .pv-evento__botao--cheio {
@@ -281,6 +284,42 @@
       .pv-evento__botao:focus-visible {
         outline: 3px solid var(--ev-mel);
         outline-offset: 3px;
+      }
+
+      @media (max-width: 600px) {
+        .pv-evento {
+          padding: 24px 20px;
+          border-radius: 24px;
+        }
+
+        .pv-evento__topo {
+          gap: 16px;
+        }
+
+        .pv-evento__folhinha {
+          width: 72px;
+        }
+
+        .pv-evento__mes {
+          font-size: 14px;
+        }
+
+        .pv-evento__dia {
+          font-size: 34px;
+        }
+
+        .pv-evento h3 {
+          font-size: 22px;
+        }
+
+        .pv-evento__info,
+        .pv-evento__desc {
+          font-size: 17px;
+        }
+
+        .pv-evento__botao {
+          flex-basis: 100%;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {

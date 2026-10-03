@@ -15,6 +15,12 @@
   >
 
   <style>
+    /* =========================================================
+       BASE COMPARTILHADA
+       Este bloco é IDÊNTICO em sobre-o-projeto.html e
+       seja-voluntario.html. Se mudar algo aqui, mude nas duas.
+       ========================================================= */
+
     .pv {
       --ameixa: #472056;
       --ameixa-escura: #2e1438;
@@ -24,16 +30,22 @@
       --rosa: #f6cfdf;
       --mel: #f2b84b;
       --texto: #2a2230;
-      --texto-suave: #6b5f6e;
+      --texto-suave: #4f4453;
       --branco: #ffffff;
+      --erro: #b3261e;
 
       --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
       --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
 
+      --largura: 1240px;
+      --raio-painel: 24px;
+      --raio-card: 20px;
+
       font-family: var(--corpo);
+      font-size: 18px;
+      line-height: 1.65;
       color: var(--texto);
       background: var(--lilas);
-      line-height: 1.6;
     }
 
     .pv *,
@@ -54,15 +66,97 @@
       margin: 0;
     }
 
-    .pv a:focus-visible {
+    .pv a:focus-visible,
+    .pv button:focus-visible {
       outline: 3px solid var(--mel);
       outline-offset: 3px;
     }
 
+    .pv .hidden {
+      display: none !important;
+    }
+
     .pv-wrap {
-      max-width: 1120px;
+      width: 100%;
+      max-width: var(--largura);
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 32px;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .pv-hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--ameixa);
+      color: var(--branco);
+      padding: 72px 0 88px;
+    }
+
+    .pv-hero__patas {
+      position: absolute;
+      right: -50px;
+      bottom: -60px;
+      width: 380px;
+      max-width: 90%;
+      opacity: .1;
+      pointer-events: none;
+    }
+
+    .pv-hero .pv-wrap {
+      position: relative;
+    }
+
+    .pv-selo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px !important;
+      padding: 6px 16px 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .pv-selo svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .pv-hero h1 {
+      margin: 0;
+      color: var(--branco);
+      font-weight: 800;
+      font-size: clamp(44px, 6.4vw, 80px);
+      line-height: .98;
+      letter-spacing: -.035em;
+      max-width: 12ch;
+    }
+
+    .pv-hero__texto {
+      max-width: 54ch;
+      margin-top: 24px !important;
+      font-size: 21px;
+      color: rgba(255, 255, 255, .92);
+    }
+
+    .pv-hero__nota {
+      max-width: 64ch;
+      margin-top: 20px !important;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .08);
+      font-size: 17px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, .85);
+    }
+
+    .pv-hero__acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
     }
 
     /* ---------- BOTÕES ---------- */
@@ -72,19 +166,22 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 14px 26px;
+      padding: 15px 28px;
       border-radius: 999px;
       border: 2px solid transparent;
       font-family: var(--corpo);
       font-weight: 700;
-      font-size: 16px;
+      font-size: 18px;
+      line-height: 1.2;
       text-decoration: none;
+      cursor: pointer;
       transition: background .2s, color .2s, border-color .2s;
     }
 
     .pv-botao svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
     }
 
     .pv-botao--mel {
@@ -115,58 +212,141 @@
       background: var(--ameixa-media);
     }
 
-    /* ---------- HERO ---------- */
+    .pv-botao--contorno {
+      border-color: var(--ameixa);
+      color: var(--ameixa);
+      background: var(--branco);
+    }
 
-    .pv-hero {
-      position: relative;
-      overflow: hidden;
+    .pv-botao--contorno:hover {
       background: var(--ameixa);
       color: var(--branco);
-      padding: 80px 0 150px;
     }
 
-    .pv-hero__patas {
-      position: absolute;
-      left: -60px;
-      bottom: -40px;
-      width: 380px;
-      opacity: .1;
-      pointer-events: none;
+    /* ---------- PAINEL BRANCO ---------- */
+
+    .pv-main {
+      padding-bottom: 88px;
     }
+
+    .pv-painel {
+      position: relative;
+      width: 100%;
+      margin-top: 32px;
+      padding: 48px 56px;
+      background: var(--branco);
+      border: 1px solid rgba(71, 32, 86, .08);
+      border-radius: var(--raio-painel);
+      box-shadow: 0 24px 50px -30px rgba(46, 20, 56, .3);
+    }
+
+    /* ---------- TÍTULOS E SUBTÍTULOS DE SEÇÃO ---------- */
+
+    .pv-titulo {
+      margin: 0;
+      font-weight: 700;
+      font-size: 34px;
+      line-height: 1.15;
+    }
+
+    .pv-intro {
+      max-width: 62ch;
+      margin-top: 8px !important;
+      font-size: 18px;
+      color: var(--texto-suave);
+    }
+
+    /* ---------- ÍCONE PADRÃO DOS CARDS ---------- */
+
+    .pv-icone {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--rosa);
+      color: var(--ameixa);
+      transition: background .2s, color .2s;
+    }
+
+    .pv-icone svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    /* ---------- RESPONSIVO DA BASE ---------- */
+
+    @media (max-width: 960px) {
+      .pv-painel {
+        padding: 40px 36px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pv {
+        font-size: 17px;
+      }
+
+      .pv-wrap {
+        padding: 0 16px;
+      }
+
+      .pv-hero {
+        padding: 52px 0 64px;
+      }
+
+      .pv-hero__texto {
+        font-size: 19px;
+      }
+
+      .pv-hero__nota {
+        font-size: 16px;
+      }
+
+      .pv-hero__acoes .pv-botao {
+        width: 100%;
+      }
+
+      .pv-main {
+        padding-bottom: 56px;
+      }
+
+      .pv-painel {
+        margin-top: 20px;
+        padding: 28px 20px;
+        border-radius: 20px;
+      }
+
+      .pv-titulo {
+        font-size: 28px;
+      }
+
+      .pv-intro {
+        font-size: 17px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv *,
+      .pv *::before,
+      .pv *::after {
+        transition: none !important;
+      }
+    }
+
+    /* =========================================================
+       ESPECÍFICO DESTA PÁGINA
+       ========================================================= */
+
+    /* ---------- HERO: número de adoções ---------- */
 
     .pv-hero__grid {
-      position: relative;
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
       gap: 56px;
       align-items: center;
     }
-
-    .pv-hero h1 {
-      margin: 0;
-      color: var(--branco);
-      font-weight: 800;
-      font-size: clamp(42px, 6.4vw, 80px);
-      line-height: .98;
-      letter-spacing: -.035em;
-      max-width: 12ch;
-    }
-
-    .pv-hero__texto {
-      max-width: 52ch;
-      margin-top: 24px !important;
-      font-size: 19px;
-      color: rgba(255, 255, 255, .86);
-    }
-
-    .pv-hero__acoes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 34px;
-    }
-
-    /* O número é o elemento de destaque da página */
 
     .pv-marca {
       position: relative;
@@ -193,7 +373,7 @@
       display: block;
       font-family: var(--display);
       font-weight: 800;
-      font-size: clamp(56px, 7vw, 84px);
+      font-size: clamp(58px, 7vw, 86px);
       line-height: 1;
       letter-spacing: -.04em;
       color: var(--ameixa);
@@ -203,7 +383,7 @@
       display: block;
       max-width: 13ch;
       margin: 10px auto 0;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
       line-height: 1.3;
     }
@@ -227,55 +407,41 @@
       height: 32px;
     }
 
-    /* ---------- PAINEL ---------- */
-
-    .pv-painel {
-      position: relative;
-      margin-top: -90px;
-      background: var(--branco);
-      border-radius: 32px;
-      padding: 16px 56px;
-      box-shadow: 0 30px 60px -30px rgba(46, 20, 56, .35);
-    }
+    /* ---------- SEÇÕES (título à esquerda, conteúdo à direita) ---------- */
 
     .pv-secao {
       display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
+      grid-template-columns: 280px minmax(0, 1fr);
       gap: 48px;
       padding: 52px 0;
-      border-top: 2px solid var(--lilas);
+      border-top: 1px solid var(--lilas-borda);
     }
 
     .pv-secao:first-child {
+      padding-top: 4px;
       border-top: none;
     }
 
-    .pv-secao > h2 {
-      margin: 0;
-      font-weight: 700;
-      font-size: 30px;
-      line-height: 1.1;
+    .pv-secao:last-child {
+      padding-bottom: 4px;
     }
 
     .pv-conteudo {
-      max-width: 680px;
+      max-width: 720px;
+      font-size: 19px;
       color: var(--texto-suave);
-      font-size: 17px;
     }
 
-    .pv-destaque {
-      font-family: var(--display);
-      font-weight: 500;
-      font-size: 24px;
-      line-height: 1.35;
-      color: var(--ameixa-escura);
+    .pv-quem-somos {
+      color: #352e38;
+      line-height: 1.75;
     }
 
-    .pv-conteudo > p + p {
-      margin-top: 16px;
+    .pv-quem-somos p + p {
+      margin-top: 20px;
     }
 
-    /* ---------- ITENS COM ÍCONE ---------- */
+    /* ---------- O QUE FAZEMOS ---------- */
 
     .pv-itens {
       display: grid;
@@ -287,202 +453,29 @@
     }
 
     .pv-item {
-      padding: 24px 22px;
-      border-radius: 22px;
+      padding: 26px;
+      border-radius: var(--raio-card);
       background: var(--lilas);
     }
 
-    .pv-item__icone {
-      width: 52px;
-      height: 52px;
-      margin-bottom: 16px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      background: var(--rosa);
-      color: var(--ameixa);
-    }
-
-    .pv-item__icone svg {
-      width: 28px;
-      height: 28px;
+    .pv-item .pv-icone {
+      margin-bottom: 18px;
     }
 
     .pv-item h3 {
-      margin: 0 0 6px;
+      margin: 0 0 8px;
       font-weight: 700;
-      font-size: 19px;
+      font-size: 22px;
+      line-height: 1.2;
     }
 
     .pv-item p {
-      font-size: 15px;
-      color: var(--texto-suave);
-    }
-
-    a.pv-item {
-      display: block;
-      text-decoration: none;
-      border: 2px solid transparent;
-      transition: border-color .2s, background .2s;
-    }
-
-    a.pv-item:hover {
-      border-color: var(--ameixa);
-      background: #fbf7fc;
-    }
-
-    .pv-item__link {
-      display: inline-block;
-      margin-top: 12px;
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--ameixa);
-    }
-
-    /* ---------- COMO AJUDAR ----------
-       Seção em largura total (título em cima) e 3 cards
-       com exatamente a mesma estrutura:
-       ícone, título, texto, informação e um botão. */
-
-    .pv-ajudar {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-
-    .pv-ajudar__topo p {
-      margin-top: 8px !important;
       font-size: 17px;
+      line-height: 1.6;
       color: var(--texto-suave);
     }
 
-    .pv-ajudas {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .pv-ajuda {
-      display: flex;
-      flex-direction: column;
-      padding: 26px;
-      border-radius: 24px;
-      background: var(--lilas);
-    }
-
-    .pv-ajuda__icone {
-      width: 56px;
-      height: 56px;
-      margin-bottom: 18px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      background: var(--rosa);
-      color: var(--ameixa);
-    }
-
-    .pv-ajuda__icone svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    .pv-ajuda h3 {
-      margin: 0 0 6px;
-      font-weight: 700;
-      font-size: 22px;
-      line-height: 1.15;
-    }
-
-    /* o texto empurra informação e botão para o fim do card:
-       assim ficam alinhados nos 3 cards, mesmo com textos de tamanhos diferentes */
-    .pv-ajuda > p {
-      padding-bottom: 18px;
-      font-size: 15px;
-      color: var(--texto-suave);
-    }
-
-    .pv-ajuda__info {
-      display: block;
-      margin-top: auto;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: var(--branco);
-      text-decoration: none;
-    }
-
-
-    .pv-ajuda__info small {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--ameixa-media);
-    }
-
-    .pv-ajuda__info strong {
-      display: block;
-      margin-top: 1px;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--texto);
-      word-break: break-all;
-    }
-
-    a.pv-ajuda__info:hover strong {
-      color: var(--ameixa);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .pv-acao {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      margin-top: 12px;
-      padding: 13px 16px;
-      border: none;
-      border-radius: 999px;
-      background: var(--ameixa);
-      color: var(--branco);
-      font-family: var(--corpo);
-      font-weight: 700;
-      font-size: 15px;
-      line-height: 1.2;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background .2s;
-    }
-
-    .pv-acao:hover {
-      background: var(--ameixa-media);
-    }
-
-    .pv-acao:focus-visible,
-    .pv-ajuda__info:focus-visible {
-      outline: 3px solid var(--mel);
-      outline-offset: 3px;
-    }
-
-    .pv-acao svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    .pv-acao.is-feito {
-      background: #1e6b3a;
-    }
-
-    @media (max-width: 900px) {
-      .pv-ajudas {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ---------- PASSOS DA ADOÇÃO ---------- */
+    /* ---------- COMO ADOTAR ---------- */
 
     .pv-passos {
       margin: 0;
@@ -493,7 +486,7 @@
 
     .pv-passos li {
       position: relative;
-      padding: 0 0 30px 62px;
+      padding: 0 0 32px 66px;
       counter-increment: passo;
     }
 
@@ -502,8 +495,8 @@
       position: absolute;
       left: 0;
       top: 0;
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       display: grid;
       place-items: center;
       border-radius: 50%;
@@ -511,14 +504,14 @@
       color: var(--branco);
       font-family: var(--display);
       font-weight: 700;
-      font-size: 18px;
+      font-size: 20px;
     }
 
     .pv-passos li::after {
       content: "";
       position: absolute;
-      left: 19px;
-      top: 46px;
+      left: 20px;
+      top: 50px;
       bottom: 6px;
       width: 2px;
       background: var(--lilas-borda);
@@ -535,11 +528,11 @@
     .pv-passos h3 {
       margin: 6px 0 4px;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .pv-passos p {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--texto-suave);
     }
 
@@ -547,10 +540,105 @@
       margin-top: 32px;
     }
 
+    /* ---------- COMO AJUDAR ---------- */
+    /* seções com cards: título em cima, cards na largura toda */
+    .pv-secao--larga {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .pv-ajudas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pv-ajuda {
+      display: flex;
+      flex-direction: column;
+      padding: 26px;
+      border-radius: var(--raio-card);
+      background: var(--lilas);
+    }
+
+    .pv-ajuda .pv-icone {
+      margin-bottom: 18px;
+    }
+
+    .pv-ajuda h3 {
+      margin: 0 0 8px;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    /* empurra informação e botão para o fim do card */
+    .pv-ajuda > p {
+      padding-bottom: 18px;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--texto-suave);
+    }
+
+    .pv-ajuda__info {
+      display: block;
+      margin-top: auto;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: var(--branco);
+    }
+
+    .pv-ajuda__info + .pv-ajuda__info {
+      margin-top: 10px;
+    }
+
+    .pv-ajuda__info a {
+      text-decoration: none;
+    }
+
+    .pv-ajuda__info small {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ameixa-media);
+    }
+
+    .pv-ajuda__info strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--texto);
+      word-break: break-word;
+    }
+
+    .pv-ajuda__info a:hover strong {
+      color: var(--ameixa);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .pv-acao {
+      width: 100%;
+      margin-top: 12px;
+      font-size: 17px;
+    }
+
+    .pv-acao + .pv-acao {
+      margin-top: 10px;
+    }
+
+    .pv-acao.is-feito {
+      background: #1e6b3a;
+    }
+
     /* ---------- FECHAMENTO ---------- */
 
     .pv-fechamento {
-      padding: 80px 0 96px;
+      padding: 80px 0 0;
       text-align: center;
     }
 
@@ -571,9 +659,9 @@
     }
 
     .pv-fechamento h2 {
-      margin: 0 0 12px;
+      margin: 0 0 14px;
       font-weight: 800;
-      font-size: clamp(34px, 5vw, 56px);
+      font-size: clamp(36px, 5vw, 56px);
       line-height: 1.02;
       letter-spacing: -.03em;
     }
@@ -581,7 +669,7 @@
     .pv-fechamento p {
       max-width: 44ch;
       margin: 0 auto;
-      font-size: 18px;
+      font-size: 20px;
       color: var(--texto-suave);
     }
 
@@ -591,17 +679,6 @@
       justify-content: center;
       gap: 12px;
       margin-top: 30px;
-    }
-
-    .pv-botao--contorno {
-      border-color: var(--ameixa);
-      color: var(--ameixa);
-      background: var(--branco);
-    }
-
-    .pv-botao--contorno:hover {
-      background: var(--ameixa);
-      color: var(--branco);
     }
 
     /* ---------- RESPONSIVO ---------- */
@@ -614,24 +691,20 @@
 
       .pv-marca {
         justify-self: start;
-        width: 250px;
+        width: 260px;
       }
 
       .pv-marca strong {
-        font-size: 60px;
+        font-size: 62px;
       }
 
       .pv-marca span {
-        font-size: 16px;
+        font-size: 18px;
       }
 
       .pv-marca__pata {
         width: 52px;
         height: 52px;
-      }
-
-      .pv-painel {
-        padding: 8px 32px;
       }
 
       .pv-secao {
@@ -640,79 +713,27 @@
         padding: 40px 0;
       }
 
-      .pv-itens {
+      .pv-itens,
+      .pv-ajudas {
         grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 600px) {
-      .pv-wrap {
-        padding: 0 14px;
-      }
-
-      .pv-hero {
-        padding: 52px 0 130px;
-      }
-
-      .pv-hero__texto {
-        font-size: 17px;
-      }
-
-      .pv-hero__acoes .pv-botao,
-      .pv-fechamento__acoes .pv-botao {
-        width: 100%;
-      }
-
-      .pv-painel {
-        padding: 4px 20px;
-        border-radius: 24px;
-      }
-
-      .pv-secao > h2 {
-        font-size: 26px;
-      }
-
-      .pv-destaque {
-        font-size: 20px;
+      .pv-conteudo {
+        font-size: 18px;
       }
 
       .pv-fechamento {
-        padding: 56px 0 72px;
+        padding-top: 56px;
+      }
+
+      .pv-fechamento__acoes .pv-botao {
+        width: 100%;
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .pv *,
-      .pv *::before,
-      .pv *::after {
-        transition: none !important;
-      }
-    }
-  
-    /* ---------- QUEM SOMOS: TEXTO LIMPO E LEGÍVEL ---------- */
-
-    body.pa-page-sobre-o-projeto .pv-quem-somos {
-      max-width: 680px;
-      color: #3f3942;
-      font-family: var(--body);
-      font-size: 17px;
-      line-height: 1.75;
-    }
-
-    body.pa-page-sobre-o-projeto .pv-quem-somos p {
-      margin: 0;
-      color: #3f3942;
-      font-family: var(--body);
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.75;
-    }
-
-    body.pa-page-sobre-o-projeto .pv-quem-somos p + p {
-      margin-top: 20px;
-    }
-
-</style>
+  </style>
 </head>
 
 <body>
@@ -745,7 +766,6 @@
           <circle cx="6" cy="-8" r="5.5"/><circle cx="15" cy="0" r="5.5"/>
         </g>
       </svg>
-
       <div class="pv-wrap pv-hero__grid">
 
         <div>
@@ -782,14 +802,14 @@
 
     <!-- CONTEÚDO -->
 
-    <main class="pv-wrap">
+    <main class="pv-wrap pv-main">
 
       <div class="pv-painel">
 
         <!-- QUEM SOMOS -->
 
         <section class="pv-secao">
-          <h2>Quem somos</h2>
+          <h2 class="pv-titulo">Quem somos</h2>
 
           <div class="pv-conteudo pv-quem-somos">
             <p>
@@ -809,11 +829,11 @@
 
         <!-- O QUE FAZEMOS -->
 
-        <section class="pv-secao">
-          <h2>O que fazemos</h2>
+        <section class="pv-secao pv-secao--larga">
+          <h2 class="pv-titulo">O que fazemos</h2>
           <ul class="pv-itens">
             <li class="pv-item">
-              <span class="pv-item__icone" aria-hidden="true">
+              <span class="pv-icone" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 11l9-7 9 7"/>
                   <path d="M5 9.5V20h14V9.5"/>
@@ -824,7 +844,7 @@
               <p>Recolhemos animais abandonados ou em situação de vulnerabilidade, arcando com exames, tratamentos veterinários, vacinação, vermifugação e castração.</p>
             </li>
             <li class="pv-item">
-              <span class="pv-item__icone" aria-hidden="true">
+              <span class="pv-icone" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 20.5s-7-4.3-8.9-8.6C1.7 8.8 3.6 5.3 7 5.3c2 0 3.3 1.1 5 3 1.7-1.9 3-3 5-3 3.4 0 5.3 3.5 3.9 6.6-1.9 4.3-8.9 8.6-8.9 8.6z"/>
                   <path d="M8.5 12.5l2.3 2.3 4.7-4.6"/>
@@ -834,7 +854,7 @@
               <p>Promovemos campanhas presenciais, divulgamos os animais e realizamos triagem para ajudar a garantir que os pets encontrem lares seguros e responsáveis.</p>
             </li>
             <li class="pv-item">
-              <span class="pv-item__icone" aria-hidden="true">
+              <span class="pv-icone" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="4" y="7" width="16" height="10" rx="5"/>
                   <rect x="8" y="10" width="8" height="4" rx="2"/>
@@ -851,7 +871,7 @@
         <!-- COMO ADOTAR -->
 
         <section class="pv-secao">
-          <h2>Como adotar</h2>
+          <h2 class="pv-titulo">Como adotar</h2>
           <div class="pv-conteudo">
             <ol class="pv-passos">
               <li>
@@ -878,17 +898,17 @@
 
         <!-- COMO AJUDAR -->
 
-        <section class="pv-secao pv-ajudar">
+        <section class="pv-secao pv-secao--larga">
 
-          <div class="pv-ajudar__topo">
-            <h2>Como ajudar</h2>
-            <p>Escolha a forma que combina mais com você.</p>
+          <div>
+            <h2 class="pv-titulo">Como ajudar</h2>
+            <p class="pv-intro">Escolha a forma que combina mais com você.</p>
           </div>
 
           <ul class="pv-ajudas">
 
             <li class="pv-ajuda">
-              <span class="pv-ajuda__icone" aria-hidden="true">
+              <span class="pv-icone" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 13.5h3l3.5 3h4a1.5 1.5 0 0 0 0-3H11"/>
                   <path d="M6 20h9l6-4.5a1.6 1.6 0 0 0-2-2.4L15 15.5"/>
@@ -901,11 +921,11 @@
                 <small>Você pode ajudar em</small>
                 <strong>Feirinhas, Táxi Dog e passeios</strong>
               </div>
-              <a class="pv-acao" href="quero-ajudar.html">Quero ser voluntário(a)</a>
+              <a class="pv-botao pv-botao--escuro pv-acao" href="quero-ajudar.html">Quero ser voluntário(a)</a>
             </li>
 
             <li class="pv-ajuda">
-              <span class="pv-ajuda__icone" aria-hidden="true">
+              <span class="pv-icone" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3.5" y="9" width="17" height="11" rx="2"/>
                   <path d="M3.5 13h17"/>
@@ -919,14 +939,14 @@
                 <small>Chave PIX (celular)</small>
                 <strong id="chavePix" data-chave="11994896555">(11) 99489-6555</strong>
               </div>
-              <button type="button" class="pv-acao" id="copiarPix" data-no-demo>
+              <button type="button" class="pv-botao pv-botao--escuro pv-acao" id="copiarPix" data-no-demo>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2.5"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg>
                 <span id="copiarPixTexto">Copiar chave PIX</span>
               </button>
             </li>
 
             <li class="pv-ajuda">
-              <span class="pv-ajuda__icone" aria-hidden="true">
+              <span class="pv-icone" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="5.5" r="2.5"/>
                   <circle cx="6" cy="12" r="2.5"/>
@@ -943,19 +963,19 @@
                 </a>
               </div>
 
-              <div class="pv-ajuda__info" style="margin-top:10px;">
+              <div class="pv-ajuda__info">
                 <small>Facebook</small>
                 <a href="https://www.facebook.com/p/Projeto-Pacotinho-de-Amor-100090674193671/" target="_blank" rel="noopener">
                   <strong>Projeto Pacotinho de Amor</strong>
                 </a>
               </div>
 
-              <a class="pv-acao" href="https://www.instagram.com/projeto.pacotinhodeamor/" target="_blank" rel="noopener">
+              <a class="pv-botao pv-botao--escuro pv-acao" href="https://www.instagram.com/projeto.pacotinhodeamor/" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
                 Ir para o Instagram
               </a>
 
-              <a class="pv-acao" href="https://www.facebook.com/p/Projeto-Pacotinho-de-Amor-100090674193671/" target="_blank" rel="noopener" style="margin-top:10px;">
+              <a class="pv-botao pv-botao--escuro pv-acao" href="https://www.facebook.com/p/Projeto-Pacotinho-de-Amor-100090674193671/" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1V10H7.7v3h2.7v8h3.1z"/>
                 </svg>
