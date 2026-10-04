@@ -1,0 +1,52 @@
+name: Deploy Pacotinho de Amor
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Preparar arquivos do site
+        run: |
+          mkdir _site
+
+          rsync -av \
+            --exclude='.env' \
+            --exclude='server*.py' \
+            --exclude='*.py' \
+            --exclude='__pycache__' \
+            --exclude='testar_*' \
+            "2026-08-10/files-mentioned-by-the-user-an/outputs/pacotinho-de-amor/" \
+            "_site/"
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Fazer upload do site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "_site"
+
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
