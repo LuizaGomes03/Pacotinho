@@ -29,6 +29,8 @@
       --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
 
       min-height: calc(100vh - var(--pa-header-h, 80px));
+      display: flex;
+      flex-direction: column;
       font-family: var(--corpo);
       color: var(--texto);
       background: var(--lilas);
@@ -73,7 +75,7 @@
       overflow: hidden;
       background: var(--ameixa);
       color: var(--branco);
-      padding: 56px 20px 150px;
+      padding: 52px 20px 60px;
       text-align: center;
     }
 
@@ -104,13 +106,23 @@
       color: rgba(255, 255, 255, .85);
     }
 
+    /* ---------- ÁREA DO CARTÃO: ocupa o lilás e centraliza o card ---------- */
+
+    .pv main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 0 48px;
+    }
+
     /* ---------- CARTÃO ---------- */
 
     .pv-cartao {
       position: relative;
       width: calc(100% - 24px);
       max-width: 460px;
-      margin: -100px auto 0;
+      margin: 0 auto;
       padding: 36px 36px 30px;
       border-radius: 32px;
       background: var(--branco);
@@ -126,7 +138,7 @@
       border-radius: 42% 58% 55% 45% / 50% 44% 56% 50%;
       background: var(--mel);
       color: var(--ameixa-escura);
-      box-shadow: 0 0 0 8px var(--branco);
+      box-shadow: 0 0 0 8px var(--lilas);
     }
 
     .pv-cartao__icone svg {
@@ -294,7 +306,6 @@
       display: block;
       width: max-content;
       margin: 28px auto 0;
-      padding-bottom: 56px;
       font-weight: 700;
       color: var(--ameixa);
       text-underline-offset: 4px;
@@ -302,7 +313,12 @@
 
     @media (max-width: 520px) {
       .pv-hero {
-        padding: 32px 16px 118px;
+        padding: 32px 16px 40px;
+      }
+
+      .pv main {
+        justify-content: flex-start;
+        padding: 56px 0 36px;
       }
 
       .pv-hero h1 {
@@ -319,7 +335,6 @@
 
       .pv-cartao {
         width: calc(100% - 20px);
-        margin-top: -90px;
         padding: 26px 18px 22px;
         border-radius: 24px;
       }
@@ -344,24 +359,107 @@
         font-size: 14px;
       }
 
-      .pv-voltar {
-        padding-bottom: 40px;
-      }
     }
 
     /* Celular deitado ou telas baixas: faixa roxa menor */
     @media (max-height: 560px) {
       .pv-hero {
         padding-top: 24px;
-        padding-bottom: 100px;
+        padding-bottom: 28px;
       }
 
       .pv-hero p {
         display: none;
       }
 
+      .pv main {
+        justify-content: flex-start;
+        padding-top: 56px;
+      }
+    }
+
+    /* ---------- COMPUTADOR: card maior, centralizado no lilás ---------- */
+
+    @media (min-width: 900px) and (min-height: 640px) {
+
+      .pv-hero {
+        padding: 56px 20px 64px;
+      }
+
+      .pv-hero__patas {
+        width: 480px;
+      }
+
+      .pv-hero h1 {
+        font-size: 68px;
+      }
+
+      .pv-hero p {
+        max-width: 46ch;
+        font-size: 19px;
+      }
+
+      .pv main {
+        padding: 88px 0 56px;
+      }
+
       .pv-cartao {
-        margin-top: -76px;
+        max-width: 560px;
+        padding: 52px 52px 40px;
+        border-radius: 36px;
+      }
+
+      .pv-cartao__icone {
+        width: 84px;
+        height: 84px;
+        margin-top: -94px;
+        margin-bottom: 24px;
+        box-shadow: 0 0 0 8px var(--lilas);
+      }
+
+      .pv-cartao__icone svg {
+        width: 42px;
+        height: 42px;
+      }
+
+      #loginForm {
+        gap: 22px;
+      }
+
+      .pv-campo label {
+        font-size: 16px;
+      }
+
+      .pv-campo__linha a {
+        font-size: 15px;
+      }
+
+      .pv-entrada input {
+        padding: 18px 18px 18px 52px;
+        border-radius: 18px;
+        font-size: 17px;
+      }
+
+      .pv-entrada > svg {
+        left: 18px;
+        width: 22px;
+        height: 22px;
+      }
+
+      #loginButton {
+        padding: 19px;
+        font-size: 20px;
+      }
+
+      .pv-rodape {
+        margin-top: 28px;
+        padding-top: 24px;
+        font-size: 16px;
+      }
+
+      .pv-voltar {
+        margin-top: 26px;
+        font-size: 17px;
       }
     }
 
@@ -456,7 +554,7 @@
 
       <div class="pv-rodape">
         <p>Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
-        <p>Quer ajudar o projeto? <a href="voluntario.html">Seja voluntário(a)</a></p>
+        <p>Quer ajudar o projeto? <a href="quero-ajudar.html">Seja voluntário(a)</a></p>
       </div>
 
     </section>

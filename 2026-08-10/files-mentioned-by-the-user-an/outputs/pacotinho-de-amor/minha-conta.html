@@ -674,6 +674,82 @@
       color: var(--texto);
     }
 
+    .pv-resumo {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: var(--lilas);
+      font-size: 13px;
+    }
+
+    .pv-resumo summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--ameixa);
+    }
+
+    .pv-resumo p {
+      margin-top: 4px !important;
+      color: var(--texto-suave);
+    }
+
+    /* Área de exclusão: fica no fim de Privacidade, longe dos outros botões */
+    .pv-perigo {
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 2px dashed var(--lilas-borda);
+    }
+
+    .pv-perigo__titulo {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--erro) !important;
+    }
+
+    .pv-perigo__texto {
+      margin: 4px 0 12px !important;
+      font-size: 14px;
+    }
+
+    .pv-perigo__confirma {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .pv-perigo__confirma input {
+      flex: 1 1 180px;
+      max-width: 240px;
+      padding: 11px 14px;
+      border: 2px solid #f1c9c5;
+      border-radius: 12px;
+      background: var(--branco);
+      font-family: var(--corpo);
+      font-size: 15px;
+      letter-spacing: .04em;
+    }
+
+    .pv-perigo__confirma input:focus {
+      outline: none;
+      border-color: var(--erro);
+    }
+
+    .pv-botao--perigo {
+      border-color: var(--erro);
+      background: var(--erro);
+      color: var(--branco);
+    }
+
+    .pv-botao--perigo:hover:not(:disabled) {
+      background: #8f1d16;
+    }
+
+    .pv-botao--perigo:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
     /* ---------- CENTRAL DE AJUDA: perguntas que abrem ---------- */
 
     .pv-faq {
@@ -951,9 +1027,6 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 16l-4-4 4-4M6 12h10"/></svg>
           Sair da conta
         </button>
-        <button type="button" id="btnExcluirConta" class="pv-botao pv-botao--contorno" style="color:#a51d2d;border-color:#e9a3ad;margin-top:8px">
-          Excluir minha conta e meus dados
-        </button>
       </aside>
 
 
@@ -1126,10 +1199,25 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>
                   Baixar meus dados
                 </button>
-                <a class="pv-botao pv-botao--contorno" href="https://whats.link/projetopacotinhodeamor" target="_blank" rel="noopener">
-                  Pedir exclusão da conta
-                </a>
                 <a class="pv-botao pv-botao--texto" href="politica-privacidade.html">Política de Privacidade</a>
+              </div>
+
+              <div class="pv-perigo">
+                <p class="pv-perigo__titulo">Excluir minha conta e meus dados</p>
+                <p class="pv-perigo__texto">
+                  Apaga sua conta e seus dados do Pacotinho de Amor. Pedidos de adoção em andamento
+                  deixam de ser acompanhados. <strong>Isso não pode ser desfeito.</strong>
+                  Se quiser, baixe uma cópia dos seus dados antes.
+                </p>
+                <label for="confirmaExclusao" class="pv-perigo__texto" style="display:block;margin-bottom:6px !important">
+                  Para confirmar, digite <strong>EXCLUIR</strong>:
+                </label>
+                <div class="pv-perigo__confirma">
+                  <input id="confirmaExclusao" autocomplete="off" spellcheck="false" placeholder="EXCLUIR">
+                  <button type="button" id="btnExcluirConta" class="pv-botao pv-botao--perigo" disabled>
+                    Excluir definitivamente
+                  </button>
+                </div>
               </div>
 
             </div>
@@ -1221,7 +1309,7 @@
                 <details>
                   <summary>Como excluo minha conta?</summary>
                   <div class="pv-faq__resposta">
-                    <p>Abra <button type="button" data-abrir="btnPrivacidade">Privacidade</button> e clique em "Pedir exclusão da conta". Antes, se quiser, você pode baixar uma cópia dos seus dados por ali.</p>
+                    <p>Abra <button type="button" data-abrir="btnPrivacidade">Privacidade</button> e vá até o fim da seção, em "Excluir minha conta e meus dados". Por segurança, é preciso digitar EXCLUIR para confirmar. Antes, se quiser, baixe uma cópia dos seus dados por ali.</p>
                   </div>
                 </details>
 
@@ -1370,11 +1458,11 @@
       : "";
     const entrevista = pedido.adoption_interview || {};
     const resumoAdocao = !video && pedido.contact_type === "adocao"
-      ? `<details class="mt-3 rounded-lg bg-surface-container-low px-3 py-2">
-          <summary class="cursor-pointer font-semibold">Ver dados enviados</summary>
-          <p class="mt-2 text-sm">WhatsApp: ${esc(pedido.phone || "não informado")}</p>
-          <p class="text-sm">Moradia: ${esc(entrevista.moradia || "não informado")}</p>
-          <p class="text-sm">Arquivos do lar: ${Array.isArray(entrevista.fotos_lar) ? entrevista.fotos_lar.length : 0}</p>
+      ? `<details class="pv-resumo">
+          <summary>Ver dados enviados</summary>
+          <p>WhatsApp: ${esc(pedido.phone || "não informado")}</p>
+          <p>Moradia: ${esc(entrevista.moradia || "não informado")}</p>
+          <p>Arquivos do lar: ${Array.isArray(entrevista.fotos_lar) ? entrevista.fotos_lar.length : 0}</p>
         </details>`
       : "";
 
@@ -1732,16 +1820,42 @@
     location.replace("login.html");
   });
 
+  /* ---------- excluir conta ---------- */
+
+  // O botão só é liberado depois de digitar EXCLUIR
+  $("confirmaExclusao").addEventListener("input", () => {
+    $("btnExcluirConta").disabled = $("confirmaExclusao").value.trim().toUpperCase() !== "EXCLUIR";
+  });
+
   $("btnExcluirConta").addEventListener("click", async () => {
-    if (!window.confirm("Excluir sua conta e todos os seus dados? Esta ação não pode ser desfeita.")) return;
-    const resposta = await fetch(`${API}/account/me`, { method: "DELETE", credentials: "include" });
-    const dadosExclusao = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) {
-      mostrarMensagem(dadosExclusao.message || "Não foi possível excluir a conta.", "erro");
-      return;
+    if ($("confirmaExclusao").value.trim().toUpperCase() !== "EXCLUIR") return;
+
+    const botao = $("btnExcluirConta");
+    botao.disabled = true;
+    botao.textContent = "Excluindo…";
+
+    try {
+      const resposta = await fetch(`${API}/account/me`, { method: "DELETE", credentials: "include" });
+      const dadosExclusao = await resposta.json().catch(() => ({}));
+
+      if (!resposta.ok) {
+        throw new Error(dadosExclusao.message || "Não foi possível excluir a conta.");
+      }
+
+      localStorage.removeItem("pa_account_name");
+      location.replace("login.html");
+
+    } catch (erro) {
+      mostrarMensagem(
+        erro instanceof TypeError
+          ? "Não foi possível falar com o servidor. Tente novamente em instantes."
+          : erro.message,
+        "erro"
+      );
+      $("mensagem").scrollIntoView({ behavior: "smooth", block: "center" });
+      botao.textContent = "Excluir definitivamente";
+      botao.disabled = false;
     }
-    localStorage.removeItem("pa_account_name");
-    location.replace("login.html");
   });
 
   carregarConta();

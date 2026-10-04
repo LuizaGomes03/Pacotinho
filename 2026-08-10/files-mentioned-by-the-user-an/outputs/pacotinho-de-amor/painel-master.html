@@ -61,16 +61,21 @@
 
 <!-- ==================== MENU LATERAL (COMPUTADOR) ==================== -->
 <aside class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-primary-container py-6 text-white md:flex">
-  <div class="mb-8 flex items-center gap-3 px-6">
+  <div class="flex items-center gap-3 px-6">
     <img src="assets/logo-footer.png" alt="" class="h-10 w-10 rounded-full object-cover">
     <span class="text-lg font-bold leading-tight">Pacotinho<br>de amor</span>
   </div>
 
+  <!-- Linha que separa a marca do perfil -->
+  <hr class="mx-6 my-5 border-0 border-t border-white/20">
+
   <div class="mb-6 flex items-center gap-3 px-6">
-    <img data-foto src="assets/logo-footer.png" alt="Foto de perfil" class="h-11 w-11 rounded-full object-cover ring-2 ring-white/30">
+    <!-- Foto de perfil, ou as iniciais quando não há foto -->
+    <span data-avatar class="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-[#f6cfdf] text-base font-bold text-primary ring-2 ring-white/30"></span>
     <div class="min-w-0">
-      <p class="truncate font-bold">Olá, <span data-nome>…</span></p>
-      <p class="text-xs text-white/70">Administração</p>
+      <p class="text-sm text-white/70">Olá,</p>
+      <p class="font-bold leading-tight [overflow-wrap:anywhere]" data-nome>…</p>
+      <p class="mt-0.5 text-xs text-white/60">Administração</p>
     </div>
   </div>
 
@@ -399,6 +404,7 @@ let filtroPedidos = "pendentes";
 let buscaAnimais = "";
 let buscaVoluntarios = "";
 let filtroVoluntarios = "todos";
+let filtroStatusVoluntario = "pendentes";
 let paginaAtual = "inicio";
 
 /* ============================================================
@@ -880,6 +886,101 @@ function gerarRelatorioAdotados() {
 }
 
 /* ============================================================
+   ARQUIVOS ENVIADOS (documentos, fotos, vídeos, termo assinado)
+   O navegador bloqueia abrir "data:" direto numa aba nova.
+   Por isso o arquivo é convertido num endereço temporário (blob)
+   antes de abrir, e o download usa o nome original.
+   ============================================================ */
+let ARQUIVOS = [];
+
+function registrarArquivo(arquivo) {
+  ARQUIVOS.push(arquivo);
+  return ARQUIVOS.length - 1;
+}
+
+async function abrirArquivo(indice) {
+  const arquivo = ARQUIVOS[indice];
+  if (!arquivo?.data) return aviso("Este arquivo não está disponível.", true);
+
+  // Abre a aba já no clique (senão o navegador bloqueia como pop-up)
+  const janela = window.open("", "_blank");
+  try {
+    const blob = await (await fetch(arquivo.data)).blob();
+    const url = URL.createObjectURL(blob);
+    if (janela) {
+      janela.location.href = url;
+    } else {
+      location.href = url;
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch (erro) {
+    janela?.close();
+    aviso("Não foi possível abrir o arquivo. Tente baixar.", true);
+  }
+}
+
+function baixarArquivo(indice) {
+  const arquivo = ARQUIVOS[indice];
+  if (!arquivo?.data) return aviso("Este arquivo não está disponível.", true);
+  const link = document.createElement("a");
+  link.href = arquivo.data;
+  link.download = arquivo.nome || "arquivo";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+// Normaliza os nomes dos campos: {nome|name, tipo|type, data}
+function normalizarArquivo(a) {
+  if (!a) return null;
+  const data = typeof a.data === "string" && a.data.startsWith("data:") ? a.data : "";
+  const tipo = String(a.tipo || a.type || (data.match(/^data:([^;,]+)/) || [])[1] || "");
+  return { nome: a.nome || a.name || "Arquivo", tipo, tamanho: Number(a.tamanho || a.size || 0), data };
+}
+
+function tamanhoLegivel(bytes) {
+  if (!bytes) return "";
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+// Card de um arquivo, com miniatura (imagem) ou ícone, e botões Abrir / Baixar
+function cartaoArquivo(bruto) {
+  const a = normalizarArquivo(bruto);
+  if (!a) return "";
+
+  if (!a.data) {
+    return `<div class="flex items-center gap-3 rounded-xl bg-white p-3 text-sm ring-1 ring-surface-variant">
+      <span class="material-symbols-outlined text-on-surface-variant">draft</span>
+      <div class="min-w-0"><p class="truncate font-semibold">${esc(a.nome)}</p>
+      <p class="text-xs text-on-surface-variant">Só o nome foi salvo. O arquivo não chegou ao servidor.</p></div>
+    </div>`;
+  }
+
+  const i = registrarArquivo(a);
+  const imagem = a.tipo.startsWith("image/");
+  const icone = a.tipo === "application/pdf" ? "picture_as_pdf" : a.tipo.startsWith("video/") ? "movie" : "description";
+
+  return `<div class="flex items-center gap-3 rounded-xl bg-white p-3 ring-1 ring-surface-variant">
+    ${imagem
+      ? `<button type="button" onclick="abrirArquivo(${i})" class="shrink-0" title="Abrir ${esc(a.nome)}"><img src="${a.data}" alt="${esc(a.nome)}" class="h-16 w-16 rounded-lg object-cover"></button>`
+      : `<span class="grid h-16 w-16 shrink-0 place-items-center rounded-lg bg-primary-fixed text-primary"><span class="material-symbols-outlined text-3xl">${icone}</span></span>`}
+    <div class="min-w-0 flex-1">
+      <p class="truncate text-sm font-semibold">${esc(a.nome)}</p>
+      <p class="text-xs text-on-surface-variant">${esc(a.tipo || "arquivo")}${a.tamanho ? " • " + tamanhoLegivel(a.tamanho) : ""}</p>
+      <div class="mt-2 flex gap-2">
+        <button type="button" onclick="abrirArquivo(${i})" class="inline-flex items-center gap-1 rounded-full bg-primary-container px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary">
+          <span class="material-symbols-outlined text-[16px]">open_in_new</span>Abrir
+        </button>
+        <button type="button" onclick="baixarArquivo(${i})" class="inline-flex items-center gap-1 rounded-full border border-primary-container px-3 py-1.5 text-xs font-semibold text-primary hover:bg-surface-low">
+          <span class="material-symbols-outlined text-[16px]">download</span>Baixar
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
    PÁGINA — SOLICITAÇÕES
    ============================================================ */
 function paginaAdocoes() {
@@ -905,16 +1006,9 @@ function paginaAdocoes() {
   const entrevista = (p) => {
     const e = p.adoption_interview || {};
     const campo = (nome, valor) => valor ? `<div><dt class="font-semibold text-primary">${nome}</dt><dd>${esc(valor)}</dd></div>` : "";
-    const arquivos = (lista) => Array.isArray(lista) && lista.length
-      ? `<div class="md:col-span-2"><dt class="font-semibold text-primary">Arquivos enviados</dt><dd class="mt-2 flex flex-wrap gap-2">${lista.map((a) => {
-          const nome = esc(a.nome || a.name || "Arquivo");
-          const tipo = String(a.tipo || a.type || "");
-          const url = typeof a.data === "string" && /^(data:image\/|data:application\/pdf)/.test(a.data) ? a.data : "";
-          if (!url) return `<span class="rounded-lg bg-white px-3 py-2 text-sm">${nome} <span class="text-on-surface-variant">(metadado salvo)</span></span>`;
-          return tipo.startsWith("image/")
-            ? `<a href="${url}" target="_blank" rel="noopener" title="Abrir ${nome}"><img src="${url}" alt="${nome}" class="h-24 w-24 rounded-lg object-cover ring-1 ring-primary/20"></a>`
-            : `<a href="${url}" target="_blank" rel="noopener" class="rounded-lg bg-primary-container px-3 py-2 text-sm font-semibold text-white">Abrir ${nome}</a>`;
-        }).join("")}</dd></div>`
+    const arquivos = (titulo, lista) => Array.isArray(lista) && lista.length
+      ? `<div class="md:col-span-2"><dt class="mb-2 font-semibold text-primary">${titulo} (${lista.length})</dt>
+           <dd class="grid gap-2 sm:grid-cols-2">${lista.map(cartaoArquivo).join("")}</dd></div>`
       : "";
     if (!Object.keys(e).length) return "";
     return `<details class="mt-3 rounded-xl border border-primary/15 bg-surface-low p-3">
@@ -933,7 +1027,7 @@ function paginaAdocoes() {
         ${campo("Quintal compartilhado", e.quintal_compartilhado)}${campo("Moradores", e.moradores)}
         ${campo("Áreas de acesso", e.areas)}${campo("Períodos de acesso", e.periodos)}
         ${campo("Onde dormirá", e.dormir)}${campo("Acesso à casa durante a noite", e.varanda_noite)}
-        ${arquivos(e.documentos)}${arquivos(e.fotos_lar)}
+        ${arquivos("Documentos", e.documentos)}${arquivos("Fotos e vídeos do lar", e.fotos_lar)}
       </dl>
     </details>`;
   };
@@ -984,11 +1078,15 @@ function paginaAdocoes() {
           <p class="mt-2 text-sm">${esc(p.email || "")}${p.phone ? " • " + esc(p.phone) : ""}</p>
           ${p.notes ? `<p class="mt-2 rounded-lg bg-surface-low p-2 text-sm">${esc(p.notes)}</p>` : ""}
           ${!video ? entrevista(p) : ""}
+          ${resolvido ? `
+            <p class="mt-3 flex flex-wrap items-center gap-1.5 rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-[18px] text-green-700">task_alt</span>
+              Resolvido por: <strong>${esc(quemResolveu(p))}</strong>${p.resolved_at ? ` <span class="text-slate-500">• em ${dataBR(p.resolved_at)}</span>` : ""}
+            </p>` : ""}
           <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
             <p class="text-xs text-on-surface-variant">Enviado em ${dataBR(p.created_at)}</p>
             <div class="flex flex-wrap gap-2">
               ${whats ? `<a href="${esc(whats)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1ebe5b]"><span class="material-symbols-outlined text-[18px]">chat</span>Chamar no WhatsApp</a>` : ""}
-              ${!video && p.adoption_interview ? `<button type="button" onclick="editarFormularioAdocao('${esc(p.id)}')" class="rounded-full border border-primary-container px-4 py-2 text-sm font-semibold text-primary hover:bg-surface-low">Editar formulário</button>` : ""}
               ${!resolvido ? `<button type="button" onclick="marcarPedidoResolvido('${esc(p.id)}')" class="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Marcar resolvido</button>` : ""}
             </div>
           </div>
@@ -1000,32 +1098,21 @@ function paginaAdocoes() {
     <div class="space-y-3">${lista}</div>`;
 }
 
+// Nome de quem marcou a solicitação como resolvida
+function quemResolveu(p) {
+  if (p.resolved_by_name) return p.resolved_by_name;
+  const id = p.resolved_by || p.reviewed_by;
+  if (id && dados.user && String(id) === String(dados.user.id)) {
+    return dados.user.name || dados.user.nome || "Você";
+  }
+  return "não registrado";
+}
+
 // Transforma "(11) 99999-9999" em "5511999999999" para o link do WhatsApp
 function numeroWhatsApp(telefone) {
   let n = String(telefone || "").replace(/\D/g, "");
   if (n.length === 10 || n.length === 11) n = "55" + n;
   return n.length >= 12 ? n : "";
-}
-
-async function editarFormularioAdocao(id) {
-  const pedido = dados.adocoes.find((item) => String(item.id) === String(id));
-  if (!pedido || !pedido.adoption_interview) return;
-  const texto = window.prompt("Edite o formulário completo em JSON. Não remova os nomes dos campos.", JSON.stringify(pedido.adoption_interview, null, 2));
-  if (texto === null) return;
-  let adoption_interview;
-  try {
-    adoption_interview = JSON.parse(texto);
-  } catch {
-    window.alert("O formulário não foi salvo porque o JSON está inválido.");
-    return;
-  }
-  try {
-    await api(`/applications/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ adoption_interview }) });
-    pedido.adoption_interview = adoption_interview;
-    desenhar();
-  } catch (erro) {
-    window.alert(erro.message || "Não foi possível salvar o formulário.");
-  }
 }
 
 /* ============================================================
@@ -1052,94 +1139,210 @@ const STATUS_VOLUNTARIO = {
   resolvido: ["RESOLVIDO", "bg-slate-100 text-slate-700"]
 };
 
+// Nomes amigáveis para os campos do formulário de voluntariado.
+// Campos que não estiverem aqui aparecem mesmo assim, com o nome ajustado.
+const ROTULOS_VOLUNTARIO = {
+  name: "Nome", nome: "Nome",
+  email: "E-mail",
+  phone: "Telefone", telefone: "Telefone", whatsapp: "WhatsApp",
+  modalidades: "Quer ajudar com",
+  tipoDisponibilidade: "Disponibilidade",
+  disponibilidade: "Dias e horários",
+  detalhesDisponibilidade: "Detalhes da disponibilidade",
+  dias: "Dias", horarios: "Horários", periodo: "Período",
+  idade: "Idade", data_nascimento: "Data de nascimento", dataNascimento: "Data de nascimento", birth_date: "Data de nascimento",
+  cidade: "Cidade", bairro: "Bairro", regiao: "Região", zona: "Zona", endereco: "Endereço", cep: "CEP",
+  veiculo: "Tem veículo", carro: "Tem carro", cnh: "Tem CNH",
+  experiencia: "Experiência com animais", motivo: "Por que quer ser voluntário(a)",
+  observacoes: "Observações", mensagem: "Mensagem", comentarios: "Comentários",
+  instagram: "Instagram", profissao: "Profissão",
+  aceiteTermo: "Aceitou o termo de voluntariado",
+  aceiteLGPD: "Ciente do uso dos dados (LGPD)",
+  aceiteImagem: "Autoriza uso de imagem",
+  termoEnviado: "Enviou o termo assinado"
+};
+
+// Campos internos do sistema, que não são respostas da pessoa
+const CAMPOS_INTERNOS = new Set([
+  "id", "_id", "status", "created_at", "updated_at", "createdAt", "updatedAt",
+  "expires_at", "expiresAt", "termoArquivo", "documento_assinado", "document_url", "termo_url",
+  "reviewed_at", "reviewed_by", "reviewedAt", "reviewedBy", "contacted_at", "decided_at"
+]);
+
+// Ordem em que as respostas aparecem; o resto vem depois, na ordem do banco
+const ORDEM_VOLUNTARIO = [
+  "name", "nome", "email", "phone", "telefone", "whatsapp",
+  "modalidades", "tipoDisponibilidade", "disponibilidade", "detalhesDisponibilidade"
+];
+
+function rotuloCampo(chave) {
+  if (ROTULOS_VOLUNTARIO[chave]) return ROTULOS_VOLUNTARIO[chave];
+  const texto = chave.replace(/_/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+function valorCampo(valor) {
+  if (valor === true) return "Sim";
+  if (valor === false) return "Não";
+  if (valor === null || valor === undefined || valor === "") return "—";
+  if (Array.isArray(valor)) return valor.length ? valor.join(", ") : "—";
+  if (typeof valor === "object") {
+    if (valor.$date) return dataBR(valor.$date);
+    return Object.entries(valor).map(([k, v]) => `${rotuloCampo(k)}: ${valorCampo(v)}`).join(" • ");
+  }
+  if (/^\d{4}-\d{2}-\d{2}/.test(String(valor))) return dataBR(valor);
+  return String(valor);
+}
+
+function respostasVoluntario(v) {
+  const chaves = Object.keys(v).filter((k) => !CAMPOS_INTERNOS.has(k));
+  chaves.sort((a, b) => {
+    const ia = ORDEM_VOLUNTARIO.indexOf(a), ib = ORDEM_VOLUNTARIO.indexOf(b);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+  });
+
+  // Nome, e-mail e telefone já ficam no topo do card
+  const semContato = chaves.filter((k) => !["name", "nome", "email", "phone", "telefone"].includes(k));
+  if (!semContato.length) return `<p class="text-sm text-on-surface-variant">Nenhuma resposta registrada.</p>`;
+
+  return `<dl class="grid gap-2 text-sm sm:grid-cols-2">
+    ${semContato.map((k) => {
+      const longo = String(valorCampo(v[k])).length > 60;
+      return `<div class="rounded-lg bg-surface-low p-3 ${longo ? "sm:col-span-2" : ""}">
+        <dt class="text-xs font-semibold text-secondary">${esc(rotuloCampo(k))}</dt>
+        <dd class="mt-0.5 whitespace-pre-line font-semibold text-on-surface">${esc(valorCampo(v[k]))}</dd>
+      </div>`;
+    }).join("")}
+  </dl>`;
+}
+
+// Situações agrupadas para o filtro
+const GRUPO_VOLUNTARIO = {
+  pendentes: (v) => v.status === "pending" || v.status === "contacted" || !v.status,
+  aprovados: (v) => v.status === "approved",
+  recusados: (v) => v.status === "rejected",
+  todos: () => true
+};
+
 function paginaVoluntarios() {
   const termoVoluntario = buscaVoluntarios.trim().toLocaleLowerCase("pt-BR");
-  const voluntariosFiltrados = dados.voluntarios.filter((v) => {
+
+  // Busca e modalidade valem para todas as abas
+  const buscados = dados.voluntarios.filter((v) => {
     const texto = `${v.name || ""} ${v.email || ""} ${v.phone || ""}`.toLocaleLowerCase("pt-BR");
     const modalidades = (v.modalidades || []).map((item) => String(item));
     return texto.includes(termoVoluntario) &&
       (filtroVoluntarios === "todos" || modalidades.includes(filtroVoluntarios));
   });
-  const grupos = [
-    ["Novas solicitações", voluntariosFiltrados.filter((v) => v.status === "pending")],
-    ["Em conversa", voluntariosFiltrados.filter((v) => v.status === "contacted")],
-    ["Já respondidos", voluntariosFiltrados.filter((v) => v.status === "approved" || v.status === "rejected" || v.status === "resolvido")]
-  ];
+
+  const lista = buscados
+    .filter(GRUPO_VOLUNTARIO[filtroStatusVoluntario] || GRUPO_VOLUNTARIO.pendentes)
+    .sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || "")));
+
+  const aba = (chave, texto) => {
+    const total = buscados.filter(GRUPO_VOLUNTARIO[chave]).length;
+    const ativa = filtroStatusVoluntario === chave;
+    return `<button type="button" onclick="filtroStatusVoluntario='${chave}'; desenhar()" aria-pressed="${ativa}"
+      class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${ativa ? "bg-primary-container text-white" : "text-on-surface-variant hover:bg-surface-low"}">
+      ${texto}<span class="rounded-full px-2 text-xs font-bold ${ativa ? "bg-white/25" : "bg-surface-low"}">${total}</span>
+    </button>`;
+  };
 
   const cartao = (v) => {
     const [rotulo, cor] = STATUS_VOLUNTARIO[v.status] || STATUS_VOLUNTARIO.pending;
     const whats = linkWhatsApp(v);
-    const aberto = v.status === "pending" || v.status === "contacted";
+    const aberto = GRUPO_VOLUNTARIO.pendentes(v);
 
     return `
     <article class="rounded-2xl bg-white p-5 shadow-sm">
       <div class="flex flex-wrap items-start justify-between gap-2">
         <div class="min-w-0">
-          <span class="mb-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-800">VOLUNTARIADO</span>
           <h3 class="text-lg font-bold text-primary">${esc(v.name || "Sem nome")}</h3>
           <p class="text-sm text-on-surface-variant">${esc(v.phone || "Sem telefone")} • ${esc(v.email || "")}</p>
         </div>
         <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
       </div>
 
-      <div class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-        <p class="rounded-lg bg-surface-low p-2"><strong>Quer ajudar com:</strong><br>${esc((v.modalidades || []).join(", ") || "—")}</p>
-        <p class="rounded-lg bg-surface-low p-2"><strong>Disponibilidade:</strong><br>${esc(v.tipoDisponibilidade || "")}${v.disponibilidade ? `<br>${esc(v.disponibilidade)}` : ""}${v.detalhesDisponibilidade ? `<br><strong>Detalhes:</strong> ${esc(v.detalhesDisponibilidade)}` : ""}</p>
+      <div class="mt-3 flex flex-wrap gap-2">
+        ${(v.modalidades || []).length
+          ? v.modalidades.map((m) => `<span class="rounded-full bg-primary-fixed px-3 py-1 text-sm font-semibold text-primary">${esc(m)}</span>`).join("")
+          : `<span class="rounded-full bg-surface-low px-3 py-1 text-sm text-on-surface-variant">Modalidade não informada</span>`}
+        ${v.tipoDisponibilidade || v.disponibilidade
+          ? `<span class="inline-flex items-center gap-1 rounded-full bg-surface-low px-3 py-1 text-sm font-semibold text-on-surface"><span class="material-symbols-outlined text-[16px] text-secondary">schedule</span>${esc(v.tipoDisponibilidade || v.disponibilidade)}</span>`
+          : ""}
       </div>
-      <details class="mt-3 rounded-xl border border-primary/15 bg-surface-low p-3">
-        <summary class="cursor-pointer font-semibold text-primary">Ver dados completos da solicitação</summary>
-        <dl class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-          <div><dt class="font-semibold">Termo aceito</dt><dd>${v.aceiteTermo ? "Sim" : "Não"}</dd></div>
-          <div><dt class="font-semibold">LGPD compreendida</dt><dd>${v.aceiteLGPD ? "Sim" : "Não"}</dd></div>
-          <div><dt class="font-semibold">Uso de imagem</dt><dd>${v.aceiteImagem ? "Autorizado" : "Não autorizado"}</dd></div>
-          <div><dt class="font-semibold">Termo enviado</dt><dd>${v.termoEnviado ? "Sim" : "Não"}</dd></div>
-          <div class="sm:col-span-2"><dt class="font-semibold">Detalhes da disponibilidade</dt><dd>${esc(v.detalhesDisponibilidade || "—")}</dd></div>
-        </dl>
-      </details>
 
-      <p class="mt-2 text-xs text-on-surface-variant">Enviado em ${dataBR(v.created_at)} • Registro permanente</p>
-      ${v.documento_assinado || v.document_url || v.termo_url
-        ? `<a href="${esc(v.documento_assinado || v.document_url || v.termo_url)}" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 rounded-full border border-primary-container px-4 py-2 text-sm font-semibold text-primary-container hover:bg-primary-fixed"><span class="material-symbols-outlined text-[18px]">description</span>Ver documento assinado</a>`
-        : `<p class="mt-3 text-sm text-on-surface-variant">Documento assinado não anexado.</p>`}
+      <div class="mt-4">
+        <p class="mb-2 text-sm font-bold text-primary">Respostas do formulário</p>
+        ${respostasVoluntario(v)}
+      </div>
 
-      <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+      ${(() => {
+        const valida = (d) => /^\d{4}-\d{2}-\d{2}/.test(String(d || ""));
+        const partes = [];
+        if (valida(v.created_at)) partes.push(`Enviado em ${dataBR(v.created_at)}`);
+        if (valida(v.reviewed_at) && (v.status === "approved" || v.status === "rejected")) {
+          partes.push(`${v.status === "approved" ? "Aprovado" : "Recusado"} em ${dataBR(v.reviewed_at)}`);
+        }
+        return partes.length ? `<p class="mt-3 text-xs text-on-surface-variant">${partes.join(" • ")}</p>` : "";
+      })()}
+      ${v.termoArquivo
+        ? `<div class="mt-3"><p class="mb-2 text-sm font-semibold text-primary">Termo assinado</p>${cartaoArquivo(v.termoArquivo)}</div>`
+        : (v.documento_assinado || v.document_url || v.termo_url)
+          ? `<a href="${esc(v.documento_assinado || v.document_url || v.termo_url)}" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 rounded-full border border-primary-container px-4 py-2 text-sm font-semibold text-primary-container hover:bg-primary-fixed"><span class="material-symbols-outlined text-[18px]">description</span>Ver documento assinado</a>`
+          : `<p class="mt-3 text-sm text-on-surface-variant">Documento assinado não anexado.</p>`}
+
+      <div class="mt-4 grid gap-2 ${aberto ? "sm:grid-cols-3" : "sm:grid-cols-2"}">
         ${whats
           ? `<a href="${esc(whats)}" target="_blank" rel="noopener" onclick="marcarChamado('${esc(v.id)}')"
-               class="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] py-2.5 font-semibold text-white hover:bg-[#1ebe5b]">
+               class="flex items-center justify-center gap-2 rounded-full bg-[#25D366] py-2.5 font-semibold text-white hover:bg-[#1ebe5b]">
                <span class="material-symbols-outlined text-[20px]">chat</span>Chamar no WhatsApp</a>`
-          : `<p class="flex-1 rounded-full bg-surface-low py-2.5 text-center text-sm text-on-surface-variant">Telefone inválido</p>`}
+          : `<p class="rounded-full bg-surface-low py-2.5 text-center text-sm text-on-surface-variant">Telefone inválido</p>`}
         ${aberto ? `
-          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','approved')" class="flex-1 rounded-full bg-primary-container py-2.5 font-semibold text-white hover:bg-primary">Aprovar</button>
-          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','rejected')" class="flex-1 rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">Recusar</button>
-          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','resolvido')" class="flex-1 rounded-full border border-slate-300 py-2.5 font-semibold text-slate-700 hover:bg-slate-50">Marcar resolvido</button>` : ""}
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','approved')" class="rounded-full bg-primary-container py-2.5 font-semibold text-white hover:bg-primary">Aprovar</button>
+          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','rejected')" class="rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">Recusar</button>`
+        : `
+          <button type="button" onclick="removerVoluntario('${esc(v.id)}')" class="inline-flex items-center justify-center gap-2 rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">
+            <span class="material-symbols-outlined text-[20px]">person_remove</span>Remover voluntário(a)
+          </button>`}
       </div>
     </article>`;
   };
 
-  const secoes = grupos
-    .filter(([, lista]) => lista.length)
-    .map(([nome, lista]) => `
-      <h2 class="mb-3 mt-6 text-lg font-bold text-primary">${nome} <span class="text-on-surface-variant">(${lista.length})</span></h2>
-      <div class="space-y-3">${lista.map(cartao).join("")}</div>`)
-    .join("");
+  const textosVazio = {
+    pendentes: "Nenhuma solicitação aguardando resposta.",
+    aprovados: "Nenhum voluntário aprovado com esses filtros.",
+    recusados: "Nenhuma solicitação recusada com esses filtros.",
+    todos: "Nenhum voluntário encontrado com esses filtros."
+  };
 
   return titulo("Voluntários", "Gerencie as solicitações de pessoas interessadas em ajudar.") + `
     <section>
-      <div class="mb-5 grid gap-3 rounded-2xl bg-white p-4 shadow-sm md:grid-cols-[1fr_auto]">
-        <label class="relative">
-          <span class="sr-only">Buscar voluntário</span>
-          <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
-          <input id="buscaVoluntarios" class="campo pl-11" type="search" value="${esc(buscaVoluntarios)}" oninput="atualizarBuscaVoluntarios(this.value)" placeholder="Buscar por nome, e-mail ou telefone">
-        </label>
-        <select class="campo" aria-label="Filtrar modalidade de voluntariado" onchange="filtroVoluntarios=this.value; desenhar()">
-          <option value="todos" ${filtroVoluntarios === "todos" ? "selected" : ""}>Todas as modalidades</option>
-          <option value="Táxi Dog" ${filtroVoluntarios === "Táxi Dog" ? "selected" : ""}>Táxi Dog</option>
-          <option value="Feirinha de adoção" ${filtroVoluntarios === "Feirinha de adoção" ? "selected" : ""}>Feirinha de adoção</option>
-          <option value="Passeador(a)" ${filtroVoluntarios === "Passeador(a)" ? "selected" : ""}>Passeador(a)</option>
-        </select>
+      <div class="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <div class="grid gap-3 md:grid-cols-[1fr_auto]">
+          <label class="relative">
+            <span class="sr-only">Buscar voluntário pelo nome</span>
+            <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+            <input id="buscaVoluntarios" class="campo pl-11" type="search" value="${esc(buscaVoluntarios)}" oninput="atualizarBuscaVoluntarios(this.value)" placeholder="Buscar por nome, e-mail ou telefone">
+          </label>
+          <select class="campo" aria-label="Filtrar modalidade de voluntariado" onchange="filtroVoluntarios=this.value; desenhar()">
+            <option value="todos" ${filtroVoluntarios === "todos" ? "selected" : ""}>Todas as modalidades</option>
+            <option value="Táxi Dog" ${filtroVoluntarios === "Táxi Dog" ? "selected" : ""}>Táxi Dog</option>
+            <option value="Feirinha de adoção" ${filtroVoluntarios === "Feirinha de adoção" ? "selected" : ""}>Feirinha de adoção</option>
+            <option value="Passeador(a)" ${filtroVoluntarios === "Passeador(a)" ? "selected" : ""}>Passeador(a)</option>
+          </select>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-1 border-t border-surface-variant pt-3" role="group" aria-label="Filtrar por situação">
+          ${aba("pendentes", "Aguardando resposta")}
+          ${aba("aprovados", "Aprovados")}
+          ${aba("recusados", "Recusados")}
+          ${aba("todos", "Todos")}
+        </div>
       </div>
-      <p class="mb-4 text-sm text-on-surface-variant">${voluntariosFiltrados.length} registro(s) encontrado(s). As solicitações ficam registradas permanentemente.</p>
-      ${secoes || vazio("Nenhum voluntário encontrado com esses filtros.")}
+
+      <div class="space-y-3">
+        ${lista.length ? lista.map(cartao).join("") : vazio(textosVazio[filtroStatusVoluntario])}
+      </div>
     </section>`;
 }
 
@@ -1593,6 +1796,7 @@ function montarMenus() {
 }
 
 function desenhar() {
+  ARQUIVOS = [];
   $("conteudo").innerHTML = (RENDER[paginaAtual] || paginaInicio)();
 
   document.querySelectorAll(".item-menu").forEach((b) => {
@@ -1618,6 +1822,17 @@ function desenhar() {
   const nome = dados.user?.name || dados.user?.nome || "";
   document.querySelectorAll("[data-nome]").forEach((el) => (el.textContent = nome));
   document.querySelectorAll("[data-foto]").forEach((el) => (el.src = dados.user?.profile_photo || "assets/logo-footer.png"));
+
+  // Avatar da barra lateral: foto da pessoa ou as iniciais do nome
+  const partes = String(nome).trim().split(/\s+/).filter(Boolean);
+  const iniciais = partes.length
+    ? (partes[0][0] + (partes.length > 1 ? partes[partes.length - 1][0] : "")).toUpperCase()
+    : "A";
+  document.querySelectorAll("[data-avatar]").forEach((el) => {
+    el.innerHTML = dados.user?.profile_photo
+      ? `<img src="${esc(dados.user.profile_photo)}" alt="Foto de perfil" class="h-full w-full object-cover">`
+      : esc(iniciais);
+  });
 }
 
 function irPara(pagina) {
@@ -1739,9 +1954,7 @@ async function decidirVoluntario(id, status) {
   const nome = v?.name || "esta pessoa";
   const texto = status === "approved"
     ? `Aprovar ${nome} como voluntário(a)?`
-    : status === "resolvido"
-      ? `Marcar a solicitação de voluntariado de ${nome} como RESOLVIDA?`
-      : `Recusar a solicitação de ${nome}?`;
+    : `Recusar a solicitação de ${nome}?`;
   if (!(await confirmar(texto))) return;
 
   try {
@@ -1749,10 +1962,34 @@ async function decidirVoluntario(id, status) {
     if (v) v.status = status;
     desenhar();
     aviso(status === "approved"
-      ? `${nome} foi aprovado(a). Salve o contato no WhatsApp.`
-      : status === "resolvido"
-        ? "Pedido de voluntariado marcado como RESOLVIDO."
-        : `${nome} foi recusado(a).`);
+      ? `${nome} foi aprovado(a) e agora aparece em "Aprovados".`
+      : `${nome} foi recusado(a) e agora aparece em "Recusados".`);
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+async function removerVoluntario(id) {
+  const v = dados.voluntarios.find((x) => String(x.id) === String(id));
+  const nome = v?.name || "esta pessoa";
+  if (!(await confirmar(`Remover ${nome} da lista de voluntários? Os dados do cadastro serão apagados e isso não pode ser desfeito.`))) return;
+
+  try {
+    const resposta = await fetch(`${API}/volunteer-requests/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      credentials: "same-origin"
+    });
+
+    if ([404, 405, 501].includes(resposta.status)) {
+      throw new Error("O servidor ainda não permite remover voluntários. É preciso criar essa função no server.py.");
+    }
+
+    const json = await resposta.json().catch(() => ({}));
+    if (!resposta.ok) throw new Error(json.message || "Não foi possível remover.");
+
+    dados.voluntarios = dados.voluntarios.filter((x) => String(x.id) !== String(id));
+    desenhar();
+    aviso(`${nome} foi removido(a) da lista de voluntários.`);
   } catch (erro) {
     aviso(erro.message, true);
   }
@@ -1762,11 +1999,17 @@ async function marcarPedidoResolvido(id) {
   const pedido = dados.adocoes.find((item) => String(item.id) === String(id));
   if (!pedido || !(await confirmar("Marcar esta solicitação como RESOLVIDA?"))) return;
   try {
+    const registro = {
+      status: "resolvido",
+      resolved_by: dados.user?.id || "",
+      resolved_by_name: dados.user?.name || dados.user?.nome || "",
+      resolved_at: hojeISO()
+    };
     await api(`/applications/${encodeURIComponent(id)}`, {
       method: "PUT",
-      body: JSON.stringify({ status: "resolvido" })
+      body: JSON.stringify(registro)
     });
-    pedido.status = "resolvido";
+    Object.assign(pedido, registro);
     desenhar();
     aviso("Pedido marcado como RESOLVIDO.");
   } catch (erro) {

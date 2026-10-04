@@ -34,28 +34,25 @@
 
   <style>
     body { font-family: Montserrat, sans-serif; }
-    a:focus-visible, button:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 2px; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #e7b5f6; outline-offset: 2px; }
     .campo { width: 100%; border: 1px solid #cfc3ce; border-radius: .6rem; padding: .7rem .9rem; font-size: 15px; background: #fff; }
     .campo:focus { border-color: #5f376e; box-shadow: 0 0 0 2px rgba(95,55,110,.15); outline: none; }
     .rotulo { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #1d1a20; }
     #toast { transition: opacity .2s, transform .2s; }
     #toast.oculto { opacity: 0; transform: translateY(10px); pointer-events: none; }
 
-    .painel-card {
-      border: 1px solid rgba(207,195,206,.55);
-      box-shadow: 0 2px 10px rgba(71,32,86,.05);
-    }
-    .item-menu, .item-inferior {
-      transition: background-color .2s ease, color .2s ease, transform .2s ease;
-    }
-    .item-menu:hover { transform: translateX(2px); }
-    @media (min-width: 768px) {
-      #conteudo { min-height: calc(100vh - 40px); }
-    }
+    /* Campos de número sem as setinhas do navegador (usamos botões − e +) */
+    .sem-setas::-webkit-inner-spin-button,
+    .sem-setas::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    .sem-setas { -moz-appearance: textfield; }
+
+    /* Seta dos blocos que abrem e fecham */
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .gira { transform: rotate(180deg); }
   </style>
 </head>
 
-<body class="bg-[#F7F1F8] text-on-surface">
+<body class="bg-background text-on-surface">
 
 <!-- Tela de carregamento enquanto confere o login -->
 <div id="verificando" class="fixed inset-0 z-[300] flex items-center justify-center bg-background">
@@ -63,17 +60,22 @@
 </div>
 
 <!-- ==================== MENU LATERAL (COMPUTADOR) ==================== -->
-<aside class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-[#5F376E] py-6 text-white md:flex">
-  <div class="mb-8 flex items-center gap-3 px-6">
-    <img src="assets/logo-footer.png" alt="Logo Pacotinho de amor" class="h-10 w-10 rounded-full object-cover">
+<aside class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-primary-container py-6 text-white md:flex">
+  <div class="flex items-center gap-3 px-6">
+    <img src="assets/logo-footer.png" alt="" class="h-10 w-10 rounded-full object-cover">
     <span class="text-lg font-bold leading-tight">Pacotinho<br>de amor</span>
   </div>
 
+  <!-- Linha que separa a marca do perfil -->
+  <hr class="mx-6 my-5 border-0 border-t border-white/20">
+
   <div class="mb-6 flex items-center gap-3 px-6">
-    <img data-foto src="assets/logo-footer.png" alt="Foto de perfil" class="h-11 w-11 rounded-full object-cover ring-2 ring-white/30">
+    <!-- Foto de perfil, ou as iniciais quando a pessoa não tem foto -->
+    <span data-avatar class="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-[#f6cfdf] text-base font-bold text-primary ring-2 ring-white/30"></span>
     <div class="min-w-0">
-      <p class="truncate font-bold">Olá, <span data-nome>Voluntário</span></p>
-      <p class="text-xs text-white/70">Voluntário • Animais atribuídos</p>
+      <p class="text-sm text-white/70">Olá,</p>
+      <p class="font-bold leading-tight [overflow-wrap:anywhere]" data-nome>…</p>
+      <p class="mt-0.5 text-xs text-white/60">Voluntário(a)</p>
     </div>
   </div>
 
@@ -92,7 +94,7 @@
 <!-- ==================== TOPO (CELULAR) ==================== -->
 <header class="sticky top-0 z-30 flex items-center justify-between border-b border-surface-variant bg-white px-4 py-3 md:hidden">
   <div class="flex items-center gap-2">
-    <img src="assets/logo-footer.png" alt="Logo Pacotinho de amor" class="h-8 w-8 rounded-full">
+    <img src="assets/logo-footer.png" alt="" class="h-8 w-8 rounded-full">
     <span class="font-bold text-primary">Painel do voluntário</span>
   </div>
   <div class="flex items-center gap-1">
@@ -107,11 +109,11 @@
 
 <!-- ==================== CONTEÚDO ==================== -->
 <main class="min-h-screen pb-24 md:ml-64 md:pb-8">
-  <div id="conteudo" class="mx-auto w-full max-w-5xl p-4 md:p-8"></div>
+  <div id="conteudo" class="mx-auto w-full max-w-6xl p-4 md:p-8"></div>
 </main>
 
 <!-- ==================== MENU INFERIOR (CELULAR) ==================== -->
-<nav id="menuInferior" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 border-t border-surface-variant bg-white px-1 pb-[calc(6px+env(safe-area-inset-bottom))] pt-1.5 md:hidden"></nav>
+<nav id="menuInferior" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-surface-variant bg-white px-1 pb-[calc(6px+env(safe-area-inset-bottom))] pt-1.5 md:hidden"></nav>
 
 <!-- ==================== MODAL EDITAR ANIMAL ==================== -->
 <div id="modalAnimal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
@@ -133,7 +135,7 @@
       <option value="disponível">Disponível para adoção</option>
       <option value="em adoção">Em processo de adoção</option>
     </select>
-    <p class="mb-4 text-xs text-on-surface-variant">Só animais "disponíveis" aparecem no site. Para registrar uma adoção, use o botão <strong>Marcar como adotado</strong>.</p>
+    <p class="mb-4 text-xs text-on-surface-variant">Só animais "disponíveis" aparecem no site.</p>
 
     <label for="animalResponsavel" class="text-base font-semibold text-primary">Responsável</label>
     <input id="animalResponsavel" class="campo mb-4 text-base" maxlength="120" placeholder="Ex.: Bárbara">
@@ -150,37 +152,6 @@
       <button type="button" id="btnSalvarAnimal" onclick="salvarAnimal()" class="w-full rounded-full bg-primary-container py-3.5 text-base font-semibold text-white hover:bg-primary disabled:opacity-60">Salvar alterações</button>
       <button type="button" onclick="removerAnimal(document.getElementById('animalId').value)" class="w-full rounded-full border border-red-200 py-3.5 text-base font-semibold text-red-700 hover:bg-red-50">Deletar perfil</button>
     </div>
-  </div>
-</div>
-
-<!-- ==================== MODAL MARCAR COMO ADOTADO ==================== -->
-<div id="modalAdocao" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/50 p-4">
-  <div class="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
-    <div class="mb-4 flex items-start justify-between gap-3">
-      <div>
-        <p class="text-sm font-semibold text-green-700">Marcar como adotado 💜</p>
-        <h2 id="adocaoTitulo" class="text-xl font-bold text-primary"></h2>
-      </div>
-      <button type="button" onclick="fecharModal('modalAdocao')" aria-label="Fechar" class="rounded-full p-2 hover:bg-surface-low">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-
-    <input id="adocaoId" type="hidden">
-
-    <label for="adocaoData" class="rotulo">Dia da adoção</label>
-    <input id="adocaoData" type="date" class="campo mb-4">
-
-    <label for="adocaoLocal" class="rotulo">Onde foi adotado? <span class="font-normal text-on-surface-variant">(opcional)</span></label>
-    <input id="adocaoLocal" class="campo mb-1" list="locaisAdocao" maxlength="120" placeholder="Ex.: Feirinha do Parque, Pelo site, Instagram">
-    <datalist id="locaisAdocao"></datalist>
-    <p class="mb-5 text-xs text-on-surface-variant">Ajuda a saber quais lugares e canais trazem mais adoções.</p>
-
-    <p class="mb-4 rounded-lg bg-surface-low p-3 text-sm text-on-surface-variant">O animal <strong>sai do site</strong> e passa a contar em <strong>Adotados</strong>.</p>
-
-    <button type="button" id="btnConfirmarAdocao" onclick="confirmarAdocao()" class="w-full rounded-full bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:opacity-60">
-      Confirmar adoção
-    </button>
   </div>
 </div>
 
@@ -247,14 +218,18 @@
 const API = "/api";
 
 const PAGINAS = [
-  { id: "animais",     nome: "Animais",      curto: "Animais",  icone: "pets" },
-  { id: "adocoes",     nome: "Solicitações", curto: "Solicitações", icone: "family_restroom" },
-  { id: "relatorios",  nome: "Relatórios",   curto: "Relatórios", icone: "analytics" },
-  { id: "config",      nome: "Configurações", curto: "Config.",  icone: "settings" }
+  { id: "animais",    nome: "Animais",      curto: "Animais",    icone: "pets" },
+  { id: "adocoes",    nome: "Solicitações", curto: "Pedidos",    icone: "family_restroom" },
+  { id: "eventos",    nome: "Eventos",      curto: "Eventos",    icone: "event" },
+  { id: "relatorios", nome: "Relatórios",   curto: "Relatórios", icone: "analytics" }
 ];
 
-const dados = { user: null, animais: [], adocoes: [], eventos: [], solicitacoesEventos: [], relatoriosEventos: [] };
+// "voluntarios" fica vazio: a conta de apoio não acessa cadastros de voluntários.
+// Ele existe só para nenhuma função quebrar ao tentar lê-lo.
+const dados = { user: null, animais: [], adocoes: [], voluntarios: [], eventos: [], solicitacoesEventos: [], relatoriosEventos: [] };
 const filtrosRelatorio = { inicio: "", fim: "", especie: "", local: "" };
+let filtroPedidos = "pendentes";
+let buscaAnimais = "";
 let paginaAtual = "animais";
 
 /* ============================================================
@@ -311,7 +286,7 @@ async function api(caminho, opcoes = {}) {
 }
 
 function vazio(texto) {
-  return `<div class="rounded-xl bg-white p-8 text-center text-on-surface-variant">
+  return `<div class="rounded-2xl bg-white p-8 text-center text-on-surface-variant">
     <span class="material-symbols-outlined text-4xl text-secondary">inbox</span>
     <p class="mt-2 font-semibold">${esc(texto)}</p></div>`;
 }
@@ -333,6 +308,13 @@ const STATUS_ANIMAL = {
   "adotado":    ["Adotado", "bg-surface-variant text-on-surface-variant"]
 };
 
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+const hojeISO = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+const adotados = () => dados.animais.filter((a) => a.status === "adotado");
+const adotadosDoMes = () => adotados().filter((a) => (a.adopted_at || "").slice(0, 7) === hojeISO().slice(0, 7));
+
 /* ============================================================
    CARREGAR DADOS
    ============================================================ */
@@ -346,11 +328,17 @@ async function carregarTudo() {
   dados.eventos = lista(eventos);
   dados.solicitacoesEventos = lista(solicitacoesEventos);
   dados.relatoriosEventos = lista(relatoriosEventos);
+
+  // Mostra no console se alguma informação não pôde ser carregada (ex.: sem permissão)
+  [["animais", animais], ["solicitações", adocoes], ["eventos", eventos]].forEach(([nome, r]) => {
+    if (r.status === "rejected") console.warn(`Não foi possível carregar ${nome}:`, r.reason?.message);
+  });
+
   desenhar();
 }
 
 /* ============================================================
-   PÁGINAS
+   PÁGINA — ANIMAIS
    ============================================================ */
 function paginaAnimais() {
   const botao = `<a href="adicionar-animal.html" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 font-semibold text-white hover:bg-primary">
@@ -359,42 +347,75 @@ function paginaAnimais() {
   const ativos = dados.animais.filter((a) => a.status !== "adotado");
   const qtdAdotados = dados.animais.length - ativos.length;
   const sub = `${ativos.length} para adoção` + (qtdAdotados ? ` • ${qtdAdotados} já adotado(s)` : "");
-
-  if (!ativos.length) return titulo("Animais", sub, botao) + vazio("Nenhum animal para adoção no momento.");
+  const termo = buscaAnimais.trim().toLocaleLowerCase("pt-BR");
+  const filtrados = ativos.filter((a) => String(a.name || "").toLocaleLowerCase("pt-BR").includes(termo));
 
   return titulo("Animais", sub, botao) + `
-    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-      ${ativos.map((a) => {
-        const [rotulo, cor] = STATUS_ANIMAL[a.status] || STATUS_ANIMAL["disponível"];
-        return `<article class="flex gap-5 rounded-2xl border border-surface-variant bg-white p-5 shadow-sm">
-          <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-28 w-28 shrink-0 rounded-2xl bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
-          <div class="min-w-0 flex-1">
-            <div class="flex items-start justify-between gap-2">
-              <h3 class="truncate text-xl font-bold text-primary">${esc(a.name || "Sem nome")}</h3>
-              <span class="shrink-0 rounded-full px-3 py-1 text-sm font-semibold ${cor}">${rotulo}</span>
-            </div>
-            <p class="mt-1 text-base text-on-surface-variant">${esc([a.species, a.age, a.sex].filter(Boolean).join(" • "))}</p>
-            ${a.responsible_person ? `<p class="mt-2 text-base">Responsável: <strong>${esc(a.responsible_person)}</strong></p>` : ""}
-            <div class="mt-4 flex flex-wrap gap-2 text-sm font-semibold">
-              <button type="button" onclick="editarAnimal('${esc(a.id)}')" class="rounded-full bg-primary-fixed px-4 py-2 text-primary hover:bg-primary-fixed-dim">Editar</button>
-              <button type="button" onclick="removerAnimal('${esc(a.id)}')" class="rounded-full border border-red-200 px-4 py-2 text-red-700 hover:bg-red-50">Deletar</button>
-              <a href="detalhes-animal.html?id=${encodeURIComponent(a.id)}" target="_blank" class="rounded-full border border-secondary px-4 py-2 text-secondary hover:bg-secondary-container">Ver no site</a>
-            </div>
-          </div>
-        </article>`;
-      }).join("")}
+    <div class="mb-6 rounded-2xl bg-white p-4 shadow-sm">
+      <label for="buscaAnimais" class="mb-2 block font-semibold text-primary">Buscar animal pelo nome</label>
+      <div class="relative">
+        <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" aria-hidden="true">search</span>
+        <input id="buscaAnimais" type="search" value="${esc(buscaAnimais)}" oninput="atualizarBuscaAnimais(this.value)"
+          class="campo w-full pl-11 text-base" placeholder="Digite o nome do animal" autocomplete="off">
+      </div>
+      <p class="mt-2 text-sm text-on-surface-variant">${filtrados.length} resultado(s) encontrado(s)</p>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      ${filtrados.length
+        ? filtrados.map(cartaoAnimal).join("")
+        : `<div class="sm:col-span-2 xl:col-span-3">${vazio(ativos.length ? "Nenhum animal encontrado com esse nome." : "Nenhum animal para adoção no momento.")}</div>`}
     </div>`;
 }
 
-/* ============================================================
-   ADOTADOS — números para saber quando e onde mais se adota
-   ============================================================ */
-const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
-const DIAS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+// Card grande: foto em cima, informações e botões embaixo
+function cartaoAnimal(a) {
+  const id = esc(a.id);
+  const temFoto = Boolean(a.image);
+  const emAdocao = a.status === "em adoção";
 
-const hojeISO = () => new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
-const adotados = () => dados.animais.filter((a) => a.status === "adotado");
-const adotadosDoMes = () => adotados().filter((a) => (a.adopted_at || "").slice(0, 7) === hojeISO().slice(0, 7));
+  return `
+  <article class="flex flex-col overflow-hidden rounded-3xl border border-surface-variant bg-white shadow-sm transition hover:shadow-md">
+    <div class="relative aspect-[4/3] bg-surface-low">
+      <img src="${esc(a.image || "assets/logo-footer.png")}" alt="Foto de ${esc(a.name || "animal")}"
+        class="h-full w-full ${temFoto ? "object-cover" : "object-contain p-10"}"
+        onerror="this.onerror=null;this.src='assets/logo-footer.png';this.className='h-full w-full object-contain p-10'">
+      ${emAdocao ? `<span class="absolute left-3 top-3 rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-800 shadow-sm">Em processo de adoção</span>` : ""}
+    </div>
+
+    <div class="flex flex-1 flex-col p-5">
+      <h3 class="text-2xl font-bold leading-tight text-primary">${esc(a.name || "Sem nome")}</h3>
+      <p class="mt-1 text-base text-on-surface-variant">${esc([a.species, a.age, a.sex].filter(Boolean).join(" • "))}</p>
+      ${a.responsible_person
+        ? `<p class="mt-3 flex items-center gap-2 text-base"><span class="material-symbols-outlined text-[20px] text-secondary">person</span>Responsável: <strong>${esc(a.responsible_person)}</strong></p>`
+        : ""}
+
+      <div class="mt-auto grid grid-cols-2 gap-2 pt-5">
+        <button type="button" onclick="editarAnimal('${id}')"
+          class="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary-fixed py-2.5 font-semibold text-primary hover:bg-secondary-container">
+          <span class="material-symbols-outlined text-[18px]">edit</span>Editar
+        </button>
+        <a href="detalhes-animal.html?id=${encodeURIComponent(a.id)}" target="_blank"
+          class="inline-flex items-center justify-center gap-1.5 rounded-full border border-secondary py-2.5 font-semibold text-secondary hover:bg-surface-low">
+          <span class="material-symbols-outlined text-[18px]">open_in_new</span>Ver no site
+        </a>
+        <button type="button" onclick="removerAnimal('${id}')"
+          class="col-span-2 mt-1 inline-flex items-center justify-center gap-1.5 rounded-full py-2 text-sm font-semibold text-red-700 hover:bg-red-50">
+          <span class="material-symbols-outlined text-[18px]">delete</span>Deletar perfil
+        </button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function atualizarBuscaAnimais(valor) {
+  buscaAnimais = valor;
+  desenhar();
+  const campo = $("buscaAnimais");
+  if (campo) {
+    campo.focus();
+    campo.setSelectionRange(valor.length, valor.length);
+  }
+}
 
 // Barras horizontais simples: [["rótulo", número], ...]
 function barras(lista, vazioTexto = "Sem dados ainda.") {
@@ -410,72 +431,105 @@ function barras(lista, vazioTexto = "Sem dados ainda.") {
     </div>`).join("")}</div>`;
 }
 
-function paginaAdotados() {
-  const lista = adotados();
-  const comData = lista.filter((a) => /^\d{4}-\d{2}-\d{2}$/.test(a.adopted_at || ""));
-  const caes = lista.filter((a) => /^c/i.test(a.species || "")).length;
-  const gatos = lista.filter((a) => /^g/i.test(a.species || "")).length;
 
-  // Últimos 12 meses
-  const hoje = new Date(`${hojeISO()}T12:00:00`);
-  const porMes = [];
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
-    const chave = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    porMes.push([`${MESES[d.getMonth()]}/${String(d.getFullYear()).slice(2)}`, comData.filter((a) => a.adopted_at.startsWith(chave)).length]);
-  }
+/* ============================================================
+   ARQUIVOS ENVIADOS (documentos, fotos, vídeos, termo assinado)
+   O navegador bloqueia abrir "data:" direto numa aba nova.
+   Por isso o arquivo é convertido num endereço temporário (blob)
+   antes de abrir, e o download usa o nome original.
+   ============================================================ */
+let ARQUIVOS = [];
 
-  // Dia da semana (segunda a domingo)
-  const contaDia = [0, 0, 0, 0, 0, 0, 0];
-  comData.forEach((a) => contaDia[new Date(`${a.adopted_at}T12:00:00`).getDay()]++);
-  const porDia = [1, 2, 3, 4, 5, 6, 0].map((i) => [DIAS[i], contaDia[i]]);
-
-  // Onde
-  const contaLocal = {};
-  lista.forEach((a) => { const l = (a.adoption_place || "Não informado").trim() || "Não informado"; contaLocal[l] = (contaLocal[l] || 0) + 1; });
-  const porLocal = Object.entries(contaLocal).sort((x, y) => y[1] - x[1]);
-
-  const numero = (valor, texto, destaque = false) => `
-    <div class="rounded-2xl p-5 shadow-sm ${destaque ? "bg-primary-container text-white" : "bg-white"}">
-      <p class="text-3xl font-bold">${valor}</p>
-      <p class="text-sm ${destaque ? "text-white/80" : "text-on-surface-variant"}">${texto}</p>
-    </div>`;
-
-  const bloco = (tituloBloco, conteudo) => `
-    <section class="rounded-2xl bg-white p-5 shadow-sm md:p-6">
-      <h2 class="mb-4 font-bold text-primary">${tituloBloco}</h2>${conteudo}
-    </section>`;
-
-  const recentes = [...lista].sort((a, b) => String(b.adopted_at || "").localeCompare(String(a.adopted_at || "")));
-
-  return titulo("Adotados", "Cada animal marcado como adotado entra aqui.") + `
-    <section class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-      ${numero(lista.length, "adotados pelo painel", true)}
-      ${numero(adotadosDoMes().length, "neste mês")}
-      ${numero(caes, "cães")}
-      ${numero(gatos, "gatos")}
-    </section>
-
-    <div class="grid gap-4 lg:grid-cols-2">
-      ${bloco("Adoções por mês", barras(porMes))}
-      ${bloco("Dia da semana", barras(porDia))}
-      <div class="lg:col-span-2">${bloco("Onde foram adotados", barras(porLocal, "Ainda não há locais registrados."))}</div>
-    </div>
-
-    <h2 class="mb-3 mt-8 text-lg font-bold text-primary">Histórico</h2>
-    ${recentes.length ? `<div class="divide-y divide-surface-variant rounded-2xl bg-white shadow-sm">
-      ${recentes.map((a) => `
-        <div class="flex items-center gap-3 p-4">
-          <img src="${esc(a.image || "assets/logo-footer.png")}" alt="" class="h-12 w-12 shrink-0 rounded-full bg-surface-low object-cover" onerror="this.src='assets/logo-footer.png'">
-          <div class="min-w-0 flex-1">
-            <p class="truncate font-semibold">${esc(a.name)}</p>
-            <p class="truncate text-sm text-on-surface-variant">${a.adopted_at ? `${dataBR(a.adopted_at)} (${DIAS[new Date(a.adopted_at + "T12:00:00").getDay()].toLowerCase()})` : "Data não informada"}${a.adoption_place ? " • " + esc(a.adoption_place) : ""}</p>
-          </div>
-          <button type="button" onclick="desfazerAdocao('${esc(a.id)}')" class="shrink-0 text-sm font-semibold text-secondary hover:underline">Desfazer</button>
-        </div>`).join("")}
-    </div>` : vazio("Nenhum animal marcado como adotado ainda.")}`;
+function registrarArquivo(arquivo) {
+  ARQUIVOS.push(arquivo);
+  return ARQUIVOS.length - 1;
 }
 
+async function abrirArquivo(indice) {
+  const arquivo = ARQUIVOS[indice];
+  if (!arquivo?.data) return aviso("Este arquivo não está disponível.", true);
+
+  // Abre a aba já no clique (senão o navegador bloqueia como pop-up)
+  const janela = window.open("", "_blank");
+  try {
+    const blob = await (await fetch(arquivo.data)).blob();
+    const url = URL.createObjectURL(blob);
+    if (janela) {
+      janela.location.href = url;
+    } else {
+      location.href = url;
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch (erro) {
+    janela?.close();
+    aviso("Não foi possível abrir o arquivo. Tente baixar.", true);
+  }
+}
+
+function baixarArquivo(indice) {
+  const arquivo = ARQUIVOS[indice];
+  if (!arquivo?.data) return aviso("Este arquivo não está disponível.", true);
+  const link = document.createElement("a");
+  link.href = arquivo.data;
+  link.download = arquivo.nome || "arquivo";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+// Normaliza os nomes dos campos: {nome|name, tipo|type, data}
+function normalizarArquivo(a) {
+  if (!a) return null;
+  const data = typeof a.data === "string" && a.data.startsWith("data:") ? a.data : "";
+  const tipo = String(a.tipo || a.type || (data.match(/^data:([^;,]+)/) || [])[1] || "");
+  return { nome: a.nome || a.name || "Arquivo", tipo, tamanho: Number(a.tamanho || a.size || 0), data };
+}
+
+function tamanhoLegivel(bytes) {
+  if (!bytes) return "";
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+// Card de um arquivo, com miniatura (imagem) ou ícone, e botões Abrir / Baixar
+function cartaoArquivo(bruto) {
+  const a = normalizarArquivo(bruto);
+  if (!a) return "";
+
+  if (!a.data) {
+    return `<div class="flex items-center gap-3 rounded-xl bg-white p-3 text-sm ring-1 ring-surface-variant">
+      <span class="material-symbols-outlined text-on-surface-variant">draft</span>
+      <div class="min-w-0"><p class="truncate font-semibold">${esc(a.nome)}</p>
+      <p class="text-xs text-on-surface-variant">Só o nome foi salvo. O arquivo não chegou ao servidor.</p></div>
+    </div>`;
+  }
+
+  const i = registrarArquivo(a);
+  const imagem = a.tipo.startsWith("image/");
+  const icone = a.tipo === "application/pdf" ? "picture_as_pdf" : a.tipo.startsWith("video/") ? "movie" : "description";
+
+  return `<div class="flex items-center gap-3 rounded-xl bg-white p-3 ring-1 ring-surface-variant">
+    ${imagem
+      ? `<button type="button" onclick="abrirArquivo(${i})" class="shrink-0" title="Abrir ${esc(a.nome)}"><img src="${a.data}" alt="${esc(a.nome)}" class="h-16 w-16 rounded-lg object-cover"></button>`
+      : `<span class="grid h-16 w-16 shrink-0 place-items-center rounded-lg bg-primary-fixed text-primary"><span class="material-symbols-outlined text-3xl">${icone}</span></span>`}
+    <div class="min-w-0 flex-1">
+      <p class="truncate text-sm font-semibold">${esc(a.nome)}</p>
+      <p class="text-xs text-on-surface-variant">${esc(a.tipo || "arquivo")}${a.tamanho ? " • " + tamanhoLegivel(a.tamanho) : ""}</p>
+      <div class="mt-2 flex gap-2">
+        <button type="button" onclick="abrirArquivo(${i})" class="inline-flex items-center gap-1 rounded-full bg-primary-container px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary">
+          <span class="material-symbols-outlined text-[16px]">open_in_new</span>Abrir
+        </button>
+        <button type="button" onclick="baixarArquivo(${i})" class="inline-flex items-center gap-1 rounded-full border border-primary-container px-3 py-1.5 text-xs font-semibold text-primary hover:bg-surface-low">
+          <span class="material-symbols-outlined text-[16px]">download</span>Baixar
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   PÁGINA — SOLICITAÇÕES
+   ============================================================ */
 function paginaAdocoes() {
   if (!dados.adocoes.length) return titulo("Solicitações de adoção") + vazio("Nenhuma solicitação ainda.");
 
@@ -492,15 +546,16 @@ function paginaAdocoes() {
     const bicho = nomeAnimal(p);
     const texto = p.contact_type === "videochamada"
       ? `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos sua solicitação de videochamada para conhecer ${bicho === "—" ? "nosso animal" : "o(a) " + bicho}. Podemos combinar o horário?`
-      : `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos sua solicitação para adotar ${bicho === "—" ? "um de nossos animais" : "o(a) " + bicho}. Podemos conversar?`;
+      : `Olá, ${nome}! Aqui é do Pacotinho de Amor 💜 Recebemos seu interesse em adotar ${bicho === "—" ? "um de nossos animais" : "o(a) " + bicho}. Podemos conversar?`;
     return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
   };
 
   const entrevista = (p) => {
     const e = p.adoption_interview || {};
     const campo = (nome, valor) => valor ? `<div><dt class="font-semibold text-primary">${nome}</dt><dd>${esc(valor)}</dd></div>` : "";
-    const arquivos = (lista) => Array.isArray(lista) && lista.length
-      ? `<div><dt class="font-semibold text-primary">Arquivos informados</dt><dd>${lista.map((a) => esc(a.nome || a.name || "Arquivo")).join(", ")}</dd></div>`
+    const arquivos = (titulo, lista) => Array.isArray(lista) && lista.length
+      ? `<div class="md:col-span-2"><dt class="mb-2 font-semibold text-primary">${titulo} (${lista.length})</dt>
+           <dd class="grid gap-2 sm:grid-cols-2">${lista.map(cartaoArquivo).join("")}</dd></div>`
       : "";
     if (!Object.keys(e).length) return "";
     return `<details class="mt-3 rounded-xl border border-primary/15 bg-surface-low p-3">
@@ -511,115 +566,92 @@ function paginaAdocoes() {
         ${campo("Endereço", e.endereco)}${campo("Zona de moradia", e.zona_moradia)}
         ${campo("Adultos na casa", e.adultos)}${campo("Crianças e idades", e.criancas)}
         ${campo("Todos concordam", e.acordo_casa)}${campo("Alergias ou restrições", e.alergias)}
-        ${campo("Motivo da adoção", e.motivo)}${campo("Animal específico", e.animal_especifico)}
-        ${campo("Informações de saúde para adaptação", e.tratamento)}${campo("Características procuradas", e.caracteristicas)}
-        ${campo("Porte", e.porte)}${campo("Sexo", e.sexo)}${campo("Idade", e.idade_animal)}
+        ${campo("Motivo da adoção", e.motivo)}
+        ${campo("Informações de saúde para adaptação", e.tratamento)}
         ${campo("Atividade principal", e.atividade)}${campo("Responsável principal", e.responsavel)}
         ${campo("Horas sem pessoas", e.horas_fora)}${campo("Moradia", e.moradia)}
         ${campo("Permissão do proprietário", e.permissao_proprietario)}${campo("Estrutura", e.estrutura)}
         ${campo("Quintal compartilhado", e.quintal_compartilhado)}${campo("Moradores", e.moradores)}
         ${campo("Áreas de acesso", e.areas)}${campo("Períodos de acesso", e.periodos)}
         ${campo("Onde dormirá", e.dormir)}${campo("Acesso à casa durante a noite", e.varanda_noite)}
-        ${arquivos(e.documentos)}${arquivos(e.fotos_lar)}
+        ${arquivos("Documentos", e.documentos)}${arquivos("Fotos e vídeos do lar", e.fotos_lar)}
       </dl>
     </details>`;
   };
 
-  return titulo("Solicitações de adoção", `${dados.adocoes.length} solicitação(ões).`) + `
-    <div class="space-y-3">
-      ${dados.adocoes.map((p) => {
+  const pendentes = dados.adocoes.filter((p) => String(p.status || "").toLowerCase() !== "resolvido");
+  const resolvidos = dados.adocoes.length - pendentes.length;
+  const totalAdocoes = pendentes.filter((p) => p.contact_type !== "videochamada").length;
+  const totalVideochamadas = pendentes.filter((p) => p.contact_type === "videochamada").length;
+  const pedidosFiltrados = dados.adocoes.filter((p) => {
+    const resolvido = String(p.status || "").toLowerCase() === "resolvido";
+    if (filtroPedidos === "resolvidos") return resolvido;
+    if (resolvido) return false;
+    if (filtroPedidos === "adocao") return p.contact_type !== "videochamada";
+    if (filtroPedidos === "video") return p.contact_type === "videochamada";
+    return true;
+  });
+
+  const filtro = `
+    <div class="mb-5 flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+      <label for="filtroPedidos" class="font-semibold text-primary">Filtrar solicitações</label>
+      <select id="filtroPedidos" class="campo max-w-sm" onchange="filtroPedidos=this.value; desenhar()">
+        <option value="pendentes" ${filtroPedidos === "pendentes" ? "selected" : ""}>Pendentes</option>
+        <option value="adocao" ${filtroPedidos === "adocao" ? "selected" : ""}>Adoção</option>
+        <option value="video" ${filtroPedidos === "video" ? "selected" : ""}>Videochamada</option>
+        <option value="resolvidos" ${filtroPedidos === "resolvidos" ? "selected" : ""}>Resolvidos</option>
+      </select>
+    </div>`;
+
+  const lista = pedidosFiltrados.length
+    ? pedidosFiltrados.map((p) => {
         const video = p.contact_type === "videochamada";
         const whats = whatsPedido(p);
+        const resolvido = String(p.status || "").toLowerCase() === "resolvido";
         return `
-        <article class="rounded-2xl bg-white p-4 shadow-sm">
+        <article class="rounded-2xl bg-white p-5 shadow-sm">
           <div class="flex flex-wrap items-start justify-between gap-2">
             <div>
-              <h3 class="font-bold text-primary">${esc(p.applicant_name || "Sem nome")}</h3>
+              <span class="mb-2 inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${video ? "bg-blue-100 text-blue-800" : "bg-secondary-container text-primary"}">
+                ${video ? "VIDEOCHAMADA" : "ADOÇÃO"}
+              </span>
+              <h3 class="text-lg font-bold text-primary">${esc(p.applicant_name || "Sem nome")}</h3>
               <p class="text-sm text-on-surface-variant">${video ? "Quer conhecer por vídeo" : "Quer adotar"}: <strong>${esc(nomeAnimal(p))}</strong></p>
             </div>
             <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold ${video ? "bg-blue-100 text-blue-800" : "bg-secondary-container text-primary"}">
-              ${video ? "Videochamada" : esc(p.status || "em análise")}</span>
+              ${resolvido ? "RESOLVIDO" : (video ? "Aguardando contato" : "Aguardando análise")}</span>
           </div>
-          ${video ? `<p class="mt-2 flex items-center gap-1 text-sm font-semibold text-primary">
-            <span class="material-symbols-outlined text-base">event</span>Prefere ${dataBR(p.preferred_date)} • ${esc(p.preferred_period || "")}</p>` : ""}
+          ${video ? `<p class="mt-2 flex items-center gap-1 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-base">event</span>Prefere ${dataBR(p.preferred_date)} • ${esc(p.preferred_period || "")}</p>` : ""}
           <p class="mt-2 text-sm">${esc(p.email || "")}${p.phone ? " • " + esc(p.phone) : ""}</p>
           ${p.notes ? `<p class="mt-2 rounded-lg bg-surface-low p-2 text-sm">${esc(p.notes)}</p>` : ""}
           ${!video ? entrevista(p) : ""}
+          ${resolvido ? `
+            <p class="mt-3 flex flex-wrap items-center gap-1.5 rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-700">
+              <span class="material-symbols-outlined text-[18px] text-green-700">task_alt</span>
+              Resolvido por: <strong>${esc(quemResolveu(p))}</strong>${p.resolved_at ? ` <span class="text-slate-500">• em ${dataBR(p.resolved_at)}</span>` : ""}
+            </p>` : ""}
           <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
             <p class="text-xs text-on-surface-variant">Enviado em ${dataBR(p.created_at)}</p>
-            ${whats ? `<a href="${esc(whats)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1ebe5b]">
-              <span class="material-symbols-outlined text-[18px]">chat</span>Chamar no WhatsApp</a>` : ""}
-            ${!video && p.adoption_interview ? `<button type="button" onclick="editarFormularioAdocao('${esc(p.id)}')" class="rounded-full border border-primary-container px-4 py-2 text-sm font-semibold text-primary hover:bg-surface-low">Editar formulário</button>` : ""}
+            <div class="flex flex-wrap gap-2">
+              ${whats ? `<a href="${esc(whats)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1ebe5b]"><span class="material-symbols-outlined text-[18px]">chat</span>Chamar no WhatsApp</a>` : ""}
+            </div>
           </div>
         </article>`;
-      }).join("")}
-    </div>`;
+      }).join("")
+    : vazio(filtroPedidos === "resolvidos" ? "Nenhuma solicitação resolvida." : "Nenhuma solicitação nesta categoria.");
+
+  return titulo("Solicitações", `${totalAdocoes} adoção(ões) • ${totalVideochamadas} videochamada(s) • ${resolvidos} resolvida(s).`) + filtro + `
+    <div class="space-y-3">${lista}</div>`;
 }
 
-function paginaRelatorios() {
-  const dentroDoPeriodo = (valor) => {
-    const data = String(valor || "").slice(0, 10);
-    return (!filtrosRelatorio.inicio || data >= filtrosRelatorio.inicio)
-      && (!filtrosRelatorio.fim || data <= filtrosRelatorio.fim);
-  };
-  const zonaPorAnimal = dados.adocoes.reduce((acc, pedido) => {
-    if (pedido.animal_id && pedido.adoption_interview?.zona_moradia) acc[String(pedido.animal_id)] = pedido.adoption_interview.zona_moradia;
-    return acc;
-  }, {});
-  const adocoes = dados.animais.filter((a) =>
-    a.status === "adotado"
-    && dentroDoPeriodo(a.adopted_at)
-    && (!filtrosRelatorio.especie || String(a.species || "") === filtrosRelatorio.especie)
-    && (!filtrosRelatorio.local || zonaPorAnimal[String(a.id)] === filtrosRelatorio.local)
-  );
-  const solicitacoes = dados.adocoes.filter((p) => dentroDoPeriodo(p.created_at)
-    && (!filtrosRelatorio.local || p.adoption_interview?.zona_moradia === filtrosRelatorio.local));
-  const contar = (itens, chave) => Object.entries(itens.reduce((acc, item) => {
-    const valor = chave(item) || "Não informado";
-    acc[valor] = (acc[valor] || 0) + 1;
-    return acc;
-  }, {})).sort((a, b) => b[1] - a[1]).slice(0, 8);
-  const solicitacoesAdocao = solicitacoes.filter((p) => p.contact_type === "adocao");
-  const porZona = contar(solicitacoesAdocao, (p) => p.adoption_interview?.zona_moradia);
-  const porZonaAdocoes = contar(adocoes, (a) => zonaPorAnimal[String(a.id)]);
-  const porMes = contar(adocoes.filter((a) => /^\d{4}-\d{2}-\d{2}/.test(a.adopted_at || "")), (a) => a.adopted_at.slice(0, 7));
-  const porEspecie = contar(adocoes, (a) => a.species);
-  const sucessoEventos = [...dados.relatoriosEventos, ...dados.eventos].map((evento) => {
-    const pedidos = dados.solicitacoesEventos.filter((pedido) => String(pedido.event_id) === String(evento.id));
-    const aprovados = pedidos.filter((pedido) => ["approved", "aprovado", "confirmed", "confirmado"].includes(String(pedido.status || "").toLowerCase())).length;
-    return [`${evento.title || "Evento"} — ${evento.location || "local não informado"}`, Number(evento.results?.animals_adopted || aprovados), evento.results || {}];
-  }).sort((a, b) => b[1] - a[1] || b[2] - a[2]).slice(0, 6);
-  const opcoes = (chave) => [...new Set(dados.animais.map((a) => chave(a)).filter(Boolean))].sort();
-  const seletor = (campo, valor, itens) => `<select class="campo mt-1" onchange="filtrosRelatorio.${campo}=this.value; desenhar()"><option value="">Todos</option>${itens.map((item) => `<option value="${esc(item)}" ${valor === item ? "selected" : ""}>${esc(item)}</option>`).join("")}</select>`;
-  const topLocal = porZonaAdocoes[0] || porZona[0];
-  const eventosAnalise = [...dados.relatoriosEventos, ...dados.eventos];
-  const totalAnimaisEventos = eventosAnalise.reduce((total, evento) => total + Number(evento.results?.animals_adopted || 0), 0);
-  const totalFilhotesEventos = eventosAnalise.reduce((total, evento) => total + Number(evento.results?.puppies || 0), 0);
-  const totalAdultosEventos = eventosAnalise.reduce((total, evento) => total + Number(evento.results?.adults || 0), 0);
-  const conversao = solicitacoes.filter((p) => p.contact_type !== "videochamada").length
-    ? Math.round((adocoes.length / solicitacoes.filter((p) => p.contact_type !== "videochamada").length) * 100)
-    : 0;
-  return titulo("Relatórios", "Indicadores reais para apoiar as decisões da equipe.", `<button type="button" onclick="window.print()" class="rounded-full border border-primary-container px-4 py-2 font-semibold text-primary">Imprimir / PDF</button>`) + `
-    <section class="mb-5 rounded-2xl bg-white p-5 shadow-sm">
-      <h2 class="font-bold text-primary">Filtros da análise</h2>
-      <div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <label class="text-sm font-semibold text-on-surface-variant">Data inicial<input type="date" class="campo mt-1" value="${esc(filtrosRelatorio.inicio)}" onchange="filtrosRelatorio.inicio=this.value; desenhar()"></label>
-        <label class="text-sm font-semibold text-on-surface-variant">Data final<input type="date" class="campo mt-1" value="${esc(filtrosRelatorio.fim)}" onchange="filtrosRelatorio.fim=this.value; desenhar()"></label>
-        <label class="text-sm font-semibold text-on-surface-variant">Espécie${seletor("especie", filtrosRelatorio.especie, opcoes((a) => a.species))}</label>
-        <label class="text-sm font-semibold text-on-surface-variant">Zona de moradia${seletor("local", filtrosRelatorio.local, ["ZL", "ZS", "ZO", "ZE"])}</label>
-      </div>
-    </section>
-    <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      ${[["Adoções no período", adocoes.length], ["Solicitações", solicitacoes.length], ["Adoções pendentes de registro", dados.animais.filter((a) => a.status !== "adotado").length], ["Conversão aproximada", `${conversao}%`]].map(([nome, valor]) => `<article class="rounded-2xl bg-white p-5 shadow-sm"><p class="text-3xl font-bold text-primary">${valor}</p><p class="font-semibold text-on-surface-variant">${nome}</p></article>`).join("")}
-    </section>
-    <section class="mt-5 grid gap-5 lg:grid-cols-3">
-      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por zona de moradia</h2>${barras(porZonaAdocoes, "Sem zonas registradas.")}<h3 class="mt-5 border-t border-surface-variant pt-4 text-sm font-bold text-primary">Solicitações recebidas</h3>${barras(porZona, "Sem solicitações registradas.")}</article>
-      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por mês</h2>${barras(porMes, "Sem datas registradas.")}</article>
-      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por espécie</h2>${barras(porEspecie, "Sem espécie registrada.")}</article>
-    </section>
-    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm"><h2 class="font-bold text-primary">Insight operacional</h2><p class="mt-2 text-sm text-on-surface-variant">${topLocal ? `O local com mais adoções no filtro atual é <strong>${esc(topLocal[0])}</strong>, com ${topLocal[1]} registro(s).` : "Ainda não há dados suficientes para apontar uma zona líder."} Use esse resultado para priorizar divulgação, triagem e eventos; os números são calculados somente com os registros salvos.</p></section>
-    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm"><h2 class="font-bold text-primary">Resumo permanente de eventos</h2><div class="mt-3 grid grid-cols-2 gap-3 text-sm"><div class="rounded-xl bg-surface-low p-3"><span class="text-on-surface-variant">Eventos preservados</span><strong class="mt-1 block text-2xl text-primary">${eventosAnalise.length}</strong></div><div class="rounded-xl bg-surface-low p-3"><span class="text-on-surface-variant">Animais adotados</span><strong class="mt-1 block text-2xl text-primary">${totalAnimaisEventos}</strong></div><div class="rounded-xl bg-surface-low p-3"><span class="text-on-surface-variant">Filhotes</span><strong class="mt-1 block text-xl text-primary">${totalFilhotesEventos}</strong></div><div class="rounded-xl bg-surface-low p-3"><span class="text-on-surface-variant">Adultos</span><strong class="mt-1 block text-xl text-primary">${totalAdultosEventos}</strong></div></div><p class="mt-3 text-xs text-on-surface-variant">Adotantes e voluntários aparecem somente em contagens agrupadas, sem nomes ou contatos.</p></section>
-    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm"><h2 class="font-bold text-primary">Eventos com maior sucesso</h2><p class="mt-1 text-sm text-on-surface-variant">Ranking pelos resultados finais registrados.</p><div class="mt-3 space-y-2">${sucessoEventos.length ? sucessoEventos.map(([nome, animais, r]) => `<div class="border-b border-surface-variant py-2 text-sm"><div class="flex justify-between gap-3"><span class="truncate">${esc(nome)}</span><strong class="shrink-0 text-primary">${animais} animal(is) adotado(s)</strong></div><p class="mt-1 text-xs text-on-surface-variant">${Number(r.puppies || 0)} filhote(s) • ${Number(r.adults || 0)} adulto(s) • ${Number(r.dogs || 0)} cão(s) • ${Number(r.cats || 0)} gato(s)</p></div>`).join("") : `<p class="text-sm text-on-surface-variant">Ainda não há resultados de eventos registrados.</p>`}</div></section>`;
+// Nome de quem marcou a solicitação como resolvida
+function quemResolveu(p) {
+  if (p.resolved_by_name) return p.resolved_by_name;
+  const id = p.resolved_by || p.reviewed_by;
+  if (id && dados.user && String(id) === String(dados.user.id)) {
+    return dados.user.name || dados.user.nome || "Você";
+  }
+  return "não registrado";
 }
 
 // Transforma "(11) 99999-9999" em "5511999999999" para o link do WhatsApp
@@ -629,176 +661,348 @@ function numeroWhatsApp(telefone) {
   return n.length >= 12 ? n : "";
 }
 
-async function editarFormularioAdocao(id) {
-  const pedido = dados.adocoes.find((item) => String(item.id) === String(id));
-  if (!pedido || !pedido.adoption_interview) return;
-  const texto = window.prompt("Edite o formulário completo em JSON. Não remova os nomes dos campos.", JSON.stringify(pedido.adoption_interview, null, 2));
-  if (texto === null) return;
-  let adoption_interview;
-  try {
-    adoption_interview = JSON.parse(texto);
-  } catch {
-    window.alert("O formulário não foi salvo porque o JSON está inválido.");
-    return;
-  }
-  try {
-    await api(`/applications/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ adoption_interview }) });
-    pedido.adoption_interview = adoption_interview;
-    desenhar();
-  } catch (erro) {
-    window.alert(erro.message || "Não foi possível salvar o formulário.");
-  }
-}
-
-function linkWhatsApp(v) {
-  const numero = numeroWhatsApp(v.phone);
-  if (!numero) return "";
-  const primeiroNome = String(v.name || "").split(" ")[0];
-  const quemFala = "Bárbara";
-  const ajudas = (v.modalidades || []).join(", ").toLowerCase();
-  const texto =
-    `Olá, ${primeiroNome}! Aqui é ${quemFala ? "a " + quemFala + ", do" : "do"} Pacotinho de Amor 💜 ` +
-    `Recebemos seu cadastro para ser voluntário(a)${ajudas ? " (" + ajudas + ")" : ""}. ` +
-    `Podemos marcar uma conversa rápida para você conhecer o projeto?`;
-  return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
-}
-
-function diasParaApagar(v) {
-  if (!v.expires_at) return "";
-  const dias = Math.ceil((new Date(v.expires_at) - new Date()) / 86400000);
-  if (dias <= 0) return "Será apagado hoje";
-  return dias === 1 ? "Apagado amanhã" : `Apagado em ${dias} dias`;
-}
-
-const STATUS_VOLUNTARIO = {
-  pending:   ["Novo", "bg-amber-100 text-amber-800"],
-  contacted: ["Chamado no WhatsApp", "bg-blue-100 text-blue-800"],
-  approved:  ["Aprovado", "bg-green-100 text-green-800"],
-  rejected:  ["Recusado", "bg-red-100 text-red-800"]
-};
-
-function paginaVoluntarios() {
-  const grupos = [
-    ["Novas solicitações", dados.voluntarios.filter((v) => v.status === "pending")],
-    ["Em conversa", dados.voluntarios.filter((v) => v.status === "contacted")],
-    ["Já respondidos", dados.voluntarios.filter((v) => v.status === "approved" || v.status === "rejected")]
-  ];
-
-  const cartao = (v) => {
-    const [rotulo, cor] = STATUS_VOLUNTARIO[v.status] || STATUS_VOLUNTARIO.pending;
-    const whats = linkWhatsApp(v);
-    const aberto = v.status === "pending" || v.status === "contacted";
-
-    return `
-    <article class="rounded-2xl bg-white p-5 shadow-sm">
-      <div class="flex flex-wrap items-start justify-between gap-2">
-        <div class="min-w-0">
-          <h3 class="font-bold text-primary">${esc(v.name || "Sem nome")}</h3>
-          <p class="text-sm text-on-surface-variant">${esc(v.phone || "Sem telefone")} • ${esc(v.email || "")}</p>
-        </div>
-        <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cor}">${rotulo}</span>
-      </div>
-
-      <div class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-        <p class="rounded-lg bg-surface-low p-2"><strong>Quer ajudar com:</strong><br>${esc((v.modalidades || []).join(", ") || "—")}</p>
-        <p class="rounded-lg bg-surface-low p-2"><strong>Disponibilidade:</strong><br>${esc(v.disponibilidade || "—")}</p>
-      </div>
-
-      <p class="mt-2 text-xs text-on-surface-variant">Enviado em ${dataBR(v.created_at)} • ${diasParaApagar(v)}</p>
-
-      <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-        ${whats
-          ? `<a href="${esc(whats)}" target="_blank" rel="noopener" onclick="marcarChamado('${esc(v.id)}')"
-               class="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] py-2.5 font-semibold text-white hover:bg-[#1ebe5b]">
-               <span class="material-symbols-outlined text-[20px]">chat</span>Chamar no WhatsApp</a>`
-          : `<p class="flex-1 rounded-full bg-surface-low py-2.5 text-center text-sm text-on-surface-variant">Telefone inválido</p>`}
-        ${aberto ? `
-          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','approved')" class="flex-1 rounded-full bg-primary-container py-2.5 font-semibold text-white hover:bg-primary">Aprovar</button>
-          <button type="button" onclick="decidirVoluntario('${esc(v.id)}','rejected')" class="flex-1 rounded-full border border-red-200 py-2.5 font-semibold text-red-700 hover:bg-red-50">Recusar</button>` : ""}
-      </div>
-    </article>`;
+/* ============================================================
+   PÁGINA — RELATÓRIOS
+   ============================================================ */
+function paginaRelatorios() {
+  const dataValida = (valor) => /^\d{4}-\d{2}-\d{2}/.test(String(valor || ""));
+  const dentroDoPeriodo = (valor) => {
+    const data = String(valor || "").slice(0, 10);
+    return (!filtrosRelatorio.inicio || data >= filtrosRelatorio.inicio)
+      && (!filtrosRelatorio.fim || data <= filtrosRelatorio.fim);
   };
+  const zonaPorAnimal = dados.adocoes.reduce((acc, pedido) => {
+    if (pedido.animal_id && pedido.adoption_interview?.zona_moradia) acc[String(pedido.animal_id)] = pedido.adoption_interview.zona_moradia;
+    return acc;
+  }, {});
+  const adocoesPeriodo = dados.animais.filter((a) =>
+    a.status === "adotado"
+    && dentroDoPeriodo(a.adopted_at)
+    && (!filtrosRelatorio.especie || String(a.species || "") === filtrosRelatorio.especie)
+    && (!filtrosRelatorio.local || zonaPorAnimal[String(a.id)] === filtrosRelatorio.local)
+  );
+  const disponiveis = dados.animais.filter((a) => a.status !== "adotado");
+  const solicitacoesPeriodo = dados.adocoes.filter((p) => dentroDoPeriodo(p.created_at)
+    && (!filtrosRelatorio.local || p.adoption_interview?.zona_moradia === filtrosRelatorio.local));
+  const resolvidos = solicitacoesPeriodo.filter((p) => String(p.status || "").toLowerCase() === "resolvido").length;
+  const cards = [
+    ["Animais cadastrados", dados.animais.length, "pets"],
+    ["Animais disponíveis", disponiveis.length, "pets"],
+    ["Adoções no período", adocoesPeriodo.length, "favorite"],
+    ["Solicitações no período", solicitacoesPeriodo.length, "assignment"],
+    ["Eventos cadastrados", dados.eventos.length, "event"],
+    ["Solicitações resolvidas", resolvidos, "task_alt"]
+  ];
+  const contar = (itens, chave) => Object.entries(itens.reduce((acc, item) => {
+    const valor = chave(item) || "Não informado";
+    acc[valor] = (acc[valor] || 0) + 1;
+    return acc;
+  }, {})).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const solicitacoesAdocao = solicitacoesPeriodo.filter((p) => p.contact_type === "adocao");
+  const porZona = contar(solicitacoesAdocao, (p) => p.adoption_interview?.zona_moradia);
+  const porZonaAdocoes = contar(adocoesPeriodo, (a) => zonaPorAnimal[String(a.id)]);
+  const porEspecie = contar(adocoesPeriodo, (a) => a.species);
+  const porMes = contar(adocoesPeriodo.filter((a) => dataValida(a.adopted_at)), (a) => a.adopted_at.slice(0, 7));
 
-  const secoes = grupos
-    .filter(([, lista]) => lista.length)
-    .map(([nome, lista]) => `
-      <h2 class="mb-3 mt-6 text-lg font-bold text-primary">${nome} <span class="text-on-surface-variant">(${lista.length})</span></h2>
-      <div class="space-y-3">${lista.map(cartao).join("")}</div>`)
-    .join("");
+  const eventosAnalise = [...dados.relatoriosEventos, ...dados.eventos];
+  const sucessoEventos = eventosAnalise.map((evento) => {
+    const pedidos = dados.solicitacoesEventos.filter((pedido) => String(pedido.event_id) === String(evento.id));
+    const aprovados = pedidos.filter((pedido) => ["approved", "aprovado", "confirmed", "confirmado"].includes(String(pedido.status || "").toLowerCase())).length;
+    return [`${evento.title || "Evento"} — ${evento.location || "local não informado"}`, Number(evento.results?.animals_adopted || aprovados), evento.results || {}];
+  }).sort((a, b) => b[1] - a[1]).slice(0, 6);
 
-  return titulo("Voluntários", "Chame cada pessoa no WhatsApp para a entrevista.") + `
-    <div class="flex items-start gap-3 rounded-2xl bg-primary-fixed p-4 text-sm text-primary">
-      <span class="material-symbols-outlined">schedule</span>
-      <p>Por privacidade, cada solicitação é <strong>apagada automaticamente 14 dias</strong> depois de enviada.
-      Se a pessoa for aprovada, salve o contato dela no seu WhatsApp.</p>
-    </div>
-    ${secoes || `<div class="mt-6">${vazio("Nenhuma solicitação de voluntariado.")}</div>`}`;
+  const somaEventos = (campo) => eventosAnalise.reduce((total, evento) => total + Number(evento.results?.[campo] || 0), 0);
+  const totalAnimaisEventos = somaEventos("animals_adopted");
+
+  const destaque = porZona[0] ? `A maior concentração de solicitações de adoção no período foi na <strong>${esc(porZona[0][0])}</strong>, com ${porZona[0][1]} registro(s).` : "Ainda não há solicitações com zona de moradia registrada no período.";
+  const pedidosAdocao = solicitacoesPeriodo.filter((p) => p.contact_type !== "videochamada").length;
+  const conversao = pedidosAdocao ? Math.round((adocoesPeriodo.length / pedidosAdocao) * 100) : 0;
+  const opcoesEspecie = [...new Set(dados.animais.map((a) => a.species).filter(Boolean))].sort();
+  const opcoesLocal = ["ZL", "ZS", "ZO", "ZE"];
+  const seletor = (id, chave, valor, opcoes) => `<select id="${id}" class="campo mt-1" onchange="filtrosRelatorio.${chave}=this.value; desenhar()"><option value="">Todos</option>${opcoes.map((op) => `<option value="${esc(op)}" ${valor === op ? "selected" : ""}>${esc(op)}</option>`).join("")}</select>`;
+
+  const quadro = (emoji, texto, n) => `
+    <div class="rounded-xl bg-surface-low p-3">
+      <span class="text-on-surface-variant">${emoji} ${texto}</span>
+      <strong class="mt-1 block text-2xl text-primary">${n}</strong>
+    </div>`;
+
+  return titulo("Relatórios", "Dados reais do sistema para orientar decisões e próximos passos.", `<button type="button" onclick="window.print()" class="rounded-full border border-primary-container px-4 py-2 font-semibold text-primary">Imprimir / PDF</button>`) + `
+    <section class="mb-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="font-bold text-primary">Filtros da análise</h2>
+      <div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <label class="text-sm font-semibold text-on-surface-variant">Data inicial<input id="relatorioInicio" type="date" class="campo mt-1" value="${esc(filtrosRelatorio.inicio)}" onchange="filtrosRelatorio.inicio=this.value; desenhar()"></label>
+        <label class="text-sm font-semibold text-on-surface-variant">Data final<input id="relatorioFim" type="date" class="campo mt-1" value="${esc(filtrosRelatorio.fim)}" onchange="filtrosRelatorio.fim=this.value; desenhar()"></label>
+        <label class="text-sm font-semibold text-on-surface-variant">Espécie${seletor("relatorioEspecie", "especie", filtrosRelatorio.especie, opcoesEspecie)}</label>
+        <label class="text-sm font-semibold text-on-surface-variant">Zona / local${seletor("relatorioLocal", "local", filtrosRelatorio.local, opcoesLocal)}</label>
+      </div>
+    </section>
+
+    <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      ${cards.map(([nome, valor, icone]) => `<article class="rounded-2xl bg-white p-5 shadow-sm"><span class="material-symbols-outlined text-secondary">${icone}</span><p class="mt-2 text-3xl font-bold text-primary">${valor}</p><p class="font-semibold text-on-surface-variant">${nome}</p></article>`).join("")}
+    </section>
+
+    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="text-lg font-bold text-primary">Insights para ação</h2>
+      <p class="mt-3 text-sm text-on-surface-variant">${destaque}</p>
+      <p class="mt-2 text-sm text-on-surface-variant">Conversão aproximada de solicitações de adoção em adoções: <strong>${conversao}%</strong>. Use o período e a zona para decidir onde reforçar divulgação e eventos.</p>
+      <dl class="mt-3 space-y-2 text-on-surface-variant">
+        <div class="flex justify-between"><dt>Solicitações abertas</dt><dd class="font-bold text-primary">${solicitacoesPeriodo.length - resolvidos}</dd></div>
+        <div class="flex justify-between"><dt>Eventos cadastrados</dt><dd class="font-bold text-primary">${dados.eventos.length}</dd></div>
+      </dl>
+    </section>
+
+    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="text-lg font-bold text-primary">Adoções nos eventos</h2>
+      <p class="mt-1 text-sm text-on-surface-variant">${eventosAnalise.length} evento(s) registrados • <strong>${totalAnimaisEventos}</strong> animal(is) adotado(s) no total.</p>
+      <div class="mt-3 grid grid-cols-2 gap-3 text-sm lg:grid-cols-4">
+        ${quadro("🐶", "Filhotes de cachorro", somaEventos("puppies_dogs"))}
+        ${quadro("🐱", "Filhotes de gato", somaEventos("puppies_cats"))}
+        ${quadro("🐶", "Cachorros adultos", somaEventos("adult_dogs"))}
+        ${quadro("🐱", "Gatos adultos", somaEventos("adult_cats"))}
+      </div>
+      <p class="mt-3 text-xs text-on-surface-variant">Adotantes aparecem somente em contagens agrupadas, sem nomes ou contatos.</p>
+    </section>
+
+    <section class="mt-5 grid gap-5 lg:grid-cols-3">
+      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por zona de moradia</h2>${barras(porZonaAdocoes, "Sem zonas registradas.")}<h3 class="mt-5 border-t border-surface-variant pt-4 text-sm font-bold text-primary">Solicitações recebidas</h3>${barras(porZona, "Sem solicitações registradas.")}</article>
+      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por mês</h2>${barras(porMes, "Sem datas de adoção no período.")}</article>
+      <article class="rounded-2xl bg-white p-5 shadow-sm"><h2 class="mb-4 font-bold text-primary">Adoções por espécie</h2>${barras(porEspecie, "Sem espécie registrada.")}</article>
+    </section>
+
+    <section class="mt-5 rounded-2xl bg-white p-5 shadow-sm">
+      <h2 class="font-bold text-primary">Eventos com maior sucesso</h2>
+      <p class="mt-1 text-sm text-on-surface-variant">Ranking pelo número de adoções registradas ao fechar cada evento.</p>
+      <div class="mt-3 space-y-2">${sucessoEventos.length ? sucessoEventos.map(([nome, animais, r]) => `
+        <div class="border-b border-surface-variant py-2 text-sm">
+          <div class="flex justify-between gap-3"><span class="truncate">${esc(nome)}</span><strong class="shrink-0 text-primary">${animais} animal(is) adotado(s)</strong></div>
+          <p class="mt-1 text-xs text-on-surface-variant">🐶 ${Number(r.puppies_dogs || 0)} filhote(s) e ${Number(r.adult_dogs || 0)} adulto(s) • 🐱 ${Number(r.puppies_cats || 0)} filhote(s) e ${Number(r.adult_cats || 0)} adulto(s)</p>
+        </div>`).join("") : `<p class="text-sm text-on-surface-variant">Ainda não há resultados de eventos registrados.</p>`}</div>
+    </section>`;
 }
 
-// Ao clicar em "Chamar no WhatsApp", marca a solicitação como "em conversa"
-async function marcarChamado(id) {
-  const v = dados.voluntarios.find((x) => String(x.id) === String(id));
-  if (!v || v.status !== "pending") return;
-  try {
-    await api(`/volunteer-requests/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status: "contacted" }) });
-    v.status = "contacted";
-    setTimeout(desenhar, 300);
-  } catch (erro) {
-    console.error(erro);
-  }
+/* ============================================================
+   PÁGINA — EVENTOS
+   Resultados: filhotes e adultos, cães e gatos
+   ============================================================ */
+function contagensEvento(e) {
+  const r = e.results || {};
+  const n = (v) => Math.max(0, Math.floor(Number(v) || 0));
+  return {
+    puppies_dogs: n(r.puppies_dogs),
+    puppies_cats: n(r.puppies_cats),
+    adult_dogs: n(r.adult_dogs),
+    adult_cats: n(r.adult_cats)
+  };
+}
+
+const somaContagens = (c) => c.puppies_dogs + c.puppies_cats + c.adult_dogs + c.adult_cats;
+
+function lerResultados(id) {
+  const v = (chave) => Math.max(0, Math.floor(Number($(`evento-${id}-${chave}`)?.value) || 0));
+  return {
+    puppies_dogs: v("puppies_dogs"),
+    puppies_cats: v("puppies_cats"),
+    adult_dogs: v("adult_dogs"),
+    adult_cats: v("adult_cats")
+  };
+}
+
+function atualizarTotalEvento(id) {
+  $(`evento-${id}-total`).textContent = somaContagens(lerResultados(id));
+}
+
+function ajustarResultado(id, chave, passo) {
+  const campo = $(`evento-${id}-${chave}`);
+  campo.value = Math.max(0, (Number(campo.value) || 0) + passo);
+  atualizarTotalEvento(id);
+}
+
+function formularioResultados(e) {
+  const id = esc(e.id);
+  const c = contagensEvento(e);
+
+  const contador = (chave, nome) => `
+    <div class="flex items-center justify-between rounded-xl bg-white p-1.5 ring-1 ring-surface-variant">
+      <button type="button" onclick="ajustarResultado('${id}','${chave}',-1)" aria-label="Diminuir ${nome}"
+        class="grid h-10 w-10 place-items-center rounded-lg text-primary hover:bg-surface-low">
+        <span class="material-symbols-outlined">remove</span>
+      </button>
+      <input id="evento-${id}-${chave}" type="number" min="0" inputmode="numeric" value="${c[chave]}"
+        oninput="atualizarTotalEvento('${id}')" aria-label="${nome}"
+        class="sem-setas w-12 border-0 bg-transparent p-0 text-center text-xl font-bold text-primary focus:ring-0">
+      <button type="button" onclick="ajustarResultado('${id}','${chave}',1)" aria-label="Aumentar ${nome}"
+        class="grid h-10 w-10 place-items-center rounded-lg text-primary hover:bg-surface-low">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+    </div>`;
+
+  return `
+    <details class="mt-5 rounded-2xl bg-surface-low">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-3 p-4 font-semibold text-primary">
+        <span class="flex items-center gap-2"><span class="material-symbols-outlined">task_alt</span>Fechar evento e registrar adoções</span>
+        <span class="material-symbols-outlined gira transition">expand_more</span>
+      </summary>
+      <div class="px-4 pb-4">
+        <p class="mb-3 text-sm text-on-surface-variant">Quantos animais de cada tipo foram adotados neste evento?</p>
+
+        <div class="grid grid-cols-[auto_1fr_1fr] items-center gap-2">
+          <span></span>
+          <span class="text-center font-bold text-primary">🐶 Cães</span>
+          <span class="text-center font-bold text-primary">🐱 Gatos</span>
+
+          <span class="pr-2 font-semibold text-on-surface-variant">Filhotes</span>
+          ${contador("puppies_dogs", "filhotes de cachorro")}
+          ${contador("puppies_cats", "filhotes de gato")}
+
+          <span class="pr-2 font-semibold text-on-surface-variant">Adultos</span>
+          ${contador("adult_dogs", "cachorros adultos")}
+          ${contador("adult_cats", "gatos adultos")}
+        </div>
+
+        <div class="mt-4 flex items-center justify-between rounded-xl bg-primary-container px-4 py-3 text-white">
+          <span class="font-semibold">Total adotado</span>
+          <strong id="evento-${id}-total" class="text-2xl">${somaContagens(c)}</strong>
+        </div>
+
+        <button type="button" onclick="finalizarEvento('${id}')"
+          class="mt-3 w-full rounded-full bg-green-700 py-3 text-base font-semibold text-white hover:bg-green-800">
+          Salvar e fechar evento
+        </button>
+      </div>
+    </details>`;
+}
+
+function resumoEventoFechado(e) {
+  const c = contagensEvento(e);
+  const detalhado = somaContagens(c) > 0;
+  const total = detalhado ? somaContagens(c) : Number(e.results?.animals_adopted || 0);
+
+  const item = (emoji, texto, n) => `
+    <div class="flex items-center justify-between rounded-xl bg-white px-3 py-2">
+      <span>${emoji} ${texto}</span><strong class="text-lg text-primary">${n}</strong>
+    </div>`;
+
+  return `
+    <div class="mt-5 rounded-2xl bg-green-50 p-4">
+      <p class="flex items-center gap-2 font-semibold text-green-800">
+        <span class="material-symbols-outlined">check_circle</span>Evento fechado: ${total} adoção(ões)
+      </p>
+      ${detalhado ? `
+        <div class="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+          ${item("🐶", "Filhotes de cachorro", c.puppies_dogs)}
+          ${item("🐱", "Filhotes de gato", c.puppies_cats)}
+          ${item("🐶", "Cachorros adultos", c.adult_dogs)}
+          ${item("🐱", "Gatos adultos", c.adult_cats)}
+        </div>` : ""}
+    </div>`;
 }
 
 function paginaEventos() {
   const botao = botaoPrincipal("Criar evento", "add", "abrirModal('modalEvento')");
   const materiais = `
-    <section class="mb-5 rounded-2xl border border-primary/15 bg-primary-fixed p-5 shadow-sm">
+    <section class="mb-6 rounded-2xl border border-primary/15 bg-primary-fixed p-5 shadow-sm">
       <h2 class="font-bold text-primary">Materiais oficiais do projeto</h2>
-      <p class="mt-1 text-sm text-on-surface-variant">
-        Consulte os documentos originais antes de participar de uma feira de adoção.
-      </p>
+      <p class="mt-1 text-sm text-on-surface-variant">Consulte os documentos antes de participar de uma feira de adoção.</p>
       <div class="mt-4 flex flex-wrap gap-3">
         <a href="Guia-Rapido-Evento-de-Adocao.pdf" target="_blank" rel="noopener"
           class="inline-flex items-center gap-2 rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-white hover:bg-primary">
-          <span class="material-symbols-outlined text-base">picture_as_pdf</span>
-          Baixar guia da feira
+          <span class="material-symbols-outlined text-base">picture_as_pdf</span>Guia da feira
         </a>
         <a href="Termo_Pacotinho.pdf" target="_blank" rel="noopener"
-          class="inline-flex items-center gap-2 rounded-full border border-primary-container px-4 py-2 text-sm font-semibold text-primary hover:bg-white">
-          <span class="material-symbols-outlined text-base">description</span>
-          Baixar termo do projeto
+          class="inline-flex items-center gap-2 rounded-full border border-primary-container bg-white px-4 py-2 text-sm font-semibold text-primary hover:bg-surface-low">
+          <span class="material-symbols-outlined text-base">description</span>Termo do projeto
         </a>
       </div>
     </section>`;
   if (!dados.eventos.length) return titulo("Eventos", "", botao) + materiais + vazio("Nenhum evento cadastrado.");
-  const hoje = new Date().toISOString().slice(0, 10);
-  const futuros = dados.eventos.filter((e) => e.date >= hoje);
-  const encerrados = dados.eventos.filter((e) => e.date < hoje);
-  const card = (e) => `
-        <article class="rounded-2xl bg-white p-5 shadow-sm">
-          <p class="text-sm font-semibold text-secondary">${dataBR(e.date)} • ${esc(e.startTime || "")}–${esc(e.endTime || "")}</p>
-          <h3 class="mt-1 font-bold text-primary">${esc(e.title || "Evento")}</h3>
-          <p class="mt-1 flex items-center gap-1 text-sm text-on-surface-variant"><span class="material-symbols-outlined text-base">location_on</span>${esc(e.location || "")}</p>
-          ${e.description ? `<p class="mt-2 text-sm">${esc(e.description)}</p>` : ""}
-          <p class="mt-3 text-xs text-on-surface-variant">Até ${esc(e.animalLimit)} animais • ${esc(e.volunteerLimit)} voluntários • ${esc(e.spaceLimit)} pessoas</p>
-          ${e.closed ? `<p class="mt-2 text-sm font-semibold text-green-700">Fechado: ${esc(e.results?.animals_adopted || 0)} adoção(ões) registradas</p>` : `<details class="mt-3 rounded-xl bg-surface-low p-3"><summary class="cursor-pointer text-sm font-semibold text-primary">Fechar evento e registrar resultados</summary><div class="mt-3 grid grid-cols-2 gap-2 text-sm"><label>Total de animais<input id="evento-${esc(e.id)}-animals" type="number" min="0" class="campo" value="${esc(e.results?.animals_adopted || 0)}"></label><label>Filhotes<input id="evento-${esc(e.id)}-puppies" type="number" min="0" class="campo" value="${esc(e.results?.puppies || 0)}"></label><label>Adultos<input id="evento-${esc(e.id)}-adults" type="number" min="0" class="campo" value="${esc(e.results?.adults || 0)}"></label><label>Cães<input id="evento-${esc(e.id)}-dogs" type="number" min="0" class="campo" value="${esc(e.results?.dogs || 0)}"></label><label>Gatos<input id="evento-${esc(e.id)}-cats" type="number" min="0" class="campo" value="${esc(e.results?.cats || 0)}"></label></div><button type="button" onclick="finalizarEvento('${esc(e.id)}')" class="mt-3 rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-white">Salvar resultados</button></details>`}
-          <button type="button" onclick="excluirEvento('${esc(e.id)}')" class="mt-3 text-sm font-semibold text-red-700 hover:underline">Excluir</button>
-        </article>`;
-  const grupo = (tituloGrupo, itens) => itens.length ? `<section class="mb-6"><h2 class="mb-3 font-bold text-primary">${tituloGrupo}</h2><div class="grid gap-3 md:grid-cols-2">${itens.map(card).join("")}</div></section>` : "";
 
-  return titulo("Eventos", `${dados.eventos.length} evento(s).`, botao) + materiais + grupo("Próximos eventos", futuros) + grupo("Eventos encerrados", encerrados);
+  const hoje = hojeISO();
+  const futuros = dados.eventos.filter((e) => (e.date || "") >= hoje);
+  const encerrados = dados.eventos.filter((e) => (e.date || "") < hoje);
+
+  const card = (e) => {
+    const [, mes, dia] = String(e.date || "").split("-");
+    const chip = (icone, texto) => `
+      <span class="inline-flex items-center gap-1 rounded-full bg-surface-low px-3 py-1.5">
+        <span class="material-symbols-outlined text-[18px] text-secondary">${icone}</span>${texto}
+      </span>`;
+
+    return `
+      <article class="flex flex-col rounded-3xl bg-white p-6 shadow-sm">
+        <div class="flex items-start gap-4">
+          <div class="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-primary-container text-white">
+            <span class="text-2xl font-bold leading-none">${esc(dia || "")}</span>
+            <span class="text-xs font-semibold uppercase">${mes ? MESES[Number(mes) - 1] : ""}</span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="text-xl font-bold leading-tight text-primary">${esc(e.title || "Evento")}</h3>
+            <p class="mt-1 flex items-center gap-1.5 text-base text-on-surface-variant">
+              <span class="material-symbols-outlined text-[18px]">schedule</span>${esc(e.startTime || "")}–${esc(e.endTime || "")}
+            </p>
+            <p class="mt-1 flex items-start gap-1.5 text-base text-on-surface-variant">
+              <span class="material-symbols-outlined text-[18px]">location_on</span>${esc(e.location || "")}
+            </p>
+          </div>
+        </div>
+
+        ${e.description ? `<p class="mt-4 text-base">${esc(e.description)}</p>` : ""}
+
+        <div class="mt-4 flex flex-wrap gap-2 text-sm">
+          ${chip("pets", `Até ${esc(e.animalLimit)} animais`)}
+          ${chip("volunteer_activism", `${esc(e.volunteerLimit)} voluntários`)}
+          ${chip("groups", `${esc(e.spaceLimit)} pessoas`)}
+        </div>
+
+        ${e.closed ? resumoEventoFechado(e) : formularioResultados(e)}
+
+        <button type="button" onclick="excluirEvento('${esc(e.id)}')"
+          class="mt-4 inline-flex items-center gap-1 self-start text-sm font-semibold text-red-700 hover:underline">
+          <span class="material-symbols-outlined text-[18px]">delete</span>Excluir evento
+        </button>
+      </article>`;
+  };
+
+  const grupo = (tituloGrupo, itens) => itens.length
+    ? `<section class="mb-8"><h2 class="mb-4 text-lg font-bold text-primary">${tituloGrupo}</h2>
+         <div class="grid gap-5 lg:grid-cols-2">${itens.map(card).join("")}</div></section>`
+    : "";
+
+  return titulo("Eventos", `${dados.eventos.length} evento(s).`, botao)
+    + materiais
+    + grupo("Próximos eventos", futuros)
+    + grupo("Eventos encerrados", encerrados);
 }
 
 async function finalizarEvento(id) {
-  const valor = (campo) => Number(document.getElementById(`evento-${id}-${campo}`)?.value || 0);
+  const c = lerResultados(id);
+
+  // Guarda o detalhe e também os totais que os Relatórios já usavam
+  const results = {
+    ...c,
+    puppies: c.puppies_dogs + c.puppies_cats,
+    adults: c.adult_dogs + c.adult_cats,
+    dogs: c.puppies_dogs + c.adult_dogs,
+    cats: c.puppies_cats + c.adult_cats
+  };
+  results.animals_adopted = results.dogs + results.cats;
+
+  if (!(await confirmar(`Fechar o evento com ${results.animals_adopted} adoção(ões)?`))) return;
+
   try {
-    const r = await api(`/events/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ results: { animals_adopted: valor("animals"), puppies: valor("puppies"), adults: valor("adults"), dogs: valor("dogs"), cats: valor("cats") } }) });
+    const r = await api(`/events/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ results }) });
     const evento = dados.eventos.find((item) => String(item.id) === String(id));
-    if (evento) Object.assign(evento, r.event);
+    if (evento) Object.assign(evento, r.event || { results });
     desenhar();
-    aviso("Resultados do evento salvos para os relatórios.");
-  } catch (erro) { aviso(erro.message, true); }
+    aviso("Evento fechado. Os resultados já entram nos relatórios.");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
 }
 
+/* ============================================================
+   PÁGINA — CONFIGURAÇÕES
+   ============================================================ */
 function paginaConfig() {
   const u = dados.user || {};
   return titulo("Configurações", "Seu perfil e sua senha.") + `
@@ -828,38 +1032,18 @@ function paginaConfig() {
         <div><label for="cfgSenhaConfirma" class="rotulo">Repita a nova senha</label><input id="cfgSenhaConfirma" type="password" autocomplete="new-password" class="campo"></div>
       </div>
       <button type="button" onclick="trocarSenha()" class="mt-4 rounded-full border border-primary-container px-5 py-2.5 font-semibold text-primary hover:bg-surface-low">Alterar senha</button>
-      <div class="mt-6 border-t border-surface-variant pt-5">
-        <h2 class="font-bold text-red-800">Excluir minha conta de apoio</h2>
-        <p class="mt-1 text-sm text-on-surface-variant">Remove seu acesso ao sistema. Animais e eventos do projeto não serão apagados.</p>
-        <button type="button" onclick="excluirMinhaContaApoio()" class="mt-3 rounded-full border border-red-300 px-5 py-2.5 font-semibold text-red-700 hover:bg-red-50">Excluir minha conta</button>
-      </div>
+    </section>
+
+    <section class="mt-4 rounded-2xl border border-red-200 bg-white p-5 shadow-sm md:p-6">
+      <h2 class="font-bold text-red-800">Excluir minha conta de apoio</h2>
+      <p class="mt-1 text-sm text-on-surface-variant">Remove seu acesso ao sistema. Animais e eventos do projeto não são apagados.</p>
+      <button type="button" onclick="excluirMinhaContaApoio()" class="mt-3 rounded-full border border-red-300 px-5 py-2.5 font-semibold text-red-700 hover:bg-red-50">Excluir minha conta</button>
     </section>`;
 }
 
-async function excluirMinhaContaApoio() {
-  if (!window.confirm("Excluir sua conta de apoio? Os animais e eventos continuarão no histórico.")) return;
-  const senhaAtual = window.prompt("Digite sua senha atual para confirmar:");
-  if (senhaAtual === null) return;
-  const confirmacao = window.prompt("Digite EXCLUIR para confirmar:");
-  if (confirmacao === null) return;
-  try {
-    const resposta = await fetch("/api/auth/volunteer-account", {
-      method: "DELETE",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ senhaAtual, confirmacao })
-    });
-    const resultado = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) throw new Error(resultado.message || "Não foi possível excluir a conta.");
-    window.alert("Sua conta de apoio foi excluída.");
-    location.replace("login.html");
-  } catch (erro) {
-    aviso(erro.message, true);
-  }
-}
-
 const RENDER = {
-  animais: paginaAnimais, adocoes: paginaAdocoes, relatorios: paginaRelatorios, config: paginaConfig
+  animais: paginaAnimais, adocoes: paginaAdocoes, eventos: paginaEventos,
+  relatorios: paginaRelatorios, config: paginaConfig
 };
 
 /* ============================================================
@@ -869,7 +1053,6 @@ function montarMenus() {
   $("menuLateral").innerHTML = PAGINAS.map((p) => `
     <button type="button" data-ir="${p.id}" class="item-menu flex items-center gap-3 rounded-r-full px-6 py-3 text-left text-white/75 hover:bg-white/10">
       <span class="material-symbols-outlined">${p.icone}</span>${p.nome}
-      ${p.id === "voluntarios" ? `<span data-contador class="ml-auto hidden rounded-full bg-white px-2 text-xs font-bold text-primary"></span>` : ""}
     </button>`).join("");
 
   $("menuInferior").innerHTML = PAGINAS.map((p) => `
@@ -879,6 +1062,7 @@ function montarMenus() {
 }
 
 function desenhar() {
+  ARQUIVOS = [];
   $("conteudo").innerHTML = (RENDER[paginaAtual] || paginaAnimais)();
 
   document.querySelectorAll(".item-menu").forEach((b) => {
@@ -895,15 +1079,20 @@ function desenhar() {
     b.classList.toggle("text-on-surface-variant", !ativo);
   });
 
-  const pendentes = dados.voluntarios.filter((v) => v.status === "pending").length;
-  document.querySelectorAll("[data-contador]").forEach((el) => {
-    el.textContent = pendentes;
-    el.classList.toggle("hidden", !pendentes);
-  });
-
   const nome = dados.user?.name || dados.user?.nome || "";
   document.querySelectorAll("[data-nome]").forEach((el) => (el.textContent = nome));
   document.querySelectorAll("[data-foto]").forEach((el) => (el.src = dados.user?.profile_photo || "assets/logo-footer.png"));
+
+  // Avatar da barra lateral: foto da pessoa ou as iniciais do nome
+  const partes = String(nome).trim().split(/\s+/).filter(Boolean);
+  const iniciais = partes.length
+    ? (partes[0][0] + (partes.length > 1 ? partes[partes.length - 1][0] : "")).toUpperCase()
+    : "V";
+  document.querySelectorAll("[data-avatar]").forEach((el) => {
+    el.innerHTML = dados.user?.profile_photo
+      ? `<img src="${esc(dados.user.profile_photo)}" alt="Foto de perfil" class="h-full w-full object-cover">`
+      : esc(iniciais);
+  });
 }
 
 function irPara(pagina) {
@@ -961,90 +1150,13 @@ async function salvarAnimal() {
 
 async function removerAnimal(id) {
   const animal = dados.animais.find((item) => String(item.id) === String(id));
-  if (!animal || !(await confirmar(`Remover ${animal.name || "este animal"}? Essa ação não pode ser desfeita.`))) return;
-
+  if (!animal || !(await confirmar(`Deletar o perfil de ${animal.name || "este animal"}? Esta ação não pode ser desfeita.`))) return;
   try {
     await api(`/animals/${encodeURIComponent(id)}`, { method: "DELETE" });
     dados.animais = dados.animais.filter((item) => String(item.id) !== String(id));
+    fecharModal("modalAnimal");
     desenhar();
-    aviso("Animal removido.");
-  } catch (erro) {
-    aviso(erro.message, true);
-  }
-}
-
-/* ============================================================
-   AÇÕES — ADOÇÃO
-   ============================================================ */
-function abrirAdocao(id) {
-  const a = dados.animais.find((x) => String(x.id) === String(id));
-  if (!a) return;
-  $("adocaoId").value = a.id;
-  $("adocaoTitulo").textContent = a.name || "Animal";
-  $("adocaoData").value = hojeISO();
-  $("adocaoData").max = hojeISO();
-  $("adocaoLocal").value = "";
-
-  // Sugestões: eventos cadastrados + canais comuns + locais já usados
-  const sugestoes = new Set([
-    ...dados.eventos.map((e) => e.title).filter(Boolean),
-    "Pelo site", "Instagram", "Indicação",
-    ...adotados().map((x) => x.adoption_place).filter(Boolean)
-  ]);
-  $("locaisAdocao").innerHTML = [...sugestoes].map((s) => `<option value="${esc(s)}"></option>`).join("");
-
-  abrirModal("modalAdocao");
-}
-
-async function confirmarAdocao() {
-  const id = $("adocaoId").value;
-  const botao = $("btnConfirmarAdocao");
-  botao.disabled = true;
-  try {
-    const r = await api(`/animals/${encodeURIComponent(id)}`, {
-      method: "PUT",
-      body: JSON.stringify({ status: "adotado", adopted_at: $("adocaoData").value, adoption_place: $("adocaoLocal").value.trim() })
-    });
-    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
-    if (i >= 0) dados.animais[i] = r.animal;
-    fecharModal("modalAdocao");
-    desenhar();
-    aviso(`${r.animal?.name || "Animal"} foi adotado! 💜`);
-  } catch (erro) {
-    aviso(erro.message, true);
-  } finally {
-    botao.disabled = false;
-  }
-}
-
-async function desfazerAdocao(id) {
-  const a = dados.animais.find((x) => String(x.id) === String(id));
-  if (!(await confirmar(`Desfazer a adoção de ${a?.name || "este animal"}? Ele volta a aparecer no site.`))) return;
-  try {
-    const r = await api(`/animals/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status: "disponível" }) });
-    const i = dados.animais.findIndex((x) => String(x.id) === String(id));
-    if (i >= 0) dados.animais[i] = r.animal;
-    desenhar();
-    aviso("Adoção desfeita. O animal voltou para o site.");
-  } catch (erro) {
-    aviso(erro.message, true);
-  }
-}
-
-/* ============================================================
-   AÇÕES — VOLUNTÁRIOS
-   ============================================================ */
-async function decidirVoluntario(id, status) {
-  const v = dados.voluntarios.find((x) => String(x.id) === String(id));
-  const nome = v?.name || "esta pessoa";
-  const texto = status === "approved" ? `Aprovar ${nome} como voluntário(a)?` : `Recusar a solicitação de ${nome}?`;
-  if (!(await confirmar(texto))) return;
-
-  try {
-    await api(`/volunteer-requests/${encodeURIComponent(id)}`, { method: "PUT", body: JSON.stringify({ status }) });
-    if (v) v.status = status;
-    desenhar();
-    aviso(status === "approved" ? `${nome} foi aprovado(a). Salve o contato no WhatsApp.` : `${nome} foi recusado(a).`);
+    aviso("Perfil do animal deletado.");
   } catch (erro) {
     aviso(erro.message, true);
   }
@@ -1164,8 +1276,48 @@ async function removerFoto() {
 
 async function sair() {
   try { await fetch(API + "/auth/logout", { method: "POST", credentials: "same-origin" }); } catch {}
+  localStorage.removeItem("pa_account_name");
+  localStorage.removeItem("volunteer_name");
+  localStorage.removeItem("volunteer_email");
+  localStorage.removeItem("volunteer_id");
   location.href = "login.html";
 }
+
+
+async function excluirMinhaContaApoio() {
+  if (!(await confirmar("Excluir sua conta de apoio? Você perde o acesso ao sistema. Animais e eventos continuam no histórico."))) return;
+  const senhaAtual = window.prompt("Digite sua senha atual para confirmar:");
+  if (senhaAtual === null) return;
+  const confirmacao = window.prompt("Digite EXCLUIR para confirmar:");
+  if (confirmacao === null) return;
+  try {
+    const resposta = await fetch(API + "/auth/volunteer-account", {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ senhaAtual, confirmacao })
+    });
+    const resultado = await resposta.json().catch(() => ({}));
+    if (!resposta.ok) throw new Error(resultado.message || "Não foi possível excluir a conta.");
+    window.alert("Sua conta de apoio foi excluída.");
+    location.replace("login.html");
+  } catch (erro) {
+    aviso(erro.message, true);
+  }
+}
+
+/* ============================================================
+   JANELAS: fechar ao clicar fora ou apertar Esc
+   ============================================================ */
+const MODAIS = ["modalAnimal", "modalEvento"];
+
+MODAIS.forEach((id) =>
+  $(id).addEventListener("click", (e) => { if (e.target.id === id) fecharModal(id); })
+);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") MODAIS.forEach(fecharModal);
+});
 
 /* ============================================================
    INÍCIO — confere se quem abriu é uma conta de apoio
@@ -1184,14 +1336,6 @@ async function sair() {
   desenhar();
   carregarTudo();
 })();
-
-// Fecha janelas ao clicar fora ou apertar Esc
-["modalAnimal", "modalEvento", "modalAdocao"].forEach((id) =>
-  $(id).addEventListener("click", (e) => { if (e.target.id === id) fecharModal(id); })
-);
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") ["modalAnimal", "modalEvento", "modalAdocao"].forEach(fecharModal);
-});
 </script>
 
 </body>

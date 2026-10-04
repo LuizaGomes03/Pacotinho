@@ -224,12 +224,18 @@ body.pa-page-painel-voluntario {
   animation-timing-function: ease;
 }
 
+/*
+ * Botão da conta: começa com a largura de "Conta" (116px) para não pular
+ * enquanto carrega, e cresce para caber "Olá, Nome". Só nomes muito longos
+ * (mais de ~16 letras) ganham "…".
+ */
 .pa-account {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  width: 116px;
+  width: auto;
   min-width: 116px;
+  max-width: 240px;
   height: 46px;
   padding: 6px 18px 6px 6px;
   border-radius: 999px;
@@ -249,10 +255,11 @@ body.pa-page-painel-voluntario {
 .pa-account-label {
   display: inline-block;
   min-width: 0;
+  max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1;
+  line-height: 1.2;
   transition: opacity .18s ease;
 }
 
@@ -461,9 +468,7 @@ body.pa-page-painel-voluntario .pa-footer {
   }
 
   .pa-account {
-    width: 116px;
-    min-width: 0;
-    flex: 0 1 116px;
+    flex: 0 0 auto;
   }
 
 }
@@ -549,51 +554,19 @@ body.pa-page-painel-voluntario .pa-footer {
     overflow-x: auto;
   }
 
-  @media (max-width: 640px) {
-    main,
-    section,
-    article,
-    form,
-    dialog {
-      min-width: 0;
-    }
-
-    .pa-footer-inner,
-    .pa-footer-brand,
-    .pa-footer nav {
-      min-width: 0;
-      max-width: 100%;
-    }
-
-    .pa-footer nav {
-      gap: 10px 16px;
-    }
+  main,
+  section,
+  article,
+  form,
+  dialog {
+    min-width: 0;
   }
 
-  @media (max-width: 420px) {
-    .pa-header {
-      padding-inline: 10px;
-      gap: 8px;
-    }
-
-    .pa-brand {
-      gap: 6px;
-    }
-
-    .pa-brand span {
-      max-width: 112px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .pa-account {
-      max-width: 124px;
-      padding-right: 8px;
-    }
-
-    .pa-account-label {
-      max-width: 68px;
-    }
+  .pa-footer-inner,
+  .pa-footer-brand,
+  .pa-footer nav {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .pa-header {
@@ -613,20 +586,17 @@ body.pa-page-painel-voluntario .pa-footer {
     font-size: 17px;
   }
 
+  /* No celular o botão encolhe, mas ainda mostra "Olá, Nome" */
   .pa-account {
-    max-width: 116px;
-    width: auto;
     min-width: 0;
+    max-width: 150px;
     height: 42px;
-    padding: 4px 10px 4px 4px;
+    padding: 4px 12px 4px 4px;
   }
 
   .pa-account-label {
-    max-width: 85px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 12px;
+    max-width: 100px;
+    font-size: 13px;
   }
 
   .pa-menu-toggle {
@@ -651,7 +621,37 @@ body.pa-page-painel-voluntario .pa-footer {
 
   .pa-footer nav {
     justify-content: flex-start;
+    gap: 10px 16px;
     flex: none;
+  }
+
+}
+
+
+@media (max-width: 420px) {
+
+  .pa-header {
+    padding-inline: 10px;
+    gap: 8px;
+  }
+
+  .pa-brand {
+    gap: 6px;
+  }
+
+  .pa-brand span {
+    max-width: 112px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pa-account {
+    max-width: 128px;
+    padding-right: 10px;
+  }
+
+  .pa-account-label {
+    max-width: 78px;
   }
 
 }
