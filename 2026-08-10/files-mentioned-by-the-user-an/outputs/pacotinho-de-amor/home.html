@@ -5,50 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pacotinho de Amor — Adoção de animais</title>
 
-  <!-- Mantido porque os cards gerados pelo eventos.js usam classes do Tailwind -->
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            "surface-container-low": "#f8f1f9",
-            "surface-variant": "#e7e0e8",
-            "primary-fixed-dim": "#e7b5f6",
-            "outline-variant": "#cfc3ce",
-            "surface-bright": "#fef7ff",
-            "on-primary": "#ffffff",
-            "on-background": "#1d1a20",
-            "on-surface-variant": "#4c444d",
-            "primary-container": "#5f376e",
-            "secondary-container": "#ffcdfe",
-            "background": "#fef7ff",
-            "tertiary-fixed": "#e9e964",
-            "on-secondary-container": "#7b537c",
-            "surface-container": "#f3ecf4",
-            "surface-container-lowest": "#ffffff",
-            "primary": "#472056",
-            "primary-fixed": "#f9d8ff",
-            "secondary": "#78517a",
-            "surface-container-high": "#ede6ee",
-            "outline": "#7e747e",
-            "on-surface": "#1d1a20",
-            "surface": "#fef7ff"
-          },
-          borderRadius: { "2xl": "1.5rem" },
-          spacing: { xs: "4px", sm: "12px", base: "8px", md: "24px", lg: "48px", xl: "80px" }
-        }
-      }
-    }
-  </script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="shared.css">
 
@@ -538,7 +500,8 @@
     }
 
     .pv-passos p {
-      max-width: 24ch;
+      text-wrap: balance;
+      max-width: 26ch;
       margin: 0 auto;
       font-size: 15px;
       color: var(--texto-suave);
@@ -549,10 +512,104 @@
       text-align: center;
     }
 
+    /* ---------- POR QUE ADOTAR ---------- */
+
+    .pv-adotar {
+      background: var(--branco);
+    }
+
+    .pv-fundo-branco {
+      background: var(--branco);
+    }
+
+    /* Anel em volta dos ícones dos passos na mesma cor do fundo */
+    .pv-fundo-branco .pv-passos__icone {
+      box-shadow: 0 0 0 8px var(--branco);
+    }
+
+    .pv-cabeca--centro {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .pv-cabeca--centro > div {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .pv-cabeca--centro p {
+      text-wrap: balance;
+      max-width: 58ch;
+      margin: 0 auto !important;
+    }
+
+    .pv-motivos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pv-motivo {
+      display: flex;
+      gap: 18px;
+      padding: 28px;
+      border-radius: 24px;
+      background: var(--lilas);
+    }
+
+    .pv-motivo__icone {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--rosa);
+      color: var(--ameixa);
+    }
+
+    .pv-motivo__icone svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .pv-motivo h3 {
+      margin: 2px 0 6px;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1.15;
+    }
+
+    .pv-motivo p {
+      font-size: 16px;
+      color: var(--texto-suave);
+    }
+
+    .pv-adotar__frase {
+      text-wrap: balance;
+      max-width: 30ch;
+      margin: 56px auto 0 !important;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.2;
+      letter-spacing: -.02em;
+      text-align: center;
+      color: var(--ameixa-escura);
+    }
+
+    .pv-adotar__frase span {
+      color: var(--ameixa-media);
+    }
+
     /* ---------- DOAÇÃO ---------- */
 
     .pv-doacao {
-      padding-bottom: 96px;
+      padding: 96px 0;
     }
 
     .pv-doacao__bloco {
@@ -764,6 +821,10 @@
       .pv-doacao__foto {
         width: min(100%, 260px);
       }
+
+      .pv-motivos {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 640px) {
@@ -814,7 +875,17 @@
       }
 
       .pv-doacao {
-        padding-bottom: 64px;
+        padding: 64px 0;
+      }
+
+      .pv-motivo {
+        flex-direction: column;
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .pv-adotar__frase {
+        margin-top: 40px !important;
       }
 
       .pv-doacao__bloco {
@@ -893,7 +964,7 @@
           <img src="assets/joe.jpg" alt="Joe, cachorro resgatado pelo Pacotinho de Amor">
         </div>
         <div class="pv-selo">
-          <strong id="contadorAdocoes">+1.95</strong>
+          <strong id="contadorAdocoes">+1.950</strong>
           <span>animais<br>adotados</span>
         </div>
       </div>
@@ -941,31 +1012,66 @@
   </section>
 
 
-  <!-- ==================== PRÓXIMOS EVENTOS ==================== -->
-  <!-- Some sozinha quando não há eventos futuros -->
+  <!-- ==================== POR QUE ADOTAR ==================== -->
 
-  <section id="secao-eventos" class="pv-secao pv-eventos hidden">
+  <section class="pv-secao pv-adotar" id="por-que-adotar">
     <div class="pv-wrap">
 
-      <div class="pv-cabeca">
+      <div class="pv-cabeca pv-cabeca--centro">
         <div>
-          <h2>Próximos eventos</h2>
-          <p>Venha conhecer os animais pessoalmente.</p>
+          <h2>Por que adotar?</h2>
+          <p>Adotar é dar uma nova chance a um animal e ajudar a mudar a realidade de muitos outros.</p>
         </div>
-        <a class="pv-link" href="eventos.html">
-          Ver todos
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
       </div>
 
-      <div id="lista-eventos" class="grid grid-cols-1 md:grid-cols-3 gap-md"></div>
+      <ul class="pv-motivos">
 
-      <div class="pv-rodape-mobile">
-        <a class="pv-link" href="eventos.html">
-          Ver todos os eventos
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
+        <li class="pv-motivo">
+          <span class="pv-motivo__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+          </span>
+          <div>
+            <h3>Você salva uma vida</h3>
+            <p>Muitos animais passaram por abandono, maus-tratos ou negligência. Ao adotar, você dá uma segunda chance a um deles e ainda libera espaço para resgatarmos outro.</p>
+          </div>
+        </li>
+
+        <li class="pv-motivo">
+          <span class="pv-motivo__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+          </span>
+          <div>
+            <h3>Combate criadouros clandestinos</h3>
+            <p>A compra de animais pode alimentar um mercado em que fêmeas são exploradas para reprodução e mantidas em condições ruins. Adotar ajuda a quebrar esse ciclo.</p>
+          </div>
+        </li>
+
+        <li class="pv-motivo">
+          <span class="pv-motivo__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></svg>
+          </span>
+          <div>
+            <h3>Cuida da saúde de todos</h3>
+            <p>Menos animais abandonados nas ruas significa menos sofrimento, acidentes e doenças. Adoção, castração e posse responsável andam juntas.</p>
+          </div>
+        </li>
+
+        <li class="pv-motivo">
+          <span class="pv-motivo__icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+          </span>
+          <div>
+            <h3>Pode ser mais acessível</h3>
+            <p>Muitos animais de projetos e abrigos já chegam vacinados, vermifugados ou castrados, dependendo do caso. Um cuidado a menos para começar a nova vida juntos.</p>
+          </div>
+        </li>
+
+      </ul>
+
+      <p class="pv-adotar__frase">
+        Adotar não é escolher um animal de segunda.
+        <span>É dar uma primeira chance para uma nova história.</span>
+      </p>
 
     </div>
   </section>
@@ -976,7 +1082,7 @@
   <section class="pv-secao" id="como-adotar">
     <div class="pv-wrap">
 
-      <div class="pv-cabeca" style="justify-content:center;text-align:center">
+      <div class="pv-cabeca pv-cabeca--centro">
         <div>
           <h2>Como adotar</h2>
           <p>Um processo simples, pensado para o bem do animal e da família.</p>
@@ -1026,6 +1132,36 @@
       <div class="pv-centro">
         <a class="pv-link" href="sobre-o-projeto.html">
           Conheça o projeto
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==================== PRÓXIMOS EVENTOS ==================== -->
+  <!-- Some sozinha quando não há eventos futuros -->
+
+  <section id="secao-eventos" class="pv-secao pv-eventos hidden">
+    <div class="pv-wrap">
+
+      <div class="pv-cabeca">
+        <div>
+          <h2>Próximos eventos</h2>
+          <p>Venha conhecer os animais pessoalmente.</p>
+        </div>
+        <a class="pv-link" href="eventos.html">
+          Ver todos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div id="lista-eventos" class="pv-grade"></div>
+
+      <div class="pv-rodape-mobile">
+        <a class="pv-link" href="eventos.html">
+          Ver todos os eventos
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
@@ -1090,8 +1226,8 @@
     </p>
 
     <div class="pv-chave">
-      <small>Chave PIX</small>
-      <p id="chavePix">SUA-CHAVE-PIX-AQUI</p>
+      <small>Chave PIX (celular)</small>
+      <p id="chavePix" data-chave="11994896555">(11) 99489-6555</p>
     </div>
 
     <button type="button" id="copiarPix" class="pv-botao pv-botao--escuro">
@@ -1270,12 +1406,7 @@
   });
 
   copiar.addEventListener("click", async () => {
-    const pix = chave.textContent.trim();
-
-    if (!pix || pix === "SUA-CHAVE-PIX-AQUI") {
-      aviso("Chave ainda não cadastrada");
-      return;
-    }
+    const pix = (chave.dataset.chave || chave.textContent).trim();
 
     try {
       await navigator.clipboard.writeText(pix);
